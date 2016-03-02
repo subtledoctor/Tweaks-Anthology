@@ -1,0 +1,62 @@
+DEFINE_PATCH_MACRO ~thieving_descripts~ BEGIN
+  SPRINT text_weight @210001
+
+  PATCH_IF ("%penalty_locks%" != 255) BEGIN
+    SPRINT text_lock @210002
+    SPRINT text_lock_penalty @210003
+    REPLACE_TEXTUALLY ~%text_lock%~ ~~
+    PATCH_IF ("%penalty_locks%" != 0) BEGIN // don't add text if penalty is zero
+      REPLACE_TEXTUALLY ~%text_weight%~
+      ~\1
+%text_lock_penalty% -%penalty_locks%CDPERCENTAGE~
+    END
+  END
+  PATCH_IF ("%penalty_traps%" != 255) BEGIN
+    SPRINT text_trap @210004
+    SPRINT text_trap_penalty @210005
+    REPLACE_TEXTUALLY ~%text_trap%~ ~~
+    PATCH_IF ("%penalty_traps%" != 0) BEGIN // don't add text if penalty is zero
+      REPLACE_TEXTUALLY ~%text_weight%~
+      ~\1
+%text_trap_penalty% -%penalty_traps%CDPERCENTAGE~
+    END
+  END
+  PATCH_IF ("%penalty_pick%" != 255) BEGIN
+    SPRINT text_pickpocket @210006
+    SPRINT text_pickpocket_penalty @210007
+    REPLACE_TEXTUALLY ~%text_pickpocket%~ ~~
+    PATCH_IF ("%penalty_pick%" != 0) BEGIN // don't add text if penalty is zero
+      REPLACE_TEXTUALLY ~%text_weight%~
+      ~\1
+%text_pickpocket_penalty% -%penalty_pick%CDPERCENTAGE~
+    END
+  END
+  PATCH_IF ("%penalty_hide%" != 255) BEGIN
+    SPRINT text_hide @210008
+    SPRINT text_hide_penalty @210009
+    REPLACE_TEXTUALLY ~%text_hide%~ ~~
+    PATCH_IF ("%penalty_hide%" != 0) BEGIN // don't add text if penalty is zero
+      REPLACE_TEXTUALLY ~%text_weight%~
+      ~\1
+%text_hide_penalty% -%penalty_hide%CDPERCENTAGE~
+    END
+  END
+  PATCH_IF ("%penalty_move%" != 255) BEGIN
+    PATCH_IF (use_stealth = 0) BEGIN
+      SPRINT text_silent @210010
+      SPRINT text_silent_penalty @210011
+    END ELSE BEGIN
+      SPRINT text_silent @210012
+      SPRINT text_silent_penalty @210013
+    END
+    REPLACE_TEXTUALLY ~%text_silent%~ ~~
+    PATCH_IF ("%penalty_move%" != 0) BEGIN // don't add text if penalty is zero
+      REPLACE_TEXTUALLY ~%text_weight%~
+      ~\1
+%text_silent_penalty% -%penalty_move%CDPERCENTAGE~
+    END
+  END
+  
+  REPLACE_TEXTUALLY ~CDPERCENTAGE~ ~%~
+
+END

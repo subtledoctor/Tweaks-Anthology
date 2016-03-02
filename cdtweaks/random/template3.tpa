@@ -1,0 +1,71 @@
+  ACTION_FOR_EACH drop IN replacemelist BEGIN
+  
+    ACTION_IF ((FILE_EXISTS_IN_GAME ~%drop%.itm~) AND      // make sure it exists and
+               (~%drop%~ STRING_COMPARE_CASE "amul04") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "amul14") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "arowtrn") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "trnbolt") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "bow07") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "dagg03") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "sw1h02") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "shld02") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "chan02") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "plat02") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "hamm02") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "leat05") AND // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "blun05")) THEN BEGIN
+
+      COPY_EXISTING ~%drop%.itm~ ~override~
+        READ_LONG 0x0c string
+        PATCH_IF NOT(string >= 0 && string < 2147483646) BEGIN READ_LONG 0x08 string END // if no identified string, use generic
+        BUT_ONLY
+
+      COPY ~cdtweaks/random/cdrndm1.d~ ~cdtweaks/random/cdrndm1.d~
+        REPLACE_TEXTUALLY ~~~~~\(IF ~~ THEN GOTO CDPartyHasNothing\)~~~~~ ~~~~~\1
+  IF ~PartyHasItem("%drop%") Global("CDExchanged%item%","GLOBAL",0)~ THEN GOTO 1~~~~~
+        REPLACE_TEXTUALLY ~~~~~\(IF ~~ THEN REPLY @324223 GOTO CDFarewell\)~~~~~ ~~~~~\1
+  IF ~PartyHasItem("%drop%") Global("CDExchanged%item%","GLOBAL",0)~ THEN REPLY #%string% GOTO CDExchange_%drop%_%item%~~~~~
+        REPLACE_TEXTUALLY ~~~~~insert_eof~~~~~ ~~~~~END
+
+IF ~~ THEN BEGIN CDExchange_%drop%_%item% SAY @324225
+  IF ~~ THEN REPLY @324265 GOTO CDFarewell
+  IF ~~ THEN REPLY @324226 GOTO 1
+insert_eof~~~~~
+        EVALUATE_BUFFER
+
+      ACTION_FOR_EACH otherstuff IN replacemelist BEGIN
+
+        ACTION_IF (("%drop%" STRING_COMPARE_CASE "%otherstuff%" != 0) AND // verify item exists
+                   (~%otherstuff%~ STRING_COMPARE_CASE "amul04") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "amul14") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "arowtrn") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "trnbolt") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "bow07") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "dagg03") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "sw1h02") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "shld02") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "chan02") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "plat02") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "hamm02") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "leat05") AND // is not a generic item
+                   (~%otherstuff%~ STRING_COMPARE_CASE "blun05") AND // is not a generic item
+                   (FILE_EXISTS_IN_GAME ~%otherstuff%.itm~)) BEGIN // don't allow exchanges for the same item
+
+          COPY_EXISTING ~%otherstuff%.itm~ ~override~
+            READ_LONG 0x0c string2
+            PATCH_IF NOT(string2 >= 0 && string2 < 2147483646) BEGIN READ_LONG 0x08 string2 END // if no identified string, use generic
+            BUT_ONLY
+
+          COPY ~cdtweaks/random/cdrndm1.d~ ~cdtweaks/random/cdrndm1.d~
+            REPLACE_TEXTUALLY ~~~~~insert_eof~~~~~
+~~~~~  IF ~~ THEN REPLY #%string2% DO ~TakePartyItem("%drop%") TakePartyGold(1000) DestroyItem("%drop%") GiveItemCreate("%otherstuff%",LastTalkedToBy,0,0,0) SetGlobal("CDExchanged%item%","GLOBAL",1)~ GOTO CDPostExchange
+insert_eof~~~~~
+            EVALUATE_BUFFER
+
+        END
+
+      END
+
+    END
+
+  END

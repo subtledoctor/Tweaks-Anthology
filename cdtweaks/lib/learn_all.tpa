@@ -1,0 +1,50 @@
+COPY_EXISTING ~scblank.itm~ ~override~
+              ~scincin.itm~ ~override~
+              ~sckill.itm~  ~override~
+              ~scmsvi.itm~  ~override~
+              ~scmsvii.itm~ ~override~
+  READ_LONG   0x64 abil_off
+  READ_SHORT  0x68 abil_num
+  READ_LONG   0x6a fx_off
+  SET cast = 0
+  SET learn = 0
+  FOR (index = 0 ; index < abil_num ; ++index) BEGIN // looks through headers
+    READ_SHORT (abil_off + 0x1e + (index * 0x38)) abil_fx_num
+    READ_SHORT (abil_off + 0x20 + (index * 0x38)) abil_fx_idx
+    FOR (index2 = 0 ; index2 < abil_fx_num ; ++index2) BEGIN // searches through fx for cast, learn fx
+      READ_SHORT (fx_off +        ((abil_fx_idx + index2) * 0x30)) opcode
+      PATCH_IF ((opcode = 146) OR (opcode = 148)) BEGIN // cast
+        READ_ASCII (fx_off + 0x14 + ((abil_fx_idx + index2) * 0x30)) spell
+        SET cast = 1
+      END
+      PATCH_IF (opcode = 147) BEGIN // learn
+        SET learn = 1
+      END
+    END
+  END
+  PATCH_IF ((cast = 1) AND (learn = 0)) BEGIN // if castable but not learnable
+    READ_ASCII 0x3a bam
+    INSERT_BYTES   (fx_off +        ((abil_fx_num + abil_fx_idx) * 0x30)) 0x30      // new effect
+      WRITE_SHORT  (fx_off +        ((abil_fx_num + abil_fx_idx) * 0x30)) 147       // learn spell opcode
+      WRITE_BYTE   (fx_off + 0x02 + ((abil_fx_num + abil_fx_idx) * 0x30)) 1         // target:self
+      WRITE_BYTE   (fx_off + 0x0c + ((abil_fx_num + abil_fx_idx) * 0x30)) 1         // instant/permanent
+      WRITE_BYTE   (fx_off + 0x12 + ((abil_fx_num + abil_fx_idx) * 0x30)) 100       // probability
+      WRITE_ASCIIE (fx_off + 0x14 + ((abil_fx_num + abil_fx_idx) * 0x30)) "%spell%" // resref
+    INSERT_BYTES   (fx_off       ) 0x38 // new ability
+      WRITE_SHORT  (fx_off       ) 3                                   // magical
+      WRITE_BYTE   (fx_off + 0x02) 3                                   // item slots
+      WRITE_ASCIIE (fx_off + 0x04) "%bam%"                             // bam
+      WRITE_BYTE   (fx_off + 0x0c) 5                                   // target: caster
+      WRITE_SHORT  (fx_off + 0x0e) 1                                   // range
+      WRITE_SHORT  (fx_off + 0x1e) 1                                   // number of effects
+      WRITE_SHORT  (fx_off + 0x20) (abil_fx_num + abil_fx_idx)         // effects index
+      WRITE_SHORT  (fx_off + 0x22) 1                                   // charges
+      WRITE_BYTE   (fx_off + 0x24) 1                                   // vanishes whe drained
+      WRITE_SHORT  (fx_off + 0x2a) 1                                   // projectile
+      WRITE_SHORT  (fx_off + 0x2c) 34                                  // anim
+      WRITE_SHORT  (fx_off + 0x2e) 33                                  // anim
+      WRITE_SHORT  (fx_off + 0x30) 33                                  // anim
+    WRITE_SHORT 0x68 (abil_num + 1)
+    WRITE_LONG  0x6a (fx_off + 0x38)
+  END
+  BUT_ONLY_IF_IT_CHANGES

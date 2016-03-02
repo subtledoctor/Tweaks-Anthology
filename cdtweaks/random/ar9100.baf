@@ -1,0 +1,7 @@
+IF
+  Global("CDSpawnWandMerch","AR9100",0)
+THEN
+  RESPONSE #100
+    CreateCreature("cdrndm2",[1723.1654],15) // Harrold - Traveling Merchant
+    SetGlobal("CDSpawnWandMerch","AR9100",1)
+END

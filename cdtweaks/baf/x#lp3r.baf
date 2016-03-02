@@ -1,0 +1,22 @@
+/* X#LP3R.BAF */
+IF
+See([PC])
+Global("X#LP3RExists","GLOBAL",1)
+Global("X#TT3Deactivate","GLOBAL",0)
+THEN
+  RESPONSE #50
+  DisplayString(Myself,@0)
+  Wait(15)
+  RESPONSE #50
+  DisplayString(Myself,@1)
+  Wait(15)
+  RESPONSE #50
+  DisplayString(Myself,@2)
+  Wait(15)
+  RESPONSE #50
+  DisplayString(Myself,@3)
+  Wait(15)
+  RESPONSE #50
+  DisplayString(Myself,@4)
+  Wait(15)
+END

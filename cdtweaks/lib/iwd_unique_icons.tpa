@@ -1,0 +1,570 @@
+/* dupe stuff that's fine
+
+  AMUL02   => iamul02 // Necklace (Necklace)
+  MIREKQI   => iamul02 // Mirek's Family Heirloom (Mirek's Family Heirloom)
+
+  BAG02   => IBAG02 // Gem Bag (Gem Bag)
+  BAG02B   => IBAG02 // Gem Bag (Gem Bag)
+  BAG02C   => IBAG02 // Gem Bag (Gem Bag)
+  BAG02D   => IBAG02 // Gem Bag (Gem Bag)
+  BAG02E   => IBAG02 // Gem Bag (Gem Bag)
+  BAG02F   => IBAG02 // Gem Bag (Gem Bag)
+  BAG02G   => IBAG02 // Gem Bag (Gem Bag)
+  BAG02H   => IBAG02 // Gem Bag (Gem Bag)
+  BAG02I   => IBAG02 // Gem Bag (Gem Bag)
+
+  BAG03   => IBAG03 // Scroll Case (Scroll Case)
+  BAG03B   => IBAG03 // Scroll Case (Scroll Case)
+  BAG03C   => IBAG03 // Scroll Case (Scroll Case)
+  BAG03D   => IBAG03 // Scroll Case (Scroll Case)
+  BAG03E   => IBAG03 // Scroll Case (Scroll Case)
+  BAG03F   => IBAG03 // Scroll Case (Scroll Case)
+  BAG03G   => IBAG03 // Scroll Case (Scroll Case)
+  BAG03H   => IBAG03 // Scroll Case (Scroll Case)
+  BAG03I   => IBAG03 // Scroll Case (Scroll Case)
+
+  BAG04   => IBAG04 // Bag of Holding (Bag of Holding)
+  BAG31   => IBAG04 // Bag of Holding (Bag of Holding)
+
+  BAG05   => IBAG05 // Ammo Belt (Ammo Belt)
+  BAG07   => IBAG05 // Ammo Belt (Ammo Belt)
+  BAG06   => IBAG06 // Potion Case (Potion Case)
+
+  BAG06B   => IBAG06 // Potion Case (Potion Case)
+  BAG06C   => IBAG06 // Potion Case (Potion Case)
+  BAG06D   => IBAG06 // Potion Case (Potion Case)
+
+  BAGH01   => ibaghold // Bag of Holding (Bag)
+  BAGH02   => ibaghold // Bag of Holding (Bag)
+  BAGH03   => ibaghold // Bag of Holding (Bag)
+
+  BDSUMST   => IBDSUMST // The Summoner's Staff +3 (Quarterstaff)
+  BDSUMSTX   => IBDSUMST // The Summoner's Staff +3 (Quarterstaff)
+
+  BELTGON   => ibeltgon // Girdle of Gond (Girdle)
+  CDGOND   => ibeltgon // Girdle of Gond (Girdle)
+
+  BLUN06   => iblun06 // Morning Star (Morning Star)
+  PLYMSTAR   => IBLUN06 // Morning Star (Morning Star)
+
+  BOOK16   => ibook01 // History of Halruaa (Book)
+  BOOK17   => ibook01 // History of Luiren (Book)
+  BOOK38   => ibook01 // History of the Drow (Book)
+  BOOK39   => ibook01 // History of the Drow II (Book)
+  BOOK40   => ibook01 // History of the Fateful Coin (Book)
+  BOOK43   => ibook01 // History of the North I (Book)
+  BOOK44   => ibook01 // History of the North II (Book)
+  BOOK46   => ibook01 // History of the North (Book)
+  BOOK47   => ibook01 // History of the North (Book)
+  BOOK55   => ibook01 // History of the Unicorn Run (Book)
+  BOOK56   => ibook01 // History of the Valley of the Gods (Book)
+  BOOK68   => ibook01 // History of the Nether Scrolls (Book of Ancient Knowledge)
+  BOOKANI   => ibook01 // Animals Are Your Friend (Animals Are Your Friend)
+  BOOKBLA   => ibook01 // Lore of the Bladesingers (Book)
+  BOOKCOD   => ibook01 // Code of Training in the Seldarine's Hand (Code of Training in the Seldarine's Hand)
+  BOOKCOM   => ibook01 // Elameth's Compendium (Elameth's Compendium)
+  BOOKCOR   => ibook01 // Ancient Lore on Corellon Larethian (Ancient Lore on Corellon Larethian)
+  BOOKFIS   => ibook01 // Fish on the Sea of Fallen Stars (Book)
+  BOOKFOL   => ibook01 // The Folly of Fury (The Folly of Fury)
+  BOOKHIP   => ibook01 // Hippogriff Riders of the Hand (Hippogriff Riders of the Hand)
+  BOOKIVY   => ibook01 // Tending Ivy (Tending Ivy)
+  BOOKLAB   => ibook01 // Ancient Lore on Labelas Enoreth (Ancient Lore on Labelas Enoreth)
+  BOOKMOO   => ibook01 // Ancient Lore on Sehanine Moonbow (Ancient Lore on Sehanine Moonbow)
+  BOOKMYT   => ibook01 // Mythal Theory (Mythal Theory)
+  BOOKPK   => ibook01 // Philosophy of Kara-Tur (Book)
+  BOOKPOT   => ibook01 // Great Pottery of Lurien (Book)
+  BOOKROC   => ibook01 // "Rock Eaters" They are Not! ("Rock Eaters" They are Not!)
+  BOOKSHE   => ibook01 // Ancient Lore on Shevarash (Ancient Lore on Shevarash)
+  BOOKSOL   => ibook01 // Ancient Lore on Solonor Thelandira (Ancient Lore on Solonor Thelandira)
+  BOOKSS   => ibook01 // Secret Societies (Book)
+  BOOKUNI   => ibook01 // Ecology of the Unicorn (Ecology of the Unicorn)
+  BOOKVIO   => ibook01 // On Non-Violence (On Non-Violence)
+  BOOKWOR   => ibook01 // Worship in the Hand of the Seldarine (Worship in the Hand of the Seldarine)
+  EREJOUR   => ibook01 // Erevain's Journal (Erevain's Journal)
+  MANUSCR   => ibook01 // Manuscript of the High Watcher (Manuscript of the High Watcher)
+  PWARJ   => ibook01 // Presio's War Journal (Book)
+  REZNATH   => ibook01 // Reznath's Journal (Reznath's Journal)
+
+  BOOKENG   => ibook09 // Engineering Manual (Engineering Manual)
+  BOOKEVA   => ibook09 // Diary of Evayne (Book)
+  BRIATH   => ibook09 // Briath's Journal (Briath's Journal)
+  EVAJOUR   => ibook09 // Journal of Evayne (Journal of Evayne)
+  GENEK   => IBOOK09 // Genek's Journal (Genek's Journal)
+  KALABAC   => ibook09 // Kalabac's Journal (Kalabac's Journal)
+
+  CDDAEN   => IBOOK68 // The Ballad of Daen Winterbrush (The Ballad of Daen Winterbrush)
+  CDDAEN2   => IBOOK68 // The Ballad of Daen Winterbrush (The Ballad of Daen Winterbrush)
+  MJOURN   => ibook68 // Maluradek's Journal (Maluradek's Journal)
+  TJOURN   => ibook68 // Terikan's Journal (Terikan's Journal)
+
+  BOOK06   => IBOOK768 // Tome of Clear Thought (Tome)
+  BOOK08   => IBOOK768 // Tome of Understanding (Tome)
+
+  CDGLOOM   => icynicis // Gloom +4 (Gloom +4)
+  CYNICIS   => icynicis // Cynicism +4 (Broad Sword)
+
+  BFLAOIL   => iflamoil // Flaming Oil (Flaming Oil)
+  FLAMOIL   => iflamoil // Flaming Oil (Flaming Oil)
+
+  GEMBG01   => igbag // Gem Bag (Gem Bag)
+  GEMBG02   => igbag // Gem Bag (Gem Bag)
+  GEMBG03   => igbag // Gem Bag (Gem Bag)
+  GEMBG04   => igbag // Gem Bag (Gem Bag)
+  GEMBG05   => igbag // Gem Bag (Gem Bag)
+  GEMBG06   => igbag // Gem Bag (Gem Bag)
+  GEMBG07   => igbag // Gem Bag (Gem Bag)
+  GEMBG08   => igbag // Gem Bag (Gem Bag)
+
+  GBERRY   => Igber01 // Good Berry (Good Berry)
+  GOODBER   => igber01 // Good Berry (Good Berry)
+
+  GVALOR1   => igvalor // Gauntlet of Valor (Gloves)
+  GVALOR2   => igvalor // Gauntlet of Valor (Gloves)
+
+  CDXBOWBM   => ilxbowbm // Bren Muller's Crossbow (Light Crossbow)
+  LXBOWBM   => ilxbowbm // Bren Muller's Crossbow (Light Crossbow)
+
+  BAG01   => IMISC01 // Winter Wolf Pelt (Winter Wolf Pelt)
+  MISC01   => imisc01 // Winter Wolf Pelt (Winter Wolf Pelt)
+
+  DGEM01   => imisc16 // Flawed Fire Agate Gem (Gem)
+  MISC16   => imisc16 // Fire Agate Gem (Gem)
+
+  DGEM02   => imisc18 // Flawless Sunstone Gem (Gem)
+  MISC18   => imisc18 // Sunstone Gem (Gem)
+
+  DGEM03   => imisc21 // Flawed Skydrop Gem (Gem)
+  MISC21   => imisc21 // Skydrop Gem (Gem)
+
+  DGEM04   => imisc27 // Flawless Moonstone Gem (Gem)
+  MISC27   => imisc27 // Moonstone Gem (Gem)
+
+  DGEM05   => imisc28 // Flawless Waterstar Gem (Gem)
+  MISC28   => imisc28 // Waterstar Gem (Gem)
+
+  DGEM06   => imisc36 // Flawed Pearl (Gem)
+  MISC36   => imisc36 // Pearl (Gem)
+
+  DGEM07   => imisc40 // Flawed Moonbar Gem (Gem)
+  MISC40   => imisc40 // Moonbar Gem (Gem)
+
+  DGEM09   => imisc42 // Flawless Diamond (Gem)
+  MISC42   => imisc42 // Diamond (Gem)
+
+  DGEM10   => imisc43 // Flawed Emerald (Gem)
+  MISC43   => imisc43 // Emerald (Gem)
+
+  MISC50   => imisc50 // Skull (Skull)
+  SKULL1   => imisc50 // Skull (Skull)
+  SKULL2   => imisc50 // Skull (Skull)
+
+  JHOSWD1   => imisc56 // Shattered Blade of Aihonen (Shattered Blade of Aihonen)
+  MISC56   => IMISC56 // Broken weapon (Broken Weapon)
+
+  MISC58   => imisc58 // Broken Armor (Broken Armor)
+  MISC82   => imisc58 // Ancient Armor (Broken Armor)
+
+  CDMYR   => imyrloch // The Sword of Myrloch Vale +3 (Long Sword)
+  MYRLOCH   => imyrloch // The Sword of Myrloch Vale +3 (Long Sword)
+
+  CDMYST   => imystery // Mystery of the Dead +3 (Large Shield)
+  MYSTERY   => imystery // Mystery of the Dead +3 (Large Shield)
+
+  PTNBG01   => ipbag // Potion Bag (Potion Bag)
+  PTNBG02   => ipbag // Potion Bag (Potion Bag)
+  PTNBG03   => ipbag // Potion Bag (Potion Bag)
+  PTNBG04   => ipbag // Potion Bag (Potion Bag)
+  PTNBG05   => ipbag // Potion Bag (Potion Bag)
+  PTNBG06   => ipbag // Potion Bag (Potion Bag)
+  PTNBG07   => ipbag // Potion Bag (Potion Bag)
+  PTNBG08   => ipbag // Potion Bag (Potion Bag)
+  PTNBG09   => ipbag // Potion Bag (Potion Bag)
+  PTNBG10   => ipbag // Potion Bag (Potion Bag)
+
+  POTN04   => ipotn04 // Potion of Frost Giant Strength (Potion)
+  POTN56   => IPOTN04 // Rogue's Potion of Frost Giant Strength (Potion)
+
+  EXTHEAL   => IPOTN52 // Potion of Extra Healing (Potion)
+  POTN52   => IPOTN52 // Potion of Extra Healing (Potion)
+
+  RINGCOP   => iringcop // Copy of Marketh's Ring (Copy of Marketh's Ring)
+  RINGLUR   => IRINGCOP // Tarnished Ring (Tarnished Ring)
+
+  SCRCS01   => iscase // Scroll Case (Scroll Case)
+  SCRCS02   => iscase // Scroll Case (Scroll Case)
+  SCRCS03   => iscase // Scroll Case (Scroll Case)
+  SCRCS04   => iscase // Scroll Case (Scroll Case)
+  SCRCS05   => iscase // Scroll Case (Scroll Case)
+  SCRCS06   => iscase // Scroll Case (Scroll Case)
+  SCRCS07   => iscase // Scroll Case (Scroll Case)
+  SCRCS08   => iscase // Scroll Case (Scroll Case)
+  SCRCS09   => iscase // Scroll Case (Scroll Case)
+  SCRCS10   => iscase // Scroll Case (Scroll Case)
+
+  CDYOUNGN   => iscrl01 // Note for Edion (Note for Edion)
+  DVER   => iscrl01 // Dver's Note (Dver's Note)
+  TORN   => iscrl01 // Scroll (Scroll)
+
+  CLETTER   => iscrl02 // Council Letter (Council Letter)
+  CONTRACT   => iscrl02 // Caravan Contract (Caravan Contract)
+  LIST   => iscrl02 // Supply List (Supply List)
+  NOTEKER   => iscrl02 // Note to Kerish (Note to Kerish)
+  NOTEKRI   => iscrl02 // Note to Krilag (Note)
+  PORTRAIT   => iscrl02 // Portrait of Marketh (Scroll)
+  SCRNOTE   => iscrl02 // Scribbled Note (Scribbled Note)
+  TALE1   => iscrl02 // The Tale of Sir Geddian (Missing Page)
+  TALE2   => iscrl02 // The Tale of Sir Giles (Missing Page)
+  TALE3   => iscrl02 // The Tale of Sir Erris (Missing Page)
+  TALE4   => iscrl02 // The Tale of Sir Zierkki (Missing Page)
+  WISHSCRL   => iscrl02 // Note (Note)
+
+  SCRLADJ   => ISCRL18 // Note (Note)
+  SCRLZY   => ISCRL18 // Summon Cow (Scroll)
+  SCRLZZ   => ISCRL18 // Summon Cow (Scroll)
+
+  SCRLPET   => iscrl3p // Stone to Flesh Scroll (Stone to Flesh Scroll)
+  SCRLPET2   => iscrl3p // Stone to Flesh Scroll (Stone to Flesh Scroll)
+
+  VEXED   => ivexed // Vexed Armor (Plate Mail Armor)
+  VEXED2   => ivexed // Vexed Armor (Plate Mail Armor)
+  VEXED3   => ivexed // Vexed Armor (Plate Mail Armor)
+
+  WAND03   => iwand03 // Wand of Magic Missiles (Wand )
+  WAND12   => IWAND03 // Wand of Magic Missiles (Wand )
+
+  CDYOUNG   => iyoung // Young Rage +5 (Battle Axe)
+  YOUNG   => iyoung // Young Rage +5 (Battle Axe)
+
+  SCRLAN   => SPPR718A // Symbol, Stun (Scroll)
+  SCRLAP   => SPPR718A // Symbol, Stun (Scroll)
+
+  SCRLAM   => SPPR719A // Symbol, Death (Scroll)
+  SCRLAO   => SPPR719A // Symbol, Death (Scroll)
+
+  SCRL6F   => SpWi221A // Ray of Enfeeblement (Scroll)
+  SCRLAI   => SPWI221A // Ray of Enfeeblement (Scroll)
+
+  SCRLAJ   => SPWI424A // Farsight (Scroll)
+  SCRLAQ   => SPWI424A // Farsight (Scroll)
+  
+  
+
+
+  // these pairs not changed so cursed item blends in better
+  BRAC07   => ibrac07 // Gauntlets of Dexterity (Gauntlets)
+  GAUNTID   => ibrac07 // Gauntlets of Infernal Damnation (Gauntlets)
+
+  RING01   => iring01 // Ring (Ring)
+  RINGPAN   => iring01 // Ring of Pain Amplification (Ring)
+
+*/
+
+// items commented out will keep their original icon
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons BEGIN
+
+//  2HAXE   => i2haxe // Two-Handed Axe (Two-Handed Axe)
+//  AX2H01  => I2HAXE // Two-Handed Axe (Two-Handed Axe)
+//  I#AXE   => i2haxe // Two-Handed Axe (Two-Handed Axe)
+  U2HAX1A   => i2haxe // Flawless Two-Handed Axe (Two-Handed Axe)
+  U2HAX2A   => I2HAXE // Two-Handed Fire Axe +1 (Two-Handed Axe)
+  U2HAX3A   => i2haxe // Infected Two-Handed Axe +2 (Two-Handed Axe)
+  U2HAX3B   => i2haxe // Two-Handed Axe +2: Life Giver (Two-Handed Axe)
+  U2HAX4A   => i2haxe // Two-Handed Axe of Greater Phasing +2 (Two-Handed Axe)
+  U2HAX4B   => i2haxe // Two-Handed Axe of Resistance +3 (Two-Handed Axe)
+  U2HAX5A   => i2haxe // Foe's Fate +4 (Two-Handed Axe)
+
+//  AMUL14   => iamul14 // Amulet of Protection +1 (Amulet)
+  CORELLO   => iamul14 // Symbol of Corellon Larethian (Necklace)
+  LABELAS   => iamul14 // Symbol of Labelas Enoreth (Necklace)
+  MOONBOW   => iamul14 // Symbol of Sehanine Moonbow (Necklace)
+  SHEVARA   => iamul14 // Symbol of Shevarash (Necklace)
+  SOLONOR   => iamul14 // Symbol of Solonor Thelandira (Necklace)
+
+//  AROW02   => iarow02 // Arrow +1 (Arrow)
+  UAROW3A   => iarow02 // Confusion Arrow +3 (Arrow)
+  UAROW3B   => iarow02 // Hammer Arrow +1 (Arrow)
+  UAROW3C   => iarow02 // Piercing Arrow +1 (Arrow)
+
+//  AROW06   => IAROW06 // Arrow of Detonation  (Arrow)
+  AROWTRN   => iarow06 // Translocation Arrow +1 (Arrow)
+
+//  AROW08   => iarow08 // Arrow of Fire +1 (Arrow)
+  UAROW4A   => iarow08 // Inferno Arrow +2 (Arrow)
+
+  ARHAND   => iarow11 // Arrow of the Hand +2 (Arrow)
+//  AROW11   => iarow11 // Arrow +2 (Arrow)
+
+//  HQAROW   => iarow13 // High Quality Arrow (High Quality Arrow)
+  UAROW2A   => iarow13 // Hammer Arrow (Arrow)
+
+//  AX1H01   => iax1h01 // Battle Axe (Battle Axe)
+  ENSW2H   => IAX1H01 // Battle Axe +3 (Battle Axe +3)
+  FKILLER   => iax1h01 // Faith Killer +2 (Battle Axe)
+
+//  AX1H02   => iax1h02 // Battle Axe +1 (Battle Axe)
+  U1HAX2A   => IAX1H02 // Charged Battle Axe +2 (Battle Axe)
+  U1HAX3A   => IAX1H02 // Poisonous Battle Axe +2 (Battle Axe)
+  U1HAX3B   => iax1h02 // Battle Axe +2: Defender (Battle Axe)
+  U1HAX4A   => iax1h02 // Battle Axe +3: Fatigue (Battle Axe)
+  U1HAX4B   => iax1h02 // Benorg's Truth +3 (Battle Axe)
+
+//  HQAXE   => iax1h06 // High Quality Battle Axe (High Quality Battle Axe)
+  U1HAX1A   => iax1h06 // Flawless Battle Axe (Flawless Battle Axe)
+
+//  BELT01   => ibelt01 // Girdle (Girdle)
+  BERSERK   => ibelt01 // Bone Marrow Belt (Circular Belt)
+
+//  BLUN02   => iblun02 // Flail (Flail )
+  UFLAL2A   => iblun02 // Crooked Flail +1 (Flail )
+  UFLAL2B   => iblun02 // Hammer Flail +2 (Flail )
+  UFLAL3A   => iblun02 // Fast Flail +2 (Flail )
+  UFLAL4A   => iblun02 // Fire Flail +3 (Flail )
+  UFLAL5A   => iblun02 // Shocking Flail +4 (Flail )
+
+//  BLUN05   => iblun05 // Mace +1 (Mace)
+  ENMACE   => IBLUN05 // Mace +3 (Mace +3)
+
+//  BLUN07   => iblun07 // Morning Star +1 (Morning Star)
+  ENMORN   => IBLUN07 // Morning Star +3 (Morning Star +3)
+  UMSTR2A   => IBLUN07 // Morning Star of Confusion +1 (Morning Star)
+  UMSTR2B   => IBLUN07 // Lesser Static Star +1 (Morning Star)
+  UMSTR3A   => iblun07 // Morning Star +2: Hammer (Morning Star)
+  UMSTR3B   => iblun07 // Sanctified Morning Star +3 (Morning Star)
+  UMSTR3C   => iblun07 // Morning Star of Lesser Phasing +2 (Morning Star)
+  UMSTR4A   => iblun07 // Morning Star of the Gods +3 (Morning Star)
+  UMSTR4B   => iblun07 // Static Star +3 (Morning Star)
+  UMSTR5A   => iblun07 // Morning Star of Action +4 (Morning Star)
+  UMSTR5B   => iblun07 // Morning Star +4: Defender (Morning Star)
+
+//  BOOT05   => iboot05 // Boots of Grounding (Boots)
+  SHBOOTS   => iboot05 // Shadowed Boots (Boots)
+
+//  BOW04   => ibow04 // Longbow +1 (Longbow)
+  ULBOW2A   => ibow04 // Longbow +1: Protector (Longbow)
+  ULBOW2B   => ibow04 // Longbow +2: Defender (Longbow)
+  ULBOW3A   => ibow04 // Longbow +2: Protector (Longbow)
+  ULBOW3C   => ibow04 // Longbow of Action +2 (Longbow)
+  ULBOW4A   => IBOW04 // Longbow +3: Repeater (Longbow)
+  ULBOW4B   => IBOW04 // Longbow +3: Defender (Longbow)
+  ULBOW5A   => ibow04 // Longbow +4: Hammer (Longbow)
+
+//  BULL01   => ibull01 // Bullet (Bullet)
+  UBULL4A   => ibull01 // Bullets of Fire +2 (Bullet)
+
+//  CLCK13   => iclck13 // Traveler's Robe (Mage Robe)
+  SHROBE   => iclck13 // Shadowed Robe (Mage Robe)
+
+//  CLCK14   => ICLCK14 // Adventurer's Robe (Mage Robe)
+  UROBE1A   => iclck14 // Robe of Enfusing (Mage Robe)
+
+//  CLCK15   => ICLCK15 // Robe of the Good Archmagi (Mage Robe)
+  PRESROB   => iclck15 // Necromancer's Robe (Presio's Robe)
+
+//  DAGG01   => idagg01 // Dagger (Dagger)
+  PRESDAG   => idagg01 // Presio's Dagger +2 (Dagger)
+
+//  DAGG02   => idagg02 // Dagger +1 (Dagger)
+  UDAGG1A   => idagg02 // Fire Dagger +1 (Dagger)
+  UDAGG1B   => idagg02 // Phase Dagger (Dagger)
+  UDAGG2A   => idagg02 // Static Dagger +1 (Dagger)
+  UDAGG2B   => idagg02 // Mage Dagger +1 (Dagger)
+  UDAGG3A   => idagg02 // Fire Dagger +2 (Dagger)
+  UDAGG3B   => idagg02 // Mage Dagger +2 (Dagger)
+  UDAGG3C   => idagg02 // Life Dagger +2 (Dagger)
+  UDAGG4A   => idagg02 // Chaos Dagger +3 (Dagger)
+  UDAGG4B   => idagg02 // Mage Dagger +3 (Dagger)
+
+//  DAGG03   => idagg03 // Dagger +2 (Dagger)
+  UDAGG5A   => idagg03 // Mage Dagger +4 (Dagger)
+
+//  DART01   => idart01 // Dart (Dart)
+  UDART1A   => idart01 // Hammer Darts (Dart)
+
+//  DART02   => idart02 // Dart +1 (Dart)
+  UDART2A   => idart02 // Berserker Darts (Dart)
+  UDART3A   => idart02 // Fire Dart +2 (Dart)
+  UDART3B   => idart02 // Blinding Dart +2 (Dart)
+  UDART4A   => idart02 // Static Dart +3 (Dart)
+  UDART5A   => idart02 // Inferno Dart +4 (Dart)
+
+//  UHALB1A   => ihalb02 // Halberd of Sparks +1 (Halberd)
+  UHALB2A   => ihalb02 // Diseased Halberd +1 (Halberd)
+  UHALB3A   => IHALB02 // Halberd +1: Defender (Halberd)
+  UHALB3B   => IHALB02 // Darig's Rest +2 (Halberd)
+  UHALB3C   => ihalb02 // Life Halberd +2 (Halberd)
+  UHALB4A   => ihalb02 // Doom Halberd +3 (Halberd)
+  UHALB4B   => ihalb02 // Star-Forged Halberd +3 (Halberd)
+  UHALB5A   => ihalb02 // Great Halberd +4 (Halberd)
+
+//  HQHALB   => ihalb04 // High Quality Halberd (High Quality Halberd)
+  UHALB2B   => ihalb04 // Finest Halberd (Halberd)
+  UHALB2C   => ihalb04 // Giant Halberd (Halberd)
+
+//  HAMM01   => ihamm01 // War Hammer (War Hammer)
+  ZZA7CH   => ihamm01 // Conlan's Hammer +1, +5 vs. iron golems (Hammer)
+
+//  HAMM02   => ihamm02 // War Hammer +1 (War Hammer)
+  U1HAM2A   => IHAMM02 // Sanctified War Hammer +1 (War Hammer)
+  U1HAM3A   => ihamm02 // Corrosive Hammer +2 (War Hammer)
+  U1HAM3B   => ihamm02 // War Hammer of Sparks +2 (War Hammer)
+  U1HAM4A   => ihamm02 // War Hammer +3: Life Giver (War Hammer)
+  U1HAM4B   => ihamm02 // Sanctified War Hammer +3 (War Hammer)
+  U1HAM5A   => ihamm02 // War Hammer of Phasing +3 (War Hammer)
+  U1HAM5B   => ihamm02 // War Hammer +4: Defender (War Hammer)
+
+//  HQHAMM   => ihamm04 // High Quality War Hammer (High Quality War Hammer)
+  U2HAM2A   => ihamm04 // Massive War Hammer (War Hammer)
+
+//  LEAT05   => ileat05 // Studded Leather Armor +1 (Studded Leather)
+  USLTR01   => ileat05 // Shadowed Studded Leather +1 (Studded Leather)
+  USLTR2A   => ileat05 // Reinforced Leather +1 (Studded Leather)
+  USLTR3A   => ileat05 // Shadowed Studded Leather +2 (Studded Leather)
+  USLTR4A   => ileat05 // Studded Leather of Resistance +3 (Studded Leather)
+  USLTR5A   => ileat05 // Shadowed Studded Leather +4 (Studded Leather)
+
+//  MAUL   => imaul // War Hammer (War Hammer)
+  U2HAM3A   => imaul // Sanctified War Hammer +2 (War Hammer)
+  U2HAM4A   => imaul // Star-Forged War Hammer +4 (War Hammer)
+  U2HAM4B   => imaul // War Hammer of Phasing +2 (War Hammer)
+  U2HAM5A   => imaul // Demon's Breath +3 (War Hammer)
+
+//  ELFWINE   => imisc61 // Elven Healing Wine (Elven Wine)
+  MISC61   => imisc61 // Bottle of Wine (Bottle of Wine)
+  WINE   => imisc61 // Bottle of Wine (Bottle of Wine)
+
+//  FKEY   => imisc83 // Forge Key (Forge Key)
+  KEYDUG   => imisc83 // Dugmaren's Key (Key)
+  KEYGATE   => imisc83 // Gate Key (Key)
+  KEYNRM   => imisc83 // Plain Key (Key)
+
+//  OHFULLP   => IPLAT04 // Full Plate Mail (Full Plate Mail)
+  PLAT04   => iplat04 // Mithral Field Plate Armor +2 (Field Plate)
+
+//  PLAT05   => iplat05 // Full Plate Mail +1 (Full Plate Mail)
+  PLAT19   => IPLAT05 // Full Plate Mail +2 (Full Plate Mail)
+  SHPLATE   => iplat05 // Shadowed Plate +3 (Plate Mail Armor)
+
+  ADISEASE   => ipotn20 // Mummy's Tea (Potion)
+  PHILTER   => ipotn20 // Philter of Purification (Potion)
+  POISON   => ipotn20 // Vial of mysterious liquid (Potion)
+//  POTN20   => ipotn20 // Antidote (Potion)
+
+//  COFFEE   => ipotn47 // Berduskan Black Brew (Potion)
+  RAZOR   => ipotn47 // Container of Razorvine Extract  (Container of Razorvine Extract )
+
+//  EBOTTLE   => ipotn51 // The Genie's Flask (The Genie's Flask)
+  POTNCLR1   => ipotn51 // Potion of Clear Purpose (Potion)
+
+//  USPOT1A   => ipotn53 // Potion of Action Transference (Potion)
+  USPOT2A   => ipotn53 // Potion of Resistance (Potion)
+  USPOT2B   => ipotn53 // Potion of Greater Resistance (Potion)
+  USPOT3A   => ipotn53 // Potion of Magical Resistance (Potion)
+  USPOT3B   => ipotn53 // Potion of Constitution (Potion)
+  USPOT3C   => ipotn53 // Potion of Strength Transference (Potion)
+  USPOT4A   => ipotn53 // Potion of Arcane Absorption (Potion)
+  USPOT4B   => ipotn53 // Potion of Life Transference (Potion)
+  USPOT4C   => ipotn53 // Potion of Aura Enhancement (Potion)
+  USPOT5A   => ipotn53 // Potion of Dissipation (Potion)
+  USPOT5B   => ipotn53 // Potion of Holy Transference (Potion)
+
+//  RING06   => iring06 // Ring of Protection +1 (Ring)
+  URING1A   => iring06 // Ring of the Warrior (Ring)
+  URING1B   => iring06 // Ring of Lesser Resistance (Ring)
+  URING2A   => iring06 // Greater Ring of the Warrior (Ring)
+  URING2B   => iring06 // Ring of Missile Deflection (Ring)
+  URING3A   => iring06 // Ring of Resistance (Ring)
+  URING3B   => iring06 // Ring of Strength (Ring)
+  URING3C   => iring06 // Ring of Intelligence (Ring)
+  URING4A   => iring06 // Ring of Reckless Action (Ring)
+  URING4B   => iring06 // Ring of the Protector +2 (Ring)
+  URING4C   => iring06 // Ring of Aura Transfusion (Ring)
+  URING5A   => iring06 // Ring of Greater Resistance (Ring)
+  URING5B   => iring06 // Ring of the Warrior Thief (Ring)
+
+//  SHLD06   => ishld06 // Large Shield +1 (Large Shield)
+  USHLD2A   => ishld06 // Reinforced Large Shield +1 (Large Shield)
+  USHLD2B   => ISHLD06 // Large Shield +1 of Missile Deflection (Large Shield)
+  USHLD3A   => ishld06 // Reinforced Large Shield +2 (Large Shield)
+  USHLD3B   => ishld06 // Great Shield +3 (Large Shield)
+  USHLD4A   => ishld06 // Large Shield of Strength +1 (Large Shield)
+
+  ENSTAFF   => ISTAF02 // Quarterstaff +3 (Quarterstaff)
+//  STAF02   => istaf02 // Quarterstaff +1 (Quarterstaff)
+
+//  SW1H02   => isw1h02 // Bastard Sword +1 (Bastard Sword)
+  UBSWD2A   => isw1h02 // Phasing Bastard Sword +1 (Bastard Sword)
+  UBSWD2B   => isw1h02 // Flaming Bastard Sword +1 (Bastard Sword)
+  UBSWD3A   => isw1h02 // Bastard Sword +2: Life Giver (Bastard Sword)
+  UBSWD3B   => isw1h02 // Bastard Sword of Action +1 (Bastard Sword)
+  UBSWD4A   => isw1h02 // Bastard Sword +3: Defender (Bastard Sword)
+  UBSWD4B   => isw1h02 // Bastard Sword of Greater Phasing +3 (Bastard Sword)
+  UBSWD4C   => isw1h02 // Bastard Sword +2: Conflagration (Bastard Sword)
+  UBSWD5A   => isw1h02 // Cancerous Bastard Sword +4 (Bastard Sword)
+  UBSWD5B   => isw1h02 // Bastard Sword +3: Incinerator (Bastard Sword)
+
+  ENSW1H01   => ISW1H05 // Long Sword +3 (Long Sword +3)
+//  SW1H05   => isw1h05 // Long Sword +1 (Long Sword)
+  ULSWD2A   => isw1h05 // Fine Long Sword +1 (Long Sword)
+  ULSWD2B   => isw1h05 // Spiked Long Sword +1 (Long Sword)
+  ULSWD3A   => isw1h05 // Flaming Long Sword +2 (Long Sword)
+  ULSWD3B   => isw1h05 // Long Sword of Confusion +2 (Long Sword)
+  ULSWD3C   => isw1h05 // Life's Gift +2 (Long Sword)
+  ULSWD3D   => isw1h05 // Long Sword of Action +2 (Long Sword)
+  ULSWD4A   => isw1h05 // Hold Fast +3 (Long Sword)
+  ULSWD4B   => isw1h05 // Long Sword +3: Enforcer (Long Sword)
+  ULSWD5A   => isw1h05 // Long Sword of Action +4 (Long Sword)
+  ULSWD5B   => isw1h05 // Bhaal's Fire +3 (Long Sword)
+
+  LSHAND   => isw1h06 // Long Sword of the Hand +3 (Long Sword)
+//  SW1H06   => isw1h06 // Varscona +2 (Long Sword)
+
+  ENSW1H02   => ISW1H08 // Short Sword +3 (Short Sword +3)
+//  SW1H08   => isw1h08 // Short Sword +1 (Short Sword )
+  USSWD2A   => isw1h08 // Flaming Short Sword +1 (Short Sword )
+  USSWD2B   => isw1h08 // Short Sword of Lesser Phasing +1 (Short Sword )
+  USSWD3A   => isw1h08 // Sloth +2 (Short Sword )
+  USSWD3B   => isw1h08 // Some God's Lesser Promise +2 (Short Sword )
+  USSWD3C   => isw1h08 // Short Sword of Action +2 (Short Sword )
+  USSWD4A   => isw1h08 // Short Sword of Shadows +3 (Short Sword )
+  USSWD4B   => isw1h08 // Static Short Sword +3 (Short Sword )
+  USSWD5A   => isw1h08 // Short Sword of Health +4 (Short Sword )
+  USSWD5B   => isw1h08 // Short Sword +4: Hammer (Short Sword )
+
+//  HQLSWRD   => isw1h26 // High Quality Long Sword (High Quality Long Sword)
+  ULSWD1A   => isw1h26 // Finest Long Sword (Long Sword)
+
+//  HQBSWRD   => isw1h28 // High Quality Bastard Sword (High Quality Bastard Sword)
+  UBSWD1A   => ISW1H28 // Fang (Bastard Sword)
+
+//  SW2H02   => isw2h02 // Two-Handed Sword +1 (Two-Handed Sword)
+  UTSWD2B   => isw2h02 // Two-Handed Sword +1: Hammering (Two-Handed Sword)
+  UTSWD2C   => isw2h02 // Two-Handed Sword of Resistance +1 (Two-Handed Sword)
+  UTSWD3A   => isw2h02 // Two-Handed Sword +2: Hammering (Two-Handed Sword)
+  UTSWD3B   => isw2h02 // Two-Handed Sword +2: Defender (Two-Handed Sword)
+  UTSWD4A   => isw2h02 // Two-Handed Sword +4: Backbiter (Two-Handed Sword)
+  UTSWD4B   => isw2h02 // Two-Handed Sword +3: Bane (Two-Handed Sword)
+  UTSWD5A   => isw2h02 // Static Two-Handed Sword +4 (Two-Handed Sword)
+  UTSWD5B   => isw2h02 // Two-Handed Sword +4: Life Giver (Two-Handed Sword)
+
+//  HQ2HSWD   => isw2h07 // High Quality Two-Handed Sword (High Quality Two-Handed Sword)
+  UTSWD1A   => isw2h07 // Flawless Two-Handed Sword (Two-Handed Sword)
+  UTSWD2A   => isw2h07 // Giant Two-Handed Sword (Two-Handed Sword)
+
+  UHXBW3A   => ixbow02 // Heavy Crossbow of Defense +2 (Heavy Crossbow)
+  UHXBW3B   => ixbow02 // Heavy Crossbow of Speed +2 (Heavy Crossbow)
+  UHXBW4A   => ixbow02 // Reinforced Heavy Crossbow +4 (Heavy Crossbow)
+  UHXBW5A   => ixbow02 // Repeating Heavy Crossbow +3 (Heavy Crossbow)
+//  XBOW02   => ixbow02 // Heavy Crossbow +1 (Heavy Crossbow)
+
+  ULXBW3A   => ixbow05 // Light Crossbow of Defense +2 (Light Crossbow)
+  ULXBW3B   => ixbow05 // Light Crossbow of Speed +2 (Light Crossbow)
+  ULXBW5A   => ixbow05 // Repeating Light Crossbow +3 (Light Crossbow)
+//  XBOW05   => ixbow05 // Light Crossbow +1 (Light Crossbow)
+
+//  HQHXBOW   => ixbow08 // High Quality Heavy Crossbow (High Quality Heavy Crossbow)
+  UHXBW2A   => ixbow08 // Finest Heavy Crossbow (Finest Heavy Crossbow)
+
+//  HQLXBOW   => ixbow09 // High Quality Light Crossbow (High Quality Light Crossbow)
+  ULXBW2A   => ixbow09 // Finest Light Crossbow (Light Crossbow)
+
+END

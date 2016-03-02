@@ -1,0 +1,245 @@
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_prof_numeric_map BEGIN
+   89 => 103 // bastard sword > large sword
+   90 => 103 // long sword > large sword
+   91 => 102 // short sword > small sword
+   92 => 104 // axe
+   93 => 103 // 2h sword > large sword
+   94 => 103 // katana > large sword
+   95 => 103 // scimitar/waki/ninjato > large sword
+   96 => 102 // dagger > small sword
+   97 => 105 // hammer > blunt
+   98 => 107 // spear
+   99 => 107 // halberd > spear
+  100 => 101 // flail/mstar to spiked
+  101 => 105 // mace > blunt
+  102 => 105 // staff > blunt
+  103 => 106 // crossbow > missile
+  104 => 100 // longbow > bow
+  105 => 100 // shortbow > bow
+  106 => 106 // dart > missile
+  107 => 106 // sling > missile
+  115 => 105 // club > blunt
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_prof_text_map BEGIN
+  AXE                      => 104
+  BASTARDSWORD             => 103
+  CLUB                     => 105
+  CROSSBOW                 => 106
+  DAGGER                   => 102
+  DART                     => 106
+  FLAILMORNINGSTAR         => 101
+  HALBERD                  => 107
+  KATANA                   => 103
+  LONGBOW                  => 100
+  LONGSWORD                => 103
+  MACE                     => 105
+  QUARTERSTAFF             => 105
+  SCIMITARWAKISASHININJATO => 103
+  SHORTBOW                 => 100
+  SHORTSWORD               => 102
+  SLING                    => 106
+  SPEAR                    => 107
+  TWOHANDEDSWORD           => 103
+  WARHAMMER                => 105
+END
+
+DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
+
+  PATCH_IF (prof = 100) BEGIN // bows
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%lbow%\|%sbow%\)~ ~%prof_text% %bow%~ // long bow, short bow
+  END ELSE
+  PATCH_IF (prof = 101) BEGIN // spiked
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%%flail% */ *\(%mstar1% ?%mstar2%\)~ ~%prof_text% %spiked%~ // flails and morningstars
+  END ELSE
+  PATCH_IF (prof = 102) BEGIN // small swords
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%short_sword%\|%dagger%\)~ ~%prof_text% %prof_ssword%~ // daggers/short swords
+  END ELSE
+  PATCH_IF (prof = 103) BEGIN // large swords
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%scimitar% */ *%waki% */ *\(%ninjato%\|Ninja-?to\|Ninja-?tÅ\)\)\|\(%katana%\)\|\(%lsword%\)\|\(%bastard%\)\|\(%2hsword%\)\)~ ~%prof_text% %prof_lsword%~ // all blades except daggs & short swords
+  END ELSE // 104 is axe, no change
+  PATCH_IF (prof = 105) BEGIN // blunt
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%hammer%\|%mace%\|%club%\|%staff%\)~ ~%prof_text% %blunt%~ // hammers, maces, clubs
+  END ELSE
+  PATCH_IF (prof = 106) BEGIN // missile
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%dart%\|%sling%\|%xbow%\)~ ~%prof_text% %prof_missile%~ // dart, sling, crossbow
+  END ELSE
+  PATCH_IF (prof = 107) BEGIN // spear
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%%halberd%~ ~%prof_text% %spear%~ // spears and halberds (spears don't need changing)
+  END
+
+END
+
+OUTER_SET club_except = 105
+INCLUDE ~cdtweaks/lib/profs_common2.tpa~
+
+//item changes
+PRINT @1
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // item changes
+  READ_BYTE  0x31 current_prof ELSE 0
+  PATCH_IF ((current_prof = 115) OR ((current_prof > 88) AND (current_prof < 108))) BEGIN // sanity check
+    PHP_EACH cd_prof_numeric_map AS old => new BEGIN
+      PATCH_IF (current_prof = old) BEGIN
+        SET prof = new
+      END
+    END
+    WRITE_BYTE 0x31 prof // new prof
+    PATCH_IF ((prof > 99) AND (prof < 108)) BEGIN // axes don't need changes
+      // update descriptions
+      PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
+        READ_LONG ~%offset%~ desc_strref
+        PATCH_IF (desc_strref >= 0 && desc_strref < 2147483646) BEGIN
+          READ_STRREF ~%offset%~ desc
+          INNER_PATCH_SAVE desc ~%desc%~ BEGIN
+            LAUNCH_PATCH_MACRO ~prof_descripts~
+          END
+          SAY_EVALUATED ~%offset%~ ~%desc%~ // write changes
+        END
+      END
+    END
+  END
+  BUT_ONLY
+
+PRINT @1
+COPY_EXISTING ~weapprof.2da~ ~override~
+  REPLACE_TEXTUALLY ~^[ %TAB%]*ID\([ %TAB%]+\)~ ~CD_DELETE_ME\1ID\1~ // temp
+  // axe is only prof not changing, only moving
+  REPLACE_EVALUATE ~^\(AXE[ %TAB%]+\)+92\([ %TAB%]+.+\)$~ BEGIN
+    SPRINT line_axe "%MATCH1%104%MATCH2%"
+  END "UNUSED 92%MATCH2%"
+  // FLAILMORNINGSTAR gets new name and a move, but otherwise unchanges
+  REPLACE_EVALUATE ~^FLAILMORNINGSTAR\([ %TAB%]+\)+100\([ %TAB%]+.+\)$~ BEGIN
+    SPRINT line_flail "SPIKED%MATCH1%101%MATCH2%"
+  END "UNUSED 100%MATCH2%"
+
+  // for profs being merged, take the highest of both values
+  COUNT_2DA_COLS col_num
+  FOR (col = 4; col < col_num; ++col) BEGIN
+    READ_2DA_ENTRY 25 col col_num star_lbow
+    READ_2DA_ENTRY 26 col col_num star_sbow
+    PATCH_IF (star_lbow < star_sbow) BEGIN SET star_lbow = star_sbow END // bows
+    READ_2DA_ENTRY 11 col col_num star_sswd
+    READ_2DA_ENTRY 16 col col_num star_dagg
+    PATCH_IF (star_sswd < star_dagg) BEGIN SET star_sswd = star_dagg END // small swords
+    READ_2DA_ENTRY  9 col col_num star_bast
+    READ_2DA_ENTRY 10 col col_num star_lswd
+    READ_2DA_ENTRY 13 col col_num star_2hsw
+    READ_2DA_ENTRY 14 col col_num star_kata
+    READ_2DA_ENTRY 15 col col_num star_scim
+    PATCH_IF (star_bast < star_2hsw) BEGIN SET star_bast = star_2hsw END // large swords
+    PATCH_IF (star_bast < star_kata) BEGIN SET star_bast = star_kata END // large swords
+    PATCH_IF (star_bast < star_scim) BEGIN SET star_bast = star_scim END // large swords
+    PATCH_IF (star_bast < star_lswd) BEGIN SET star_bast = star_scim END // large swords
+    READ_2DA_ENTRY 17 col col_num star_hamm
+    READ_2DA_ENTRY 18 col col_num star_club
+    READ_2DA_ENTRY 22 col col_num star_mace
+    READ_2DA_ENTRY 23 col col_num star_staf
+    PATCH_IF (star_club < star_hamm) BEGIN SET star_club = star_hamm END // blunt
+    PATCH_IF (star_club < star_mace) BEGIN SET star_club = star_mace END // blunt
+    PATCH_IF (star_club < star_staf) BEGIN SET star_club = star_staf END // blunt
+    READ_2DA_ENTRY 27 col col_num star_dart
+    READ_2DA_ENTRY 28 col col_num star_slng
+    READ_2DA_ENTRY 24 col col_num star_xbow
+    PATCH_IF (star_dart < star_slng) BEGIN SET star_dart = star_slng END // missile
+    PATCH_IF (star_dart < star_xbow) BEGIN SET star_dart = star_xbow END // missile
+    READ_2DA_ENTRY 19 col col_num star_sper
+    READ_2DA_ENTRY 20 col col_num star_halb
+    PATCH_IF (star_sper < star_halb) BEGIN SET star_sper = star_halb END // spear
+    SET_2DA_ENTRY 21 col col_num ~%star_lbow%~ // 100 - bow
+    SET_2DA_ENTRY 23 col col_num ~%star_sswd%~ // 102 - small swords
+    SET_2DA_ENTRY 24 col col_num ~%star_bast%~ // 103 - large sword
+    SET_2DA_ENTRY 26 col col_num ~%star_club%~ // 105 - blunt
+    SET_2DA_ENTRY 27 col col_num ~%star_dart%~ // 106 - missile
+    SET_2DA_ENTRY 28 col col_num ~%star_sper%~ // 107 - spear
+    PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
+      SET_2DA_ENTRY 29 col col_num 0 // two-handed weapon style
+      SET_2DA_ENTRY 30 col col_num 0 // sword & shield
+      SET_2DA_ENTRY 31 col col_num 0 // single weapon
+      SET_2DA_ENTRY 32 col col_num 0 // dual-wield
+    END
+    FOR (row = 9 ; row < 21 ; ++row) BEGIN // eliminate unused profs
+      SET_2DA_ENTRY row col col_num 0 // nuke first five rows
+    END
+  END
+  // now read-and-shuffle other profs to correct lines
+  REPLACE_TEXTUALLY ~^MACE[ %TAB]+.+$~ ~%line_flail%~
+  REPLACE_TEXTUALLY ~^LONGBOW[ %TAB]+.+$~ ~%line_axe%~
+  // final touchups to get descripts and row names correct
+  SET_2DA_ENTRY 21 0 col_num BOW  // bow
+  SET_2DA_ENTRY 21 2 col_num 8733
+  SET_2DA_ENTRY 21 3 col_num 9591
+  SET_2DA_ENTRY 22 2 col_num 9401 // spiked
+  SET_2DA_ENTRY 22 3 col_num 9594
+  SET_2DA_ENTRY 23 0 col_num SMALL_SWORD  // small swords
+  SET_2DA_ENTRY 23 2 col_num cd_prof_name
+  SET_2DA_ENTRY 23 3 col_num 9590
+  REPLACE ~cd_prof_name~ @216101
+  SET_2DA_ENTRY 24 0 col_num LARGE_SWORD  // large swords
+  SET_2DA_ENTRY 24 2 col_num 8668
+  SET_2DA_ENTRY 24 3 col_num 9589
+  SET_2DA_ENTRY 25 2 col_num 9402  // axe
+  SET_2DA_ENTRY 25 3 col_num 9595
+  SET_2DA_ENTRY 26 0 col_num BLUNT  // blunt
+  SET_2DA_ENTRY 26 2 col_num 9400
+  SET_2DA_ENTRY 26 3 col_num 9593
+  SET_2DA_ENTRY 27 0 col_num MISSILE  // missile
+  SET_2DA_ENTRY 27 2 col_num 9403
+  SET_2DA_ENTRY 27 3 col_num 9596
+  SET_2DA_ENTRY 28 0 col_num SPEAR  // spear
+  SET_2DA_ENTRY 28 2 col_num 8734
+  SET_2DA_ENTRY 28 3 col_num 9592
+  PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
+    FOR (row = 29 ; row < 33 ; ++row) BEGIN
+      SET_2DA_ENTRY row 0 col_num UNUSED // ref
+      SET_2DA_ENTRY row 2 col_num 0      // name
+      SET_2DA_ENTRY row 3 col_num 0      // descript
+    END
+  END
+  FOR (row = 9 ; row < 21 ; ++row) BEGIN // eliminate first profs
+    SET_2DA_ENTRY row 0 col_num UNUSED // ref
+    SET_2DA_ENTRY row 2 col_num 0      // name
+    SET_2DA_ENTRY row 3 col_num 0      // descript
+  END
+  REPLACE_TEXTUALLY ~CD_DELETE_ME~ ~~
+  PRETTY_PRINT_2DA
+  BUT_ONLY
+
+COPY_EXISTING ~stats.ids~ ~override~
+  REPLACE_TEXTUALLY ~^\(89\|9[0-9]\|115\)[ %TAB%]+.+$~ ~\1 UNUSEDPROF\1~
+  REPLACE_TEXTUALLY ~^\(100[ %TAB%]+\).+$~ ~\1PROFICIENCYBOW~
+  REPLACE_TEXTUALLY ~^\(101[ %TAB%]+\).+$~ ~\1PROFICIENCYSPIKED~
+  REPLACE_TEXTUALLY ~^\(102[ %TAB%]+\).+$~ ~\1PROFICIENCYSMALL_SWORD~
+  REPLACE_TEXTUALLY ~^\(103[ %TAB%]+\).+$~ ~\1PROFICIENCYLARGE_SWORD~
+  REPLACE_TEXTUALLY ~^\(104[ %TAB%]+\).+$~ ~\1PROFICIENCYAXE~
+  REPLACE_TEXTUALLY ~^\(105[ %TAB%]+\).+$~ ~\1PROFICIENCYBLUNT~
+  REPLACE_TEXTUALLY ~^\(106[ %TAB%]+\).+$~ ~\1PROFICIENCYMISSILE~
+  REPLACE_TEXTUALLY ~^\(107[ %TAB%]+\).+$~ ~\1PROFICIENCYSPEAR~
+
+// for old ids references, add dupe entries
+// extra append of new name is extraneous but makes compile/decompile easier
+APPEND ~stats.ids~ ~100 PROFICIENCYLONGBOW
+100 PROFICIENCYSHORTBOW
+100 PROFICIENCYBOW
+101 PROFICIENCYFLAILMORNINGSTAR
+101 PROFICIENCYSPIKED
+102 PROFICIENCYDAGGER
+102 PROFICIENCYSHORTSWORD
+102 PROFICIENCYSMALL_SWORD
+103 PROFICIENCYBASTARDSWORD
+103 PROFICIENCYKATANA
+103 PROFICIENCYLONGSWORD
+103 PROFICIENCYSCIMITARWAKISASHININJATO
+103 PROFICIENCYTWOHANDEDSWORD
+103 PROFICIENCYLARGE_SWORD
+105 PROFICIENCYMACE
+105 PROFICIENCYQUARTERSTAFF
+105 PROFICIENCYWARHAMMER
+105 EXTRAPROFICIENCY1
+105 PROFICIENCYCLUB
+105 PROFICIENCYBLUNT
+106 PROFICIENCYCROSSBOW
+106 PROFICIENCYDART
+106 PROFICIENCYSLING
+106 PROFICIENCYMISSILE
+107 PROFICIENCYHALBERD
+107 PROFICIENCYSPEAR~

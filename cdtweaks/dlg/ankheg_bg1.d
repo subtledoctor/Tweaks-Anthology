@@ -1,0 +1,1 @@
+REPLACE_ACTION_TEXT_REGEXP ~\(^_?taerom$\)\|\(^_?fenten$\)~ ~TakePartyItemAll("MISC12")~ ~TakePartyItem("MISC12")~

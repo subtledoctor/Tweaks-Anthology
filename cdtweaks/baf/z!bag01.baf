@@ -1,0 +1,81 @@
+IF
+	Global("Z!StoreClosed","LOCALS",1)
+THEN
+	RESPONSE #100
+		ActionOverride("Z!BAG0X",TakePartyGold(10000000))
+		ActionOverride("Z!BAG0X",DestroySelf())
+		SetGlobal("Z!StoreClosed","LOCALS",2)
+END
+
+IF
+	Global("Z!StoreClosed","LOCALS",2)
+THEN
+	RESPONSE #100
+		GivePartyGold(20000000)
+		SetGlobal("Z!StoreClosed","LOCALS",0)
+		DestroySelf()
+END
+
+//**********************
+
+IF
+	PartyGoldGT(0)
+THEN
+	RESPONSE #100
+		TakePartyGold(20000000)
+END
+
+IF
+	HasItem("Z!BAG01",Player1)
+THEN
+	RESPONSE #100
+		ActionOverride("Z!BAG0X",GiveGoldForce(1000))
+		StartStore("Z!BAG01",Player1)
+		SetGlobal("Z!StoreClosed","LOCALS",1)
+END
+
+IF
+	HasItem("Z!BAG01",Player2)
+THEN
+	RESPONSE #100
+		ActionOverride("Z!BAG0X",GiveGoldForce(1000))
+		StartStore("Z!BAG01",Player2)
+		SetGlobal("Z!StoreClosed","LOCALS",1)
+END
+
+IF
+	HasItem("Z!BAG01",Player3)
+THEN
+	RESPONSE #100
+		ActionOverride("Z!BAG0X",GiveGoldForce(1000))
+		StartStore("Z!BAG01",Player3)
+		SetGlobal("Z!StoreClosed","LOCALS",1)
+END
+
+IF
+	HasItem("Z!BAG01",Player4)
+THEN
+	RESPONSE #100
+		ActionOverride("Z!BAG0X",GiveGoldForce(1000))
+		StartStore("Z!BAG01",Player4)
+		SetGlobal("Z!StoreClosed","LOCALS",1)
+END
+
+IF
+	HasItem("Z!BAG01",Player5)
+THEN
+	RESPONSE #100
+		ActionOverride("Z!BAG0X",GiveGoldForce(1000))
+		StartStore("Z!BAG01",Player5)
+		SetGlobal("Z!StoreClosed","LOCALS",1)
+END
+
+IF
+	HasItem("Z!BAG01",Player6)
+THEN
+	RESPONSE #100
+		ActionOverride("Z!BAG0X",GiveGoldForce(1000))
+		StartStore("Z!BAG01",Player6)
+		SetGlobal("Z!StoreClosed","LOCALS",1)
+END
+

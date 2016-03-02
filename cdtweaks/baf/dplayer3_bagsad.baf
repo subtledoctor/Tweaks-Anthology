@@ -1,0 +1,61 @@
+IF
+  Global("Z!WhichPartyMember","LOCALS",0)
+THEN
+  RESPONSE #100
+    ActionOverride(Player1,SetGlobal("Z!WhichPartyMember","LOCALS",1))
+    ActionOverride(Player2,SetGlobal("Z!WhichPartyMember","LOCALS",2))
+    ActionOverride(Player3,SetGlobal("Z!WhichPartyMember","LOCALS",3))
+    ActionOverride(Player4,SetGlobal("Z!WhichPartyMember","LOCALS",4))
+    ActionOverride(Player5,SetGlobal("Z!WhichPartyMember","LOCALS",5))
+    ActionOverride(Player6,SetGlobal("Z!WhichPartyMember","LOCALS",6))
+END
+
+IF
+  Global("Z!WhichPartyMember","LOCALS",1)
+	Global("bagus01","LOCALS",1)
+THEN
+	RESPONSE #100
+		SetGlobal("bagus01","LOCALS",0)
+		CreateCreature("Z!BAG01",[0.0],1)
+		CreateCreature("Z!BAG0X",[0.0],1)
+END
+
+IF
+  Global("Z!WhichPartyMember","LOCALS",1)
+	Global("bagus02","LOCALS",1)
+THEN
+	RESPONSE #100
+		SetGlobal("bagus02","LOCALS",0)
+		CreateCreature("Z!BAG02",[0.0],1)
+		CreateCreature("Z!BAG0X",[0.0],1)
+END
+
+IF
+  Global("Z!WhichPartyMember","LOCALS",1)
+	Global("bagus03","LOCALS",1)
+THEN
+	RESPONSE #100
+		SetGlobal("bagus03","LOCALS",0)
+		CreateCreature("Z!BAG03",[0.0],1)
+		CreateCreature("Z!BAG0X",[0.0],1)
+END
+
+IF
+  Global("Z!WhichPartyMember","LOCALS",1)
+	Global("bagus04","LOCALS",1)
+THEN
+	RESPONSE #100
+		SetGlobal("bagus04","LOCALS",0)
+		CreateCreature("Z!BAG04",[0.0],1)
+		CreateCreature("Z!BAG0X",[0.0],1)
+END
+
+IF
+  Global("Z!WhichPartyMember","LOCALS",1)
+	Global("bagus11","LOCALS",1)
+THEN
+	RESPONSE #100
+		SetGlobal("bagus11","LOCALS",0)
+		CreateCreature("Z!BAG11",[0.0],1)
+		CreateCreature("Z!BAG0X",[0.0],1)
+END

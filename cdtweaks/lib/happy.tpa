@@ -1,0 +1,147 @@
+// bogstandard bg2 conflicts; don't bother if Tutu/BGEE game
+ACTION_IF GAME_IS ~soa tob bgt bg2ee eet~ THEN BEGIN
+
+  //anomen-keldorn
+  COPY_EXISTING ~anomen.bcs~  ~override~
+                ~keldorn.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("AnomenKeldornFight","GLOBAL",1)~ ~False()~
+      REPLACE_TEXTUALLY ~Global("AnomenHatesKeldorn","GLOBAL",1)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+  EXTEND_TOP ~anomen.bcs~  ~cdtweaks/baf/anomkeld.baf~
+  EXTEND_TOP ~keldorn.bcs~ ~cdtweaks/baf/anomkeld.baf~
+  
+  //edwin-minsc
+  COPY_EXISTING ~edwin.bcs~ ~override~
+                ~minsc.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("EdwinMinscFight","GLOBAL",1)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+  EXTEND_TOP ~edwin.bcs~   ~cdtweaks/baf/edwimins.baf~
+  EXTEND_TOP ~minsc.bcs~   ~cdtweaks/baf/edwimins.baf~
+  
+  //edwin-keldorn
+  COPY_EXISTING ~edwin.bcs~   ~override~
+                ~keldorn.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("EdwinKeldornFight","GLOBAL",1)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+  EXTEND_TOP ~edwin.bcs~   ~cdtweaks/baf/edwikeld.baf~
+  EXTEND_TOP ~keldorn.bcs~ ~cdtweaks/baf/edwikeld.baf~
+  
+  //edwin-valygar
+  COPY_EXISTING ~edwin.bcs~   ~override~
+                ~valygar.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("EdwinValygarFight","GLOBAL",1)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+  EXTEND_TOP ~edwin.bcs~   ~cdtweaks/baf/edwivaly.baf~
+  EXTEND_TOP ~valygar.bcs~ ~cdtweaks/baf/edwivaly.baf~
+
+  //viconia-keldorn
+  COPY_EXISTING ~viconia.bcs~ ~override~
+                ~keldorn.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("ViconiaKeldornFight","GLOBAL",1)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+  EXTEND_TOP ~viconia.bcs~ ~cdtweaks/baf/vicokeld.baf~
+  EXTEND_TOP ~keldorn.bcs~ ~cdtweaks/baf/vicokeld.baf~
+  
+  // removes korgan-aerie grumpiness
+  EXTEND_TOP ~korgan.bcs~ ~cdtweaks/baf/korgan.baf~
+
+  ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN // for new npcs
+
+    // anomen-dorn
+    COPY_EXISTING ~anomen.bcs~ ~override~
+                  ~dorn.bcs~   ~override~
+      DECOMPILE_BCS_TO_BAF
+        REPLACE_TEXTUALLY ~Global("OHD_anomenfight","GLOBAL",1)~ ~False()~
+        APPEND_FILE ~cdtweaks/baf/anomdorn.baf~
+      COMPILE_BAF_TO_BCS
+      BUT_ONLY_IF_IT_CHANGES
+
+    // hexxat-aerie
+    COPY_EXISTING ~ohhaeri.bcs~ ~override~
+                  ~hexxa25.bcs~ ~override~
+      DECOMPILE_BCS_TO_BAF
+        REPLACE_TEXTUALLY ~Global("OHH_aeriefight","GLOBAL",1)~ ~False()~
+        APPEND_FILE ~cdtweaks/baf/aerihexx.baf~
+      COMPILE_BAF_TO_BCS
+      BUT_ONLY_IF_IT_CHANGES
+
+    // hexxat-mazzy
+    COPY_EXISTING ~ohhmaz.bcs~  ~override~
+                  ~ohhmaz2.bcs~ ~override~
+                  ~hexxat.bcs~  ~override~
+      DECOMPILE_BCS_TO_BAF
+        REPLACE_TEXTUALLY ~Global("OHH_mazzyfight","GLOBAL",1)~ ~False()~
+        APPEND_FILE ~cdtweaks/baf/hexxmazz.baf~
+      COMPILE_BAF_TO_BCS
+      BUT_ONLY_IF_IT_CHANGES
+
+    // hexxat-valygar
+    COPY_EXISTING ~ohhval.bcs~  ~override~
+                  ~ohhval2.bcs~ ~override~
+                  ~hexxat.bcs~  ~override~
+      DECOMPILE_BCS_TO_BAF
+        REPLACE_TEXTUALLY ~Global("OHH_valygarfight","GLOBAL",1)~ ~False()~
+        APPEND_FILE ~cdtweaks/baf/hexxvaly.baf~
+      COMPILE_BAF_TO_BCS
+      BUT_ONLY_IF_IT_CHANGES
+
+    // hexxat-keldorn
+    COPY_EXISTING ~ohhkeld.bcs~  ~override~
+                  ~ohhkeld2.bcs~ ~override~
+                  ~hexxat.bcs~   ~override~
+      DECOMPILE_BCS_TO_BAF
+        REPLACE_TEXTUALLY ~Global("OHH_keldornfight","GLOBAL",1)~ ~False()~
+        APPEND_FILE ~cdtweaks/baf/hexxkeld.baf~
+      COMPILE_BAF_TO_BCS
+      BUT_ONLY_IF_IT_CHANGES
+
+  END
+
+END
+
+// bg fights
+ACTION_IF GAME_IS ~bgee bg1 totsc tutu tutu_totsc bgt eet~ THEN BEGIN
+
+  INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+
+  EXTEND_TOP ~%EDWIN_BCS%.bcs~    ~cdtweaks/baf/edwin.baf~
+  EXTEND_TOP ~%MINSC_BCS%.bcs~    ~cdtweaks/baf/edwin.baf~
+  EXTEND_TOP ~%DYNAHEIR_BCS%.bcs~ ~cdtweaks/baf/edwin.baf~
+  EXTEND_TOP ~%YESLICK_BCS%.bcs~  ~cdtweaks/baf/yeslick.baf~
+  EXTEND_TOP ~%KAGAIN_BCS%.bcs~   ~cdtweaks/baf/yeslick.baf~
+  EXTEND_TOP ~%KHALID_BCS%.bcs~   ~cdtweaks/baf/xzar.baf~
+  EXTEND_TOP ~%JAHEIRA_BCS%.bcs~  ~cdtweaks/baf/xzar.baf~
+  EXTEND_TOP ~%MONTARON_BCS%.bcs~ ~cdtweaks/baf/xzar.baf~
+  EXTEND_TOP ~%XZAR_BCS%.bcs~     ~cdtweaks/baf/xzar.baf~
+  EXTEND_TOP ~%KIVAN_BCS%.bcs~    ~cdtweaks/baf/kivan.baf~
+  EXTEND_TOP ~%VICONIA_BCS%.bcs~  ~cdtweaks/baf/kivan.baf~
+  EXTEND_TOP ~%ELDOTH_BCS%.bcs~   ~cdtweaks/baf/eldoth.baf~
+  EXTEND_TOP ~%SHARTEEL_BCS%.bcs~ ~cdtweaks/baf/eldoth.baf~
+  EXTEND_TOP ~%TIAX_BCS%.bcs~     ~cdtweaks/baf/tiax.baf~
+  EXTEND_TOP ~%QUAYLE_BCS%.bcs~   ~cdtweaks/baf/tiax.baf~
+  
+  ACTION_IF GAME_IS ~bgee~ THEN BEGIN
+
+    // %*&#( dorn fights with everyone... sigh
+    EXTEND_TOP ~dorn.bcs~ ~cdtweaks/baf/dorndorn.baf~
+    ACTION_FOR_EACH script IN 
+      alora branwen coran dynaheir edwin eldoth faldorn garrick imoen jaheira kagain khalid kivan 
+      minsc montaron neera quayle rasaad safana sharteel skie tiax viconia xan xzar BEGIN
+  
+      EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/dorn.baf~
+    
+    END
+  
+  END
+
+END

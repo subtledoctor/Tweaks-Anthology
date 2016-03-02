@@ -1,0 +1,28 @@
+/* X#LPRCAJR.BAF */
+
+/* Ajantis Reacts to Repeated Reputation-Seller Usage */
+IF
+Global("X#AjantisRepSellerComplaint","GLOBAL",0)
+GlobalGT("X#UseTroubadorRep","GLOBAL",2)
+// CombatCounter(0) // *** need replacement ***
+InParty(Myself)
+!See([ENEMY])
+See(Player1)
+!StateCheck(Player1,CD_STATE_NOTVALID)
+THEN
+RESPONSE #100
+SetGlobal("X#AjantisRepSellerComplaint","GLOBAL",1)
+END
+
+IF
+Global("X#AjantisRepSellerComplaint","GLOBAL",1)
+// CombatCounter(0) // *** need replacement ***
+InParty(Myself)
+!See([ENEMY])
+See(Player1)
+!StateCheck(Player1,CD_STATE_NOTVALID)
+THEN
+RESPONSE #100
+// StartDialogNoSet(Player1)
+StartDialog("ajantj",[PC])
+END

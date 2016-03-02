@@ -1,0 +1,23 @@
+  ACTION_FOR_EACH drop IN replacemelist BEGIN
+  
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%drop%.itm~) THEN BEGIN
+
+      COPY_EXISTING ~%drop%.itm~ ~override~
+        READ_LONG 0x0c string
+        PATCH_IF NOT(string >= 0 && string < 2147483646) BEGIN READ_LONG 0x08 string END // if no identified string, use generic
+
+      COPY ~cdtweaks/random/cdrandom.d~ ~cdtweaks/random/cdrandom.d~
+        REPLACE_TEXTUALLY ~~~~~insert_reply~~~~~ ~~~~~
+  IF ~~ THEN REPLY #%string% DO ~TakePartyItem("%token_item%")
+                                 DestroyItem("%token_item%")
+                                 GiveItemCreate("%drop%",LastTalkedToBy,0,0,0)~ GOTO 0
+insert_reply
+~~~~~ EVALUATE_BUFFER UNLESS ~GiveItemCreate("%drop%"~
+
+    END
+
+    ACTION_IF game_is_iwdee BEGIN
+      EXTEND_BOTTOM ~%area%.bcs~ ~cdtweaks/random/token_swap.baf~ EVALUATE_BUFFER
+    END  
+
+  END

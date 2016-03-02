@@ -1,0 +1,136 @@
+OUTER_SPRINT prof_text_match @216007
+OUTER_SPRINT prof_text       @216008
+
+DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
+
+  PATCH_IF ("%prof%" = 91) BEGIN // short swords/ninja-tos
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%scimitar% */ *%waki% */ *\(%ninjato%\|Ninja-?to\|Ninja-?tÅ\)\)\|\(%ssword%\)\)~ ~%prof_text% %ssword%/%ninjato%~
+  END ELSE
+  PATCH_IF ("%prof%" = 94) BEGIN // katanas/wakizashis
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%scimitar% */ *%waki% */ *\(%ninjato%\|Ninja-?to\|Ninja-?tÅ\)\)\|\(%katana%\)\)~ ~%prof_text% %katana%/%waki%~
+  END ELSE
+  PATCH_IF ("%prof%" = 95) BEGIN // scimitars
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%%scimitar% */ *%waki% */ *\(%ninjato%\|Ninja-?to\|Ninja-?tÅ\)~ ~%prof_text% %scimitar%~
+  END ELSE
+  PATCH_IF ("%prof%" = 101) BEGIN // morningstars/maces
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%flail% */ *%mstar1% ?%mstar2%\)\|\(%mace%\)\)~ ~%prof_text% %mace%/%mstar%~
+  END ELSE BEGIN // flails
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%%flail% */ *\(%mstar1% ?%mstar2%\)~ ~%prof_text% %flail%~
+  END
+
+END
+
+// since ee uses funky encoding, we'll read in the weapon names dynamically
+ACTION_GET_STRREF  6337 mace
+ACTION_GET_STRREF  6704 flail_temp
+ACTION_GET_STRREF  6745 ssword_temp
+ACTION_GET_STRREF  6853 mstar
+ACTION_GET_STRREF  7523 katana
+ACTION_GET_STRREF  7526 waki
+ACTION_GET_STRREF  7529 ninjato
+ACTION_GET_STRREF 11052 scimitar
+
+ACTION_IF GAME_IS ~bgee~ BEGIN // ee has different strrefs for eastern stuff
+  ACTION_GET_STRREF 26716 waki
+  ACTION_GET_STRREF 26711 katana
+  ACTION_GET_STRREF 26721 ninjato
+END
+
+OUTER_INNER_PATCH_SAVE ssword ~%ssword_temp%~ BEGIN // generic short sword string has trailing space, messing up matching below
+  REPLACE_TEXTUALLY ~\(.+\) *$~ ~\1~ // remove trailing space
+END
+
+OUTER_INNER_PATCH_SAVE flail ~%flail_temp%~ BEGIN // generic flail string has trailing space, messing up matching below
+  REPLACE_TEXTUALLY ~\([^ ]+\) *~ ~\1~ // remove trailing space
+END
+
+// since morning star can also be morningstar, we dance a little for the matches
+ACTION_IF ("%LANGUAGE%" STRING_COMPARE_CASE "ENGLISH" = 0) BEGIN
+  OUTER_SPRINT mstar1 "Morning"
+  OUTER_SPRINT mstar2 "star"
+END ELSE BEGIN
+  ACTION_GET_STRREF  6853 mstar1
+  OUTER_SPRINT mstar2 ""
+END
+
+
+//item changes
+PRINT @1
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // item changes
+  PATCH_IF (SOURCE_SIZE > 0x71) THEN BEGIN // protects against invalid files
+    READ_ASCII 0x22 "anim" (2)
+    READ_BYTE  0x31 "prof"
+    PATCH_IF ("%prof%" = 100 AND (("%anim%" STRING_COMPARE_CASE "ms" = 0) OR ("%anim%" STRING_COMPARE_CASE "mc" = 0))) BEGIN // morningstars
+      SET "prof" = 101
+      WRITE_BYTE 0x31 "%prof%" // mace prof
+    END ELSE
+    PATCH_IF (("%prof%" = 95) AND ("%anim%" STRING_COMPARE_CASE "s1" = 0)) BEGIN // ninja-tos
+      SET "prof" = 91
+      WRITE_BYTE 0x31 "%prof%" // short sword prof
+    END ELSE
+    PATCH_IF (("%prof%" = 95) AND ("%anim%" STRING_COMPARE_CASE "ss" = 0)) BEGIN // wakizashis
+      SET "prof" = 94
+      WRITE_BYTE 0x31 "%prof%" // katana prof
+    END
+    PATCH_IF ((prof = 91) OR (prof = 94) OR (prof = 95) OR (prof = 100) OR (prof = 101)) BEGIN
+      // update descriptions
+      PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
+        READ_LONG ~%offset%~ desc_strref
+        PATCH_IF (desc_strref >= 0 && desc_strref < 2147483646) BEGIN
+          READ_STRREF ~%offset%~ desc
+          INNER_PATCH_SAVE desc ~%desc%~ BEGIN
+            LAUNCH_PATCH_MACRO ~prof_descripts~
+          END
+          SAY_EVALUATED ~%offset%~ ~%desc%~ // write changes
+        END
+      END
+    END
+  END
+  BUT_ONLY
+
+COPY_EXISTING ~weapprof.2da~ ~override~
+  SET_2DA_ENTRY 11 2 51 ~cdssname~
+  SET_2DA_ENTRY 11 3 51 ~cdssdescript~
+  SET_2DA_ENTRY 14 2 51 ~cdkatname~
+  SET_2DA_ENTRY 14 3 51 ~cdkatdescript~
+  SET_2DA_ENTRY 15 2 51 11052
+  SET_2DA_ENTRY 15 3 51 ~cdscimdescript~
+  SET_2DA_ENTRY 21 2 51 6704
+  SET_2DA_ENTRY 21 3 51 ~cdfldescript~
+  SET_2DA_ENTRY 22 2 51 ~cdmacename~
+  SET_2DA_ENTRY 22 3 51 ~cdmacedescript~
+  REPLACE ~cdssname~       @216009
+  REPLACE ~cdssdescript~   @216001
+  REPLACE ~cdkatname~      @216010
+  REPLACE ~cdkatdescript~  @216002
+  REPLACE ~cdscimdescript~ @216003
+  REPLACE ~cdfldescript~   @216004
+  REPLACE ~cdmacename~     @216011
+  REPLACE ~cdmacedescript~ @216005
+  BUT_ONLY
+
+// if Maurolava's samurai kit is installed, old version
+// only wants katanas and wakizashis; since they're now combined need to remove scimitars for the kit
+ACTION_FOR_EACH kitname IN samurai mlsamura BEGIN
+
+  ACTION_IF FILE_EXISTS_IN_GAME ~%kitname%.2da~ THEN BEGIN
+  
+    // find samurai kit in kitlist
+    COPY_EXISTING ~kitlist.2da~ ~override~
+      COUNT_2DA_ROWS ~9~ "rows"
+      FOR ( index = 31 ; index < rows ; index = index + 1 ) BEGIN
+        READ_2DA_ENTRY "%index%" 5 9 "clab"
+        PATCH_IF ("%clab%" STRING_COMPARE_CASE "%kitname%" = 0) BEGIN
+          SET "samurai" = "%index%"
+          SET "rows" = 0 // kills loop
+        END
+      END
+      BUT_ONLY
+      
+    COPY_EXISTING ~weapprof.2da~ ~override~
+      SET_2DA_ENTRY 14 ("%samurai%" + 22) ("%samurai%" + 23) 1
+      BUT_ONLY
+  
+  END
+
+END

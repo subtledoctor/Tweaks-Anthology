@@ -1,0 +1,71 @@
+BEGIN CDRNDM1
+
+IF ~~ THEN BEGIN 0 SAY @324219
+  IF ~~ THEN GOTO CDPartyHasNothing
+  IF ~PartyGoldLT(1000)~ THEN GOTO CDPartyIsBroke
+END
+
+IF ~~ THEN BEGIN 1 SAY @324222
+  IF ~~ THEN REPLY @324223 GOTO CDFarewell
+END
+
+IF ~NumTimesTalkedTo(0)~ THEN BEGIN CDinitialMeeting SAY @324204
+  IF ~~ THEN DO ~SetGlobal("CDMetCDRNDM1","GLOBAL",1)~ GOTO CDinitialMeeting2
+END
+
+IF ~NumTimesTalkedToGT(0)~ THEN BEGIN CDReturnVisit SAY @324220
+  IF ~Global("CDRandomMerchantExplains","GLOBAL",1)~ THEN REPLY @324264 GOTO 0
+  IF ~!Global("CDRandomMerchantExplains","GLOBAL",1)~ THEN REPLY @324262 GOTO CDExplain
+  IF ~~ THEN REPLY @324205 GOTO CDFarewell
+END
+
+IF ~~ THEN BEGIN CDFarewell SAY @324208
+  IF ~~ THEN EXIT
+END
+
+IF ~~ THEN BEGIN CDinitialMeeting2 SAY @324260
+  IF ~Global("CDMetCDRNDM2","GLOBAL",1)~ THEN REPLY @324261 GOTO CDKnowOtherMerchant
+  IF ~~ THEN REPLY @324262 GOTO CDExplain
+  IF ~~ THEN REPLY @324205 GOTO CDFarewell
+END
+
+IF ~~ THEN BEGIN CDKnowOtherMerchant SAY @324215
+  IF ~Global("CDRandomMerchantExplains","GLOBAL",1)~ THEN REPLY @324216 GOTO 0
+  IF ~~ THEN REPLY @324217 GOTO CDExplain2
+END
+
+IF ~~ THEN BEGIN CDExplain SAY @324206
+  IF ~~ THEN GOTO CDExplain2
+END
+
+IF ~~ THEN BEGIN CDExplain2 SAY @324218
+  IF ~~ THEN GOTO CDCommission
+END
+
+IF ~~ THEN BEGIN CDCommission SAY @324207
+  IF ~~ THEN REPLY @324209 DO ~SetGlobal("CDRandomMerchantExplains","GLOBAL",1)~ GOTO CDCommission2
+END
+
+IF ~~ THEN BEGIN CDCommission2 SAY @324210
+  IF ~~ THEN REPLY @324211 GOTO CDCommission3
+  IF ~~ THEN REPLY @324212 GOTO 0
+  IF ~~ THEN REPLY @324263 GOTO CDFarewell
+END
+
+IF ~~ THEN BEGIN CDCommission3 SAY @324213
+  IF ~~ THEN REPLY @324212 GOTO 0
+  IF ~~ THEN REPLY @324263 GOTO CDFarewell
+END
+
+IF ~~ THEN BEGIN CDPartyHasNothing SAY @324221
+  IF ~~ THEN GOTO CDFarewell
+END
+
+IF ~~ THEN BEGIN CDPartyIsBroke SAY @324224
+  IF ~~ THEN GOTO CDFarewell
+END
+
+IF ~~ THEN BEGIN CDPostExchange SAY @324227
+  IF ~~ THEN REPLY @324228 GOTO CDFarewell
+  IF ~~ THEN REPLY @324266 GOTO 0
+insert_eof

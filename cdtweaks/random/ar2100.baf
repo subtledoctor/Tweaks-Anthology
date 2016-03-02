@@ -1,0 +1,7 @@
+IF
+  Global("CDSpawnWandMerch","AR2100",0)
+THEN
+  RESPONSE #100
+    CreateCreature("cdrndm1",[2269.1849],1) // Flynn - Traveling Merchant
+    SetGlobal("CDSpawnWandMerch","AR2100",1)
+END

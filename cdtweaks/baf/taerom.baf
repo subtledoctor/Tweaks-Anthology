@@ -1,0 +1,18 @@
+IF
+  GlobalGT("MakeArmor","GLOBAL",1)
+  PartyHasItem("MISC12")
+THEN
+  RESPONSE #100
+   SetGlobal("MakeArmor","GLOBAL",0)
+   SetGlobalTimer("Taerom","GLOBAL",TEN_DAYS)
+   Continue()
+END
+
+IF
+  GlobalGT("MakeArmor","GLOBAL",1)
+  !PartyHasItem("MISC12")
+THEN
+  RESPONSE #100
+   SetGlobal("MakeArmor","GLOBAL",0)
+   Continue()
+END

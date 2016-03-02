@@ -1,0 +1,8 @@
+IF
+  HasItem("%token_item%",Player%index2%)
+  !Exists("cdrandom")
+THEN
+  RESPONSE #100
+    ActionOverride(Player%index2%,CreateCreature("cdrandom",[-1.-1],0)
+    SetGlobal("CDRandomGenie","MYAREA",%index2%)
+END

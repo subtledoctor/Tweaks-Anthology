@@ -1,0 +1,8 @@
+IF
+  HasItemEquipedReal("%2h%",LastSummonerOf(Myself))
+THEN
+  RESPONSE #100
+    DisplayStringHead(LastSummonerOf(Myself),#14158)
+	ActionOverride(LastSummonerOf(Myself),TransformItem("%2h%","MISC56_"))
+	DestroySelf()
+END

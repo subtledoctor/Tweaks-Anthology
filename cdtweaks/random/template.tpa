@@ -1,0 +1,21 @@
+  ACTION_FOR_EACH drop IN replacemelist BEGIN
+
+    COPY ~cdtweaks/random/%item%.baf~ ~cdtweaks/random/%item%.baf~
+      REPLACE_TEXTUALLY ~replaceme1~ ~
+IF
+  Global("CDRandomize%item%","MYAREA",1)
+  HasItem("%drop%","%cont%")
+THEN
+  RESPONSE #100
+    ActionOverride("%cont%",DestroyItem("%drop%"))
+    SetGlobal("CDRandomize%item%","MYAREA",2)
+END
+replaceme1
+~
+      REPLACE_TEXTUALLY ~replaceme2~ ~
+RESPONSE #100
+  ActionOverride("%cont%",CreateItem("%drop%",0,0,0))
+  SetGlobal("CDRandomize%item%","MYAREA",0)
+replaceme2~
+
+  END

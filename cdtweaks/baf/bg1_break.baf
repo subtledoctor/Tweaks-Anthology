@@ -1,0 +1,112 @@
+IF
+  HitBy([ANYONE],CRUSHING)
+  !HitBy([ANYONE],POISON)
+  CheckStat(Myself,1,TRACKING)
+  Delay(1)
+THEN
+  RESPONSE #1
+    ApplySpellRES("cdbrak2",Myself)
+    Continue()
+  RESPONSE #99
+    Continue()
+END
+
+IF
+  HitBy([ANYONE],CRUSHING)
+  !HitBy([ANYONE],POISON)
+  CheckStat(Myself,2,TRACKING)
+  Delay(1)
+THEN
+  RESPONSE #1
+    ApplySpellRES("cdbrak12",Myself)
+    Continue()
+  RESPONSE #99
+    Continue()
+END
+
+IF
+  HitBy([ANYONE],CRUSHING)
+  !HitBy([ANYONE],POISON)
+  CheckStat(Myself,3,TRACKING)
+  Delay(1)
+THEN
+  RESPONSE #1
+    ApplySpellRES("cdbrak2",Myself)
+    Continue()
+  RESPONSE #1
+    ApplySpellRES("cdbrak12",Myself)
+    Continue()
+  RESPONSE #98
+    Continue()
+END
+
+IF
+  HitBy([ANYONE],CRUSHING)
+  !HitBy([ANYONE],POISON)
+  CheckStat(Myself,4,TRACKING)
+  Delay(1)
+THEN
+  RESPONSE #1
+    ApplySpellRES("cdbrak7",Myself)
+    Continue()
+  RESPONSE #99
+    Continue()
+END
+
+IF
+  HitBy([ANYONE],CRUSHING)
+  !HitBy([ANYONE],POISON)
+  CheckStat(Myself,5,TRACKING)
+  Delay(1)
+THEN
+  RESPONSE #1
+    ApplySpellRES("cdbrak2",Myself)
+    Continue()
+  RESPONSE #1
+    ApplySpellRES("cdbrak7",Myself)
+    Continue()
+  RESPONSE #98
+    Continue()
+END
+
+IF
+  HitBy([ANYONE],CRUSHING)
+  !HitBy([ANYONE],POISON)
+  CheckStat(Myself,6,TRACKING)
+  Delay(1)
+THEN
+  RESPONSE #1
+    ApplySpellRES("cdbrak12",Myself)
+    Continue()
+  RESPONSE #1
+    ApplySpellRES("cdbrak7",Myself)
+    Continue()
+  RESPONSE #98
+    Continue()
+END
+
+IF
+  HitBy([ANYONE],CRUSHING)
+  !HitBy([ANYONE],POISON)
+  CheckStat(Myself,7,TRACKING)
+  Delay(1)
+THEN
+  RESPONSE #1
+    ApplySpellRES("cdbrak2",Myself)
+    Continue()
+  RESPONSE #1
+    ApplySpellRES("cdbrak12",Myself)
+    Continue()
+  RESPONSE #1
+    ApplySpellRES("cdbrak7",Myself)
+    Continue()
+  RESPONSE #97
+    Continue()
+END
+
+IF
+  HasItem("cddelhlm",Myself)
+THEN
+  RESPONSE #100
+    DestroyItem("cddelhlm")
+END    

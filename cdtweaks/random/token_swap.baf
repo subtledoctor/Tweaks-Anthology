@@ -1,0 +1,12 @@
+
+
+IF
+  Global("CDTokenSwap%token_item%","MYAREA",0)
+  HasItem("%drop%","%cont%")
+THEN
+  RESPONSE #100
+    ActionOverride("%cont%",DestroyItem("%drop%"))
+    ActionOverride("%cont%",CreateItem("%token_item%",0,0,0))
+    SetGlobal("CDTokenSwap%token_item%","MYAREA",1)
+END
+

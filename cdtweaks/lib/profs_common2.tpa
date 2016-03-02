@@ -1,0 +1,163 @@
+// since ee uses funky encoding, we'll read in the weapon names dynamically
+ACTION_GET_STRREF  2893 lsword
+ACTION_GET_STRREF  6337 mace
+ACTION_GET_STRREF  6343 dagger
+ACTION_GET_STRREF  6344 halberd
+ACTION_GET_STRREF  6345 hammer
+ACTION_GET_STRREF  6351 staff
+ACTION_GET_STRREF  6353 xbow
+ACTION_GET_STRREF  6646 bastard
+ACTION_GET_STRREF  6647 2hsword
+ACTION_GET_STRREF  6701 club
+ACTION_GET_STRREF  6704 flail_temp
+ACTION_GET_STRREF  6733 sling
+ACTION_GET_STRREF  6745 short_sword
+ACTION_GET_STRREF  6853 mstar
+ACTION_GET_STRREF  6860 lbow
+ACTION_GET_STRREF  6864 sbow
+ACTION_GET_STRREF  6919 dart
+ACTION_GET_STRREF  7523 katana
+ACTION_GET_STRREF  7526 waki
+ACTION_GET_STRREF  7529 ninjato
+ACTION_GET_STRREF  8668 prof_lsword
+ACTION_GET_STRREF  8732 small_sword
+ACTION_GET_STRREF  8733 bow
+ACTION_GET_STRREF  8734 spear
+ACTION_GET_STRREF  9400 blunt
+ACTION_GET_STRREF  9401 spiked
+ACTION_GET_STRREF  9403 prof_missile
+ACTION_GET_STRREF 11052 scimitar
+
+ACTION_IF GAME_IS ~bgee~ BEGIN // ee has different strrefs for eastern stuff
+  ACTION_GET_STRREF 26716 waki
+  ACTION_GET_STRREF 26711 katana
+  ACTION_GET_STRREF 26721 ninjato
+END
+
+// since morning star can also be morningstar, we dance a little for the matches
+ACTION_IF ("%LANGUAGE%" STRING_COMPARE_CASE "ENGLISH" = 0) BEGIN
+  OUTER_SPRINT mstar1 "Morning"
+  OUTER_SPRINT mstar2 "star"
+END ELSE BEGIN
+  ACTION_GET_STRREF  6853 mstar1
+  OUTER_SPRINT mstar2 ""
+END
+
+OUTER_INNER_PATCH_SAVE flail ~%flail_temp%~ BEGIN // generic flail string has trailing space, messing up matching below
+  REPLACE_TEXTUALLY ~\([^ ]+\) *~ ~\1~ // remove trailing space
+END
+
+// since morning star can also be morningstar, we dance a little for the matches
+ACTION_IF ("%LANGUAGE%" STRING_COMPARE_CASE "ENGLISH" = 0) BEGIN
+  OUTER_SPRINT mstar1 "Morning"
+  OUTER_SPRINT mstar2 "star"
+END ELSE BEGIN
+  ACTION_GET_STRREF  6853 mstar1
+  OUTER_SPRINT mstar2 ""
+END
+
+// add a few from the tra files
+OUTER_SPRINT prof_text_match @216007
+OUTER_SPRINT prof_text       @216008
+OUTER_SPRINT prof_gsword     @216301
+OUTER_SPRINT prof_ssword     @216101
+
+<<<<<<<< ./cdtweaks-inlined/prof_dots_file.txt
+
+
+<DOTS1>
+<DOTS2>
+<DOTS3>
+<DOTS4>
+<DOTS5>
+>>>>>>>>
+
+OUTER_FOR (strref = 9589 ; strref < 9597 ; ++strref) BEGIN
+  ACTION_GET_STRREF strref raw
+  OUTER_INNER_PATCH_SAVE string ~%raw%~ BEGIN // generic flail string has trailing space, messing up matching below
+    APPEND_FILE ~./cdtweaks-inlined/prof_dots_file.txt~ // append dot info
+  END
+  STRING_SET_EVALUATE strref ~%string%~
+END
+
+PRINT @1
+COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
+                          ~^.+\.itm$~ ~override~
+                          ~^.+\.spl$~ ~override~
+  PATCH_IF ("%SOURCE_FILE%" STRING_COMPARE_REGEXP "^.+\.spl" = 0) BEGIN
+    READ_LONG   0x64 "abil_off" ELSE 0
+    READ_SHORT  0x68 "abil_num" ELSE 0
+    READ_LONG   0x6a "fx_off"   ELSE 0
+    SET "counter_offset" = 0x70
+    SET "abil_length" = 0x28
+    SET "global_loop" = 0
+    SET "fx_type" = 0
+    SET "min_size" = 0x72
+  END ELSE
+  PATCH_IF ("%SOURCE_FILE%" STRING_COMPARE_REGEXP "^.+\.itm" = 0) BEGIN
+    READ_LONG   0x64 "abil_off" ELSE 0
+    READ_SHORT  0x68 "abil_num" ELSE 0
+    READ_LONG   0x6a "fx_off"   ELSE 0
+    SET "counter_offset" = 0x70
+    SET "abil_length" = 0x38
+    SET "global_loop" = 1
+    SET "fx_type" = 0
+    SET "min_size" = 0x72
+  END ELSE
+  PATCH_IF ("%SOURCE_FILE%" STRING_COMPARE_REGEXP "^.+\.cre" = 0) BEGIN
+    SET "abil_off" = 0
+    SET "abil_num" = 0
+    READ_LONG  0x2c4 "fx_off" ELSE 0
+    SET "counter_offset" = 0x2c8
+    SET "abil_length" = 0
+    SET "global_loop" = 1
+    READ_BYTE 0x33 "fx_type" ELSE 2
+    SET "min_size" = 0x2d4
+  END
+  PATCH_IF (SOURCE_SIZE >= min_size) BEGIN
+    FOR (index = (0 - global_loop) ; index < abil_num ; index = index + 1) BEGIN
+      PATCH_IF ("%index%" < 0) BEGIN // if loop through globals needed
+        SET "abil_fx_idx" = 0
+      END ELSE BEGIN // otherwise normal ability
+        SET "counter_offset" = ("%abil_off%" + 0x1e + ("%abil_length%" * "%index%"))
+        READ_SHORT  ("%abil_off%" + 0x20 + ("%abil_length%" * "%index%")) "abil_fx_idx"
+      END
+      READ_SHORT "%counter_offset%" "counter" // fx_num on global loop, otherwise abil_fx_num
+      FOR (index2 = 0 ; index2 < counter ; index2 = index2 + 1) BEGIN
+        READ_SHORT ("%fx_off%"        + (0x08 * "%fx_type%") + (("%abil_fx_idx%" + "%index2%") * (0x30 + (0xd8 * "%fx_type%")))) "opcode"
+        PATCH_IF (opcode = 233) BEGIN
+          READ_LONG  ("%fx_off%" + 0x08 + (0x10 * "%fx_type%") + (("%abil_fx_idx%" + "%index2%") * (0x30 + (0xd8 * "%fx_type%")))) "param2"
+          PHP_EACH cd_prof_numeric_map AS old => new BEGIN
+            PATCH_IF (param2 = old) BEGIN
+              WRITE_LONG  ("%fx_off%" + 0x08 + (0x10 * "%fx_type%") + (("%abil_fx_idx%" + "%index2%") * (0x30 + (0xd8 * "%fx_type%")))) new
+            END
+          END
+        END
+      END
+    END
+  END
+  BUT_ONLY
+
+PRINT @1
+COPY_EXISTING_REGEXP GLOB ~^.+\.eff$~ ~override~
+  READ_LONG 0x10 opcode
+  PATCH_IF (opcode = 233) BEGIN
+    READ_LONG  0x20 param2
+    PHP_EACH cd_prof_numeric_map AS old => new BEGIN
+      PATCH_IF (param2 = old) BEGIN
+        WRITE_LONG 0x20 new
+      END
+    END
+  END
+  BUT_ONLY
+
+PRINT @1
+COPY_EXISTING_REGEXP GLOB ~^.+\.bcs$~ ~override~
+//                          ~^.+\.dlg$~ ~override~ // since triggers not compiled, updated stats.ids will point old IDS entries will point to new stats
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY CASE_SENSITIVE ~\(CheckStat[GL]?T?([^,]+, *[0-9]+ *, *\)EXTRAPROFICIENCY1 *)~ ~\1%club_except%)~ // one-off for clubs
+    PHP_EACH cd_prof_text_map AS old => new BEGIN
+      REPLACE_TEXTUALLY CASE_SENSITIVE ~\(CheckStat[GL]?T?([^,]+, *[0-9]+ *, *\)PROFICIENCY%old% *)~ ~\1%new%)~
+    END
+  END
+  BUT_ONLY

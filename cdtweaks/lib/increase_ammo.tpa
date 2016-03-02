@@ -1,0 +1,29 @@
+ACTION_IF GAME_IS ~pst~ THEN BEGIN
+
+  ACTION_IF stack > 255 BEGIN OUTER_SET stack = 255 END
+  
+END
+
+PRINT @1
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for ammo
+  READ_SHORT  0x1C "type" ELSE 0
+  READ_SHORT  0x38 "max"  ELSE 0
+  PATCH_IF (
+             ("%max%" > 1) AND // if item can already stack and is of the type...
+             (
+               ("%type%" =  5) OR // arrows,
+               ("%type%" = 14) OR // bullets,
+               ("%type%" = 16) OR // dagger
+               ("%type%" = 21) OR // hammer (iwd2)
+               ("%type%" = 24) OR // darts,
+               ("%type%" = 25) OR // axe,
+               ("%type%" = 29) OR // spears,
+               ("%type%" = 31)    // bolts,
+             )
+           ) BEGIN
+    READ_SHORT 0x38 current
+    PATCH_IF (stack > current) BEGIN
+      WRITE_SHORT  0x38 stack
+    END
+  END
+  BUT_ONLY

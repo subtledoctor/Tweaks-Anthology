@@ -1,0 +1,33 @@
+ACTION_IF FILE_CONTAINS_EVALUATED (~xpcap.2da~ ~^SHAMAN~) THEN BEGIN OUTER_SET dump_shaman = 0 END ELSE BEGIN OUTER_SET dump_shaman = 1 END
+ACTION_IF FILE_CONTAINS_EVALUATED (~xpcap.2da~ ~^MONK~)   THEN BEGIN OUTER_SET dump_monk   = 0 END ELSE BEGIN OUTER_SET dump_monk   = 1 END
+
+COPY ~cdtweaks/2da/xpcap.2da~     ~override~
+
+ACTION_IF dump_monk THEN BEGIN
+
+  COPY_EXISTING ~xpcap.2da~   ~override~
+                ~xplevel.2da~ ~override~
+    REPLACE_TEXTUALLY ~^MONK.+[%LNL%%MNL%%WNL%]+~ ~~
+    REPLACE_TEXTUALLY ~^SORCERER.+[%LNL%%MNL%%WNL%]+~ ~~
+
+END
+
+ACTION_IF dump_shaman THEN BEGIN
+
+  COPY_EXISTING ~xpcap.2da~   ~override~
+                ~xplevel.2da~ ~override~
+    REPLACE_TEXTUALLY ~^SHAMAN.+[%LNL%%MNL%%WNL%]*~ ~~
+
+END
+
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2070~ THEN BEGIN // if druid/cleric xp progression installed
+
+  COPY_EXISTING ~xplevel.2da~ ~override~
+    REPLACE_TEXTUALLY
+~CLERIC \(.*\)
+DRUID \(.*\)~
+~CLERIC \1
+DRUID  \1~
+    BUT_ONLY
+
+END

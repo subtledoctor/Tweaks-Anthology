@@ -1,0 +1,82 @@
+ACTION_IF FILE_EXISTS_IN_GAME ar9200.are THEN BEGIN // fixed by fixpack, but we'll do it again just in case
+
+  // remove dupe random item drops
+  COPY_EXISTING ~ar9200.are~ ~override~
+    READ_LONG  0x70 cont_off
+    READ_SHORT 0x74 cont_num
+    READ_LONG  0x78 item_off
+    FOR (index = 0 ; index < cont_num ; ++index) BEGIN
+      READ_LONG (cont_off + 0x40 + (index * 0xc0)) item_idx
+      READ_LONG (cont_off + 0x44 + (index * 0xc0)) item_num
+      FOR (index2 = 0 ; index2 < item_num ; ++index2) BEGIN
+        READ_ASCII (item_off +        ((index2 + item_idx) * 0x14)) item
+        PATCH_IF ("%item%" STRING_COMPARE_CASE "EXTRES4" = 0) BEGIN // extres4 also available in ar9601
+          WRITE_ASCII (item_off +        ((index2 + item_idx) * 0x14)) ~EXTRES1~ #8
+          SET index2 = item_num
+          SET index = cont_num // kill both loops
+        END
+      END
+    END
+    BUT_ONLY
+
+END
+
+ACTION_IF ((GAME_IS ~iwdee~) OR (MOD_IS_INSTALLED ~ub_iwd/setup-ub_iwd.tp2~ ~1500~)) THEN BEGIN // if restored random drops from UB
+
+  COPY ~cdtweaks/random/random.2da~ ~cdtweaks/random/random.2da~
+    REPLACE_TEXTUALLY ~^ar9602   EXTRES5  Container1~ ~ar9602   EXTRES5  Container1
+ar3201   TG4Tres  Sarcophagus1
+ar4005   DE5Tres  Yuan-tiChampion1
+ar8002   UD6Tres  Kelly
+ar3001   TG5Tres  Lysan
+ar9100   EXTRES3  Alpheus~
+  
+END
+
+OUTER_SPRINT table "rndtres"
+ACTION_IF NOT GAME_IS ~iwd_in_bg2~ THEN BEGIN
+  OUTER_SPRINT table "rndtreas"
+END
+
+// first, a couple of areas have random drops in non-uniquely named containers
+ACTION_IF NOT GAME_IS ~iwdee iwd_in_bg2~ THEN BEGIN
+
+  OUTER_SPRINT KT1Tres_ref "KT1Tres"
+  OUTER_SPRINT KT2Tres_ref "KT2Tres"
+  OUTER_SPRINT KT3Tres_ref "KT3Tres"
+
+END ELSE BEGIN
+
+  OUTER_SPRINT KT1Tres_ref "RNDTRE18"
+  OUTER_SPRINT KT2Tres_ref "RNDTRE19"
+  OUTER_SPRINT KT3Tres_ref "RNDTRE20"
+
+END
+
+// first, a couple of areas have random drops in non-uniquely named containers
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_cont_names BEGIN
+  ar3501 => "%KT1Tres_ref%"
+  ar3502 => "%KT2Tres_ref%"
+  ar3503 => "%KT3Tres_ref%"
+END
+
+ACTION_PHP_EACH cd_cont_names AS area => random BEGIN
+
+  COPY_EXISTING ~%area%.are~ ~override~
+    READ_LONG  0x70 cont_off
+    READ_SHORT 0x74 cont_num
+    READ_LONG  0x78 item_off
+    FOR (index = 0 ; index < cont_num ; ++index) BEGIN
+      READ_LONG (cont_off + 0x40 + (index * 0xc0)) item_idx
+      READ_LONG (cont_off + 0x44 + (index * 0xc0)) item_num
+      FOR (index2 = 0 ; index2 < item_num ; ++index2) BEGIN
+        READ_ASCII (item_off +        ((index2 + item_idx) * 0x14)) item
+        PATCH_IF ("%item%" STRING_COMPARE_CASE "%random%" = 0) BEGIN // if container has drop in question
+          WRITE_ASCIIE (cont_off +        (index * 0xc0)) ~CD%random%~ #32 // rename container
+          SET index2 = item_num
+          SET index = cont_num // kill both loops
+        END
+      END
+    END
+
+END

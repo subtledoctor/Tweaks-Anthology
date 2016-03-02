@@ -1,0 +1,1 @@
+REPLACE_ACTION_TEXT_REGEXP ~\(^%tutu_var%taerom$\)\|\(^%tutu_var%fenten$\)~ ~TakePartyItem\(All\)?("%tutu_var%MISC12")~ ~TakePartyItemNum("%tutu_var%MISC12",1)~

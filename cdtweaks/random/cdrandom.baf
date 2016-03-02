@@ -1,0 +1,66 @@
+IF
+  Global("CDRandomGenie","MYAREA",1)
+THEN
+  RESPONSE #100
+    Wait(3)
+    SetDialogueRange(300)
+    Dialogue(Player1)
+END
+
+IF
+  Global("CDRandomGenie","MYAREA",2)
+THEN
+  RESPONSE #100
+    Wait(3)
+    SetDialogueRange(300)
+    Dialogue(Player2)
+END
+
+IF
+  Global("CDRandomGenie","MYAREA",3)
+THEN
+  RESPONSE #100
+    Wait(3)
+    SetDialogueRange(300)
+    Dialogue(Player3)
+END
+
+IF
+  Global("CDRandomGenie","MYAREA",4)
+THEN
+  RESPONSE #100
+    Wait(3)
+    SetDialogueRange(300)
+    Dialogue(Player4)
+END
+
+IF
+  Global("CDRandomGenie","MYAREA",5)
+THEN
+  RESPONSE #100
+    Wait(3)
+    SetDialogueRange(300)
+    Dialogue(Player5)
+END
+
+IF
+  Global("CDRandomGenie","MYAREA",6)
+THEN
+  RESPONSE #100
+    Wait(3)
+    SetDialogueRange(300)
+    Dialogue(Player6)
+END
+
+IF
+  !NumTimesTalkedTo(0)
+THEN
+  RESPONSE #100 
+    SetInterrupt(FALSE)
+    EquipItem("gopoof",1)
+    EquipItem("mring1",0)
+    Wait(5)
+    DestroySelf()
+END
+
+

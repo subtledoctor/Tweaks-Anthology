@@ -1,0 +1,10 @@
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId("CSCowl%num%")
+    ForceSpell(Myself,DRYAD_TELEPORT) // SPWI995.SPL (Dimension Door)
+    Wait(1)
+    DestroySelf()
+END
