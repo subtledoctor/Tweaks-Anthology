@@ -80,8 +80,8 @@ END ELSE BEGIN
     Wait(5)~
 
 END
+
 /*
-ar0400 -- shagbag stuff; bgt sunset stuff
 player1d -- ee extra hexxat amulet stuff; bgt has bg1 dream stuff at top
 cut01 -- ee has journal stuff, extra bgt actions for imoen
 
@@ -97,11 +97,6 @@ movie02b
 movie02c -- ee adds cutskip end, OHREPRTY spell
 newgame -- ee adds breakable
 */
-COPY_EXISTING ~ar0400.bcs~ ~override~
-  DECOMPILE_BCS_TO_BAF
-    REPLACE_TEXTUALLY ~ActionOverride("GAELAN",StartDialog\(ue\)?NoSet(Player1))~ ~~
-  COMPILE_BAF_TO_BCS
-  BUT_ONLY_IF_IT_CHANGES
 
 // bgt uses cut01bgt to bypass Tweaks' mean overwrite of cut01; let's patch it instead (and their current bypass script)
 ACTION_FOR_EACH script IN cut01 cut01bgt BEGIN // delete csthief1-4 spawns
@@ -201,8 +196,11 @@ COPY_EXISTING ~movie01b.bcs~ ~override~
     REPLACE_TEXTUALLY  // erase up to 'these are the prisoners'
       ~Wait(3)[ %TAB%%LNL%%MNL%%WNL%]+MoveToPointNoInterrupt(\[886\.794\])[ %TAB%%LNL%%MNL%%WNL%]+Face([^)]+)~
       ~~
-    REPLACE_TEXTUALLY // erase from there up to 'they are deviants'
-      ~SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwizsu",56379)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(4)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,56380)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuimoen",56381)[ %TAB%%LNL%%MNL%%WNL%]+\(Wait(2)[ %TAB%%LNL%%MNL%%WNL%]+\)?DisplayStringWait("cujon",38738)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwizsu",56382)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,38752)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwiz4",38782)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwiz2",56383)~
+    REPLACE_TEXTUALLY // erase from there up to 'they are deviants' w/ wait(2)
+      ~SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwizsu",56379)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(4)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,56380)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringHead("cuimoen",56381)[ %TAB%%LNL%%MNL%%WNL%]+Wait(2)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cujon",38738)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwizsu",56382)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,38752)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwiz4",38782)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwiz2",56383)~
+      ~~
+    REPLACE_TEXTUALLY // erase from there up to 'they are deviants' w/o wait(2)
+      ~SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwizsu",56379)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(4)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,56380)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuimoen",56381)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cujon",38738)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwizsu",56382)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,38752)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwiz4",38782)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(6)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cuwiz2",56383)~
       ~~
     REPLACE_TEXTUALLY  // erase actions after 'they are deviants'
       ~Wait(2)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz2",ForceSpell("cuimoen",FLASHY_1))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz4",ForceSpell("cujon",FLASHY_1))[ %TAB%%LNL%%MNL%%WNL%]+Wait(2)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuimoen",DestroyItem("GLOBRING"))[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPDISPMA","cuimoen")[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cujon",DestroyItem("GLOBRING"))[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPDISPMA","cujon")[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz2",MoveToObjectNoInterrupt("cuimoen"))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz4",MoveToObjectNoInterrupt("cujon"))[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz5",DestroySelf())[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz2",ForceSpell("cuimoen",DRYAD_TELEPORT))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz4",ForceSpell("cujon",DRYAD_TELEPORT))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz1",ForceSpell(Myself,DRYAD_TELEPORT))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz3",ForceSpell(Myself,DRYAD_TELEPORT))[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz2",Wait(1))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz4",Wait(1))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz2",DestroySelf())[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cuwiz4",DestroySelf())[ %TAB%%LNL%%MNL%%WNL%]+Wait(3)~
@@ -213,7 +211,7 @@ COPY_EXISTING ~movie01b.bcs~ ~override~
 COPY_EXISTING ~movie02b.bcs~ ~override~
   DECOMPILE_BCS_TO_BAF
     REPLACE_TEXTUALLY  // erase guard chatter, alarm
-      ~DisplayStringWait("cucow1",18632)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(7)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cucow2",18634)[ %TAB%%LNL%%MNL%%WNL%]+CreateCreature("CUCOW3",\[1160\.697\],2)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(7)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow3",OpenDoor("DOOR06"))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow3",MoveToPointNoInterrupt(\[1056\.819\]))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow3",MoveToPointNoInterrupt(\[1121\.907\]))[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(7)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cucow1",18642)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cucow3",18643)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow1",FaceObject("cucow3"))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow2",FaceObject("cucow3"))[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cucow1",18644)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringHead("cucow3",18645)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)~
+      ~DisplayStringWait("cucow1",18632)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(7)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cucow2",18634)[ %TAB%%LNL%%MNL%%WNL%]+CreateCreature("CUCOW3",\[1160\.697\],[^)]+)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(7)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow3",OpenDoor("DOOR06"))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow3",MoveToPointNoInterrupt(\[1056\.819\]))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow3",MoveToPointNoInterrupt(\[1121\.907\]))[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(7)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cucow1",18642)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cucow3",18643)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow1",FaceObject("cucow3"))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow2",FaceObject("cucow3"))[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("cucow1",18644)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringHead("cucow3",18645)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)~
       ~OpenDoor("DOOR06")~
     REPLACE_TEXTUALLY // erase some visuals before Jon shows up
       ~ActionOverride("cucow1",Face([^)]+))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow2",Face([^)]+))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("cucow3",Face([^)]+))[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffect("SPSTRENH",\[1080\.846\])[ %TAB%%LNL%%MNL%%WNL%]+PlaySound("EFF_P15")[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffect("SPDISPMA",\[1080\.846\])[ %TAB%%LNL%%MNL%%WNL%]+PlaySound("EFF_M05")[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)~
@@ -289,11 +287,7 @@ EndCutSceneMode()~
   COMPILE_BAF_TO_BCS
   BUT_ONLY_IF_IT_CHANGES
 
-COPY_EXISTING ~gaelan.cre~ ~override~
-  PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
-    WRITE_ASCII 0x250 ~~ #8       // no Gaelan.BCS auto-talk script
-  END
-  BUT_ONLY_IF_IT_CHANGES
+COMPILE ~cdtweaks/dlg/gaelan.d~
 
 // give all the loot you would have gotten from that dead thief
 EXTEND_BOTTOM ~ar0602.bcs~ ~cdtweaks/baf/arrows.baf~
