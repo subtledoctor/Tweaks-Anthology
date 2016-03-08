@@ -1,0 +1,1 @@
+REPLACE_ACTION_TEXT DORRICK ~GiveItemCreate("%drop%"~ ~GiveItemCreate("%token_item%"~

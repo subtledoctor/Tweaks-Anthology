@@ -1235,13 +1235,19 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @318321 = ~Bring me my lover, Rasaad.~
 
 @319000 = ~Rest Anywhere (Japheth)~
-@319001 = ~Rest Anywhere~
 
-@319100 = ~Rest Anywhere and Disable All Rest Spawns~
+@319100 = ~Disable Non-Hostile Rest Spawns~
 
-@319200 = ~Rest Anywhere and Disable Hostile Rest Spawns~
+@319400 = ~Alter Hostile Rest Spawns~
+@319401 = ~Disable completely~
 
-@319300 = ~Rest Anywhere and Disable Non-Hostile Rest Spawns~
+@319500 = ~Decrease frequency by 50%~
+
+@319600 = ~Increase frequency by 50%~
+
+@319700 = ~Double frequency~
+
+@319800 = ~Quadruple frequency~
 
 @320000 = ~Sellable Items (Icelus)~
 

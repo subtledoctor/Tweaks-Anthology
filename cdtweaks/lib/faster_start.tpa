@@ -1,13 +1,5 @@
 ACTION_IF silly = 1 BEGIN
 
-  COPY_EXISTING ~cut01d.bcs~ ~override~ // unchanged otherwise
-    DECOMPILE_BCS_TO_BAF
-      REPLACE_TEXTUALLY ~Wait(3)~ ~~ // disables wait for spawn
-      REPLACE_TEXTUALLY
-        ~CreateCreatureDoor("CSCOWL[1-5]",\[[0-9]+\.[0-9]+\],[^)]+)~ ~~ // disables spawn of cscowl1-5
-    COMPILE_BAF_TO_BCS
-    BUT_ONLY
-
   OUTER_SPRINT cut01c_sub
     ~DisplayStringWait(Myself,44348)
     DisplayStringWait("CSImoen",14897)
@@ -98,97 +90,113 @@ movie02c -- ee adds cutskip end, OHREPRTY spell
 newgame -- ee adds breakable
 */
 
-// bgt uses cut01bgt to bypass Tweaks' mean overwrite of cut01; let's patch it instead (and their current bypass script)
-ACTION_FOR_EACH script IN cut01 cut01bgt BEGIN // delete csthief1-4 spawns
+// only adjust promenade Jon-CW fight cutscene if almateria's extended cutscene is *not* installed
+ACTION_IF NOT MOD_IS_INSTALLED ~ARESTORATIONP/SETUP-ARESTORATIONP.TP2~ ~13~ BEGIN
 
-  ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ BEGIN
-
-    COPY_EXISTING ~%script%.bcs~ ~override~
-      DECOMPILE_BCS_TO_BAF
-        REPLACE_TEXTUALLY ~CreateCreature("CSTHIEF[1-4]",\[[0-9]+\.[0-9]+\],[^)]+)~ ~~
-      COMPILE_BAF_TO_BCS
-      BUT_ONLY
+  // bgt uses cut01bgt to bypass Tweaks' mean overwrite of cut01; let's patch it instead (and their current bypass script)
+  ACTION_FOR_EACH script IN cut01 cut01bgt BEGIN // delete csthief1-4 spawns
+  
+    ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ BEGIN
+  
+      COPY_EXISTING ~%script%.bcs~ ~override~
+        DECOMPILE_BCS_TO_BAF
+          REPLACE_TEXTUALLY ~CreateCreature("CSTHIEF[1-4]",\[[0-9]+\.[0-9]+\],[^)]+)~ ~~
+        COMPILE_BAF_TO_BCS
+        BUT_ONLY
+    
+    END
   
   END
+  
+  COPY_EXISTING ~cut01a.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY  // shortens irenicus' action queue
+        ~DisplayStringHead(Myself,2841)[ %TAB%%LNL%%MNL%%WNL%]+Wait(3)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief2",CUTSCENE_FLESH_TO_STONE)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+~ 
+        ~~
+      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSThief[1234]")~ ~False() \1 CutsceneID("cdfake")~ // disables csthief1-4
+      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId(Player1)~ ~False() \1 CutsceneID("cdfake")~ // disables player1
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY
+  
+  COPY_EXISTING ~cut01b.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSThief[1234]")~ ~False() \1 CutsceneID("cdfake")~ // disables csthief1-4
+      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId(Player1)~ ~False() \1 CutsceneID("cdfake")~ // disables player1
+      REPLACE_TEXTUALLY ~CutSceneId("CSIren")[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringHead(Myself,2844)~ ~CutSceneId("CSIren")~ // no more suffering!
+      REPLACE_TEXTUALLY ~SmallWait(2)[ %TAB%%LNL%%MNL%%WNL%]+ApplySpell("CSThief2",SURE_STONE_SHATTER)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("CSThief2",DestroySelf())~ ~~ // ee exclusive
+      REPLACE_TEXTUALLY 
+        ~ForceSpell("CSThief3",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPFIREPI","CSThief3")[ %TAB%%LNL%%MNL%%WNL%]+PlaySound("EFF_M23C")[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPROTECT",Myself)[ %TAB%%LNL%%MNL%%WNL%]+Face([^)]+)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief1",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPFLSRIN","CSThief1")[ %TAB%%LNL%%MNL%%WNL%]+PlaySound("EFF_M23C")[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPROTECT",Myself)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief4",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("CALLLIGH","CSThief4")[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief2",WIZARD_FLAME_ARROW)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("ICFIRSDI",Myself)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)~
+        ~~ // no more thief nukes
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY
+  
+  COPY_EXISTING ~cut01c.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId(Player1)~ ~False() \1 CutsceneID("cdfake")~ // disables player1
+      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSImoen")~ ~False() \1 CutsceneID("cdfake")~ // disables CSImoen
+      REPLACE_TEXTUALLY // replace dialogue with shortened or silly dialogue
+        ~DisplayStringWait(Myself,2854)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSImoen",2855)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,2857)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSImoen",2858)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,2859)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSImoen",2863)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("CSImoen",ForceSpell("CSIren",MAGIC_MISSILE_SURE_HIT))[ %TAB%%LNL%%MNL%%WNL%]+Wait(2)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,2865)~
+        ~%cut01c_sub%~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY
+  
+  // cut01d only needs alteration if silly version
+  ACTION_IF silly = 1 BEGIN
+
+    COPY_EXISTING ~cut01d.bcs~ ~override~ // unchanged otherwise
+      DECOMPILE_BCS_TO_BAF
+        REPLACE_TEXTUALLY ~Wait(3)~ ~~ // disables wait for spawn
+        REPLACE_TEXTUALLY
+          ~CreateCreatureDoor("CSCOWL[1-5]",\[[0-9]+\.[0-9]+\],[^)]+)~ ~~ // disables spawn of cscowl1-5
+      COMPILE_BAF_TO_BCS
+      BUT_ONLY
+      
+  END
+  
+  COPY_EXISTING ~cut01e.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl[1-4]")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl1-4
+      PATCH_IF silly = 0 BEGIN
+        REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSImoen")~ ~False() \1 CutsceneID("cdfake")~ // also disables Imoen
+      END ELSE BEGIN
+        REPLACE_TEXTUALLY // pare down imoen's actions
+          ~Wait(9)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(7)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSIren",FLASHY_4)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSIren",WIZARD_MAGIC_MISSILE)~
+          ~Wait(1) SmallWait(7) ForceSpell("CSIren",FLASHY_4)~
+      END
+      REPLACE_TEXTUALLY // shorten or remove battle
+        ~DisplayStringWait("CSCowl1",2866)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSCowl2",2868)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,2869)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPPLANAR",Myself)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl5",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl1",FLASHY_1)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl3",FLASHY_2)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl2",WIZARD_DISINTEGRATE2_IGNORE_RESISTANCE)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPSDIMPA","CSCowl2")[ %TAB%%LNL%%MNL%%WNL%]+CreateCreatureDoor("CSCOWL6",\[2547\.965\],[^)]+)[ %TAB%%LNL%%MNL%%WNL%]+CreateCreatureDoor("CSCOWL7",\[2504\.840\],[^)]+)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl1",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPDEATH3","CSCowl1")[ %TAB%%LNL%%MNL%%WNL%]+CreateCreatureDoor("CSCOWL8",\[2657\.854\],[^)]+)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)~
+        ~%cut01e_sub%~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY
+  
+  COPY_EXISTING ~cut01f.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl7")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl7
+      REPLACE_TEXTUALLY // shorten or remove battle
+        ~ForceSpell("CSCowl3",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+Wait(2)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPFIREPI","CSCowl3")[ %TAB%%LNL%%MNL%%WNL%]+Kill("CSCowl3")[ %TAB%%LNL%%MNL%%WNL%]+Wait(5)[ %TAB%%LNL%%MNL%%WNL%]+CreateCreatureDoor("CSCOWL9",\[2484\.891\],[^)]+)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,59571)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSCowl7",59772)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,59770)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSCowl7",59773)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,59774)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSImoen",17321)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSCowl7",17322)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringHead("CSImoen",39164)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("CSCowl7",MoveToObject("CSIren"))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("CSCowl4",MoveToObject("CSImoen"))[ %TAB%%LNL%%MNL%%WNL%]+Wait(2)~
+        ~%cut01f_sub%~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY
+  
+  COPY_EXISTING ~cut01g.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl9")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl9 (doesn't spawn in either)
+      PATCH_IF silly = 1 BEGIN
+        REPLACE_TEXTUALLY ~CutSceneId("CSCowl4")~ ~CutSceneId("CSIren")~
+        REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl[1235678]")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl1-8 (don't spawn in silly version)
+      END ELSE BEGIN
+        REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl7")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl7 (son't mess with Iren)
+        REPLACE_TEXTUALLY ~CutSceneId("CSCowl4")~ ~CutSceneId("CSIren") ForceSpell("CSCowl4",DRYAD_TELEPORT)~
+        REPLACE_TEXTUALLY ~EndCutSceneMode()~ ~ActionOverride("CSCowl4",DestroySelf())~
+        REPLACE_TEXTUALLY ~ActionOverride("CSIren",DestroySelf())~ ~EndCutSceneMode()~
+        PATCH_FOR_EACH num IN 1 2 3 5 7 BEGIN // extra teleports for wizards not killed due to removed battles
+          APPEND_FILE ~cdtweaks/baf/faster_cut01g.baf~ EVALUATE_BUFFER
+        END
+      END
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY
 
 END
-
-COPY_EXISTING ~cut01a.bcs~ ~override~
-  DECOMPILE_BCS_TO_BAF
-    REPLACE_TEXTUALLY  // shortens irenicus' action queue
-      ~DisplayStringHead(Myself,2841)[ %TAB%%LNL%%MNL%%WNL%]+Wait(3)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief2",CUTSCENE_FLESH_TO_STONE)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+~ 
-      ~~
-    REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSThief[1234]")~ ~False() \1 CutsceneID("cdfake")~ // disables csthief1-4
-    REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId(Player1)~ ~False() \1 CutsceneID("cdfake")~ // disables player1
-  COMPILE_BAF_TO_BCS
-  BUT_ONLY
-
-COPY_EXISTING ~cut01b.bcs~ ~override~
-  DECOMPILE_BCS_TO_BAF
-    REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSThief[1234]")~ ~False() \1 CutsceneID("cdfake")~ // disables csthief1-4
-    REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId(Player1)~ ~False() \1 CutsceneID("cdfake")~ // disables player1
-    REPLACE_TEXTUALLY ~CutSceneId("CSIren")[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringHead(Myself,2844)~ ~CutSceneId("CSIren")~ // no more suffering!
-    REPLACE_TEXTUALLY ~SmallWait(2)[ %TAB%%LNL%%MNL%%WNL%]+ApplySpell("CSThief2",SURE_STONE_SHATTER)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("CSThief2",DestroySelf())~ ~~ // ee exclusive
-    REPLACE_TEXTUALLY 
-      ~ForceSpell("CSThief3",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPFIREPI","CSThief3")[ %TAB%%LNL%%MNL%%WNL%]+PlaySound("EFF_M23C")[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPROTECT",Myself)[ %TAB%%LNL%%MNL%%WNL%]+Face([^)]+)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief1",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPFLSRIN","CSThief1")[ %TAB%%LNL%%MNL%%WNL%]+PlaySound("EFF_M23C")[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPROTECT",Myself)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief4",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("CALLLIGH","CSThief4")[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief2",WIZARD_FLAME_ARROW)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("ICFIRSDI",Myself)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)~
-      ~~ // no more thief nukes
-  COMPILE_BAF_TO_BCS
-  BUT_ONLY
-
-COPY_EXISTING ~cut01c.bcs~ ~override~
-  DECOMPILE_BCS_TO_BAF
-    REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId(Player1)~ ~False() \1 CutsceneID("cdfake")~ // disables player1
-    REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSImoen")~ ~False() \1 CutsceneID("cdfake")~ // disables CSImoen
-    REPLACE_TEXTUALLY // replace dialogue with shortened or silly dialogue
-      ~DisplayStringWait(Myself,2854)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSImoen",2855)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,2857)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSImoen",2858)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,2859)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSImoen",2863)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("CSImoen",ForceSpell("CSIren",MAGIC_MISSILE_SURE_HIT))[ %TAB%%LNL%%MNL%%WNL%]+Wait(2)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,2865)~
-      ~%cut01c_sub%~
-  COMPILE_BAF_TO_BCS
-  BUT_ONLY
-
-// cut01d only needs alteration from silly; handled in block at top
-
-COPY_EXISTING ~cut01e.bcs~ ~override~
-  DECOMPILE_BCS_TO_BAF
-    REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl[1-4]")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl1-4
-    PATCH_IF silly = 0 BEGIN
-      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSImoen")~ ~False() \1 CutsceneID("cdfake")~ // also disables Imoen
-    END ELSE BEGIN
-      REPLACE_TEXTUALLY // pare down imoen's actions
-        ~Wait(9)[ %TAB%%LNL%%MNL%%WNL%]+SmallWait(7)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSIren",FLASHY_4)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSIren",WIZARD_MAGIC_MISSILE)~
-        ~Wait(1) SmallWait(7) ForceSpell("CSIren",FLASHY_4)~
-    END
-    REPLACE_TEXTUALLY // shorten or remove battle
-      ~DisplayStringWait("CSCowl1",2866)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSCowl2",2868)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,2869)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPPLANAR",Myself)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl5",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl1",FLASHY_1)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl3",FLASHY_2)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl2",WIZARD_DISINTEGRATE2_IGNORE_RESISTANCE)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPSDIMPA","CSCowl2")[ %TAB%%LNL%%MNL%%WNL%]+CreateCreatureDoor("CSCOWL6",\[2547\.965\],[^)]+)[ %TAB%%LNL%%MNL%%WNL%]+CreateCreatureDoor("CSCOWL7",\[2504\.840\],[^)]+)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSCowl1",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPDEATH3","CSCowl1")[ %TAB%%LNL%%MNL%%WNL%]+CreateCreatureDoor("CSCOWL8",\[2657\.854\],[^)]+)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)~
-      ~%cut01e_sub%~
-  COMPILE_BAF_TO_BCS
-  BUT_ONLY
-
-COPY_EXISTING ~cut01f.bcs~ ~override~
-  DECOMPILE_BCS_TO_BAF
-    REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl7")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl7
-    REPLACE_TEXTUALLY // shorten or remove battle
-      ~ForceSpell("CSCowl3",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+Wait(2)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPFIREPI","CSCowl3")[ %TAB%%LNL%%MNL%%WNL%]+Kill("CSCowl3")[ %TAB%%LNL%%MNL%%WNL%]+Wait(5)[ %TAB%%LNL%%MNL%%WNL%]+CreateCreatureDoor("CSCOWL9",\[2484\.891\],[^)]+)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,59571)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSCowl7",59772)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,59770)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSCowl7",59773)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait(Myself,59774)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSImoen",17321)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringWait("CSCowl7",17322)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringHead("CSImoen",39164)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("CSCowl7",MoveToObject("CSIren"))[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("CSCowl4",MoveToObject("CSImoen"))[ %TAB%%LNL%%MNL%%WNL%]+Wait(2)~
-      ~%cut01f_sub%~
-  COMPILE_BAF_TO_BCS
-  BUT_ONLY
-
-COPY_EXISTING ~cut01g.bcs~ ~override~
-  DECOMPILE_BCS_TO_BAF
-    REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl9")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl9 (doesn't spawn in either)
-    PATCH_IF silly = 1 BEGIN
-      REPLACE_TEXTUALLY ~CutSceneId("CSCowl4")~ ~CutSceneId("CSIren")~
-      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl[1235678]")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl1-8 (don't spawn in silly version)
-    END ELSE BEGIN
-      REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl7")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl7 (son't mess with Iren)
-      REPLACE_TEXTUALLY ~CutSceneId("CSCowl4")~ ~CutSceneId("CSIren") ForceSpell("CSCowl4",DRYAD_TELEPORT)~
-      REPLACE_TEXTUALLY ~EndCutSceneMode()~ ~ActionOverride("CSCowl4",DestroySelf())~
-      REPLACE_TEXTUALLY ~ActionOverride("CSIren",DestroySelf())~ ~EndCutSceneMode()~
-      PATCH_FOR_EACH num IN 1 2 3 5 7 BEGIN // extra teleports for wizards not killed due to removed battles
-        APPEND_FILE ~cdtweaks/baf/faster_cut01g.baf~ EVALUATE_BUFFER
-      END
-    END
-  COMPILE_BAF_TO_BCS
-  BUT_ONLY
 
 COPY_EXISTING ~movie01b.bcs~ ~override~
   DECOMPILE_BCS_TO_BAF

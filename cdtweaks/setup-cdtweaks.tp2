@@ -23,7 +23,7 @@ ALWAYS
 
 END
 
-VERSION ~v1 (alpha)~
+VERSION ~Beta 2~
 
 README ~cdtweaks/readme-cdtweaks.html~
 
@@ -409,47 +409,46 @@ GROUP @11
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 totsc iwdee iwd how totlm iwd_in_bg2 iwd2 pst~ @25
 
 COPY_EXISTING ~randcolr.2da~ ~override~
-  SET_2DA_ENTRY_LATER ~randcolr~  3  9 ~114~ // AthPeasantMajor
-  SET_2DA_ENTRY_LATER ~randcolr~  4  9 ~107~
-  SET_2DA_ENTRY_LATER ~randcolr~  5  9  ~36~
-  SET_2DA_ENTRY_LATER ~randcolr~  6  9  ~37~
-  SET_2DA_ENTRY_LATER ~randcolr~  7  9  ~38~
-  SET_2DA_ENTRY_LATER ~randcolr~  8  9  ~39~
-  SET_2DA_ENTRY_LATER ~randcolr~  9  9  ~40~
-  SET_2DA_ENTRY_LATER ~randcolr~ 10  9  ~41~
-  SET_2DA_ENTRY_LATER ~randcolr~ 11  9  ~42~
-  SET_2DA_ENTRY_LATER ~randcolr~ 12  9  ~43~
-  SET_2DA_ENTRY_LATER ~randcolr~  3 10  ~63~ // AthPeasantMinor
-  SET_2DA_ENTRY_LATER ~randcolr~  4 10  ~64~
-  SET_2DA_ENTRY_LATER ~randcolr~  5 10  ~65~
-  SET_2DA_ENTRY_LATER ~randcolr~  6 10  ~66~
-  SET_2DA_ENTRY_LATER ~randcolr~  7 10  ~87~
-  SET_2DA_ENTRY_LATER ~randcolr~  8 10  ~91~
-  SET_2DA_ENTRY_LATER ~randcolr~  9 10  ~92~
-  SET_2DA_ENTRY_LATER ~randcolr~ 10 10  ~93~
-  SET_2DA_ENTRY_LATER ~randcolr~ 11 10  ~94~
-  SET_2DA_ENTRY_LATER ~randcolr~ 12 10  ~95~
-  SET_2DA_ENTRY_LATER ~randcolr~  3 13 ~114~ // TradePeasantMajor
-  SET_2DA_ENTRY_LATER ~randcolr~  4 13 ~107~
-  SET_2DA_ENTRY_LATER ~randcolr~  5 13  ~36~
-  SET_2DA_ENTRY_LATER ~randcolr~  6 13  ~37~
-  SET_2DA_ENTRY_LATER ~randcolr~  7 13  ~38~
-  SET_2DA_ENTRY_LATER ~randcolr~  8 13  ~39~
-  SET_2DA_ENTRY_LATER ~randcolr~  9 13  ~40~
-  SET_2DA_ENTRY_LATER ~randcolr~ 10 13  ~41~
-  SET_2DA_ENTRY_LATER ~randcolr~ 11 13  ~42~
-  SET_2DA_ENTRY_LATER ~randcolr~ 12 13  ~43~
-  SET_2DA_ENTRY_LATER ~randcolr~  3 14  ~63~ // TradePeasantMinor
-  SET_2DA_ENTRY_LATER ~randcolr~  4 14  ~64~
-  SET_2DA_ENTRY_LATER ~randcolr~  5 14  ~65~
-  SET_2DA_ENTRY_LATER ~randcolr~  6 14  ~66~
-  SET_2DA_ENTRY_LATER ~randcolr~  7 14  ~87~
-  SET_2DA_ENTRY_LATER ~randcolr~  8 14  ~91~
-  SET_2DA_ENTRY_LATER ~randcolr~  9 14  ~92~
-  SET_2DA_ENTRY_LATER ~randcolr~ 10 14  ~93~
-  SET_2DA_ENTRY_LATER ~randcolr~ 11 14  ~94~
-  SET_2DA_ENTRY_LATER ~randcolr~ 12 14  ~95~
-  SET_2DA_ENTRIES_NOW ~randcolr~ 1
+  SET_2DA_ENTRY 3 9 50 ~114~ // AthPeasantMajor (208)
+  SET_2DA_ENTRY 4 9 50 ~107~
+  SET_2DA_ENTRY 5 9 50 ~36~
+  SET_2DA_ENTRY 6 9 50 ~37~
+  SET_2DA_ENTRY 7 9 50 ~38~
+  SET_2DA_ENTRY 8 9 50 ~39~
+  SET_2DA_ENTRY 9 9 50 ~40~
+  SET_2DA_ENTRY 10 9 50 ~41~
+  SET_2DA_ENTRY 11 9 50 ~42~
+  SET_2DA_ENTRY 12 9 50 ~43~
+  SET_2DA_ENTRY 3 10 50 ~63~ // AthPeasantMinor (209)
+  SET_2DA_ENTRY 4 10 50 ~64~
+  SET_2DA_ENTRY 5 10 50 ~65~
+  SET_2DA_ENTRY 6 10 50 ~66~
+  SET_2DA_ENTRY 7 10 50 ~87~
+  SET_2DA_ENTRY 8 10 50 ~91~
+  SET_2DA_ENTRY 9 10 50 ~92~
+  SET_2DA_ENTRY 10 10 50 ~93~
+  SET_2DA_ENTRY 11 10 50 ~94~
+  SET_2DA_ENTRY 12 10 50 ~95~
+  SET_2DA_ENTRY 3 13 50 ~114~ // TradePeasantMajor (212)
+  SET_2DA_ENTRY 4 13 50 ~107~
+  SET_2DA_ENTRY 5 13 50 ~36~
+  SET_2DA_ENTRY 6 13 50 ~37~
+  SET_2DA_ENTRY 7 13 50 ~38~
+  SET_2DA_ENTRY 8 13 50 ~39~
+  SET_2DA_ENTRY 9 13 50 ~40~
+  SET_2DA_ENTRY 10 13 50 ~41~
+  SET_2DA_ENTRY 11 13 50 ~42~
+  SET_2DA_ENTRY 12 13 50 ~43~
+  SET_2DA_ENTRY 3 14 50 ~63~ // TradePeasantMinor (213)
+  SET_2DA_ENTRY 4 14 50 ~64~
+  SET_2DA_ENTRY 5 14 50 ~65~
+  SET_2DA_ENTRY 6 14 50 ~66~
+  SET_2DA_ENTRY 7 14 50 ~87~
+  SET_2DA_ENTRY 8 14 50 ~91~
+  SET_2DA_ENTRY 9 14 50 ~92~
+  SET_2DA_ENTRY 10 14 50 ~93~
+  SET_2DA_ENTRY 11 14 50 ~94~
+  SET_2DA_ENTRY 12 14 50 ~95~
   BUT_ONLY
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -845,16 +844,31 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @17000 DESIGNATED 170
-//GROUP @11
-REQUIRE_PREDICATE GAME_IS ~iwdee iwd how totlm iwd_in_bg2~ @25
+GROUP @11
+REQUIRE_PREDICATE GAME_IS ~iwdee iwd how totlm iwd_in_bg2 soa tob bg2ee eet bgt ca~ @25
 
-INCLUDE ~cdtweaks/lib/unique_icons_iwd.tpa~ // has array
+ACTION_CLEAR_ARRAY cd_unique_icons
+ACTION_CLEAR_ARRAY cd_unique_anims
+
+ACTION_IF GAME_IS ~iwdee iwd how totlm iwd_in_bg2~ THEN BEGIN
+
+  INCLUDE ~cdtweaks/lib/unique_icons_iwd.tpa~ // loads arrays
+
+END ELSE BEGIN // soa tob bg2ee eet bgt ca
+
+  INCLUDE ~cdtweaks/lib/unique_icons_bg2.tpa~ // loads arrays
+
+END
 
 ACTION_PHP_EACH cd_unique_icons AS item => icon BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%item%.itm~ THEN BEGIN
   
-    COPY ~cdtweaks/bam/%icon%.bam~ ~override~
+    ACTION_IF FILE_EXISTS ~cdtweaks/bam/%icon%.bam~ THEN BEGIN // in case it's getting an existing icon
+
+      COPY ~cdtweaks/bam/%icon%.bam~ ~override~
+    
+    END
 
     COPY_EXISTING ~%item%.itm~ ~override~
       READ_ASCII   0x3a icon_old
@@ -866,6 +880,21 @@ ACTION_PHP_EACH cd_unique_icons AS item => icon BEGIN
         PATCH_IF ("%icon_abil%" STRING_COMPARE_CASE "%icon_old%" = 0) BEGIN // if ability uses old icon, update it
           WRITE_ASCIIE (abil_off + 0x04 + (index * 0x38)) ~%icon%~ #8
         END
+      END
+      BUT_ONLY
+  
+  END
+
+END
+
+ACTION_PHP_EACH cd_unique_anims AS item => anim BEGIN
+
+  ACTION_IF FILE_EXISTS_IN_GAME ~%item%.itm~ THEN BEGIN
+
+    COPY_EXISTING ~%item%.itm~ ~override~
+      READ_SHORT 0x22 itm_anim
+      PATCH_IF (itm_anim != 0) BEGIN // don't bother if blank (e.g. helmet animations removed)
+        WRITE_ASCIIE 0x22 "%anim%" #2
       END
       BUT_ONLY
   
@@ -8890,7 +8919,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
 /////                                                  \\\\\
 
 BEGIN @314001 DESIGNATED 3140 // original EoU
-//GROUP @4
+GROUP @4
 SUBCOMPONENT @314000 // faster chap 1&2 cutscenes
 REQUIRE_PREDICATE GAME_IS ~soa tob bg2ee bgt eet~ @25 // non-Tutu, non-BGT
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~mrimrin1.itm~ @24 // imoen romance compatibility code
@@ -9224,48 +9253,93 @@ END
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-/////                                                  \\\\\
-///// rest anywhere                                    \\\\\
-/////                                                  \\\\\
-
 BEGIN @319000 DESIGNATED 3190
 GROUP @4
-SUBCOMPONENT @319001 // rest anywhere
 
-OUTER_SET check_spawns = 0
+OUTER_SET factor = 100 // no changes to frequency
 INCLUDE ~cdtweaks/lib/rest_spawns.tpa~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
-///// rest anywhere, disable all rest spawns           \\\\\
+///// Disable Non-Hostile Rest Spawns                  \\\\\
 /////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @319100 DESIGNATED 3191
 GROUP @4
-SUBCOMPONENT @319001 // rest anywhere
 
-OUTER_SET check_spawns = 1
+OUTER_SET factor = 0 // 0% chance (disable)
+OUTER_SET adjust_hostile = 0 // check neutral spawns
+INCLUDE ~cdtweaks/lib/rest_spawns.tpa~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Alter Hostile Rest Spawns                        \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// Disable completely                               \\\\\
+/////                                                  \\\\\
+
+BEGIN @319401 DESIGNATED 3194
+GROUP @4
+SUBCOMPONENT @319400 // Alter Hostile Rest Spawns
+
+OUTER_SET factor = 0 // 0% chance (disable)
+OUTER_SET adjust_hostile = 1 // adjust hostile spawns
 INCLUDE ~cdtweaks/lib/rest_spawns.tpa~
 
 /////                                                  \\\\\
-///// rest anywhere, disable all hostile spawns        \\\\\
+///// Decrease frequency by 50%                        \\\\\
 /////                                                  \\\\\
 
-BEGIN @319200 DESIGNATED 3192
+BEGIN @319500 DESIGNATED 3195
 GROUP @4
-SUBCOMPONENT @319001 // rest anywhere
+SUBCOMPONENT @319400 // Alter Hostile Rest Spawns
 
-OUTER_SET check_spawns = 2
+OUTER_SET factor = 50 // 50% chance
+OUTER_SET adjust_hostile = 1 // adjust hostile spawns
 INCLUDE ~cdtweaks/lib/rest_spawns.tpa~
 
 /////                                                  \\\\\
-///// rest anywhere, disable all neutral spawns        \\\\\
+///// Increase frequency by 50%                        \\\\\
 /////                                                  \\\\\
 
-BEGIN @319300 DESIGNATED 3193
+BEGIN @319600 DESIGNATED 3196
 GROUP @4
-SUBCOMPONENT @319001 // rest anywhere
+SUBCOMPONENT @319400 // Alter Hostile Rest Spawns
 
-OUTER_SET check_spawns = 3
+OUTER_SET factor = 150 // 150% chance
+OUTER_SET adjust_hostile = 1 // adjust hostile spawns
+INCLUDE ~cdtweaks/lib/rest_spawns.tpa~
+
+/////                                                  \\\\\
+///// Double frequency                                 \\\\\
+/////                                                  \\\\\
+
+BEGIN @319700 DESIGNATED 3197
+GROUP @4
+SUBCOMPONENT @319400 // Alter Hostile Rest Spawns
+
+OUTER_SET factor = 200 // 200% chance
+OUTER_SET adjust_hostile = 1 // adjust hostile spawns
+INCLUDE ~cdtweaks/lib/rest_spawns.tpa~
+
+/////                                                  \\\\\
+///// Quadruple frequency                              \\\\\
+/////                                                  \\\\\
+
+BEGIN @319800 DESIGNATED 3198
+GROUP @4
+SUBCOMPONENT @319400 // Alter Hostile Rest Spawns
+
+OUTER_SET factor = 400 // 400% chance
+OUTER_SET adjust_hostile = 1 // adjust hostile spawns
 INCLUDE ~cdtweaks/lib/rest_spawns.tpa~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -9791,7 +9865,7 @@ COPY ~cdtweaks/random/random.2da~ ~cdtweaks/random/random.2da~
           REPLACE_EVALUATE CASE_INSENSITIVE ~^\(%item%[ %TAB%]\)\(.+\)\([ %TAB%]*\)$~
           BEGIN SPRINT "list" "%MATCH2%" END ~%MATCH1%%MATCH2%%MATCH3%~
           BUT_ONLY
-      
+
         COPY ~cdtweaks/random/areabottom.baf~ ~cdtweaks/random/%item%.baf~
 
         COPY ~cdtweaks/random/template.tpa~ ~cdtweaks/random/%item%.tpa~
@@ -9857,7 +9931,7 @@ ACTION_IF GAME_IS ~iwdee iwd_in_bg2~ THEN BEGIN // if modern engine
 
     COPY ~cdtweaks/random/cdrandom.d~ ~cdtweaks/random/cdrandom.d~
       REPLACE_TEXTUALLY ~SAY #288~ ~SAY #74388~ // normally we'd replace_eval, but only one replacement
-      
+
     COPY ~cdtweaks/random/random.2da~ ~cdtweaks/random/random.2da~
 
   END ELSE BEGIN
@@ -9944,6 +10018,12 @@ COPY ~cdtweaks/random/random.2da~ ~cdtweaks/random/random.2da~
 
         END
 
+        ACTION_IF index = 1 BEGIN // special for orrick's random-via-dialogue
+
+          COMPILE ~cdtweaks/random/dorrick.d~ EVALUATE_BUFFER
+        
+        END
+
         COPY_EXISTING ~%table%.2da~ ~override~
           PATCH_IF game_is_iwdee BEGIN
             REPLACE_EVALUATE CASE_INSENSITIVE ~^\(%item%[ %TAB%]\)\(.+\)\([ %TAB%]*[%LNL%%MNL%%WNL%]+\)~
@@ -10018,7 +10098,7 @@ COPY_EXISTING ~katown1.cre~ ~override/cdrndm1.cre~
   SAY 0x08 @324201
   SAY 0x0c @324202
   WRITE_ASCII 0x248 ~eftwnchk~ #8
-  WRITE_ASCII 0x250 ~kuatkfle~ #8
+  WRITE_ASCII 0x250 ~kuatkfle~ #32 // add script, blank other fields
   PATCH_IF GAME_IS ~iwd how totlm~ BEGIN
     WRITE_BYTE  0x270 0 // make visible
     WRITE_ASCII 0x2e8 ~cdrndm1~ #32 // dv
@@ -10067,7 +10147,7 @@ ACTION_IF NOT GAME_IS ~iwd~ THEN BEGIN // add lonelywood merchant
     SAY 0x0c @324202
     WRITE_ASCII 0x248 ~efpikwrn~ #8
     WRITE_ASCII 0x250 ~eftwnchk~ #8
-    WRITE_ASCII 0x258 ~efflee00~ #8
+    WRITE_ASCII 0x258 ~efflee00~ #24
     PATCH_IF GAME_IS ~iwd how totlm~ BEGIN
       WRITE_ASCII 0x2e8 ~cdrndm2~ #32 // dv
       WRITE_ASCII 0x334 ~cdrndm2~ #8  // dialogue

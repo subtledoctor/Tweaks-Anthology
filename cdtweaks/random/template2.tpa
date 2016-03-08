@@ -15,9 +15,17 @@ insert_reply
 ~~~~~ EVALUATE_BUFFER UNLESS ~GiveItemCreate("%drop%"~
 
     END
+    
+    ACTION_IF index = 1 BEGIN
+    
+      COMPILE ~cdtweaks/random/dorrick_itm.d~ EVALUATE_BUFFER
+    
+    END ELSE BEGIN
 
-    ACTION_IF game_is_iwdee BEGIN
-      EXTEND_BOTTOM ~%area%.bcs~ ~cdtweaks/random/token_swap.baf~ EVALUATE_BUFFER
-    END  
+      ACTION_IF game_is_iwdee BEGIN
+        EXTEND_BOTTOM ~%area%.bcs~ ~cdtweaks/random/token_swap.baf~ EVALUATE_BUFFER
+      END
+    
+    END
 
   END

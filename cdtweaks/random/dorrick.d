@@ -1,0 +1,1 @@
+REPLACE_ACTION_TEXT DORRICK ~GiveItemCreate("\(OrkTres\|RNDTRE27\)"~ ~GiveItemCreate("%token_item%"~

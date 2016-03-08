@@ -34,7 +34,7 @@ ar9100   EXTRES3  Alpheus~
 END
 
 OUTER_SPRINT table "rndtres"
-ACTION_IF NOT GAME_IS ~iwd_in_bg2~ THEN BEGIN
+ACTION_IF NOT GAME_IS ~iwd_in_bg2 iwdee~ THEN BEGIN
   OUTER_SPRINT table "rndtreas"
 END
 

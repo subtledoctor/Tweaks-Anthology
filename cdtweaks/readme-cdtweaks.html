@@ -52,7 +52,7 @@
         Wendy Yung,  
         Zed Nocear 
       </p>
-      <p><strong> Version Beta 1</strong><br />
+      <p><strong> Version Beta 2</strong><br />
         <strong> Languages:</strong> Chinese, Czech, English, French, German, Italian,
         Korean, Polish, Russian, and Spanish<br />
         <strong>Platforms: </strong>Windows,  Mac OS X, Linux</p>
@@ -279,8 +279,8 @@
         <em>All games except PsT</em></p>
       <p> For those who don't like that magic shields either mimic the primary color of the wielder or      are a dull wood brown, this little component changes the magic shields so their panels      now glow with their protective enchantments. </p>
       <p><strong>Unique Icons</strong><br />
-        <em>IWDEE, IWD, IWD-in-BG2</em></p>
-      <p>Icewind Dale has a frustrating habit of using the same icon for multiple items, making them difficult to tell apart from one another. This component gives unique      icons to about 200 items--for example, the dozen or so items that all used      the icon for the Ring of Protection +1 now use unique icons. The 'new' icons      have been scavenged mainly from BG2,      though a few have also been borrowed from IWD2. </p>
+        <em>BG2EE, IWDEE, EET, BG2, BGT, IWD, IWD-in-BG2</em></p>
+      <p>Icewind Dale, and to a lesser extent BG2, has a frustrating habit of using the same icon for multiple items, making them difficult to tell apart from one another. This component gives unique      icons to about 200 items in Icewind Dale and about 80 in Baldur's Gate II. For example, the dozen or so items that all used      the icon for the Ring of Protection +1 in Icewind Dale now use unique icons. The 'new' icons      have been scavenged from other Infinity Engine games. </p>
     </div>
     <div class="ribbon_rectangle_h3">
       <h3>Content Changes </h3>
@@ -1389,14 +1389,13 @@
         use the Flirt Pack instead, as they provide a much more expansive treatment. </p>
       <p><strong>Rest Anywhere</strong><br />
         <em>All games</em></p>
-      <p> This component offers a number of ways to rest in any area of the game:</p>
-      <ul>
-        <li>Rest Anywhere (japheth, Weimer) - The original component, which allows you to rest in any area. Inns and outdoor campsites
-          are no longer required. </li>
-        <li>Rest Anywhere and Disable All Rest Spawns - Same as above, plus it disables all spawns that normally interrupt sleeping, such as guards in town or monsters in the wilderness. </li>
-        <li>Rest Anywhere and Disable Hostile Rest Spawns - Same as the original, except monsters will no longer interrupt your rest. </li>
-        <li>Rest Anywhere and Disable Non-Hostile Rest Spawns - Same as the original, except guards and other neutrals will no longer interrupt your rest. </li>
-      </ul>
+      <p> This component allows you to rest in any area. Inns and outdoor campsites      are no longer required. You can still be interrupted by monsters or guards; see the next two components if you wish to adjust those as well. </p>
+      <p><strong>Disable Non-Hostile Rest Spawns</strong><br />
+      All games</p>
+      <p>This component will disable non-hostile creatures spawning when you try to rest, such as a guard in town trying to stop you from sleeping in the street. </p>
+      <p><strong>Alter Hostile Rest Spawns</strong><br />
+      All games</p>
+      <p>This component will allow you to alter the frequency of hostile spawns when you try to sleep, e.g. monsters attacking when you try to rest. You can disable them completely, or adjust the frequency up or down: decrease 50%, increase 50%, double frequency, or quadruple frequency. </p>
       <p><strong>Sellable Items (Icelus)</strong><br />
         <em>All games</em></p>
       <p> Originally, this component made previously unsellable staves, clubs, and
@@ -1688,6 +1687,19 @@
     <div class="ribbon_triangle_h2-l"></div>
     <div class="ribbon_triangle_h2-r"></div>
     <div class="section">
+      <p><strong>Version Beta 2 - March 8, 2016</strong></p>
+      <ul>
+        <li>Fixed bug with <strong>Commoners Use Drab Colors</strong> where commoners ended up lookng like they were made of chocolate instead</li>
+        <li><strong>Unique Icons</strong> was expanded to BG2 games; also fixed a bug where it was not updating helmet animations</li>
+        <li>After discussion, <strong>Rest Anywhere</strong> was expanded into mltiple components. The main component continues to work as the original, and <strong>Disable Non-Hostile Rest Spawns</strong> and <strong>Alter Hostile Rest Spawns</strong> have been added to give players a finer grain of control. </li>
+        <li><strong>Friendly Random Drops</strong> could pull from the wrong table in IWDEE.</li>
+        <li>Fixed a bug with <strong>Friendly Random Drops</strong> &gt; <em>Choose Your Drop</em> where it was not accounting for Orrick's reward after you bring him the Mythal book. Also fixed the bug that would cause the Kuldahar merchant to leave after the orog attack, for real this time. </li>
+        <li>All BAMs in the mod converted to uncompressed for better cross-platform goodness. </li>
+        <li>Fixed a couple of bugs where <strong>Faster Chapter 1&amp;2 Cut-Scenes &amp; Dreams</strong> was not quite matching and replacing verything it should and Gaelan's dialogue lacked the shortcuts it was supposed to have</li>
+        <li><strong>Faster Chapter 1&amp;2 Cut-Scenes &amp; Dreams</strong> will skip adjusting the Irenicus-Cowled Wizard cutscene in the Promenade if the player has installed <strong>Extended Waukeen's Promenade Cutscene</strong> from Almateria's Restoration Project. Other cutscenes and dreams are still affected in this case. </li>
+        <li>Fixed bug with <strong>Increase Potion Stacking</strong> where it handled items with multiple charges incorrectly; thanks argent77!</li>
+        <li>OS X version now up to date with WeiDU v239, as the Windows version; thanks argent77 again!</li>
+      </ul>  
       <p><strong>Version Beta 1 - March 2, 2016</strong> (changes from BG2 Tweaks v16, the most direct ancestor)</p>
       <ul>
         <li>New components:

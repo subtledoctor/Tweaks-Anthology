@@ -1,5 +1,5 @@
 OUTER_SET alleg_off = 0x270 // cre v1.0
-OUTER_SET rest_offr = 0x0c0 // cre v1.0
+OUTER_SET rest_offr = 0x0c0 // are v1.0
 
 ACTION_IF GAME_IS ~pst~ BEGIN
   OUTER_SET alleg_off = 0x314 // cre v1.2
@@ -15,48 +15,52 @@ ACTION_IF GAME_IS ~iwd2~ BEGIN
 END
 
 COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
-//  SPRINT area_name "%SOURCE_RES%"
   PATCH_IF alleg_off = 0x314 BEGIN // pst
     WRITE_BYTE 0x14 (THIS | BIT1) // this bit is called "Tutorial" in NI, but is really the can_not_sleep one.
   END ELSE BEGIN
     WRITE_BYTE 0x48 (THIS | BIT7)
   END
-  SET proceed = 0
-  READ_LONG rest_offr rest_off
-  PATCH_IF check_spawns = 1 BEGIN
-    SET proceed = 1
-  END ELSE
-  PATCH_IF check_spawns > 1 BEGIN
-    SET hostile = 3
-    FOR (index = 0 ; index < 10 ; ++index) BEGIN
-      READ_ASCII (rest_off + 0x48 + (index * 0x08)) cre
-      PATCH_IF (("%cre%" STRING_COMPARE_CASE "") AND ("%cre%" STRING_COMPARE_CASE "None")) BEGIN
-//        PATCH_PRINT ~checking %cre% in %area_name%~
-        PATCH_IF (FILE_CONTAINS_EVALUATED(~spawngrp.2da~ ~\b%cre%\b~)) BEGIN // if from spawngrp, assume hostile
-          SET hostile = 2
-          SET index = 10 // kill loop
-        END ELSE BEGIN
-          PATCH_IF FILE_EXISTS_IN_GAME ~%cre%.cre~ BEGIN
-            INNER_ACTION BEGIN
+  PATCH_IF factor != 100 BEGIN // don't bother if no change
+    READ_LONG rest_offr rest_off
+    READ_SHORT (rest_off + 0xa6) active
+    PATCH_IF active BEGIN // don't bother with inactive rest spawns
+      SET hostile = 0
+      FOR (index = 0 ; index < 10 ; ++index) BEGIN
+        READ_ASCII (rest_off + 0x48 + (index * 0x08)) cre
+        PATCH_IF (("%cre%" STRING_COMPARE_CASE "") AND ("%cre%" STRING_COMPARE_CASE "None")) BEGIN
+          PATCH_IF (FILE_CONTAINS_EVALUATED(~spawngrp.2da~ ~\b%cre%\b~)) BEGIN // if from spawngrp, assume hostile
+            SET hostile = 1
+            SET index = 10 // kill loop
+          END ELSE BEGIN
+            PATCH_IF FILE_EXISTS_IN_GAME ~%cre%.cre~ BEGIN
+              INNER_ACTION BEGIN
 
-              COPY_EXISTING ~%cre%.cre~ ~override~
-                READ_BYTE alleg_off allegiance
-                PATCH_IF (allegiance = 255) BEGIN
-                  SET hostile = 2
-                  SET index = 10 // kill loop
-                END
-                BUT_ONLY
+                COPY_EXISTING ~%cre%.cre~ ~override~
+                  READ_BYTE alleg_off allegiance
+                  PATCH_IF (allegiance = 255) BEGIN
+                    SET hostile = 1
+                    SET index = 10 // kill loop
+                  END
+                  BUT_ONLY
 
-            END // inner action
-          END // file check
-        END // spawngrp else if
-      END // cre name check
-    END // for loop
-    PATCH_IF (hostile = check_spawns) BEGIN SET proceed = 1 END
-  END // check_spawns
-  PATCH_IF (proceed = 1) BEGIN
-//    PATCH_PRINT ~patching %area_name%~
-    WRITE_LONG rest_off + 0xa4 0 // make inactive, set max creatures to 0, and
-    WRITE_LONG rest_off + 0xa8 0 // drop probabilities to zero for good measure
-  END // check spawns
+              END // inner action
+            END // file check
+          END // spawngrp else if
+        END // cre name check
+      END // for loop
+      PATCH_IF (((hostile = 1) AND (adjust_hostile = 1)) OR ((hostile = 0) AND (adjust_hostile = 0))) BEGIN // hostile/checking hostile or neutral/checking neutral
+        PATCH_IF factor = 0 BEGIN // disable completely
+          WRITE_LONG rest_off + 0xa4 0 // make inactive, set max creatures to 0, and
+          WRITE_LONG rest_off + 0xa8 0 // drop probabilities to zero for good measure
+        END ELSE BEGIN // make an adjustment
+          PATCH_FOR_EACH off IN 0xa8 0xaa BEGIN
+            READ_SHORT rest_off + off prob
+            SET prob = ((prob * factor) / 100)
+            PATCH_IF prob > 30 BEGIN SET prob = 30 END // maximum of 30%
+            WRITE_SHORT rest_off + off prob
+          END // patch_for_each offset
+        END // factor = 0 check
+      END // proceed (spawn alteration check)
+    END // active check
+  END // factor check
   BUT_ONLY

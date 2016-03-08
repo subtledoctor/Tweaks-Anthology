@@ -218,3 +218,13 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons BEGIN
   scrcs10  => CDUNQ206 // scroll case
 
 END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_unique_anims BEGIN
+
+  helm08 => h0
+  helm09 => h3
+  helm10 => h0
+  helm11 => h4
+  helm12 => h0
+
+END
