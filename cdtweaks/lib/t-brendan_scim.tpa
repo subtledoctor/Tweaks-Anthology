@@ -1,0 +1,75 @@
+ACTION_IF FILE_EXISTS_IN_GAME ~fw0125.are~ BEGIN //Tutu
+  OUTER_SET bn = 1
+END ELSE BEGIN
+  OUTER_SET bn = 2
+END
+
+COPY_EXISTING ~bbscardr.itm~ ~override~ //Scimitar of the Archdruid
+  PATCH_IF SOURCE_SIZE > 0x71 BEGIN
+    WRITE_LONG 0x60 bn //Magic level
+    READ_LONG  0x64 hf //Header offset
+    READ_SHORT 0x68 hc //Header count
+    READ_LONG  0x6a fx //Feature offset
+    READ_SHORT 0x6e qx //Equipping offset
+    READ_SHORT 0x70 fc //Feature count
+    FOR (i1 = 0; i1 < hc; i1 += 1) BEGIN //Search for melee ability header
+      READ_BYTE (hf + i1 * 0x38) tp //Type
+      PATCH_IF tp = 1 BEGIN //If melee ability
+        WRITE_SHORT (hf + 0x14 + i1 * 0x38) bn //THAC0 bonus
+        WRITE_SHORT (hf + 0x1a + i1 * 0x38) bn //Damage bonus
+        READ_SHORT  (hf + 0x1e + i1 * 0x38) bc //Abilities count
+        READ_SHORT  (hf + 0x20 + i1 * 0x38) bx //Abilities offset
+        FOR (i2 = 0; i2 < bc; i2 += 1) BEGIN //Search through effects for fire damage
+          READ_SHORT (fx + (bx + i2) * 0x30) pc //Opcode
+          READ_SHORT (fx + 0x0a + (bx + i2) * 0x30) dt //Damage type
+          PATCH_IF (pc = 12) AND (dt = 2) BEGIN //If cold damage
+            WRITE_BYTE (fx + 0x12 + (bx + i2) * 0x30) 49 //Probability 1
+          END
+          PATCH_IF (pc = 12) AND (dt = 8) BEGIN //If fire damage
+            WRITE_BYTE (fx + 0x12 + (bx + i2) * 0x30) 99 //Probability 1
+            WRITE_BYTE (fx + 0x13 + (bx + i2) * 0x30) 50 //Probability 2
+          END
+          PATCH_IF pc = 12 BEGIN
+            WRITE_BYTE (fx + 0xd + (bx + i2) * 0x30) 1 //Resistance (do not bypass)
+            WRITE_LONG (fx + 0x1c + (bx + i2) * 0x30) 1 //Dice thrown
+            WRITE_LONG (fx + 0x20 + (bx + i2) * 0x30) 2 //Die size
+          END
+        END
+      END
+    END
+    FOR (i3 = 0; i3 < fc; i3 += 1) BEGIN //Search through features
+      READ_SHORT (fx + i3 * 0x30) pc //Opcode
+      PATCH_IF (pc = 28) OR (pc = 30) BEGIN //Resistance modifier
+        WRITE_SHORT (fx + i3 * 0x30 + 4) 25 //Parameter 1
+      END
+      PATCH_IF pc = 0 BEGIN //AC modifier
+        WRITE_SHORT (fx + i3 * 0x30 + 4) 1 //Parameter 1
+      END
+    END
+    READ_SLONG 0x54 d1 //Identified description
+    PATCH_IF d1 = ~-1~ BEGIN
+      READ_STRREF 0x50 dc //Unidentified description
+      READ_SLONG 0x50 d1
+    END ELSE BEGIN
+      READ_STRREF 0x54 dc
+    END
+    PATCH_IF d1 > 0 BEGIN
+      INNER_ACTION BEGIN
+        <<<<<<<< .../contain-inlined/t-temp.txt
+@18500 = ~%dc%~
+>>>>>>>>
+        COPY ~.../contain-inlined/t-temp.txt~ ~contain/backup/t-temp.tra~
+          EVALUATE_BUFFER
+          REPLACE_TEXTUALLY EXACT_MATCH ~+2~ ~+1~
+          REPLACE_TEXTUALLY EXACT_MATCH ~+ 3~ ~+ %bn%~
+          REPLACE_TEXTUALLY EXACT_MATCH ~+3~ ~+%bn%~
+          REPLACE_TEXTUALLY EXACT_MATCH ~:  ~ ~: ~
+          REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~: 1d4~ ~: 50% 1d2~
+          REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~: 1k4~ ~: 50% 1k2~
+          REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~: 1w4~ ~: 50% 1w2~
+          REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~THACO~ ~THAC0~
+        STRING_SET_EVALUATE ~%d1%~ @18500 USING ~contain/backup/t-temp.tra~
+      END
+    END
+  END
+BUT_ONLY

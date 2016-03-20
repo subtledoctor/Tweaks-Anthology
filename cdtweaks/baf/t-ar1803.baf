@@ -1,0 +1,7 @@
+IF
+  Global("T-BHLD01","%cm4%",0)
+THEN
+  RESPONSE #100
+    ActionOverride("Container 10",CreateItem("T-BHLD01",0,0,0))
+    SetGlobal("T-BHLD01","%cm4%",1)
+END

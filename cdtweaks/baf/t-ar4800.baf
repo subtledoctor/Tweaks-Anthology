@@ -1,0 +1,14 @@
+IF
+  Global("T-BAMM01","%nsh%",0)
+THEN
+  RESPONSE #100
+    ActionOverride("Container 7",DestroyItem("%tsu%PLAT06"))
+    ActionOverride("Container 7",DestroyItem("%tsu%MISC36"))
+    ActionOverride("Container 7",DestroyItem("BAG05"))
+    ActionOverride("Container 7",DestroyItem("BRAC13"))
+    ActionOverride("Container 7",DestroyItem("DART03"))
+    ActionOverride("Container 7",DestroyItem("LEAT10"))
+    ActionOverride("Container 7",CreateItem("%tsu%MISC31",1,0,0))
+    ActionOverride("Container 7",CreateItem("MISC07",2,0,0))
+    SetGlobal("T-BAMM01","%nsh%",1)
+END

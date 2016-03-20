@@ -1,0 +1,801 @@
+ACTION_IF GAME_IS ~soa tob bg2ee eet bgt tutu tutu_totsc~ BEGIN
+
+  // from the original ALWAYS block
+  ACTION_IF FILE_EXISTS_IN_GAME ~fw0125.are~ BEGIN //Tutu
+    OUTER_SPRINT ~tsu~ ~_~ //Tutu underscore
+    OUTER_SPRINT ~tss~ ~_~ //Initial s
+    OUTER_SPRINT ~nsh~ ~_ar4800~ //Nashkel script
+    OUTER_SPRINT ~cm4~ ~_ar1803~ //Cloakwood Mines L4 script
+  END ELSE BEGIN
+    ACTION_IF FILE_EXISTS_IN_GAME ~ar7200.are~ BEGIN //BGT
+      OUTER_SPRINT ~tsu~ ~~ //Tutu underscore
+      OUTER_SPRINT ~tss~ ~s~ //Initial s
+      OUTER_SPRINT ~nsh~ ~ar3700~ //Nashkel script
+      OUTER_SPRINT ~cm4~ ~ar8603~ //Cloakwood Mines L4 script
+    END
+  END
+
+
+/////                                                  \\\\\
+///// t-store_fixes.tpa                                \\\\\
+/////                                                  \\\\\
+
+ACTION_FOR_EACH bx IN ~agbox01~ ~agbox02~ ~agbox03~ ~ammobelt~ ~bag01~ ~bag01~ ~bag02~ ~bag02b~ ~bag02c~ ~bag02d~ ~bag02e~ ~bag02f~ ~bag02g~ ~bag02h~ ~bag02i~ ~bag02j~ ~bag02nej~ ~bag03~ ~bag03b~ ~bag03c~ ~bag03d~ ~bag03e~ ~bag03f~ ~bag03g~ ~bag03h~ ~bag03i~ ~bag03l~ ~bag03nej~ ~bag04~ ~bag04b~ ~bag04b~ ~bag04c~ ~bag04d~ ~bag04e~ ~bag04f~ ~bag04nej~ ~bag04ts~ ~bag05~ ~bag05ts~ ~bag06~ ~bag06b~ ~bag06c~ ~bag06d~ ~bag06ts~ ~bag19~ ~bag19a~ ~bag19b~ ~bag19c~ ~bag19d~ ~bag19e~ ~bag20~ ~bag21~ ~bag22~ ~bag23~ ~bag24~ ~bag25~ ~bag26~ ~bag27~ ~bag28~ ~bag29~ ~bag30~ ~bag31~ ~bbbkbg1~ ~bbbkbg2~ ~bbbkbg3~ ~bbbkbg4~ ~bbbkbg5~ ~bbbkbg6~ ~bbbkbg7~ ~bbbkbg8~ ~bbbkbg9~ ~bbpbag1~ ~bbpbag2~ ~bbpbag3~ ~bbpbag4~ ~bbpbag5~ ~bbpbag6~ ~bbpbag7~ ~bbpbag8~ ~bbpbag9~ ~bbquiv1~ ~bbquiv2~ ~bbquiv3~ ~bbquiv4~ ~bbquiv5~ ~bbquiv6~ ~bbquiv7~ ~bbquiv8~ ~bbquiv9~ ~bbquivb1~ ~bbquivb2~ ~bbquivb3~ ~bbquivb4~ ~bbquivb5~ ~bbquivb6~ ~bbquivb7~ ~bbquivb8~ ~bbquivb9~ ~bbquivc1~ ~bbquivc2~ ~bbquivc3~ ~bbquivc4~ ~bbquivc5~ ~bbquivc6~ ~bbquivc7~ ~bbquivc8~ ~bbquivc9~ ~bbsccs1~ ~bbsccs2~ ~bbsccs3~ ~bbsccs4~ ~bbsccs5~ ~bbsccs6~ ~bbsccs7~ ~bbsccs8~ ~bbsccs9~ ~bgbag01~ ~bgbag02~ ~bgbag03~ ~bgbag04~ ~bgbag05~ ~bhpelltr~ ~bhtelvsb~ ~bhxspell~ ~bhzahr~ ~bpbag04~ ~bpbag06~ ~c!ammo~ ~c!bag02~ ~c!bag03~ ~c!bag04~ ~c!potion~ ~c#ajba01~ ~c#ajba02~ ~casenej~ ~cblocker~ ~cbmysbag~ ~cbmysscr~ ~cbrjr03a~ ~cbslence~ ~cbtrvbag~ ~cbwt700~ ~cdammo~ ~cdammo2~ ~cdpotio2~ ~cdpotion~ ~clfkeyrg~ ~cmbag01~ ~cmbag03~ ~cmbag04~ ~cmbag05~ ~cmbag06~ ~deitm112~ ~dsbag01~ ~e_bgem1~ ~e_bgem2~ ~e_bgem3~ ~e_bhold1~ ~e_bhold2~ ~e_bhold3~ ~e_bmiss1~ ~e_bmiss2~ ~e_bmiss3~ ~e_bpotn1~ ~e_bpotn2~ ~e_bpotn3~ ~e_bscro1~ ~e_bscro2~ ~e_bscro3~ ~gittcana~ ~gittcont~ ~gittgem~ ~gittperg~ ~gittpoci~ ~hfbag05~ ~hfbag06~ ~lk#ibelt~ ~m#kring~ ~m#ringb~ ~mhbag02~ ~mhbag03~ ~mhbag04~ ~mhbag05~ ~mhbag06~ ~misc03~ ~potncase~ ~ptnbg01~ ~ptnnej~ ~ruckzack~ ~s#bag01~ ~s#bag02~ ~scrlcase~ ~servidor~ ~sgammo~ ~sgbag04~ ~sgpotion~ ~sufbag1~ ~swbag02~ ~swbag02b~ ~swbag02c~ ~swbag03~ ~swbag03b~ ~swbag03c~ ~swbag05~ ~swbag05b~ ~swbag06~ ~swbag06b~ ~swbag19~ ~tcbacpac~ ~tcbag04~ ~tcbag05~ ~tcsbook1~ ~tcsbook2~ ~tcsbook3~ ~tcvildwb~ ~thbag01~ ~thbag02~ ~thbag03~ ~thbag04~ ~thbag05~ ~v#tasche~ ~vpambelt~ ~vpgenbag~ ~vpptnbag~ ~vpscrbag~ ~wb_gem~ ~wb_pot~ ~wb_scr~ ~wzrdbag1~ ~x#cobag~ ~xbag01~ ~xbag02~ BEGIN
+  ACTION_IF FILE_EXISTS_IN_GAME ~%bx%.sto~ BEGIN
+    COPY_EXISTING ~%bx%.sto~ ~override~ //Fix buggy "bottomless" containers
+      READ_SSHORT 0x22 cp //Capacity
+      PATCH_IF (cp < 1) OR (cp > 32000) BEGIN
+        WRITE_SHORT 0x22 32000
+      END
+    BUT_ONLY
+  END
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~bbscardr.itm~ BEGIN //Brendan's Scimitar of the Archdruid
+  INCLUDE ~cdtweaks/lib/t-brendan_scim.tpa~
+END
+
+COPY_EXISTING ~type2.sto~ ~override~ //Adventurers' Mart
+  PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+    REMOVE_STORE_ITEM ~scrl7a~ //Invalid item
+  END
+BUT_ONLY
+
+ACTION_IF FILE_EXISTS_IN_GAME ~_toblack.sto~ BEGIN //Tutu
+  COPY_EXISTING ~_toblack.sto~ ~override~ //Unnamed Store
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18025 //Black Lily's Shop
+      PATCH_IF FILE_EXISTS_IN_GAME ~bbscardr.itm~ BEGIN //Scimitar of the Archdruid
+        REMOVE_STORE_ITEM ~bbscardr~
+        ADD_STORE_ITEM ~bbscardr~ AFTER ~_sw1h07~ #0 #0 #0 ~IDENTIFIED~ #1
+      END
+    END
+  BUT_ONLY
+  COPY_EXISTING ~_tocheap.sto~ ~override~ //General Store
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18014 //Lucky Aello's Discount Store
+    END
+  BUT_ONLY
+  COPY_EXISTING ~_sto4906.sto~ ~override~ //Unnamed Shop
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18013 //Carnival Magic Items
+      PATCH_INCLUDE ~cdtweaks/lib/t-brendan_cases.tpp~
+    END
+  BUT_ONLY
+  COPY_EXISTING ~_sto4909.sto~ ~override~ //Carnival Shop
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18015 //Carnival Ranged Weapons
+      PATCH_INCLUDE ~cdtweaks/lib/t-brendan_ammo.tpp~
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~uhmer02.sto~ AND NOT FILE_EXISTS_IN_GAME ~_toblack.sto~ BEGIN //SoA
+  COPY_EXISTING ~bshop02.cre~ ~override~ //Storekeep
+    PATCH_IF SOURCE_SIZE > 0x2d3 BEGIN
+      SAY 0x8 @18002 //Sio'chaire
+      SAY 0xc @18002
+      WRITE_SHORT 0x28 0x6311 //Animation ID (thief_female_elf, was cleric)
+      WRITE_BYTE 0x273 0x9b //Class (innocent, was thief)
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~bshop02.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18003 //Sio'chaire's Shop
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~dshop01.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18004 //Ikert's Wares
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~jayes.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18005 //Jayes's Goods
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~shop01.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18024 //Mira's Merchandise
+      PATCH_INCLUDE ~cdtweaks/lib/t-brendan_cases.tpp~
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~shop05.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18026 //Perter's Products
+      PATCH_INCLUDE ~cdtweaks/lib/t-brendan_ammo.tpp~
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~shop08.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18006 //Galoomp's Books
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~trthf02.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18007 //Kich's Goods
+      PATCH_IF FILE_EXISTS_IN_GAME ~bbscardr.itm~ BEGIN //Brendan's Scimitar of the Archdruid
+        REMOVE_STORE_ITEM ~bbscardr~
+        ADD_STORE_ITEM ~bbscardr~ AFTER ~sw1h22~ #0 #0 #0 ~IDENTIFIED~ #1
+      END
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~uhmer02.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18008 //Min's Merchandise
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~wallace.sto~ ~override~ //Merchant
+                ~wallace2.sto~ ~override~
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18009 //Wallace's Wares
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~wmart2.sto~ AND NOT FILE_EXISTS_IN_GAME ~_tocheap.sto~ BEGIN //BG2 Extras
+  COPY_EXISTING ~wmart1.sto~ ~override~ //Shop
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18010 //Joluv's Wares
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~wmart2.sto~ ~override~ //Shop
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18011 //Deidre's Wares
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~amsmug02.sto~ BEGIN //ToB
+  COPY_EXISTING ~25spell.sto~ ~override~ //Pen and Parchment
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18001 //Arcana Archives
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~25spell2.sto~ ~override~ //Pen and Parchment
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18001 //Arcana Archives
+      REMOVE_STORE_ITEM ~bag31~ ~bag03g~ ~bag06~ //Unused duplicates
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~bag02d.itm~ ~override/t-bgem04.itm~ //Gem Bag
+                ~bag02d.itm~ ~override/t-bgem05.itm~
+                ~bag02d.itm~ ~override/t-bgem06.itm~
+                ~bag02d.sto~ ~override/t-bgem04.sto~
+                ~bag02d.sto~ ~override/t-bgem05.sto~
+                ~bag02d.sto~ ~override/t-bgem06.sto~
+
+  COPY_EXISTING ~amsmug01.sto~ ~override~ //Amkethran Smugglers
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~t-bgem04~ ~bag02i~ ~bag02d~
+      ADD_STORE_ITEM ~t-bgem04~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~amsmug02.sto~ ~override~ //Amkethran Smugglers
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~t-bgem06~ ~t-bgem05~ ~bag02j~ ~bag02i~ ~bag02d~
+      ADD_STORE_ITEM ~t-bgem05~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+      ADD_STORE_ITEM ~t-bgem06~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~mantlecs.itm~ BEGIN //BP or NEJ
+  COPY_EXISTING ~mantlecs.itm~ ~override~ //Mantle of the Coming Storm
+    PATCH_IF SOURCE_SIZE > 0x71 BEGIN
+      READ_LONG 0x64 hf //Header offset
+      READ_SHORT 0x68 hc //Header count
+      FOR (i1 = 0; i1 < hc; i1 += 1) BEGIN //Cycle through headers
+        READ_BYTE (0x38 * i1 + hf) pt //Attack type
+        PATCH_IF pt = 3 BEGIN
+          READ_BYTE (0x38 * i1 + hf + 1) rq //ID required
+          WRITE_BYTE (0x38 * i1 + hf + 1) (rq BOR 0b00000001)
+          READ_BYTE (0x38 * i1 + hf + 0x27) f2 //Flags 2
+          WRITE_BYTE (0x38 * i1 + hf + 0x27) (f2 BOR 0b00001000) //Rechargable
+        END
+      END
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~wmart2.sto~ ~override~ //Deidre's Wares
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~cloakmi~ //Mithran's Cloak
+      ADD_STORE_ITEM ~cloakmi~ #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~alexm.sto~ BEGIN //Alex Macintosh
+  COPY_EXISTING ~alexm.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~healharp~ ~halfeet~ //Zero stock bugs
+      ADD_STORE_ITEM ~halfeet~ AFTER ~mindhelm~ #250 #0 #0 ~IDENTIFIED~ #1
+      ADD_STORE_ITEM ~healharp~ AFTER ~wandhl~ #5 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~bhperk.sto~ BEGIN //Bone Hill
+  COPY_EXISTING ~bhperk.sto~ ~override~ //Perk's Store
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag05~ //Already in Nashkel
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~bhst0103.sto~ ~override~ //Ye Magic Shoppe
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag06~ ~bag03g~ ~bag02~ //Already in other stores
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~bhxspell.sto~ ~override~ //X Scrolls
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+
+      PATCH_FOR_EACH bsp IN ~scrx87~ ~scrx86~ ~scrx85~ ~scrx84~ ~scrx83~ ~scrx82~ ~scrx80~ ~scrx79~ ~scrx78~ ~scrx75~ BEGIN
+        PATCH_IF NOT FILE_EXISTS_IN_GAME ~%bsp%.itm~ BEGIN
+          REMOVE_STORE_ITEM ~%bsp%~
+        END
+      END
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~bpbag04.itm~ BEGIN //BP
+  COPY_EXISTING ~wmart1.sto~ ~override~ //Joluv's Wares
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~mantlecs~ ~bpbag06~ ~bpbag04~
+      ADD_STORE_ITEM ~mantlecs~ #3 #0 #0 ~IDENTIFIED~ #1
+      ADD_STORE_ITEM ~bpbag06~ #0 #0 #0 ~IDENTIFIED~ #1
+      ADD_STORE_ITEM ~bpbag04~ #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~ucmgst01.sto~ BEGIN //CoM Encounters
+  COPY_EXISTING ~ucmgst01.sto~ ~override~ //Scrolls R Us
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03b~ ~bag02~ //Already in scrolls.sto and ribald.sto
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~cbhl3631.sto~ BEGIN //CtB
+  COPY_EXISTING ~cbhl3631.sto~ ~override~ //Temple
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag31~ ~bag03g~ ~bag06~ //Already in 25spell.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~cbtentbd.sto~ ~override~
+    bt = 0 //Boot count
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      READ_BYTE 0x10 sq //Store flags 1
+      WRITE_BYTE 0x10 (sq BAND 0b10111111) //Doesn't serve drinks
+      READ_BYTE 0x10 sq //Store flags 1
+      WRITE_BYTE 0x10 (sq BOR 0b00000011) //Can buy and sell
+      READ_BYTE 0x11 sr //Store flags 2
+      WRITE_BYTE 0x11 (sr BOR 0b00000110) //Standard qualities
+      WRITE_LONG 0x1c 0 //Depreciation rate
+      WRITE_SHORT 0x20 100 //Steal failure
+      WRITE_SHORT 0x22 100 //Capacity
+      READ_LONG 0x2c pr //Items purchased offset
+      READ_LONG 0x30 pc //Items purchased count
+      nc = pc //New item count
+      FOR (i2 = (pr + pc * 4 - 4); i2 > (pr - 1); i2 -= 4) BEGIN
+        READ_LONG i2 tp //Item type
+        PATCH_IF tp = 4 BEGIN //If boots
+          bt += 1
+          PATCH_IF bt > 1 BEGIN
+            DELETE_BYTES i2 4
+            nc = nc - 1
+          END
+        END
+      END
+      WRITE_LONG 0x30 nc //New item count
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~cbtentbd.itm~ ~override/cbtentcg.itm~
+    SAY 0x8 @18317 //Camping Gear
+    SAY 0xc @18317
+  COPY_EXISTING ~cbtentbd.sto~ ~override/cbtentcg.sto~
+    SAY 0xc @18317
+
+  COPY_EXISTING ~cbsttflw.cre~ ~override~ //Paddy Stoutfellow
+    PATCH_IF SOURCE_SIZE > 0x2d3 BEGIN
+      REMOVE_CRE_ITEM ~cbtentbd~ //Campsite Equipment
+      ADD_CRE_ITEM ~cbtentcg~ #0 #0 #0 ~NONE~ ~INV~ //Camping Gear
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~cmmerc06.sto~ BEGIN //Dark Horizons
+  COPY_EXISTING ~cmmerc06.sto~ ~override~ //Godfrey's Goods
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~cmbag06~ ~cmbag05~ ~cmbag04~ ~cmbag03~ ~cmbag01~ //Bugged quantities
+      ADD_STORE_ITEM ~cmbag01~ LAST #0 #0 #0 ~IDENTIFIED~ #1 //Gem Bag
+      ADD_STORE_ITEM ~cmbag03~ LAST #0 #0 #0 ~IDENTIFIED~ #1 //Scroll Case
+      ADD_STORE_ITEM ~cmbag04~ LAST #0 #0 #0 ~IDENTIFIED~ #1 //Bag of Holding
+      ADD_STORE_ITEM ~cmbag05~ LAST #0 #0 #0 ~IDENTIFIED~ #1 //Ammo Belt
+      ADD_STORE_ITEM ~cmbag06~ LAST #0 #0 #0 ~IDENTIFIED~ #1 //Potion Case
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~cmgstr02.sto~ BEGIN //Dark Ritual
+  COPY_EXISTING ~cmgstr02.sto~ ~override~ //Magically Enhanced Scrolls
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03b~ //Already in scrolls.sto
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~dstrungl.sto~ BEGIN //DSotSC
+  COPY_EXISTING ~dstrungl.sto~ ~override~ //Trungle's Supplies
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03i~ //Already in amcler02.sto
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~fwstor01.sto~ BEGIN //Forgotten Wars Item Pack
+  COPY_EXISTING ~fwstor01.sto~ ~override~ //Forgotten Wars Emporium
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03~ ~bag06~ ~bag02~ ~bag05~ //Already in other stores
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~mersetek.sto~ BEGIN //Mersetek
+  COPY_EXISTING ~bag02.itm~ ~override/mebag02.itm~
+                ~bag02.sto~ ~override/mebag02.sto~
+
+  COPY_EXISTING ~mersetek.sto~ ~override~ //Store
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag02~ ~mebag02~
+      ADD_STORE_ITEM ~mebag02~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~clfkeyrg.itm~ BEGIN //Mod for the Orderly
+  COPY_EXISTING ~shop01.sto~  ~override~ //Mira's Merchandise
+                ~trmer01.sto~ ~override~ //Peddler
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~clfkeyrg~ //Already in dshop02.sto
+    END
+  BUT_ONLY
+
+  ACTION_IF FILE_EXISTS_IN_GAME ~hgkar01.sto~ BEGIN //ToB
+    COPY_EXISTING ~hgkar01.sto~ ~override~ //Karthis al-Hezzar
+      PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+        REMOVE_STORE_ITEM ~clfkeyrg~ //Already in dshop02.sto
+      END
+    BUT_ONLY
+  END
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~darkmar2.sto~ BEGIN //Mortis Mini-Mod
+  COPY_EXISTING ~darkmar2.sto~ ~override~ //Mortis' Spells of Terror
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      PATCH_FOR_EACH msp IN ~scr44~ ~scr45~ ~scrx19~ ~scrx26~ ~scrx35~ ~scrx37~ ~scrx46~ ~scrx48~ ~scrx58~ ~scrx59~ ~scrx61~ ~scrx62~ ~scrx69~ ~scrx84~ ~scrx85~ ~scrx86~ BEGIN
+        PATCH_IF NOT FILE_EXISTS_IN_GAME ~%msp%.itm~ BEGIN
+          REMOVE_STORE_ITEM ~%msp%~
+        END
+      END
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~sgammo.itm~ BEGIN //Munchmod
+  COPY_EXISTING ~sgammo.itm~ ~override/sgammo2.itm~
+                ~sgammo.sto~ ~override/sgammo2.sto~
+
+  COPY_EXISTING ~sgpedd3.sto~ ~override~ //Arkvisti's Cart
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~sgpotion~ ~sgammo2~ ~sgammo~ ~sgplat1~
+      ADD_STORE_ITEM ~sgammo2~ AFTER ~sgring3~ #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~spin446.spl~ BEGIN //NEJ
+  COPY_EXISTING ~wmart1.sto~ ~override~ //Joluv's Wares
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~wawak~ ~wastar~ ~wastaff~ ~waspear~ ~wasling~ ~was2h~ ~wamace~ ~waflail~ ~waaxe~ ~mantlecs~
+      PATCH_FOR_EACH wm IN ~wawak~ ~wastar~ ~wastaff~ ~waspear~ ~wasling~ ~was2h~ ~wamace~ ~waflail~ ~waaxe~ ~mantlecs~ BEGIN
+        PATCH_IF FILE_EXISTS_IN_GAME ~%wm%.itm~ BEGIN
+          ADD_STORE_ITEM ~%wm%~ #0 #0 #0 ~IDENTIFIED~ #1
+        END
+      END
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~vpgenbag.itm~ BEGIN //NEJ Merchant League Bank
+  COPY_EXISTING ~aldeth.sto~ ~override~ //Merchant League
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~vpgenbag~ //Cloth Sack
+      ADD_STORE_ITEM ~vpgenbag~ AFTER ~vpambelt~ #0 #0 #0 ~IDENTIFIED~ #1 //Remove "unlimited" flag
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~kusmith.sto~ BEGIN //NEJ v6.02 cumulative patch
+  COPY_EXISTING ~kusmith.sto~ ~override~ //Conlan's Smithy
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag01nej~ //Invalid item
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~bernpotr.sto~ BEGIN //Ribald's Genie
+  COPY_EXISTING ~bernpotr.sto~ ~override~ //Copper Coronet
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03~ //Already in bernard.sto
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~bremen1.sto~ BEGIN //RoT
+  COPY_EXISTING ~arlax1.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03g~ ~bag02g~ //Already in 25spell.sto and garlena.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~arlax3.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03h~ //Already in hgkar01.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~arlax5.sto~ ~override~ //Lower level spell store
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03i~ //Already in amcler02.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~bag04.itm~ ~override/bag04rot.itm~
+                ~bag04.sto~ ~override/bag04rot.sto~
+
+  COPY_EXISTING ~bremen1.sto~ ~override~ //Store
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18012 //Deli's Supplies
+      REMOVE_STORE_ITEM ~bag04rot~ ~bag04b~
+      ADD_STORE_ITEM ~bag04rot~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~cbslence.sto~ BEGIN //SOS or MTS Crappack
+  COPY_EXISTING ~cbslence.sto~ ~override~
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      PATCH_IF MOD_IS_INSTALLED ~Setup-MTS_Crappackv2.tp2~ ~25~ BEGIN
+        SAY 0xc @18034 //Selence Hillstar's Fenced Goods
+        REMOVE_STORE_ITEM ~~ //Remove bogus null items
+      END
+      PATCH_IF FILE_EXISTS_IN_GAME ~i1po001.itm~ BEGIN //iiItemMod
+        REMOVE_STORE_ITEM ~i1po011~ ~i1po010~ ~i1po009~ ~i1po008~ ~i1po007~ ~i1po006~ ~i1po005~ ~i1po004~ ~i1po003~ ~i1po002~ ~i1po001~ ~i1ar008~ ~i1ar007~ ~i1ar006~ ~i1ar005~ ~i1ar004~ ~i1ar003~ ~i1ar002~ ~i1ar001~ ~i1ar000~
+      END
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~cb4287mj.cre~ BEGIN //SOS
+  COPY_EXISTING ~cb4287mj.cre~ ~override~ //Soubar Major
+                ~cbsoumjr.cre~ ~override~
+    PATCH_IF SOURCE_SIZE > 0x2d3 BEGIN
+      REMOVE_CRE_ITEM ~cblocker~ //Foot Locker
+    END
+  BUT_ONLY
+
+  OUTER_SPRINT 27 @18027 //a locker
+  OUTER_SPRINT 28 @18028 //a safe place
+  OUTER_SPRINT 29 @18029 //the bag
+  OUTER_SPRINT 30 @18030 //this bag
+  OUTER_SPRINT 31 @18031 //the duffle
+  OUTER_SPRINT 32 @18032 //the trunk
+  OUTER_SPRINT 33 @18033 //this trunk
+
+  COPY_EXISTING ~cbsoumj1.dlg~ ~override~
+                ~cbsoumjr.dlg~ ~override~
+    PATCH_IF SOURCE_SIZE > 0x34 BEGIN
+      PATCH_SILENT
+      DECOMPILE_DLG_TO_D
+      REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~GiveItem("CBLOCKER",Player1)~ ~GiveItemCreate("CBLOCKER",Player1,0,0,0)~
+      COMPILE_D_TO_DLG
+      PATCH_VERBOSE
+      READ_LONG 0x0c st_off //States offset
+      FOR (i = 0; i < 14; i += 1) BEGIN //Cycle through states
+        READ_LONG (st_off + i * 0x10) sr //StringRef
+        READ_STRREF (st_off + i * 0x10) rt //State text
+        PATCH_IF (~%rt%~ STRING_CONTAINS_REGEXP ~ bag~ = 0) BEGIN
+          INNER_ACTION BEGIN
+            <<<<<<<< .../cdtweaks-inlined/t-temp.txt
+@18500 = ~%rt%~
+>>>>>>>>
+            COPY ~.../cdtweaks-inlined/t-temp.txt~ ~cdtweaks/backup/t-temp.tra~
+              EVALUATE_BUFFER
+              REPLACE_TEXTUALLY EXACT_MATCH ~.  ~ ~. ~
+              REPLACE_TEXTUALLY ~%27%~ ~%28%~ //a locker -> a safe place
+              REPLACE_TEXTUALLY ~%29%~ ~%32%~ //the bag -> the trunk
+              REPLACE_TEXTUALLY ~%30%~ ~%33%~ //this bag -> this trunk
+              REPLACE_TEXTUALLY ~%31%~ ~%32%~ //the duffle -> the trunk
+              REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~consficated~ ~confiscated~
+            STRING_SET_EVALUATE ~%sr%~ @18500 USING ~cdtweaks/backup/t-temp.tra~
+          END
+        END
+      END
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~bag04c.sto~ BEGIN //SPItems
+  COPY_EXISTING ~bag04b.sto~ ~override~
+                ~bag04c.sto~ ~override~
+                ~bag04d.sto~ ~override~
+                ~bag04e.sto~ ~override~
+                ~bag04f.sto~ ~override~
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc #56862 //Bag of Holding
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~wardwizs.sto~ BEGIN //TDD
+  COPY_EXISTING ~3307wiz.sto~ ~override~ //Magic Shop
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03~ //Already in bernard.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~3314frge.sto~ ~override~ //Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03c~ //Already in dshop01.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~barheal.sto~ ~override~ //Store
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03~ //Already in bernard.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~wardwizs.sto~ ~override~ //Store
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03~ //Already in bernard.sto
+    END
+  BUT_ONLY
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~wwelle.dlg~ BEGIN //UB
+  ACTION_IF NOT FILE_EXISTS_IN_GAME ~u!bag02.itm~ BEGIN //Check bag fix doesn't already exist
+    COPY_EXISTING ~bag02.itm~ ~override/u!bag02.itm~
+    COPY_EXISTING ~bag02.sto~ ~override/u!bag02.sto~
+    COPY_EXISTING ~wwelle.dlg~ ~override~
+      DECOMPILE_DLG_TO_D
+      REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~"BAG02"~ ~"u!bag02"~
+      COMPILE_D_TO_DLG
+    BUT_ONLY
+  END
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~sackgr04.itm~ BEGIN //Undying or DoS
+  COPY_EXISTING ~cmmagin1.sto~ ~override~ //Dwarven Hammer
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03~ //Already in bernard.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~sackgr04.itm~ ~override~ //Bag of Illusionary Dust
+    PATCH_IF SOURCE_SIZE > 0x71 BEGIN
+      WRITE_ASCII 0x10 ~~ #8 //Used-up item
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~tempeil.sto~ ~override~ //Dark Maiden's Wares
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~sackgr04~
+      ADD_STORE_ITEM ~sackgr04~ LAST #10 #0 #0 ~IDENTIFIED~ #3
+      PATCH_IF NOT FILE_EXISTS_IN_GAME ~cmgr01.itm~ BEGIN //Minor Globe of Darkness
+        REMOVE_STORE_ITEM ~cmgr03~ ~cmgr02~ ~cmgr01~
+      END
+    END
+  BUT_ONLY
+
+  ACTION_IF NOT FILE_EXISTS_IN_GAME ~coma04.itm~ BEGIN //Armor of Valor
+    COPY_EXISTING ~temhelm.sto~ ~override~ //Dark Maiden's Wares
+      PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+        REMOVE_STORE_ITEM ~coma04~ //Invalid item
+      END
+    BUT_ONLY
+  END
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~cmtus01.sto~ BEGIN //Undying
+  COPY_EXISTING ~cmninamy.sto~ ~override~ //Mystra's Magical Merchant
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03b~ //Already in scrolls.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~cmninast.sto~ ~override~ //The Goods
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag02j~ ~bag02d~ //Already in kindast.sto and arled.sto
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~cmtus01.sto~ ~override~ //Merchant's Market
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~conc11~ ~comc11~ //Invalid reference (conc11)
+      ADD_STORE_ITEM ~comc11~ AFTER ~cmtule03~ #0 #0 #0 ~IDENTIFIED~ #1 //Balduran's Mantle
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~cmtus03.sto~ ~override~ //Fine Magical Goods
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      REMOVE_STORE_ITEM ~bag03b~ ~bag02~ //Already in scrolls.sto and ribald.sto
+    END
+  BUT_ONLY
+END
+
+/////                                                  \\\\\
+///// t-lost_items.tpa                                 \\\\\
+/////                                                  \\\\\
+
+ACTION_IF FILE_EXISTS_IN_GAME ~swbag02.itm~ AND NOT FILE_EXISTS_IN_GAME ~t-bgem01.itm~ BEGIN //Lost Items v2
+  COPY_EXISTING ~bag02.itm~ ~override/t-bgem01.itm~
+                ~bag02.sto~ ~override/t-bgem01.sto~
+                ~bag03.itm~ ~override/t-bscr02.itm~
+                ~bag03.sto~ ~override/t-bscr02.sto~
+                ~bag04.itm~ ~override/t-bhld01.itm~
+                ~bag04.sto~ ~override/t-bhld01.sto~
+                ~bag05.itm~ ~override/t-bamm01.itm~
+                ~bag05.itm~ ~override/t-bamm02.itm~
+                ~bag05.itm~ ~override/t-bamm03.itm~
+                ~bag05.sto~ ~override/t-bamm01.sto~
+                ~bag05.sto~ ~override/t-bamm02.sto~
+                ~bag05.sto~ ~override/t-bamm03.sto~
+                ~bag06.itm~ ~override/t-bptn01.itm~
+                ~bag06.itm~ ~override/t-bptn02.itm~
+                ~bag06.sto~ ~override/t-bptn01.sto~
+                ~bag06.sto~ ~override/t-bptn02.sto~
+
+  COPY_EXISTING ~%tsu%gorion.cre~ ~override~ //Gorion
+    PATCH_IF SOURCE_SIZE > 0x2d3 BEGIN
+      REMOVE_CRE_ITEM ~swbag02~ ~swbag06~ //Gem Bag & Potion Case
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~%tsu%inn3304.sto~ ~override~ //Jovial Juggler
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      ADD_STORE_ITEM ~t-bgem01~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+      ADD_STORE_ITEM ~t-bptn01~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~%tsu%davaeo.cre~ ~override~ //Davaeorn
+    PATCH_IF SOURCE_SIZE > 0x2d3 BEGIN
+      REMOVE_CRE_ITEM ~swbag19~ //Bag of Holding
+    END
+  BUT_ONLY
+
+  EXTEND_BOTTOM ~%cm4%.bcs~ ~cdtweaks/baf/t-ar1803.baf~ //Cloakwood Mines L4
+    EVALUATE_BUFFER
+
+  COPY_EXISTING ~%tsu%nimbul.cre~ ~override~ //Nimbul
+    PATCH_IF SOURCE_SIZE > 0x2d3 BEGIN
+      REMOVE_CRE_ITEM ~swbag03c~ //Scroll Case
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~%tsu%prism.cre~ ~override~ //Prism
+    PATCH_IF SOURCE_SIZE > 0x2d3 BEGIN
+      REMOVE_CRE_ITEM ~swbag06b~ //Potion Case
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~%tsu%tem4003.sto~ ~override~ //Gullykin Temple
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      ADD_STORE_ITEM ~t-bptn02~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~%tsu%vax.cre~ ~override~ //Vax
+    PATCH_IF SOURCE_SIZE > 0x2d3 BEGIN
+      REMOVE_CRE_ITEM ~swbag05~ ~swbag05b~ //Ammo Belt
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~%tsu%zal.cre~ ~override~ //Zal
+    PATCH_IF SOURCE_SIZE > 0x2d3 BEGIN
+      REPLACE_CRE_ITEM ~t-bamm02~ #0 #0 #0 ~NONE~ ~BELT~
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~%tss%tocheap.sto~ ~override~ //General Store
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18014 //Lucky Aello's Discount Store
+      ADD_STORE_ITEM ~t-bamm03~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+    END
+  BUT_ONLY
+
+  EXTEND_BOTTOM ~%nsh%.bcs~ ~cdtweaks/baf/t-ar4800.baf~ //Nashkel
+    EVALUATE_BUFFER
+
+  COPY_EXISTING ~%tsu%sto4901.sto~ ~override~ //Carnival Shop
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18016 //Carnival Armor
+      ADD_STORE_ITEM ~%tsu%leat10~ AFTER ~%tsu%leat04~ #0 #0 #0 ~IDENTIFIED~ #1 //Hide Armor
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~%tsu%sto4906.sto~ ~override~ //Unnamed Shop
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18013 //Carnival Magic Items
+      ADD_STORE_ITEM ~%tsu%brac02~ AFTER ~%tsu%ring21~ #0 #0 #0 ~IDENTIFIED~ #1 //Bracers AC7
+      ADD_STORE_ITEM ~%tsu%dart03~ LAST #5 #0 #0 ~IDENTIFIED~ #1 //Dart of Stunning
+      ADD_STORE_ITEM ~t-bscr02~ LAST #0 #0 #0 ~IDENTIFIED~ #1 //Black-Green Scroll Case
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~%tsu%sto4909.sto~ ~override~ //Carnival Shop
+    PATCH_IF SOURCE_SIZE > 0x9b BEGIN
+      SAY 0xc @18015 //Carnival Ranged Weapons
+      ADD_STORE_ITEM ~t-bamm01~ LAST #0 #0 #0 ~IDENTIFIED~ #1 //Ammo Belt
+    END
+  BUT_ONLY
+END
+
+// extra fix from old t-bag_holding_icons.tpa
+ACTION_IF FILE_EXISTS_IN_GAME ~cblocker.itm~ BEGIN
+
+  OUTER_SPRINT text29 @18029
+  OUTER_SPRINT text30 @18030
+  OUTER_SPRINT text32 @18032
+  OUTER_SPRINT text33 @18033
+
+  COPY_EXISTING ~cblocker.itm~ ~override~
+    PATCH_IF SOURCE_SIZE > 0x71 BEGIN
+      WRITE_ASCII 0x44 ~gcrate01~ #8 //Ground icon
+      WRITE_ASCII 0x58 ~cmisc03~ #8 //Description icon
+      READ_SLONG 0x54 d1 //Identified description
+      PATCH_IF d1 = ~-1~ BEGIN
+        READ_STRREF 0x50 dc //Unidentified description
+        READ_SLONG 0x50 d1
+      END ELSE BEGIN
+        READ_STRREF 0x54 dc
+      END
+      PATCH_IF d1 > 0 BEGIN
+        INNER_PATCH_SAVE dc ~%dc%~ BEGIN
+          REPLACE_TEXTUALLY EXACT_MATCH ~.  ~ ~. ~
+          REPLACE_TEXTUALLY CASE_SENSITIVE ~%text29%~ ~%text32%~ //the bag -> the trunk
+          REPLACE_TEXTUALLY CASE_SENSITIVE ~%text30%~ ~%text33%~ //this bag -> this trunk
+          REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH ~The bag~ ~The trunk~
+          REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH ~Die Tasche~ ~Die Truhe~
+          REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH ~der Tasche~ ~der Truhe~
+        END
+      END
+    END
+    BUT_ONLY
+
+  STRING_SET_EVALUATE ~%d1%~ ~%dc%~
+
+END
+
+
+END

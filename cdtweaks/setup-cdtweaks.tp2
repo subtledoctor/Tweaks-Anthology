@@ -23,7 +23,7 @@ ALWAYS
 
 END
 
-VERSION ~Beta 2~
+VERSION ~Beta 3~
 
 README ~cdtweaks/readme-cdtweaks.html~
 
@@ -552,51 +552,7 @@ END
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @12000 DESIGNATED 120
-GROUP @11
-REQUIRE_PREDICATE NOT GAME_IS ~bg1 totsc iwd how totlm iwd2 pst~ @25 // totsc might work; investigate
-REQUIRE_PREDICATE NOT MOD_IS_INSTALLED ~1pp/1pp.tp2~ ~113~ @24 // don't install if 1pp smart avatar/armor switching installed
-
-ACTION_FOR_EACH file IN lcarmor lcarmor2 lcarmorc lcarmorf lcarmort lcrobe lcrobe2 BEGIN
-
-  COPY ~cdtweaks/spl/%file%.spl~ ~override~
-
-END
-
-ACTION_FOR_EACH file IN fc_dwar2 fc_dwarf fc_el2 fc_elf fc_gnom2 fc_gnome fc_half2 fc_halfl
-  fc_hfor2 fc_hforc fc_huma2 fc_human ff_dwar2 ff_dwarf ff_el2 ff_elf ff_gnom2 ff_gnome
-  ff_half2 ff_halfl ff_hfor2 ff_hforc ff_huma2 ff_human fm_dwar2 fm_dwarf fm_el2 fm_elf
-  fm_gnom2 fm_gnome fm_half2 fm_halfl fm_huma2 fm_human ft_dwar2 ft_dwarf ft_el2 ft_elf
-  ft_gnom2 ft_gnome ft_half2 ft_halfl ft_hfor2 ft_hforc ft_huma2 ft_human lcarmor2 lcarmorc
-  lcarmorf lcarmort lcrobe2 mc_dwar2 mc_dwarf mc_el2 mc_elf mc_gnom2 mc_gnome mc_half2
-  mc_halfl mc_hfor2 mc_hforc mc_huma2 mc_human mf_dwar2 mf_dwarf mf_el2 mf_elf mf_gnom2
-  mf_gnome mf_half2 mf_halfl mf_hfor2 mf_hforc mf_huma2 mf_human mm_dwar2 mm_dwarf mm_el2
-  mm_elf mm_gnom2 mm_gnome mm_half2 mm_halfl mm_huma2 mm_human mt_dwar2 mt_dwarf mt_el2
-  mt_elf mt_gnom2 mt_gnome mt_half2 mt_halfl mt_hfor2 mt_hforc mt_huma2 mt_human
-BEGIN
-
-  COPY ~cdtweaks/eff/%file%.eff~ ~override~
-
-END
-
-// make monks immune to avatar shifting
-COPY_EXISTING ~spcl812.spl~ ~override~ // movement rate bonus spell
-  PATCH_FOR_EACH res IN lcarmor lcrobe BEGIN
-    LPF ADD_SPELL_EFFECT INT_VAR opcode = 206 target = 2 parameter1 = `0 timing = 9 STR_VAR resource = EVAL "%res%" END
-  END
-  BUT_ONLY
-
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c itemtype ELSE 0
-  PATCH_IF (itemtype = 2) BEGIN
-    READ_ASCII 0x22 anim (2)
-    PATCH_IF ("%anim%" STRING_COMPARE_REGEXP "[234][Ww]" = 0) BEGIN
-      LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 146 target = 1 parameter1 = 1 parameter2 = 1 timing = 2 STR_VAR resource = "lcrobe" END
-    END ELSE BEGIN
-      LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 146 target = 1 parameter1 = 1 parameter2 = 1 timing = 2 STR_VAR resource = "lcarmor" END
-    END
-  END
-  BUT_ONLY
+DEPRECATED @18
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -719,6 +675,9 @@ BEGIN @16000 DESIGNATED 160
 GROUP @11
 REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
 
+OUTER_SET column = 4
+INCLUDE ~cdtweaks/lib/mpalette.tpa~
+
 OUTER_SET primary    = 34 // doubles as pulse location
 OUTER_SET secondary  = 37
 OUTER_SET tertiary   = 32
@@ -788,7 +747,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
         END ELSE BEGIN // if we do have a primary color, remove it
           LPF DELETE_EFFECT INT_VAR check_headers = 0 match_opcode = 7 match_parameter2 = primary END
         END
-
+        SET color_pulse = 0x64646400  // set to generic white, try to pick better in next step
+        PATCH_IF color_primary < 200 BEGIN // ignore values from randcolr.2da
+          SET color_pulse = $cdcolors(~%color_primary%~)
+        END
+        /* old guesswork way for color pulse
         // pick pulse color based on panel color
         PATCH_IF ((color_primary = 29) OR
                   (color_primary = 237) OR
@@ -828,6 +791,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
         END ELSE BEGIN
           SET color_pulse = 0x64646400  // if none of the above, make it a generic light gray/white (100,100,100)
         END
+        */
         // now actually add pulse effect
         LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 9 target = 1 parameter1 = color_pulse parameter2 = (primary + (40 << 16)) timing = 2 END //
       END
@@ -846,6 +810,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
 BEGIN @17000 DESIGNATED 170
 GROUP @11
 REQUIRE_PREDICATE GAME_IS ~iwdee iwd how totlm iwd_in_bg2 soa tob bg2ee eet bgt ca~ @25
+
 
 ACTION_CLEAR_ARRAY cd_unique_icons
 ACTION_CLEAR_ARRAY cd_unique_anims
@@ -901,6 +866,190 @@ ACTION_PHP_EACH cd_unique_anims AS item => anim BEGIN
   END
 
 END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// unique containers                                \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// fixes only                                       \\\\\
+/////                                                  \\\\\
+
+BEGIN @18018 DESIGNATED 180
+SUBCOMPONENT @18000
+GROUP @11
+REQUIRE_PREDICATE GAME_IS ~soa tob bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
+
+INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
+
+/////                                                  \\\\\
+///// icons and fixes                                  \\\\\
+/////                                                  \\\\\
+
+BEGIN @18021 DESIGNATED 181
+SUBCOMPONENT @18000
+GROUP @11
+REQUIRE_PREDICATE GAME_IS ~soa tob bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
+
+OUTER_SET names = 0 // don't set names
+INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
+INCLUDE ~cdtweaks/lib/unique_containers_default.tpa~ // external array of items => icons in case this expands to different platforms
+INCLUDE ~cdtweaks/lib/unique_containers.tpa~ // does the actual work
+
+/////                                                  \\\\\
+///// fixes, icons, names                              \\\\\
+/////                                                  \\\\\
+
+BEGIN @18020 DESIGNATED 182
+SUBCOMPONENT @18000
+GROUP @11
+REQUIRE_PREDICATE GAME_IS ~soa tob bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
+REQUIRE_PREDICATE (("%LANGUAGE%" STRING_COMPARE_CASE "english" = 0) OR
+                   ("%LANGUAGE%" STRING_COMPARE_CASE "french" = 0) OR
+                   ("%LANGUAGE%" STRING_COMPARE_CASE "german" = 0) OR
+                   ("%LANGUAGE%" STRING_COMPARE_CASE "italian" = 0) OR
+                   ("%LANGUAGE%" STRING_COMPARE_CASE "russian" = 0) OR
+                   ("%LANGUAGE%" STRING_COMPARE_CASE "spanish" = 0)) @7 // english/french/german/italian/russian/spanish only
+
+OUTER_SET names = 1 // set names
+INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
+INCLUDE ~cdtweaks/lib/unique_containers_default.tpa~ // external array of items => icons in case this expands to different platforms
+INCLUDE ~cdtweaks/lib/unique_containers.tpa~ // does the actual work
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Maintain character colors                        \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// all helmets and shields                          \\\\\
+/////                                                  \\\\\
+
+BEGIN @19000 DESIGNATED 190
+SUBCOMPONENT @19001
+GROUP @11
+REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_SHORT 0x1c type
+  PATCH_IF ((type = 7) OR (type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) BEGIN // item type helm or shield
+    PATCH_FOR_EACH loc IN 33 34 49 50 BEGIN // 33 - shield interior, 34 - shield panel, 49 - helm detail/plume, 50 - helm wings
+      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+    END
+  END
+  BUT_ONLY
+
+/////                                                  \\\\\
+///// non-magical helmets and shields                  \\\\\
+/////                                                  \\\\\
+
+BEGIN @19100 DESIGNATED 191
+SUBCOMPONENT @19001
+GROUP @11
+REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_SHORT 0x1c type
+  READ_LONG 0x18 flags
+  PATCH_IF (((flags & BIT6) = 0) AND ((type = 7) OR (type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53))) BEGIN // item type helm or shield, flagged as non-magical
+    PATCH_FOR_EACH loc IN 33 34 49 50 BEGIN // 33 - shield interior, 34 - shield panel, 49 - helm detail/plume, 50 - helm wings
+      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+    END
+  END
+  BUT_ONLY
+
+/////                                                  \\\\\
+///// all helmets                                      \\\\\
+/////                                                  \\\\\
+
+BEGIN @19200 DESIGNATED 192
+SUBCOMPONENT @19001
+GROUP @11
+REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_SHORT 0x1c type
+  PATCH_IF (type = 7) BEGIN // item type helm or shield
+    PATCH_FOR_EACH loc IN 49 50 BEGIN // 49 - helm detail/plume, 50 - helm wings
+      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+    END
+  END
+  BUT_ONLY
+
+/////                                                  \\\\\
+///// non-magical helmets                              \\\\\
+/////                                                  \\\\\
+
+BEGIN @19300 DESIGNATED 193
+SUBCOMPONENT @19001
+GROUP @11
+REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_SHORT 0x1c type
+  READ_LONG 0x18 flags
+  PATCH_IF (((flags & BIT6) = 0) AND (type = 7)) BEGIN // item type helm, flagged as non-magical
+    PATCH_FOR_EACH loc IN 49 50 BEGIN // 49 - helm detail/plume, 50 - helm wings
+      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+    END
+  END
+  BUT_ONLY
+
+/////                                                  \\\\\
+///// all shields                                      \\\\\
+/////                                                  \\\\\
+
+BEGIN @19400 DESIGNATED 194
+SUBCOMPONENT @19001
+GROUP @11
+REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_SHORT 0x1c type
+  PATCH_IF ((type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) BEGIN // item type shield
+    PATCH_FOR_EACH loc IN 33 34 BEGIN // 33 - shield interior, 34 - shield panel
+      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+    END
+  END
+  BUT_ONLY
+
+/////                                                  \\\\\
+///// non-magical shields                              \\\\\
+/////                                                  \\\\\
+
+BEGIN @19500 DESIGNATED 195
+SUBCOMPONENT @19001
+GROUP @11
+REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_SHORT 0x1c type
+  READ_LONG 0x18 flags
+  PATCH_IF (((flags & BIT6) = 0) AND ((type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53))) BEGIN // item type shield, flagged as non-magical
+    PATCH_FOR_EACH loc IN 33 34 BEGIN // 33 - shield interior, 34 - shield panel
+      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+    END
+  END
+  BUT_ONLY
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1776,7 +1925,7 @@ ACTION_IF GAME_IS ~how totlm iwd_in_bg2~ THEN BEGIN
   END
   
   ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3040~ THEN BEGIN // if bottomless bags
-  
+
     COPY_EXISTING ~cdammo1.sto~ ~override~
                   ~cdammo2.sto~ ~override~
                   ~cdammo3.sto~ ~override~
@@ -2021,6 +2170,39 @@ END ELSE BEGIN
       END
   
   END
+
+END
+
+ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~181~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~182~)) THEN BEGIN // if unique bag icons
+
+  ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~181~ BEGIN
+    OUTER_SET names = 0
+  END ELSE BEGIN
+    OUTER_SET names = 1
+  END
+
+  ACTION_CLEAR_ARRAY cd_unique_containers
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_unique_containers BEGIN
+
+    104 => ~c!bag02~
+    204 => ~c!bag03~
+    304 => ~c!bag04~
+    305 => ~cdhold1~
+    306 => ~cdhold2~
+    307 => ~cdhold3~
+    402 => ~cdammo3~
+    403 => ~cdammo4~
+    404 => ~c!ammo~
+    405 => ~cdammo1~
+    406 => ~cdammo~
+    407 => ~cdammo2~
+    504 => ~c!potion~
+    506 => ~cdpotio2~
+    507 => ~cdpotion~
+
+  END
+
+  INCLUDE ~cdtweaks/lib/unique_containers.tpa~ // does the actual work
 
 END
 
@@ -7825,6 +8007,306 @@ ACTION_IF FILE_EXISTS_IN_GAME ~weapprof.2da~ THEN BEGIN
 
 END
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Everyone Gets Bonus APR from Specialization                \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @244000 DESIGNATED 2440
+GROUP @9
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
+
+INCLUDE ~cdtweaks/lib/remove_lines.tpa~
+
+COPY ~cdtweaks/spl/d5_numat.spl~ ~override~
+
+// sets GETS_PROF_APR to 1 for all classes/kits
+COPY_EXISTING ~clswpbon.2da~ ~override~
+  COUNT_2DA_ROWS 4 rows
+  FOR (index = 0 ; index < rows ; ++index) BEGIN
+    SET_2DA_ENTRY index 1 4 1
+  END
+  PRETTY_PRINT_2DA
+  BUT_ONLY
+
+COPY_EXISTING ~wspatck.2da~ ~override~
+  COUNT_2DA_COLS col_num
+  READ_2DA_ENTRY 0 1 col_num row0 // read in level 1 bonuses
+  READ_2DA_ENTRY 1 1 col_num row1
+  READ_2DA_ENTRY 2 1 col_num row2
+  READ_2DA_ENTRY 3 1 col_num row3
+  READ_2DA_ENTRY 4 1 col_num row4
+  READ_2DA_ENTRY 5 1 col_num row5
+  FOR (index = 2 ; index < col_num ; ++index) BEGIN // write level 1 bonuses to all other levels (no apr from levelling)
+    SET_2DA_ENTRY 0 index col_num row0
+    SET_2DA_ENTRY 1 index col_num row1
+    SET_2DA_ENTRY 2 index col_num row2
+    SET_2DA_ENTRY 3 index col_num row3
+    SET_2DA_ENTRY 4 index col_num row4
+    SET_2DA_ENTRY 5 index col_num row5
+  END
+  PRETTY_PRINT_2DA
+  BUT_ONLY
+
+// update prof strings in game
+ACTION_CLEAR_ARRAY cd_prof_strings
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_prof_strings BEGIN
+  dots0 => 9588  // default iwdee/bg2ee/bgee prof string
+  dots2 => 32117 // default iwdee/bg2ee specialization string
+  dots3 => 32118 // default iwdee/bg2ee mastery string
+  dots4 => 32119 // default iwdee/bg2ee high mastery string
+  dots5 => 32120 // default iwdee/bg2ee grandmastery string
+END
+
+ACTION_IF NOT GAME_IS ~iwdee bg2ee eet~ BEGIN // override dots2-5 for bgee, sod
+
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_prof_strings BEGIN
+    dots2 => 24220 // default iwdee/bg2ee specialization string
+    dots3 => 24221 // default iwdee/bg2ee mastery string
+    dots4 => 24222 // default iwdee/bg2ee high mastery string
+    dots5 => 24223 // default iwdee/bg2ee grandmastery string
+  END
+
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~enginest.2da~ BEGIN // if ee v2 and above, override above with actual lookups
+
+  COPY_EXISTING ~enginest.2da~ ~override~
+    REPLACE_EVALUATE ~^\(STRREF_GUI_HELP_PROFICIENCIES[ TAB%]+\)\([0-9]+\)~ BEGIN DEFINE_ASSOCIATIVE_ARRAY cd_prof_strings BEGIN dots0 => "%MATCH2%" END END ~%MATCH1%%MATCH2%~
+    REPLACE_EVALUATE ~^\(STRREF_GUI_MIXED_DOTS2[ TAB%]+\)\([0-9]+\)~        BEGIN DEFINE_ASSOCIATIVE_ARRAY cd_prof_strings BEGIN dots2 => "%MATCH2%" END END ~%MATCH1%%MATCH2%~
+    REPLACE_EVALUATE ~^\(STRREF_GUI_MIXED_DOTS3[ TAB%]+\)\([0-9]+\)~        BEGIN DEFINE_ASSOCIATIVE_ARRAY cd_prof_strings BEGIN dots3 => "%MATCH2%" END END ~%MATCH1%%MATCH2%~
+    REPLACE_EVALUATE ~^\(STRREF_GUI_MIXED_DOTS4[ TAB%]+\)\([0-9]+\)~        BEGIN DEFINE_ASSOCIATIVE_ARRAY cd_prof_strings BEGIN dots4 => "%MATCH2%" END END ~%MATCH1%%MATCH2%~
+    REPLACE_EVALUATE ~^\(STRREF_GUI_MIXED_DOTS5[ TAB%]+\)\([0-9]+\)~        BEGIN DEFINE_ASSOCIATIVE_ARRAY cd_prof_strings BEGIN dots5 => "%MATCH2%" END END ~%MATCH1%%MATCH2%~
+    BUT_ONLY
+
+END
+
+OUTER_SPRINT forbidden1 @244001
+OUTER_SPRINT forbidden2 @244002
+OUTER_SPRINT forbidden3 @244003
+
+ACTION_PHP_EACH cd_prof_strings AS prof => strref BEGIN
+
+  ACTION_GET_STRREF strref raw
+  OUTER_INNER_PATCH_SAVE string ~%raw%~ BEGIN
+    REPLACE_TEXTUALLY ~%forbidden1%~ ~~
+    REPLACE_TEXTUALLY ~%forbidden2%[ %TAB%]+\*~ ~%forbidden2%~
+    REPLACE_TEXTUALLY ~[ %TAB%]+%forbidden3%[ %TAB%]+~ ~ ~
+  END
+  STRING_SET_EVALUATE strref ~%string%~
+
+END
+
+ACTION_CLEAR_ARRAY mod_kit_clabs
+ACTION_DEFINE_ASSOCIATIVE_ARRAY mod_kit_clabs BEGIN
+  clabfi01 =>  2 // generic fighter
+  clabpa01 =>  6 // generic paladin
+  clabpa05 =>  6 // fallen paladin
+  clabrn01 => 12 // generic ranger
+  clabrn05 => 12 // fallen ranger
+END
+
+COPY_EXISTING ~kitlist.2da~ ~override~
+  COUNT_2DA_ROWS ~10~ "rows"
+  FOR ( index = 1 ; index < rows ; index = index + 1 ) BEGIN
+    READ_2DA_ENTRY %index% 8 10 modclass
+    PATCH_IF ((modclass = 2) OR (modclass = 6) OR (modclass = 12)) BEGIN
+      READ_2DA_ENTRY %index% 5 10 modclab
+      DEFINE_ASSOCIATIVE_ARRAY mod_kit_clabs BEGIN "%modclab%" => "%modclass%" END
+    END
+  END
+  BUT_ONLY
+
+ACTION_PHP_EACH mod_kit_clabs AS foo => zoo BEGIN
+
+  ACTION_IF FILE_EXISTS_IN_GAME ~%foo%.2da~ THEN BEGIN
+
+    COPY_EXISTING ~%foo%.2da~ ~override~
+      LPM remove_blank_lines
+      APPEND_FILE ~cdtweaks/2da/d5_waapr.2da~
+      BUT_ONLY
+
+  END
+
+END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// PnP Prof restrictions for dual-classes                     \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @245000 DESIGNATED 2450
+GROUP @9
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~kitlist.2da~ @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
+
+INCLUDE ~cdtweaks/lib/remove_lines.tpa~
+INCLUDE ~cdtweaks/lib/fl#add_kit_ee.tpa~
+
+// look up default fighter/ranger stuff
+COPY_EXISTING ~weapprof.2da~  ~override~
+  REPLACE_TEXTUALLY ~NAME_REF~ ~CDDELETEME NAME_REF~
+  FOR (row = 9; row < 33; ++row) BEGIN
+    READ_2DA_ENTRY row  5 22 prof_fgt
+    READ_2DA_ENTRY row 11 22 prof_rgr
+    PATCH_IF prof_fgt > 2 BEGIN SET prof_fgt = 2 END
+    PATCH_IF prof_rgr > 2 BEGIN SET prof_rgr = 2 END
+    INNER_ACTION BEGIN
+      COPY ~cdtweaks/lib/pnp_dual_core.tpa~ ~cdtweaks/lib/pnp_dual_core.tpa~
+        REPLACE_TEXTUALLY ~prof_fgt_%row%~ ~%prof_fgt%~
+        REPLACE_TEXTUALLY ~prof_rgr_%row%~ ~%prof_rgr%~
+    END
+  END
+  BUT_ONLY
+
+// these strings are the same on bgee/bg2ee/iwdee/vanilla bg2; leaving externalized in case we discover otherwise and need to if/else here
+OUTER_SET fgt_strref1 = 10086
+OUTER_SET fgt_strref2 = 10174 // 16799, 40921, 40922
+OUTER_SET fgt_strref3 = 9556
+OUTER_SET rgr_strref1 = 7200
+OUTER_SET rgr_strref2 = 10173 // 1077, 2184-5
+OUTER_SET rgr_strref3 = 9557
+
+COPY ~cdtweaks/lib/pnp_dual_core.tpa~ ~cdtweaks/lib/pnp_dual_core.tpa~
+  REPLACE_TEXTUALLY ~fgt_strref1~ ~%fgt_strref1%~
+  REPLACE_TEXTUALLY ~fgt_strref2~ ~%fgt_strref2%~
+  REPLACE_TEXTUALLY ~fgt_strref3~ ~%fgt_strref3%~
+  REPLACE_TEXTUALLY ~fgt_strref4~ ~%fgt_strref4%~
+  REPLACE_TEXTUALLY ~rgr_strref1~ ~%rgr_strref1%~
+  REPLACE_TEXTUALLY ~rgr_strref2~ ~%rgr_strref2%~
+  REPLACE_TEXTUALLY ~rgr_strref3~ ~%rgr_strref3%~
+  REPLACE_TEXTUALLY ~rgr_strref4~ ~%rgr_strref4%~
+
+REINCLUDE ~cdtweaks/lib/pnp_dual_core.tpa~
+
+COPY ~cdtweaks/spl/d5_duafc.spl~ ~override~
+
+COPY ~cdtweaks/cre/d5_dual.cre~ ~override~
+     ~cdtweaks/eff/d5_dual.eff~ ~override~
+
+COMPILE ~cdtweaks/baf/d5_dual.baf~
+
+ACTION_IF NOT FILE_EXISTS_IN_GAME ~clabma01.2da~ THEN BEGIN
+  COPY ~cdtweaks/2da/clabmaxx.2da~ ~override/clabma01.2da~
+END
+
+COPY_EXISTING ~clabdr01.2da~ ~override~
+              ~clabma01.2da~ ~override~
+              ~clabpr01.2da~ ~override~
+              ~clabth01.2da~ ~override~
+  LPM remove_blank_lines
+  APPEND_FILE ~cdtweaks/2da/dualfc.2da~
+  BUT_ONLY
+
+// now for original and mod kits
+OUTER_SET cd_kit_count = 0
+
+COPY_EXISTING ~kitlist.2da~ ~override~
+  COUNT_2DA_ROWS 9 rows
+  FOR (row2 = 0 ; row2 < rows ; ++row2) BEGIN
+    READ_2DA_ENTRY row2 8 9 class
+    READ_2DA_ENTRY row2 0 9 kitno
+    PATCH_IF IS_AN_INT class BEGIN // this is to screen out header junk
+      PATCH_IF ((class = 2) OR (class = 12)) BEGIN // looking for fighter/ranger kits
+        READ_2DA_ENTRY row2 1 9 name
+        READ_2DA_ENTRY row2 5 9 clab
+        SET ids = (0x4000 + kitno)
+        PATCH_IF (class = 2) BEGIN // looking for fighter/ranger kits
+          SPRINT letter  f
+          SPRINT class ~OR(4) Class(LastSummonerOf(Myself),FIGHTER_THIEF) Class(LastSummonerOf(Myself),FIGHTER_MAGE) Class(LastSummonerOf(Myself),FIGHTER_DRUID) Class(LastSummonerOf(Myself),FIGHTER_CLERIC)~
+        END ELSE BEGIN
+          SPRINT letter  r
+          SPRINT class ~Class(LastSummonerOf(Myself),CLERIC_RANGER)~
+        END
+        SET sanity_check = 0
+        // sanity check before we proceed - make sure kit is not purely internal
+        PATCH_FOR_EACH race IN d e g he hl ho BEGIN
+          PATCH_IF FILE_EXISTS_IN_GAME ~k_%letter%_%race%.2da~ BEGIN
+            INNER_ACTION BEGIN
+
+              COPY_EXISTING ~k_%letter%_%race%.2da~ ~override~
+                COUNT_2DA_ROWS 2 rows_inner
+                FOR (row_inner = 0 ; row_inner < rows_inner ; ++row_inner) BEGIN
+                  READ_2DA_ENTRY row_inner 0 2 index
+                  READ_2DA_ENTRY row_inner 1 2 kitcheck
+                  PATCH_IF IS_AN_INT kitcheck BEGIN // sanity check
+                    PATCH_IF kitcheck = kitno BEGIN
+                      SET sanity_check = 1
+                      SET row_inner = rows_inner // kill loop
+                    END
+                  END
+                END
+                BUT_ONLY
+  
+            END
+          END
+        END
+        PATCH_IF sanity_check = 1 BEGIN
+          INNER_ACTION BEGIN // sanity check two - don't bother if kit doesn't allow > 2 pips in anything
+
+            COPY ~cdtweaks/lib/pnp_dual_kit.tpa~ ~cdtweaks/lib/pnp_dual_working.tpa~
+
+            COPY_EXISTING ~weapprof.2da~  ~override~
+              COUNT_2DA_COLS weapprof_cols
+              FOR (index_col = 20 ; index_col < weapprof_cols ; ++index_col) BEGIN
+                READ_2DA_ENTRY 0 index_col weapprof_cols col_name
+                PATCH_IF ("%col_name%" STRING_COMPARE_CASE ~%name%~ = 0) BEGIN
+                  FOR (row = 9; row < 33; ++row) BEGIN
+                    READ_2DA_ENTRY row index_col weapprof_cols prof_fgt
+                    PATCH_IF prof_fgt > 2 BEGIN SET prof_fgt = 2 SET sanity_check = 2 END
+                    INNER_ACTION BEGIN
+
+                      COPY ~cdtweaks/lib/pnp_dual_working.tpa~ ~cdtweaks/lib/pnp_dual_working.tpa~
+                        REPLACE_TEXTUALLY ~prof_fgt_%row%~ ~%prof_fgt%~
+
+                    END
+
+                  END
+                  SET index_col = weapprof_cols // kill loop
+                END
+              END
+              BUT_ONLY
+
+          END
+          PATCH_IF sanity_check = 1 BEGIN // if no > 2 pips profs available, simply edit invis creature script
+            INNER_ACTION BEGIN
+
+              COPY_EXISTING ~d5_dual.bcs~ ~override~
+                DECOMPILE_AND_PATCH BEGIN
+                  REPLACE_EVALUATE ~OR(\([0-9]+\))\([ %TAB%%LNL%%MNL%%WNL%]+Kit(LastSummonerOf(Myself),D5FIGHT)\)~ BEGIN
+                    SET new_or = (%MATCH1% + 1)
+                  END ~OR(%new_or%) %MATCH2% Kit(LastSummonerOf(Myself),%ids%)~
+                END
+                BUT_ONLY
+
+            END
+          END ELSE BEGIN // if we do indeed need shadow kit
+            INNER_ACTION BEGIN
+
+              COPY ~cdtweaks/lib/pnp_dual_working.tpa~ ~cdtweaks/lib/pnp_dual_working.tpa~
+                REPLACE_TEXTUALLY ~REPLACE_ME_KIT_NAME~ ~%name%~
+                REPLACE_TEXTUALLY ~CD_NEW_KIT_NAME~ ~CDSK%cd_kit_count%~
+
+              REINCLUDE ~cdtweaks/lib/pnp_dual_working.tpa~
+
+            END
+          END // sanity check 2
+        END // sanity check 1
+      END // fighter/ranger class check
+    END // is_an_int check
+  END // for loop
+  BUT_ONLY
+
+COPY_EXISTING ~weapprof.2da~  ~override~
+  REPLACE_TEXTUALLY ~CDDELETEME~ ~~
+  PRETTY_PRINT_2DA
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -8010,13 +8492,12 @@ ACTION_PHP_EACH cd_hp_tables AS tables => foo BEGIN
 
     COPY_EXISTING ~%tables%.2da~ ~override~
       COUNT_2DA_ROWS 4 rows
-      FOR (index = start ; index < rows ; ++index) BEGIN
+      FOR (index = 0 ; index < rows ; ++index) BEGIN
         READ_2DA_ENTRY index 2 4 rolls
         PATCH_IF (rolls != 0) BEGIN
           READ_2DA_ENTRY index 1 4 sides
-          READ_2DA_ENTRY index 3 4 static
-          SET_2DA_ENTRY  index 1 4 ((sides + 1) / 2)      // +1 here is to force rounding errors in or favor, e.g.
-          SET_2DA_ENTRY  index 3 4 ((sides / 2) + static) // 1d7 becomes 1d4+3 (4-7) and 1d8 becomes 1d4+4 (5-8)
+          SET_2DA_ENTRY  index 1 4 2
+          SET_2DA_ENTRY  index 2 4 (((rolls * sides) + 1) / 2) // +1 here is to force rounding errors in or favor, e.g. 1d7 becomes 4d2 instead of 3d2
         END
       END
       PRETTY_PRINT_2DA
@@ -8103,6 +8584,11 @@ END
 ///// small die roll                                   \\\\\
 /////                                                  \\\\\
 
+/*
+
+withdrawing as there's no way to really do this
+yep, cam forgot that if a roll occurs, the static modifier is ignored by the engine
+
 BEGIN @300300 DESIGNATED 3003 // small die
 GROUP @4
 SUBCOMPONENT @300000 // Higher HP on Level Up
@@ -8170,6 +8656,7 @@ ACTION_PHP_EACH cd_hp_tables AS tables => foo BEGIN
   END
 
 END
+*/
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -9871,10 +10358,11 @@ COPY ~cdtweaks/random/random.2da~ ~cdtweaks/random/random.2da~
         COPY ~cdtweaks/random/template.tpa~ ~cdtweaks/random/%item%.tpa~
           REPLACE_TEXTUALLY ~replacemelist~ ~%list%~ EVALUATE_BUFFER
           REPLACE_TEXTUALLY ~drop~ ~drop%item%~ EVALUATE_BUFFER
-          REPLACE_TEXTUALLY ~\([ %TAB%]+\*\)*~ ~~
+          REPLACE_TEXTUALLY ~\([ %TAB%]+\*\)*~ ~~ // deletes  * * * entries
+          REPLACE_TEXTUALLY ~\([^*]\)\*[0-9]+[ %TAB%]~ ~\1 ~ // changes wndtrp*20 to wndtrap
       
         INCLUDE ~cdtweaks/random/%item%.tpa~
-          
+
         COPY_EXISTING ~%area%.are~ ~override~
           WRITE_ASCIIE 0x94 ~%area%~ #8
           BUT_ONLY
@@ -9981,10 +10469,14 @@ ACTION_IF ((GAME_IS ~iwdee~) OR (MOD_IS_INSTALLED ~ub_iwd/setup-ub_iwd.tp2~ ~150
   // replace generic composite long bow with long bow +3: repeater or long bow +3: defender
   COPY_EXISTING ~kelly.cre~ ~override~
     ADD_CRE_ITEM ~uLBow4a~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP TWOHANDED // give undroppable bow, push token to inventory
+
+  ACTION_IF MOD_IS_INSTALLED ~ub_iwd/setup-ub_iwd.tp2~ ~1500~ THEN BEGIN // if restored random drops from UB (iwdee places this elsewhere)
+    
+    // replace mstar+1 with unused random drop of mace+1, hammer+1, sanctified hammer+1, mstar of confusion+1, lesser static star +1
+    COPY_EXISTING ~lysan.cre~ ~override~
+      ADD_CRE_ITEM ~uMstr2b~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP // give undroppable mstar, push token to inventory
   
-  // replace mstar+1 with unused random drop of mace+1, hammer+1, sanctified hammer+1, mstar of confusion+1, lesser static star +1
-  COPY_EXISTING ~lysan.cre~ ~override~
-    ADD_CRE_ITEM ~uMstr2b~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP // give undroppable mstar, push token to inventory
+  END
 
   ACTION_IF NOT GAME_IS ~iwd~ THEN BEGIN // how, totlm items
   

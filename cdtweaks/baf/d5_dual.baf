@@ -1,0 +1,30 @@
+IF
+  OR(4)
+    Class(LastSummonerOf(Myself),FIGHTER_THIEF)
+    Class(LastSummonerOf(Myself),FIGHTER_MAGE)
+    Class(LastSummonerOf(Myself),FIGHTER_DRUID)
+    Class(LastSummonerOf(Myself),FIGHTER_CLERIC)
+  Kit(LastSummonerOf(Myself),TRUECLASS)
+THEN
+  RESPONSE #100
+    ActionOverride(LastSummonerOf(Myself),AddKit(D5FIGHT))
+    DestroySelf()
+END
+
+IF
+  Class(LastSummonerOf(Myself),CLERIC_RANGER)
+  Kit(LastSummonerOf(Myself),TRUECLASS)
+THEN
+  RESPONSE #100
+    ActionOverride(LastSummonerOf(Myself),AddKit(D5RANGE))
+    DestroySelf()
+END
+
+IF
+  OR(2)
+    Kit(LastSummonerOf(Myself),D5FIGHT)
+    Kit(LastSummonerOf(Myself),D5RANGE)
+THEN
+  RESPONSE #100
+    DestroySelf()
+END

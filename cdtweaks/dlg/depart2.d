@@ -21,7 +21,7 @@ IF ~Global("EnteredArmInn","GLOBAL",1)
     !Global("Z!EmulAreaCheck","GLOBAL","1009") // ice isle cavern 1
     !Global("Z!EmulAreaCheck","GLOBAL","1010") // ice isle cavern 2
     !Global("Z!EmulAreaCheck","GLOBAL","2301")~ // not in the area where the NPC will be sent
-THEN REPLY @104001 GOTO dmww_fai
+THEN REPLY @107501 GOTO dmww_fai
 
 IF ~Global("EnteredBeregost","GLOBAL",1)
     !Global("IslandTravel","GLOBAL",1)
@@ -45,7 +45,7 @@ IF ~Global("EnteredBeregost","GLOBAL",1)
     !Global("Z!EmulAreaCheck","GLOBAL","1009") // ice isle cavern 1
     !Global("Z!EmulAreaCheck","GLOBAL","1010") // ice isle cavern 2
     !Global("Z!EmulAreaCheck","GLOBAL","3304")~ // not in the area where the NPC will be sent
-THEN REPLY @104002  GOTO dmww_beregost
+THEN REPLY @107502  GOTO dmww_beregost
 
 IF ~GlobalGT("Chapter","GLOBAL",1)
     !Global("IslandTravel","GLOBAL",1)
@@ -69,7 +69,7 @@ IF ~GlobalGT("Chapter","GLOBAL",1)
     !Global("Z!EmulAreaCheck","GLOBAL","1009") // ice isle cavern 1
     !Global("Z!EmulAreaCheck","GLOBAL","1010") // ice isle cavern 2
     !Global("Z!EmulAreaCheck","GLOBAL","4801")~ // not in the area where the NPC will be sent
-THEN REPLY @104003  GOTO dmww_nash
+THEN REPLY @107503  GOTO dmww_nash
 
 IF ~!Global("Chapter","GLOBAL",7)   // you're not wanted in the Gate for murder
     Global("EnteredBaldursGate","GLOBAL",1)
@@ -94,7 +94,7 @@ IF ~!Global("Chapter","GLOBAL",7)   // you're not wanted in the Gate for murder
     !Global("Z!EmulAreaCheck","GLOBAL","1009") // ice isle cavern 1
     !Global("Z!EmulAreaCheck","GLOBAL","1010") // ice isle cavern 2
     !Global("Z!EmulAreaCheck","GLOBAL","0705")~ // not in the area where the NPC will be sent
-THEN REPLY @104004  GOTO dmww_elfsong
+THEN REPLY @107504  GOTO dmww_elfsong
 END
 
 APPEND ~dmwwscriptname~

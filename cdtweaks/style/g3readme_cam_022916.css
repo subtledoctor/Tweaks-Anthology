@@ -225,3 +225,10 @@ a:hover.spoiler {
   padding: 5px;
   }
 .deprecated {color:#999;}
+div.quote {
+  background-color:#fafafa;
+  padding:3px 10px 3px 30px;
+  margin:5px;
+  border:1px solid #ccc;
+  border-left-width:3px;
+}

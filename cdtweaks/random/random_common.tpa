@@ -21,7 +21,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ar9200.are THEN BEGIN // fixed by fixpack, but we'
 
 END
 
-ACTION_IF ((GAME_IS ~iwdee~) OR (MOD_IS_INSTALLED ~ub_iwd/setup-ub_iwd.tp2~ ~1500~)) THEN BEGIN // if restored random drops from UB
+ACTION_IF MOD_IS_INSTALLED ~ub_iwd/setup-ub_iwd.tp2~ ~1500~ THEN BEGIN // if restored random drops from UB
 
   COPY ~cdtweaks/random/random.2da~ ~cdtweaks/random/random.2da~
     REPLACE_TEXTUALLY ~^ar9602   EXTRES5  Container1~ ~ar9602   EXTRES5  Container1
@@ -33,10 +33,22 @@ ar9100   EXTRES3  Alpheus~
   
 END
 
-OUTER_SPRINT table "rndtres"
-ACTION_IF NOT GAME_IS ~iwd_in_bg2 iwdee~ THEN BEGIN
-  OUTER_SPRINT table "rndtreas"
+ACTION_IF GAME_IS ~iwdee~ THEN BEGIN // iwdee uses slightly different placement for TG4/5Tres from ub's restored random drops
+
+  COPY ~cdtweaks/random/random.2da~ ~cdtweaks/random/random.2da~
+    REPLACE_TEXTUALLY ~^ar9602   EXTRES5  Container1~ ~ar9602   EXTRES5  Container1
+ar3602   TG4Tres  AR3602Chest3
+ar4005   DE5Tres  Yuan-tiChampion1
+ar8002   UD6Tres  Kelly
+AR4001   TG5Tres  Chest2
+ar9100   EXTRES3  Alpheus~
+
 END
+
+OUTER_SPRINT table "rndtres"
+//ACTION_IF GAME_IS ~iwd_in_bg2~ THEN BEGIN
+//  OUTER_SPRINT table "rndtreas"
+//END
 
 // first, a couple of areas have random drops in non-uniquely named containers
 ACTION_IF NOT GAME_IS ~iwdee iwd_in_bg2~ THEN BEGIN

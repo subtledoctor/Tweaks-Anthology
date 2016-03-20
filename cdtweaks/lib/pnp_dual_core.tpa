@@ -1,0 +1,57 @@
+// create shadow kits for trueclass rangers and fighters; identical to trueclass except prof maxes
+COPY_EXISTING ~CLABFI01.2da~ ~override/CLABFI01.2da~
+ADD_KIT ~D5FIGHT~
+  ~D5FIGHT 2 2 2 2 2 2 2 2~
+  ~D5FIGHT 2 2 2 2 2 2 2 2 prof_fgt_9 prof_fgt_10 prof_fgt_11 prof_fgt_12 prof_fgt_13 prof_fgt_14 prof_fgt_15 prof_fgt_16 prof_fgt_17 prof_fgt_18 prof_fgt_19 prof_fgt_20 prof_fgt_21 prof_fgt_22 prof_fgt_23 prof_fgt_24 prof_fgt_25 prof_fgt_26 prof_fgt_27 prof_fgt_28 prof_fgt_29 prof_fgt_30 prof_fgt_31 prof_fgt_32 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0~
+  ~D5FIGHT           0   0   0   0   0   0~
+  ~D5FIGHT           0   0   0   0   0   0~
+  ~D5FIGHT           15  15  0   0   0   0~
+  ~D5FIGHT           15  15  0   0   0   0~
+  ~D5FIGHT           1  1  1  1  1  1  1  1  1~
+  ~D5FIGHT           0  1  1  1  1  0~
+  ~override/CLABFI01.2da~
+  ~~
+  ~0x00004000 2~
+  ~Fi0~
+  ~LEAT14  * HELM07 BAG20 RING06 RING31 CLCK02 BOOT01 AMUL19 BRAC16 BELT06 AROW11,40 BULL03,40 BOLT06,40 POTN52,5 POTN04,2 POTN14,5 HAMM07 SW1H39 STAF08~
+  SAY #10086
+  SAY #10174
+  SAY #9556
+  //___________________________________________________________________________________
+  
+ACTION_IF GAME_IS ~bgee bg2ee iwdee eet~ THEN BEGIN
+  LAF fl#add_kit_ee
+    INT_VAR
+//      briefdesc = 102492
+    STR_VAR
+      kit_name = D5FIGHT
+  END
+END
+
+COPY_EXISTING ~CLABRN01.2da~ ~override/CLABRN01.2da~
+  ADD_KIT ~D5RANGE~
+  ~D5RANGE 2 2 2 2 2 2 2 2~
+  ~D5RANGE 2 2 2 2 2 2 2 2 prof_rgr_9 prof_rgr_10 prof_rgr_11 prof_rgr_12 prof_rgr_13 prof_rgr_14 prof_rgr_15 prof_rgr_16 prof_rgr_17 prof_rgr_18 prof_rgr_19 prof_rgr_20 prof_rgr_21 prof_rgr_22 prof_rgr_23 prof_rgr_24 prof_rgr_25 prof_rgr_26 prof_rgr_27 prof_rgr_28 prof_rgr_29 prof_rgr_30 prof_rgr_31 prof_rgr_32 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0~
+  ~D5RANGE           0   0   0   0   0   0~
+  ~D5RANGE           0   0   0   0   0   0~
+  ~D5RANGE           0   15  15  0   0   0~
+  ~D5RANGE           0   15  15  0   0   0~
+  ~D5RANGE           1  0  0  1  0  0  1  0  0~
+  ~D5RANGE           0  1  0  0  0  0~
+  ~override/CLABRN01.2da~
+  ~~
+  ~0x00004000 12~
+  ~Ra0~
+  ~LEAT14  * HELM07 BAG25 RING06 RING31 CLCK02 BOOT01 AMUL19 BRAC16 BELT06 AROW11,40 BULL03,40 BOLT06,40 POTN52,5 POTN04,2 POTN14,5 BOW18 SW1H39 STAF08~
+  SAY #7200
+  SAY #10173
+  SAY #9557
+
+ACTION_IF GAME_IS ~bgee bg2ee iwdee eet~ THEN BEGIN
+  LAF fl#add_kit_ee
+    INT_VAR
+//      briefdesc = 102496
+    STR_VAR
+      kit_name = D5RANGE
+  END
+END
