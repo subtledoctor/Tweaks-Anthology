@@ -1,3 +1,7 @@
+//GAME_IS ~soa tob iwd2 pst bg1 totsc iwd how totlm tutu tutu_totsc bgt ca iwd_in_bg2 bgee bg2ee eet iwdee~
+// possibilities: 2^82 + 3^13 + 4^8 + 5^5 + 6^2 + 7^1 + 8^1 + 9^2 + 11^6 =
+// 4.5676999303007184033606171596646 e+50
+
 BACKUP ~cdtweaks/backup~ // location to store files for
 AUTHOR ~pcamagna@yahoo.com~ // email address displayed if install fails
 
@@ -23,7 +27,7 @@ ALWAYS
 
 END
 
-VERSION ~Beta 3~
+VERSION ~Beta 4~
 
 README ~cdtweaks/readme-cdtweaks.html~
 
@@ -54,7 +58,7 @@ LANGUAGE
   ~cdtweaks/languages/german/description_updates.tra~
   ~cdtweaks/languages/german/setup.tra~
 LANGUAGE
-  ~Italiano (translation by Andrea Colombo; original EoU by Antonio Favata)~
+  ~Italiano (translation by Andrea Colombo and improb@bile; original EoU by Antonio Favata)~
   ~italian~
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
@@ -747,53 +751,13 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
         END ELSE BEGIN // if we do have a primary color, remove it
           LPF DELETE_EFFECT INT_VAR check_headers = 0 match_opcode = 7 match_parameter2 = primary END
         END
-        SET color_pulse = 0x64646400  // set to generic white, try to pick better in next step
-        PATCH_IF color_primary < 200 BEGIN // ignore values from randcolr.2da
-          SET color_pulse = $cdcolors(~%color_primary%~)
+        PATCH_IF color_primary >= 0 BEGIN // if there's still no color set, it means item has no shield coloring at all and we won't mess with it (think lyre.itm from IWD)
+          SET color_pulse = 0x64646400  // set to generic white, try to pick better in next step
+          PATCH_IF ((color_primary < height) AND (color_primary >= 0)) BEGIN
+            SET color_pulse = $cdcolors(~%color_primary%~) // set pulse to match mpalette entry
+          END
+          LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 9 target = 1 parameter1 = color_pulse parameter2 = (primary + (40 << 16)) timing = 2 END // now actually add pulse effect
         END
-        /* old guesswork way for color pulse
-        // pick pulse color based on panel color
-        PATCH_IF ((color_primary = 29) OR
-                  (color_primary = 237) OR
-                  (color_primary = 127) OR
-                  (color_primary = 210)) BEGIN
-          SET color_pulse = 38400 // red
-        END ELSE
-        PATCH_IF ((color_primary = 199) OR
-                  (color_primary = 59) OR
-                  (color_primary = 187)) BEGIN
-          SET color_pulse = 2130738944 // purple
-        END ELSE
-        PATCH_IF ((color_primary = 60) OR
-                  (color_primary = 190) OR
-                  (color_primary = 58) OR
-                  (color_primary = 125) OR
-                  (color_primary = 220)) BEGIN
-           SET color_pulse = 1778384896 // blue
-        END ELSE
-        PATCH_IF ((color_primary = 182) OR
-                  (color_primary = 7) OR
-                  (color_primary = 112) OR
-                  (color_primary = 32) OR
-                  (color_primary = 244) OR
-                  (color_primary = 189)) BEGIN
-          SET color_pulse = 9830400 // green
-        END ELSE
-        PATCH_IF ((color_primary = 51) OR
-                  (color_primary = 2)) BEGIN
-          SET color_pulse = 9868800 // yellow
-        END ELSE
-        PATCH_IF ((color_primary = 160) OR
-                  (color_primary = 8) OR
-                  (color_primary = 238) OR
-                  (color_primary = 91)) BEGIN 
-          SET color_pulse = 3315200 // the new black, e.g. orange
-        END ELSE BEGIN
-          SET color_pulse = 0x64646400  // if none of the above, make it a generic light gray/white (100,100,100)
-        END
-        */
-        // now actually add pulse effect
-        LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 9 target = 1 parameter1 = color_pulse parameter2 = (primary + (40 << 16)) timing = 2 END //
       END
     END
   END
@@ -882,7 +846,7 @@ END
 BEGIN @18018 DESIGNATED 180
 SUBCOMPONENT @18000
 GROUP @11
-REQUIRE_PREDICATE GAME_IS ~soa tob bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
+REQUIRE_PREDICATE GAME_IS ~soa tob bgee bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
 
 INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
 
@@ -893,7 +857,7 @@ INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
 BEGIN @18021 DESIGNATED 181
 SUBCOMPONENT @18000
 GROUP @11
-REQUIRE_PREDICATE GAME_IS ~soa tob bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
+REQUIRE_PREDICATE GAME_IS ~soa tob bgee bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
 
 OUTER_SET names = 0 // don't set names
 INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
@@ -907,7 +871,7 @@ INCLUDE ~cdtweaks/lib/unique_containers.tpa~ // does the actual work
 BEGIN @18020 DESIGNATED 182
 SUBCOMPONENT @18000
 GROUP @11
-REQUIRE_PREDICATE GAME_IS ~soa tob bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
+REQUIRE_PREDICATE GAME_IS ~soa tob bgee bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
 REQUIRE_PREDICATE (("%LANGUAGE%" STRING_COMPARE_CASE "english" = 0) OR
                    ("%LANGUAGE%" STRING_COMPARE_CASE "french" = 0) OR
                    ("%LANGUAGE%" STRING_COMPARE_CASE "german" = 0) OR
@@ -2637,7 +2601,7 @@ BEGIN @110000 DESIGNATED 1100
 GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgee pst iwdee iwd_in_bg2 iwd how totlm~ @25
 
-ACTION_IF GAME_IS ~pst~ THEN BEGIN  
+ACTION_IF GAME_IS ~pst~ THEN BEGIN
 
   ACTION_FOR_EACH file IN 0100tear 0600malm ar0101 ar0300 ar0500 ar0700 ar1101 0200strk 1500gul9 ar0109 ar0400 ar0501 BEGIN
     
@@ -3483,10 +3447,16 @@ END ELSE BEGIN
 END
 
 COPY ~cdtweaks/itm/wwwere.itm~ ~override~
-  SAY IDENTIFIED_DESC @115004
+  SAY 0x08 @115008
+  SAY 0x0c @115008
+  SAY 0x50 @115004
+  SAY 0x54 @115004
 
 COPY ~cdtweaks/itm/wwweregr.itm~ ~override~
-  SAY IDENTIFIED_DESC @115005
+  SAY 0x08 @115009
+  SAY 0x0c @115009
+  SAY 0x50 @115005
+  SAY 0x54 @115005
 
 // if something installed that allows shapeshifters to be non-TN alignments, adjust the paw usability
 COPY_EXISTING ~alignmnt.2da~ ~override~
@@ -4063,34 +4033,49 @@ COPY_EXISTING ~ar2300.are~ ~override~
 
 BEGIN @125000 DESIGNATED 1250
 GROUP @13
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee  ~ @25
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+REQUIRE_PREDICATE ((NOT FILE_EXISTS ~override/X#AloraMove.G3~) AND (NOT FILE_EXISTS ~override/X#QuayleMove.G3~) AND (NOT FILE_EXISTS ~override/X#TiaxMove.G3~)) @16 // bg1 npc does these separately
 
 INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
 
-ACTION_IF GAME_IS ~bg1 totsc~ THEN BEGIN
+ACTION_IF NOT FILE_EXISTS ~override/X#TiaxMove.G3~   THEN BEGIN OUTER_SET move_tiax   = 1 END ELSE BEGIN OUTER_SET move_tiax   = 0 END
+ACTION_IF NOT FILE_EXISTS ~override/X#QuayleMove.G3~ THEN BEGIN OUTER_SET move_quayle = 1 END ELSE BEGIN OUTER_SET move_quayle = 0 END
 
-  INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
+ACTION_IF FILE_EXISTS ~override/X#AloraMove.G3~ THEN BEGIN
 
-  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves.d~
-
+  OUTER_SET move_alora = 0
+  
 END ELSE BEGIN
 
-  COPY ~cdtweaks/dlg/x#aloramoves.d~ ~cdtweaks/dlg/x#aloramoves_ac.d~
-    REPLACE_TEXTUALLY ~Global("Z!EmulAreaCheck","GLOBAL",4000)~ ~AreaCheck("%Gullykin%")~
+  OUTER_SET move_alora = 1
 
-  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves_ac.d~
+  ACTION_IF GAME_IS ~bg1 totsc~ THEN BEGIN
+  
+    INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
+  
+    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves.d~
+  
+  END ELSE BEGIN
+  
+    COPY ~cdtweaks/dlg/x#aloramoves.d~ ~cdtweaks/dlg/x#aloramoves_ac.d~
+      REPLACE_TEXTUALLY ~Global("Z!EmulAreaCheck","GLOBAL",4000)~ ~AreaCheck("%Gullykin%")~
+  
+    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves_ac.d~
+  
+  END
+  
+  /* Alora Starts in Gullykin - VERIFY IF THIS BLOCK IS NEEDED */
+  /* Trying to prevent Alora's CTD */
+  COPY_EXISTING ~%HallofWonders_BCS%.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+    REPLACE_TEXTUALLY
+      ~!InParty("alora")~
+      ~!InParty("alora") Global("X#AloraDontBeDifficult","GLOBAL",1)~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
 
 END
-
-/* Alora Starts in Gullykin - VERIFY IF THIS BLOCK IS NEEDED */
-  /* Trying to prevent Alora's CTD */
-COPY_EXISTING ~%HallofWonders_BCS%.bcs~ ~override~
-  DECOMPILE_BCS_TO_BAF
-  REPLACE_TEXTUALLY
-    ~!InParty("alora")~
-    ~!InParty("alora") Global("X#AloraDontBeDifficult","GLOBAL",1)~
-  COMPILE_BAF_TO_BCS
-  BUT_ONLY_IF_IT_CHANGES
 
 ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
@@ -4099,17 +4084,17 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
     READ_LONG 0x34 npc_num
     FOR (index = 0; index < npc_num; ++index) BEGIN
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
-      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ALORA~ = 0) BEGIN // move alora to gullykin
+      PATCH_IF (move_alora AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ALORA~ = 0)) BEGIN // move alora to gullykin
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%Gullykin%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 553
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 506
       END ELSE
-      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%QUAYLE~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
+      PATCH_IF (move_quayle AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%QUAYLE~ = 0)) BEGIN // Quayle Starts at the Nashkel Carnival
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%NashkelCarnival%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1067
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 3784
       END ELSE
-      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%TIAX~ = 0) BEGIN // Tiax Starts in Beregost
+      PATCH_IF (move_tiax AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%TIAX~ = 0)) BEGIN // Tiax Starts in Beregost
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%Beregost_FeldepostsInn_L1%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 500
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 630
@@ -4119,18 +4104,44 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
 END ELSE BEGIN // bgt
 
-  // disable spawns
-  COPY_EXISTING ~%HallofWonders_BCS%.bcs~ ~override~ // ar7230
-                ~%WyrmsCrossing%.bcs~     ~override~ // ar7900
-                ~%SWBaldursGate%.bcs~     ~override~ // ar8000
-    DECOMPILE_BCS_TO_BAF
-      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
-    COMPILE_BAF_TO_BCS
-    BUT_ONLY_IF_IT_CHANGES
+  ACTION_IF move_alora THEN BEGIN
 
-  EXTEND_BOTTOM ~%Gullykin%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
-  EXTEND_BOTTOM ~%NashkelCarnival%.bcs~           ~cdtweaks/baf/bgt_spawn_quayle.baf~
-  EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~
+    // disable spawns
+    COPY_EXISTING ~%HallofWonders_BCS%.bcs~ ~override~ // ar7230
+      DECOMPILE_BCS_TO_BAF
+        REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+      COMPILE_BAF_TO_BCS
+      BUT_ONLY_IF_IT_CHANGES
+  
+    EXTEND_BOTTOM ~%Gullykin%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
+  
+  END
+
+  ACTION_IF move_quayle THEN BEGIN
+
+    // disable spawns
+    COPY_EXISTING ~%WyrmsCrossing%.bcs~     ~override~ // ar7900
+      DECOMPILE_BCS_TO_BAF
+        REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+      COMPILE_BAF_TO_BCS
+      BUT_ONLY_IF_IT_CHANGES
+
+    EXTEND_BOTTOM ~%NashkelCarnival%.bcs~           ~cdtweaks/baf/bgt_spawn_quayle.baf~
+
+  END
+
+  ACTION_IF move_tiax THEN BEGIN
+
+    // disable spawns
+    COPY_EXISTING ~%SWBaldursGate%.bcs~     ~override~ // ar8000
+      DECOMPILE_BCS_TO_BAF
+        REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+      COMPILE_BAF_TO_BCS
+      BUT_ONLY_IF_IT_CHANGES
+
+    EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~
+
+  END
 
 END
 
@@ -5173,13 +5184,34 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ THEN BEGIN // if kits are present
 
 END
 
+ACTION_CLEAR_ARRAY  cd_start_areas
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_start_areas BEGIN // start with base class tables
+  startare => 0 // generic bard abilities
+  startbp  => 0 // generic druid abilities
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~campaign.2da~ THEN BEGIN
+
+  COPY_EXISTING ~campaign.2da~ ~override~
+    COUNT_2DA_COLS col_num
+    COUNT_2DA_ROWS (col_num - 1) row_num
+    FOR (index = 1 ; index < row_num ; ++index) BEGIN // start at 1 to skip header row
+      READ_2DA_ENTRY index 13 13 file
+      DEFINE_ASSOCIATIVE_ARRAY cd_start_areas BEGIN "%file%" => 0 END
+    END
+    BUT_ONLY
+
+END
+
 // for EE
-ACTION_FOR_EACH file IN startare startbp BEGIN
+ACTION_PHP_EACH cd_start_areas AS file => val BEGIN
+
+  PRINT ~patching campaign file %file%.2da~
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%file%.2da~ THEN BEGIN
 
     COPY_EXISTING ~%file%.2da~ ~override~
-      REPLACE_TEXTUALLY ~\(START_XP_CAP[ %TAB%]+\)[0-9]+~ ~\1-1~
+      REPLACE_TEXTUALLY ~\(START_\(MP_\)?XP_CAP[ %TAB%]+\)[0-9]+~ ~\1-1~
       BUT_ONLY
 
   END
@@ -5458,6 +5490,9 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
 
 
 ACTION_IF FILE_EXISTS ~Refinements/Hlab/Thief/clab/CLABEMPT.2DA~ AND NOT FILE_EXISTS ~Refinements/lib/kit.tpa~ THEN BEGIN
+
+  INCLUDE ~cdtweaks/lib/sod_25stweap_fix.tpa~ // for broken 25stweap.2da in SoD
+  INCLUDE ~cdtweaks/lib/iwdee_25stweap_fix.tpa~ // for broken 25stweap.2da in SoD
 
   COPY ~cdtweaks/spl/cdtitle0.spl~ ~override~ // spell to fix title and class name for d/c barbarians. Calls one of the EFFs below as appropriate
   
@@ -7514,7 +7549,7 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
               ("%entry%" STRING_COMPARE_CASE "DRUID"     = 0) OR
               ("%entry%" STRING_COMPARE_CASE "RANGER"    = 0) OR
               ("%entry%" STRING_COMPARE_CASE "SORCERER"  = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "MONK"      = 0) OR
+//              ("%entry%" STRING_COMPARE_CASE "MONK"      = 0) OR // keep monks as human only
               ("%entry%" STRING_COMPARE_CASE "SHAMAN"    = 0)) BEGIN
       FOR (col = 2; col < 8 ; ++col) BEGIN
         SET_2DA_ENTRY row col 8 1
@@ -7651,7 +7686,7 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
-
+  
 OUTER_SET col_start = 0
 ACTION_IF GAME_IS ~bgee bg2ee eet iwdee~ BEGIN // ee has an extra column at the front
   OUTER_SET col_start = 1
@@ -7668,18 +7703,16 @@ COPY_EXISTING ~mgsrcreq.2da~ ~override~
   PRETTY_PRINT_2DA
   BUT_ONLY
 
-ACTION_IF NOT FILE_EXISTS_IN_GAME k_mn_h.2da BEGIN
+ACTION_IF FILE_EXISTS_IN_GAME k_sh_h.2da BEGIN // shaman
 
-  COPY ~cdtweaks/2da/k_mn_h.2da~ ~override~
-  
-END
-  
-ACTION_FOR_EACH race IN d e g he hl ho BEGIN
+  ACTION_FOR_EACH race IN d e g he hl ho BEGIN
 
-  ACTION_IF NOT FILE_EXISTS_IN_GAME ~k_mn_%race%.2da~ THEN BEGIN
-  
-    COPY_EXISTING ~k_mn_h.2da~ ~override/k_mn_%race%.2da~
-    
+    ACTION_IF NOT FILE_EXISTS_IN_GAME ~k_sh_%race%.2da~ THEN BEGIN
+
+      COPY_EXISTING ~k_sh_h.2da~ ~override/k_sh_%race%.2da~
+
+    END
+
   END
 
 END
@@ -7700,7 +7733,8 @@ COPY_EXISTING ~kitlist.2da~ ~override~
       PATCH_IF class =  3 BEGIN SPRINT letter  c END
       PATCH_IF class =  1 BEGIN SPRINT letter  m END
       PATCH_IF class = 19 BEGIN SPRINT letter  s END
-      PATCH_IF class = 20 BEGIN SPRINT letter mn END
+//      PATCH_IF class = 20 BEGIN SPRINT letter mn END
+      PATCH_IF class = 21 BEGIN SPRINT letter sh END
       SET available = 0
       PATCH_FOR_EACH race IN d e g he hl ho BEGIN // first loop is to check and see if the kit is available to any race so we don't expose internal mod kits
         PATCH_IF FILE_EXISTS_IN_GAME ~k_%letter%_%race%.2da~ BEGIN
@@ -7834,6 +7868,18 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ THEN BEGIN
         END // class = 11
       END // int check
     END // for loop
+    BUT_ONLY
+
+END
+
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1150~ THEN BEGIN // shapeshifter rebalancing
+
+  COPY_EXISTING ~wwwere.itm~   ~override~
+                ~wwweregr.itm~ ~override~
+    WRITE_BYTE 0x1e (THIS BAND `BIT4) // removes lawful
+    WRITE_BYTE 0x1e (THIS BAND `BIT2) // removes good
+    WRITE_BYTE 0x1e (THIS BAND `BIT1) // removes evil
+    WRITE_BYTE 0x1e (THIS BAND `BIT0) // removes chaotic
     BUT_ONLY
 
 END
@@ -8146,6 +8192,8 @@ GROUP @9
 REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~kitlist.2da~ @25
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
+INCLUDE ~cdtweaks/lib/sod_25stweap_fix.tpa~
+INCLUDE ~cdtweaks/lib/iwdee_25stweap_fix.tpa~
 INCLUDE ~cdtweaks/lib/remove_lines.tpa~
 INCLUDE ~cdtweaks/lib/fl#add_kit_ee.tpa~
 
@@ -9929,6 +9977,211 @@ ACTION_PHP_EACH cd_prices AS item => price BEGIN
 
 END
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// stores buy all items                                       \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @320500 DESIGNATED 3205
+GROUP @4
+
+// item types common to all games
+ACTION_CLEAR_ARRAY cd_buyable_item_types
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN
+   0 => 0 // miscellaneous
+   6 => 0 // bracers and gauntlets
+  10 => 0 // rings
+  11 => 0 // scrolls
+  16 => 0 // daggers
+  17 => 0 // maces
+  19 => 0 // small swords
+  21 => 0 // hammers
+  25 => 0 // axes
+  27 => 0 // crossbows
+  28 => 0 // hand-to-hand weapons
+  29 => 0 // greatswords (pst)/spears (non-pst)
+  31 => 0 // bolts
+//  33 => 1 // copper commons (pst)/gold pieces (bg2)
+  35 => 0 // wands
+END
+
+ACTION_IF GAME_IS ~pst~ THEN BEGIN
+
+  OUTER_SET store_match = "-1" // no containers in PsT
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN // pst exclusives
+     2 => 0 // armor
+     8 => 0 // keys
+    36 => 0 // eyeballs (pst)
+    37 => 0 // bracelets (pst)
+    38 => 0 // earrings (pst)
+    39 => 0 // tattoos
+    40 => 0 // lenses
+    41 => 0 // teeth
+  END
+
+END ELSE BEGIN // non-pst
+
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN // common to everything except pst
+     1 => 0 // amulets
+     3 => 0 // belts and girdles
+     4 => 0 // boots
+     5 => 0 // arrows
+     7 => 0 // headgear
+     9 => 0 // potions
+    14 => 0 // bullets
+    15 => 0 // bows
+    18 => 0 // slings
+    20 => 0 // large swords
+    22 => 0 // morning stars
+    23 => 0 // flails
+    24 => 0 // darts
+    26 => 0 // staves
+    30 => 0 // halberds
+    32 => 0 // cloaks and robes
+    34 => 0 // gems
+  END
+
+  ACTION_IF GAME_IS ~iwd how totlm iwd2~ THEN BEGIN
+
+    OUTER_SET store_match = 4 // container type in iwd/iwd2
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN // iwd & iwd2
+       8 => 0 // keys
+      36 => 0 // * containers (bg2)
+      38 => 0 // * broken weapons (iwd)
+      41 => 0 // bucklers
+      42 => 0 // candles
+      44 => 0 // clubs
+      47 => 0 // large shields
+      49 => 0 // medium shields
+      53 => 0 // small shields
+      55 => 0 // telescopes
+      56 => 0 // bottles
+      57 => 0 // great swords
+//      58 => 1 // bags
+    END
+
+    ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
+
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN // iwd2 but not iwd
+        50 => 0 // notes
+        60 => 0 // leather armor
+        61 => 0 // studded leather
+        62 => 0 // chain mail
+        63 => 0 // splint mail
+        64 => 0 // plate mail
+        65 => 0 // full plate
+        66 => 0 // hide armor
+        67 => 0 // robes
+        69 => 0 // bastard swords
+        70 => 0 // scarves
+        71 => 0 // rations
+        72 => 0 // hats
+        73 => 0 // gloves
+      END
+
+    END ELSE BEGIN // iwd but not iwd2
+
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN // iwd but not iwd2
+         2 => 0 // armor
+      END
+
+    END
+    
+  END ELSE BEGIN // non-iwd, non-iwd2
+
+    OUTER_SET store_match = 5 // container type in other games
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN // common to bg(ee)/bg2(ee)/iwdee/tutu/bgt/ca
+       2 => 0 // armor
+      12 => 0 // shields
+    END
+
+    ACTION_IF NOT GAME_IS ~bg1 totsc~ BEGIN
+
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN // common to all but bg1
+         8 => 0 // keys
+        13 => 0 // food
+//        36 => 1 // containers (bg2)
+        37 => 0 // books (bg2)
+//        38 => 1 // familiars (bg2)
+      END
+
+      ACTION_IF GAME_IS ~bgee eet~ BEGIN
+
+        ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN
+          39 => 0 // bandit scalps
+//          43 => 1 // child bodies
+//          45 => 1 // female bodies
+//          48 => 1 // male bodies
+          50 => 0 // notes
+          54 => 0 // spider bodies
+          55 => 0 // telescopes
+          56 => 0 // bottles
+          72 => 0 // hats
+        END
+      
+      END
+
+      ACTION_IF GAME_IS ~bg2ee eet~ BEGIN
+
+        ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN
+//          45 => 1 // female bodies
+          51 => 0 // rods
+        END
+      
+      END
+
+      ACTION_IF GAME_IS ~iwdee eet~ BEGIN
+
+        ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN
+          74 => 0 // broken junk
+          56 => 0 // bottles
+          59 => 0 // furs and pelts
+        END
+      
+      END
+    
+    END
+ 
+  END
+
+END
+
+// thankfully store formats are similar enough that there are no game-specific checks here other than the container check
+COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
+  READ_LONG 0x08 store_type
+  READ_LONG 0x10 flags
+  PATCH_IF ((store_type != store_match) AND ((flags & BIT1) = BIT1)) BEGIN // don't bother if store can't buy, or if it's a container
+    SET delta = 0
+    READ_LONG 0x2c purch_off
+    READ_LONG 0x30 purch_num
+    // first, look at what store already sells and push items into array
+    FOR (index = 0 ; index < purch_num ; ++index) BEGIN
+      READ_LONG (purch_off + (index * 0x04)) type
+      DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN "%type%" => 1 END
+    END
+    PATCH_PHP_EACH cd_buyable_item_types AS item => val BEGIN
+      PATCH_IF val = 0 BEGIN
+        SET delta += 1
+        INSERT_BYTES purch_off 0x04
+        WRITE_LONG   purch_off item
+      END ELSE BEGIN
+        DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN "%item%" => 0 END // reset for next store
+      END
+    END
+    WRITE_LONG 0x30 (THIS + delta) // update number of items purchased
+    // fix offsets for rest of file to account for new bytes
+    PATCH_FOR_EACH off IN 0x34 0x4c 0x70 BEGIN
+      READ_LONG off offset
+      PATCH_IF offset >= purch_off BEGIN
+        WRITE_LONG off (THIS + (delta * 0x04))
+      END
+    END
+  END
+  BUT_ONLY
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -9938,22 +10191,106 @@ END
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @321000 DESIGNATED 3210
-GROUP @4 
+GROUP @4
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst~ @25
 
-OUTER_SET "min_stat" = 0
-OUTER_WHILE ((NOT IS_AN_INT "%min_stat%") OR ("%min_stat%" < 6) OR ("%min_stat%" > 15)) BEGIN
-    PRINT @321001
-    ACTION_READLN min_stat
+OUTER_SET min_str = 1
+OUTER_SET min_dex = 1
+OUTER_SET min_con = 1
+OUTER_SET min_int = 1
+OUTER_SET min_wis = 1
+OUTER_SET min_chr = 1
+OUTER_SET proceed = 0
+OUTER_SPRINT min_str_text @321008
+OUTER_SPRINT min_dex_text @321009
+OUTER_SPRINT min_con_text @321010
+OUTER_SPRINT min_int_text @321011
+OUTER_SPRINT min_wis_text @321012
+OUTER_SPRINT min_chr_text @321013
+
+OUTER_WHILE ("%proceed%" STRING_COMPARE_CASE "a") BEGIN
+  OUTER_WHILE ((NOT IS_AN_INT min_str) OR ((min_str < 6) AND (min_str != 0)) OR (min_str > 15)) BEGIN
+    PRINT @321002
+    ACTION_READLN min_str
   END
+  OUTER_WHILE ((NOT IS_AN_INT min_dex) OR ((min_dex < 6) AND (min_dex != 0)) OR (min_dex > 15)) BEGIN
+    PRINT @321003
+    ACTION_READLN min_dex
+  END
+  OUTER_WHILE ((NOT IS_AN_INT min_con) OR ((min_con < 6) AND (min_con != 0)) OR (min_con > 15)) BEGIN
+    PRINT @321004
+    ACTION_READLN min_con
+  END
+  OUTER_WHILE ((NOT IS_AN_INT min_int) OR ((min_int < 6) AND (min_int != 0)) OR (min_int > 15)) BEGIN
+    PRINT @321005
+    ACTION_READLN min_int
+  END
+  OUTER_WHILE ((NOT IS_AN_INT min_wis) OR ((min_wis < 6) AND (min_wis != 0)) OR (min_wis > 15)) BEGIN
+    PRINT @321006
+    ACTION_READLN min_wis
+  END
+  OUTER_WHILE ((NOT IS_AN_INT min_chr) OR ((min_chr < 6) AND (min_chr != 0)) OR (min_chr > 15)) BEGIN
+    PRINT @321007
+    ACTION_READLN min_chr
+  END
+  ACTION_IF ((min_str = 0) AND (min_dex = 0) AND (min_con = 0) AND (min_int = 0) AND (min_wis = 0) AND (min_chr = 0)) BEGIN
+    PRINT @321014
+    OUTER_SPRINT proceed "b"
+  END ELSE BEGIN
+    // print summary of options before proceeding
+    PRINT @318309
+    ACTION_IF (min_str != 0) THEN BEGIN
+      PRINT ~%min_str_text% %min_str%~
+    END
+    ACTION_IF (min_dex != 0) THEN BEGIN
+      PRINT ~%min_dex_text% %min_dex%~
+    END
+    ACTION_IF (min_con != 0) THEN BEGIN
+      PRINT ~%min_con_text% %min_con%~
+    END
+    ACTION_IF (min_int != 0) THEN BEGIN
+      PRINT ~%min_int_text% %min_int%~
+    END
+    ACTION_IF (min_wis != 0) THEN BEGIN
+      PRINT ~%min_wis_text% %min_wis%~
+    END
+    ACTION_IF (min_chr != 0) THEN BEGIN
+      PRINT ~%min_chr_text% %min_chr%~
+    END
+    OUTER_WHILE ("%proceed%" STRING_COMPARE_REGEXP "[AaBb]") BEGIN
+      PRINT @318310
+      ACTION_READLN proceed
+    END
+  END
+  ACTION_IF ("%proceed%" STRING_COMPARE_CASE "b" = 0) THEN BEGIN
+    OUTER_SET min_str = 1
+    OUTER_SET min_dex = 1
+    OUTER_SET min_con = 1
+    OUTER_SET min_int = 1
+    OUTER_SET min_wis = 1
+    OUTER_SET min_chr = 1
+    OUTER_SET proceed = 0
+  END
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_min_stats BEGIN
+  1 => "%min_str%"
+  2 => "%min_dex%"
+  3 => "%min_con%"
+  4 => "%min_int%"
+  5 => "%min_wis%"
+  6 => "%min_chr%"
+END
 
 COPY_EXISTING ~abclasrq.2da~ ~override~
   COUNT_2DA_ROWS ~7~ "rows"
-  FOR (index = 0 ; index < rows ; index = index + 1) BEGIN
-    FOR (index2 = 1 ; index2 < 7 ; index2 = index2 + 1) BEGIN
-      READ_2DA_ENTRY index index2 7 "min"
-      PATCH_IF ("%min%" < "%min_stat%") BEGIN
-        SET_2DA_ENTRY index index2 7 "%min_stat%"
+  FOR (index = 0 ; index < rows ; ++index) BEGIN
+    PATCH_PHP_EACH cd_min_stats AS col => val BEGIN
+      PATCH_IF val != 0 BEGIN
+        READ_2DA_ENTRY index col 7 min
+        PATCH_IF (min < val) BEGIN
+          SET_2DA_ENTRY index col 7 "%val%"
+        END
       END
     END
   END
@@ -9975,130 +10312,140 @@ ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgt bgee eet~ THEN BEGIN // BGT/Tut
 
   INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
 
-  COPY_EXISTING ~worldmap.wmp~ ~override~
-    READ_LONG 0x0c mos_off
-    READ_LONG (mos_off + 0x20) area_num
-    READ_LONG (mos_off + 0x24) area_off
-    READ_LONG (mos_off + 0x28) link_off
-    READ_LONG (mos_off + 0x2c) link_num
-    FOR (index = 0 ; index < area_num ; ++index) BEGIN
-      READ_ASCII (area_off + 0x08 + (index * 0xf0)) "area"
-      PATCH_IF ("%area%" STRING_COMPARE_CASE "%Beregost%" = 0) BEGIN // beregost
-        SET Beregost_idx = index
-      END
-      PATCH_IF ("%area%" STRING_COMPARE_CASE "%FishingVillage%" = 0) BEGIN // farm north of fai
-        SET FishingVillage_idx = index
-      END
-      PATCH_IF ("%area%" STRING_COMPARE_CASE "%Farmlands%" = 0) BEGIN // zombie farm
-        SET Farmlands_idx = index
-      END
-      PATCH_IF ("%area%" STRING_COMPARE_CASE "%ShipwrecksCoast%" = 0) BEGIN // shipwreck
-        SET ShipwrecksCoast_idx = index
-      END
-      PATCH_IF ("%area%" STRING_COMPARE_CASE "%Lighthouse%" = 0) BEGIN // lighthouse
-        SET Lighthouse_idx = index
-      END
-    END
-    // read links, adjust entry point for links to beregost
-    FOR (index = 0 ; index < link_num ; ++index) BEGIN
-      READ_LONG (link_off +        (index * 0xd8)) target
-      PATCH_IF (target = Lighthouse_idx) BEGIN // if travel link to lighthouse
-        READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
-        READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
-        PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
-                  (target = 1)) BEGIN // unnamed entrance point, north
-          WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDNorthExit~
-        END
-      END
-      PATCH_IF (target = ShipwrecksCoast_idx) BEGIN // if travel link to shipwreck
-        READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
-        READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
-        PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
-                  (target = 4)) BEGIN // unnamed entrance point, south
-          WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDSouthExit~
-        END
-      END
-      PATCH_IF (target = Beregost_idx) BEGIN // if travel link to beregost
-        READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
-        READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
-        PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
-                  (target = 2)) BEGIN // unnamed entrance point, east
-          WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDEastExit~
-        END
-      END
-      PATCH_IF (target = FishingVillage_idx) BEGIN // if travel link to north fai
-        READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
-        READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
-        PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
-                  (target = 4)) BEGIN // unnamed entrance point, south
-          WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDSouthExit~
-        END
-      END
-      PATCH_IF (target = Farmlands_idx) BEGIN // if travel link to zombie farm
-        READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
-        READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
-        PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
-                  (target = 4)) BEGIN // unnamed entrance point, south
-          WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDSouthExit~
-        END
-      END
-    END
-    BUT_ONLY
-  
-  COPY_EXISTING ~%Beregost%.are~ ~override~
-    LPF fj_are_structure
-      INT_VAR
-      fj_loc_x       = 4950
-      fj_loc_y       = 3085
-      fj_orientation = 4   //W
-      STR_VAR
-      fj_structure_type = entrance
-      fj_name           = CDEastExit
-    END
-  
-  COPY_EXISTING ~%FishingVillage%.are~ ~override~
-    LPF fj_are_structure
-      INT_VAR
-      fj_loc_x       = 791
-      fj_loc_y       = 3615
-      fj_orientation = 9   //N
-      STR_VAR
-      fj_structure_type = entrance
-      fj_name           = CDSouthExit
-    END
+  ACTION_IF GAME_IS ~bgt eet~ THEN BEGIN // BGT
+    
+    COPY_EXISTING ~%Beregost%.are~ ~override~ // only change for BGT is to move the east beregost entrance
+      LPF ALTER_AREA_ENTRANCE INT_VAR x_coord = 4950 y_coord = 3085 orient = 4 STR_VAR entrance_name = "Exit9300" END
+      BUT_ONLY
 
-  COPY_EXISTING ~%Farmlands%.are~ ~override~
-    LPF fj_are_structure
-      INT_VAR
-      fj_loc_x       = 1638
-      fj_loc_y       = 3715
-      fj_orientation = 8   //N
-      STR_VAR
-      fj_structure_type = entrance
-      fj_name           = CDSouthExit
-    END
+  END ELSE BEGIN // BG/Tutu/BGEE changes
+
+    COPY_EXISTING ~worldmap.wmp~ ~override~
+      READ_LONG 0x0c mos_off
+      READ_LONG (mos_off + 0x20) area_num
+      READ_LONG (mos_off + 0x24) area_off
+      READ_LONG (mos_off + 0x28) link_off
+      READ_LONG (mos_off + 0x2c) link_num
+      FOR (index = 0 ; index < area_num ; ++index) BEGIN
+        READ_ASCII (area_off + 0x08 + (index * 0xf0)) "area"
+        PATCH_IF ("%area%" STRING_COMPARE_CASE "%Beregost%" = 0) BEGIN // beregost
+          SET Beregost_idx = index
+        END
+        PATCH_IF ("%area%" STRING_COMPARE_CASE "%FishingVillage%" = 0) BEGIN // farm north of fai
+          SET FishingVillage_idx = index
+        END
+        PATCH_IF ("%area%" STRING_COMPARE_CASE "%Farmlands%" = 0) BEGIN // zombie farm
+          SET Farmlands_idx = index
+        END
+        PATCH_IF ("%area%" STRING_COMPARE_CASE "%ShipwrecksCoast%" = 0) BEGIN // shipwreck
+          SET ShipwrecksCoast_idx = index
+        END
+        PATCH_IF ("%area%" STRING_COMPARE_CASE "%Lighthouse%" = 0) BEGIN // lighthouse
+          SET Lighthouse_idx = index
+        END
+      END
+      // read links, adjust entry point for links to beregost
+      FOR (index = 0 ; index < link_num ; ++index) BEGIN
+        READ_LONG (link_off +        (index * 0xd8)) target
+        PATCH_IF (target = Lighthouse_idx) BEGIN // if travel link to lighthouse
+          READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
+          READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
+          PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
+                    (target = 1)) BEGIN // unnamed entrance point, north
+            WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDNorthExit~
+          END
+        END
+        PATCH_IF (target = ShipwrecksCoast_idx) BEGIN // if travel link to shipwreck
+          READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
+          READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
+          PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
+                    (target = 4)) BEGIN // unnamed entrance point, south
+            WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDSouthExit~
+          END
+        END
+        PATCH_IF (target = Beregost_idx) BEGIN // if travel link to beregost
+          READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
+          READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
+          PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
+                    (target = 2)) BEGIN // unnamed entrance point, east
+            WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDEastExit~
+          END
+        END
+        PATCH_IF (target = FishingVillage_idx) BEGIN // if travel link to north fai
+          READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
+          READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
+          PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
+                    (target = 4)) BEGIN // unnamed entrance point, south
+            WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDSouthExit~
+          END
+        END
+        PATCH_IF (target = Farmlands_idx) BEGIN // if travel link to zombie farm
+          READ_ASCII (link_off + 0x04 + (index * 0xd8)) entrance_name
+          READ_BYTE  (link_off + 0x28 + (index * 0xd8)) target
+          PATCH_IF (("%entrance_name%" STRING_COMPARE_CASE "" = 0) AND
+                    (target = 4)) BEGIN // unnamed entrance point, south
+            WRITE_ASCII (link_off + 0x04 + (index * 0xd8)) ~CDSouthExit~
+          END
+        END
+      END
+      BUT_ONLY
+    
+    COPY_EXISTING ~%Beregost%.are~ ~override~
+      LPF fj_are_structure
+        INT_VAR
+        fj_loc_x       = 4950
+        fj_loc_y       = 3085
+        fj_orientation = 4   //W
+        STR_VAR
+        fj_structure_type = entrance
+        fj_name           = CDEastExit
+      END
+    
+    COPY_EXISTING ~%FishingVillage%.are~ ~override~
+      LPF fj_are_structure
+        INT_VAR
+        fj_loc_x       = 791
+        fj_loc_y       = 3615
+        fj_orientation = 9   //N
+        STR_VAR
+        fj_structure_type = entrance
+        fj_name           = CDSouthExit
+      END
   
-  COPY_EXISTING ~%ShipwrecksCoast%.are~ ~override~
-    LPF fj_are_structure
-      INT_VAR
-      fj_loc_x       = 4957
-      fj_loc_y       = 3516
-      fj_orientation = 4   //N
-      STR_VAR
-      fj_structure_type = entrance
-      fj_name           = CDSouthExit
-    END
-  
-  COPY_EXISTING ~%Lighthouse%.are~ ~override~
-    LPF fj_are_structure
-      INT_VAR
-      fj_loc_x       = 4941
-      fj_loc_y       = 688
-      fj_orientation = 4   //N
-      STR_VAR
-      fj_structure_type = entrance
-      fj_name           = CDNorthExit
-    END
+    COPY_EXISTING ~%Farmlands%.are~ ~override~
+      LPF fj_are_structure
+        INT_VAR
+        fj_loc_x       = 1638
+        fj_loc_y       = 3715
+        fj_orientation = 8   //N
+        STR_VAR
+        fj_structure_type = entrance
+        fj_name           = CDSouthExit
+      END
+    
+    COPY_EXISTING ~%ShipwrecksCoast%.are~ ~override~
+      LPF fj_are_structure
+        INT_VAR
+        fj_loc_x       = 4957
+        fj_loc_y       = 3516
+        fj_orientation = 4   //N
+        STR_VAR
+        fj_structure_type = entrance
+        fj_name           = CDSouthExit
+      END
+    
+    COPY_EXISTING ~%Lighthouse%.are~ ~override~
+      LPF fj_are_structure
+        INT_VAR
+        fj_loc_x       = 4941
+        fj_loc_y       = 688
+        fj_orientation = 4   //N
+        STR_VAR
+        fj_structure_type = entrance
+        fj_name           = CDNorthExit
+      END
+      
+  END
 
 END
 
@@ -10358,8 +10705,7 @@ COPY ~cdtweaks/random/random.2da~ ~cdtweaks/random/random.2da~
         COPY ~cdtweaks/random/template.tpa~ ~cdtweaks/random/%item%.tpa~
           REPLACE_TEXTUALLY ~replacemelist~ ~%list%~ EVALUATE_BUFFER
           REPLACE_TEXTUALLY ~drop~ ~drop%item%~ EVALUATE_BUFFER
-          REPLACE_TEXTUALLY ~\([ %TAB%]+\*\)*~ ~~ // deletes  * * * entries
-          REPLACE_TEXTUALLY ~\([^*]\)\*[0-9]+[ %TAB%]~ ~\1 ~ // changes wndtrp*20 to wndtrap
+          REPLACE_TEXTUALLY ~\([ %TAB%]+\*\)*~ ~~
       
         INCLUDE ~cdtweaks/random/%item%.tpa~
 
@@ -10425,7 +10771,7 @@ ACTION_IF GAME_IS ~iwdee iwd_in_bg2~ THEN BEGIN // if modern engine
   END ELSE BEGIN
 
     INCLUDE ~cdtweaks/random/iwdee_rndtres.tpa~ // replaces IWD references with IWDEE's RNDTRE schema in random.2da
-  
+
   END
 
   COPY ~cdtweaks/random/cdrandom.baf~ ~cdtweaks/random/cdrandom.baf~
@@ -10447,9 +10793,11 @@ COPY_EXISTING ~telanis.cre~ ~override/cdrandom.cre~
   SAY 0x0c @324101
   WRITE_ASCII 0x248 ~cdrandom~ #8
   PATCH_IF GAME_IS ~iwd how totlm~ BEGIN
+    WRITE_BYTE  0x2d9 1 // undead > humanoid
     WRITE_ASCII 0x2e8 ~cdrandom~ #32
     WRITE_ASCII 0x334 ~cdrandom~ #8
   END ELSE BEGIN
+    WRITE_BYTE  0x271 1 // undead > humanoid
     WRITE_ASCII 0x280 ~cdrandom~ #32
     WRITE_ASCII 0x2cc ~cdrandom~ #8
   END
@@ -10562,7 +10910,7 @@ COMPILE ~cdtweaks/random/cdrandom.d~
         ~cdtweaks/random/cdrandom.baf~
 
 ACTION_IF GAME_IS ~iwd_in_bg2~ BEGIN
-  
+
   COPY_EXISTING ~ar3501.bcs~ ~override~
                 ~ar3502.bcs~ ~override~
                 ~ar3503.bcs~ ~override~

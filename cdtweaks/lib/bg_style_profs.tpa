@@ -101,108 +101,148 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // item changes
   BUT_ONLY
 
 PRINT @1
-COPY_EXISTING ~weapprof.2da~ ~override~
-  REPLACE_TEXTUALLY ~^[ %TAB%]*ID\([ %TAB%]+\)~ ~CD_DELETE_ME\1ID\1~ // temp
-  // axe is only prof not changing, only moving
-  REPLACE_EVALUATE ~^\(AXE[ %TAB%]+\)+92\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_axe "%MATCH1%104%MATCH2%"
-  END "UNUSED 92%MATCH2%"
-  // FLAILMORNINGSTAR gets new name and a move, but otherwise unchanges
-  REPLACE_EVALUATE ~^FLAILMORNINGSTAR\([ %TAB%]+\)+100\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_flail "SPIKED%MATCH1%101%MATCH2%"
-  END "UNUSED 100%MATCH2%"
+ACTION_FOR_EACH file IN weapprof racethac BEGIN
 
-  // for profs being merged, take the highest of both values
-  COUNT_2DA_COLS col_num
-  FOR (col = 4; col < col_num; ++col) BEGIN
-    READ_2DA_ENTRY 25 col col_num star_lbow
-    READ_2DA_ENTRY 26 col col_num star_sbow
-    PATCH_IF (star_lbow < star_sbow) BEGIN SET star_lbow = star_sbow END // bows
-    READ_2DA_ENTRY 11 col col_num star_sswd
-    READ_2DA_ENTRY 16 col col_num star_dagg
-    PATCH_IF (star_sswd < star_dagg) BEGIN SET star_sswd = star_dagg END // small swords
-    READ_2DA_ENTRY  9 col col_num star_bast
-    READ_2DA_ENTRY 10 col col_num star_lswd
-    READ_2DA_ENTRY 13 col col_num star_2hsw
-    READ_2DA_ENTRY 14 col col_num star_kata
-    READ_2DA_ENTRY 15 col col_num star_scim
-    PATCH_IF (star_bast < star_2hsw) BEGIN SET star_bast = star_2hsw END // large swords
-    PATCH_IF (star_bast < star_kata) BEGIN SET star_bast = star_kata END // large swords
-    PATCH_IF (star_bast < star_scim) BEGIN SET star_bast = star_scim END // large swords
-    PATCH_IF (star_bast < star_lswd) BEGIN SET star_bast = star_scim END // large swords
-    READ_2DA_ENTRY 17 col col_num star_hamm
-    READ_2DA_ENTRY 18 col col_num star_club
-    READ_2DA_ENTRY 22 col col_num star_mace
-    READ_2DA_ENTRY 23 col col_num star_staf
-    PATCH_IF (star_club < star_hamm) BEGIN SET star_club = star_hamm END // blunt
-    PATCH_IF (star_club < star_mace) BEGIN SET star_club = star_mace END // blunt
-    PATCH_IF (star_club < star_staf) BEGIN SET star_club = star_staf END // blunt
-    READ_2DA_ENTRY 27 col col_num star_dart
-    READ_2DA_ENTRY 28 col col_num star_slng
-    READ_2DA_ENTRY 24 col col_num star_xbow
-    PATCH_IF (star_dart < star_slng) BEGIN SET star_dart = star_slng END // missile
-    PATCH_IF (star_dart < star_xbow) BEGIN SET star_dart = star_xbow END // missile
-    READ_2DA_ENTRY 19 col col_num star_sper
-    READ_2DA_ENTRY 20 col col_num star_halb
-    PATCH_IF (star_sper < star_halb) BEGIN SET star_sper = star_halb END // spear
-    SET_2DA_ENTRY 21 col col_num ~%star_lbow%~ // 100 - bow
-    SET_2DA_ENTRY 23 col col_num ~%star_sswd%~ // 102 - small swords
-    SET_2DA_ENTRY 24 col col_num ~%star_bast%~ // 103 - large sword
-    SET_2DA_ENTRY 26 col col_num ~%star_club%~ // 105 - blunt
-    SET_2DA_ENTRY 27 col col_num ~%star_dart%~ // 106 - missile
-    SET_2DA_ENTRY 28 col col_num ~%star_sper%~ // 107 - spear
-    PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
-      SET_2DA_ENTRY 29 col col_num 0 // two-handed weapon style
-      SET_2DA_ENTRY 30 col col_num 0 // sword & shield
-      SET_2DA_ENTRY 31 col col_num 0 // single weapon
-      SET_2DA_ENTRY 32 col col_num 0 // dual-wield
-    END
-    FOR (row = 9 ; row < 21 ; ++row) BEGIN // eliminate unused profs
-      SET_2DA_ENTRY row col col_num 0 // nuke first five rows
-    END
+  ACTION_IF FILE_EXISTS_IN_GAME ~%file%.2da~ THEN BEGIN
+
+    COPY_EXISTING ~%file%.2da~ ~override~
+
+      PATCH_IF ("%file%" STRING_COMPARE_CASE "weapprof" = 0) THEN BEGIN
+        SET col_start = 4
+        SET skip_rows = 8
+        SET label_col = 0
+
+        // axe is only prof not changing, only moving
+        REPLACE_EVALUATE ~^\(AXE[ %TAB%]+\)92\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_axe "%MATCH1%104%MATCH2%"
+        END "UNUSED 92%MATCH2%"
+        // FLAILMORNINGSTAR gets new name and a move, but otherwise unchanges
+        REPLACE_EVALUATE ~^FLAILMORNINGSTAR\([ %TAB%]+\)100\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_flail "SPIKED%MATCH1%101%MATCH2%"
+        END "UNUSED 100%MATCH2%"
+
+      END ELSE BEGIN
+        SET col_start = 2
+        SET skip_rows = 0
+        SET label_col = 1
+
+        // axe is only prof not changing, only moving
+        REPLACE_EVALUATE ~^92\([ %TAB%]+\)AXE\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_axe "104%MATCH1%AXE%MATCH2%"
+        END "92%MATCH1%UNUSED%MATCH2%"
+        // FLAILMORNINGSTAR gets new name and a move, but otherwise unchanges
+        REPLACE_EVALUATE ~^100\([ %TAB%]+\)FLAILMORNINGSTAR\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_flail "101%MATCH1%SPIKED%MATCH2%"
+        END "100%MATCH1%UNUSED%MATCH2%"
+
+      END
+
+      READ_2DA_ENTRY 0 0 3 foo
+      SET_2DA_ENTRY 0 0 3 ~CD_DELETE_ME %foo%~
+
+      // for profs being merged, take the highest of both values
+      COUNT_2DA_COLS col_num
+      FOR (col = col_start; col < col_num; ++col) BEGIN
+        READ_2DA_ENTRY (skip_rows + 17) col col_num star_lbow
+        READ_2DA_ENTRY (skip_rows + 18) col col_num star_sbow
+        PATCH_IF (star_lbow < star_sbow) BEGIN SET star_lbow = star_sbow END // bows
+        READ_2DA_ENTRY (skip_rows + 3) col col_num star_sswd
+        READ_2DA_ENTRY (skip_rows + 8) col col_num star_dagg
+        PATCH_IF (star_sswd < star_dagg) BEGIN SET star_sswd = star_dagg END // small swords
+        READ_2DA_ENTRY (skip_rows + 1) col col_num star_bast
+        READ_2DA_ENTRY (skip_rows + 2) col col_num star_lswd
+        READ_2DA_ENTRY (skip_rows + 5) col col_num star_2hsw
+        READ_2DA_ENTRY (skip_rows + 6) col col_num star_kata
+        READ_2DA_ENTRY (skip_rows + 7) col col_num star_scim
+        PATCH_IF (star_bast < star_2hsw) BEGIN SET star_bast = star_2hsw END // large swords
+        PATCH_IF (star_bast < star_kata) BEGIN SET star_bast = star_kata END // large swords
+        PATCH_IF (star_bast < star_scim) BEGIN SET star_bast = star_scim END // large swords
+        PATCH_IF (star_bast < star_lswd) BEGIN SET star_bast = star_scim END // large swords
+        READ_2DA_ENTRY (skip_rows + 9) col col_num star_hamm
+        READ_2DA_ENTRY (skip_rows + 10) col col_num star_club
+        READ_2DA_ENTRY (skip_rows + 14) col col_num star_mace
+        READ_2DA_ENTRY (skip_rows + 15) col col_num star_staf
+        PATCH_IF (star_club < star_hamm) BEGIN SET star_club = star_hamm END // blunt
+        PATCH_IF (star_club < star_mace) BEGIN SET star_club = star_mace END // blunt
+        PATCH_IF (star_club < star_staf) BEGIN SET star_club = star_staf END // blunt
+        READ_2DA_ENTRY (skip_rows + 19) col col_num star_dart
+        READ_2DA_ENTRY (skip_rows + 20) col col_num star_slng
+        READ_2DA_ENTRY (skip_rows + 16) col col_num star_xbow
+        PATCH_IF (star_dart < star_slng) BEGIN SET star_dart = star_slng END // missile
+        PATCH_IF (star_dart < star_xbow) BEGIN SET star_dart = star_xbow END // missile
+        READ_2DA_ENTRY (skip_rows + 11) col col_num star_sper
+        READ_2DA_ENTRY (skip_rows + 12) col col_num star_halb
+        PATCH_IF (star_sper < star_halb) BEGIN SET star_sper = star_halb END // spear
+        SET_2DA_ENTRY (skip_rows + 13) col col_num ~%star_lbow%~ // 100 - bow
+        SET_2DA_ENTRY (skip_rows + 15) col col_num ~%star_sswd%~ // 102 - small swords
+        SET_2DA_ENTRY (skip_rows + 16) col col_num ~%star_bast%~ // 103 - large sword
+        SET_2DA_ENTRY (skip_rows + 18) col col_num ~%star_club%~ // 105 - blunt
+        SET_2DA_ENTRY (skip_rows + 19) col col_num ~%star_dart%~ // 106 - missile
+        SET_2DA_ENTRY (skip_rows + 20) col col_num ~%star_sper%~ // 107 - spear
+        PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
+          SET_2DA_ENTRY (skip_rows + 21) col col_num 0 // two-handed weapon style
+          SET_2DA_ENTRY (skip_rows + 22) col col_num 0 // sword & shield
+          SET_2DA_ENTRY (skip_rows + 23) col col_num 0 // single weapon
+          SET_2DA_ENTRY (skip_rows + 24) col col_num 0 // dual-wield
+        END
+        FOR (row = (skip_rows + 1) ; row < (skip_rows + 13) ; ++row) BEGIN // eliminate unused profs
+          SET_2DA_ENTRY row col col_num 0 // nuke first five rows
+        END
+      END
+      // now read-and-shuffle other profs to correct lines
+      REPLACE_TEXTUALLY ~^\([0-9]+[ %TAB%]+\)?MACE[ %TAB]+.+$~    ~%line_flail%~
+      REPLACE_TEXTUALLY ~^\([0-9]+[ %TAB%]+\)?LONGBOW[ %TAB]+.+$~ ~%line_axe%~
+      // final touchups to get descripts and row names correct; labels needed for both
+      SET_2DA_ENTRY (skip_rows + 13) label_col col_num BOW  // bow
+      SET_2DA_ENTRY (skip_rows + 15) label_col col_num SMALL_SWORD  // small swords
+      SET_2DA_ENTRY (skip_rows + 16) label_col col_num LARGE_SWORD  // large swords
+      SET_2DA_ENTRY (skip_rows + 18) label_col col_num BLUNT  // blunt
+      SET_2DA_ENTRY (skip_rows + 19) label_col col_num MISSILE  // missile
+      SET_2DA_ENTRY (skip_rows + 20) label_col col_num SPEAR  // spear
+      PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
+        FOR (row = (skip_rows + 21) ; row < (skip_rows + 25) ; ++row) BEGIN
+          SET_2DA_ENTRY row label_col col_num UNUSED // ref
+        END
+      END
+      FOR (row = (skip_rows + 1) ; row < (skip_rows + 13) ; ++row) BEGIN // eliminate first profs
+        SET_2DA_ENTRY row label_col col_num UNUSED // ref
+      END
+      PATCH_IF (col_start = 4) BEGIN // descript updates only needed for weapprof
+        SET_2DA_ENTRY 21 2 col_num 8733
+        SET_2DA_ENTRY 21 3 col_num 9591
+        SET_2DA_ENTRY 22 2 col_num 9401 // spiked
+        SET_2DA_ENTRY 22 3 col_num 9594
+        SET_2DA_ENTRY 23 2 col_num cd_prof_name
+        SET_2DA_ENTRY 23 3 col_num 9590
+        REPLACE ~cd_prof_name~ @216101
+        SET_2DA_ENTRY 24 2 col_num 8668
+        SET_2DA_ENTRY 24 3 col_num 9589
+        SET_2DA_ENTRY 25 2 col_num 9402  // axe
+        SET_2DA_ENTRY 25 3 col_num 9595
+        SET_2DA_ENTRY 26 2 col_num 9400
+        SET_2DA_ENTRY 26 3 col_num 9593
+        SET_2DA_ENTRY 27 2 col_num 9403
+        SET_2DA_ENTRY 27 3 col_num 9596
+        SET_2DA_ENTRY 28 2 col_num 8734
+        SET_2DA_ENTRY 28 3 col_num 9592
+        PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
+          FOR (row = 29 ; row < 33 ; ++row) BEGIN
+            SET_2DA_ENTRY row 2 col_num 0      // name
+            SET_2DA_ENTRY row 3 col_num 0      // descript
+          END
+        END
+        FOR (row = 9 ; row < 21 ; ++row) BEGIN // eliminate first profs
+          SET_2DA_ENTRY row 2 col_num 0      // name
+          SET_2DA_ENTRY row 3 col_num 0      // descript
+        END
+      END
+      REPLACE_TEXTUALLY ~CD_DELETE_ME~ ~~
+      PRETTY_PRINT_2DA
+      BUT_ONLY
+
   END
-  // now read-and-shuffle other profs to correct lines
-  REPLACE_TEXTUALLY ~^MACE[ %TAB]+.+$~ ~%line_flail%~
-  REPLACE_TEXTUALLY ~^LONGBOW[ %TAB]+.+$~ ~%line_axe%~
-  // final touchups to get descripts and row names correct
-  SET_2DA_ENTRY 21 0 col_num BOW  // bow
-  SET_2DA_ENTRY 21 2 col_num 8733
-  SET_2DA_ENTRY 21 3 col_num 9591
-  SET_2DA_ENTRY 22 2 col_num 9401 // spiked
-  SET_2DA_ENTRY 22 3 col_num 9594
-  SET_2DA_ENTRY 23 0 col_num SMALL_SWORD  // small swords
-  SET_2DA_ENTRY 23 2 col_num cd_prof_name
-  SET_2DA_ENTRY 23 3 col_num 9590
-  REPLACE ~cd_prof_name~ @216101
-  SET_2DA_ENTRY 24 0 col_num LARGE_SWORD  // large swords
-  SET_2DA_ENTRY 24 2 col_num 8668
-  SET_2DA_ENTRY 24 3 col_num 9589
-  SET_2DA_ENTRY 25 2 col_num 9402  // axe
-  SET_2DA_ENTRY 25 3 col_num 9595
-  SET_2DA_ENTRY 26 0 col_num BLUNT  // blunt
-  SET_2DA_ENTRY 26 2 col_num 9400
-  SET_2DA_ENTRY 26 3 col_num 9593
-  SET_2DA_ENTRY 27 0 col_num MISSILE  // missile
-  SET_2DA_ENTRY 27 2 col_num 9403
-  SET_2DA_ENTRY 27 3 col_num 9596
-  SET_2DA_ENTRY 28 0 col_num SPEAR  // spear
-  SET_2DA_ENTRY 28 2 col_num 8734
-  SET_2DA_ENTRY 28 3 col_num 9592
-  PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
-    FOR (row = 29 ; row < 33 ; ++row) BEGIN
-      SET_2DA_ENTRY row 0 col_num UNUSED // ref
-      SET_2DA_ENTRY row 2 col_num 0      // name
-      SET_2DA_ENTRY row 3 col_num 0      // descript
-    END
-  END
-  FOR (row = 9 ; row < 21 ; ++row) BEGIN // eliminate first profs
-    SET_2DA_ENTRY row 0 col_num UNUSED // ref
-    SET_2DA_ENTRY row 2 col_num 0      // name
-    SET_2DA_ENTRY row 3 col_num 0      // descript
-  END
-  REPLACE_TEXTUALLY ~CD_DELETE_ME~ ~~
-  PRETTY_PRINT_2DA
-  BUT_ONLY
+
+END
 
 COPY_EXISTING ~stats.ids~ ~override~
   REPLACE_TEXTUALLY ~^\(89\|9[0-9]\|115\)[ %TAB%]+.+$~ ~\1 UNUSEDPROF\1~

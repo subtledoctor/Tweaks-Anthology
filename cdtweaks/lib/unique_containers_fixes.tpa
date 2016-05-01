@@ -15,7 +15,6 @@ ACTION_IF GAME_IS ~soa tob bg2ee eet bgt tutu tutu_totsc~ BEGIN
     END
   END
 
-
 /////                                                  \\\\\
 ///// t-store_fixes.tpa                                \\\\\
 /////                                                  \\\\\

@@ -106,128 +106,229 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // item changes
   BUT_ONLY
 
 PRINT @1
-COPY_EXISTING ~weapprof.2da~ ~override~
-  REPLACE_TEXTUALLY ~^[ %TAB%]*ID\([ %TAB%]+\)~ ~CD_DELETE_ME\1ID\1~ // temp
-  // read in halberd and staff lines since loop below overwrites them
-  REPLACE_EVALUATE ~^\(HALBERD[ %TAB%]+\)+99\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_halb "%MATCH1%100%MATCH2%"
-  END "%MATCH1%99%MATCH2%"
-  REPLACE_EVALUATE ~^\(QUARTERSTAFF[ %TAB%]+\)+102\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_staf "%MATCH1%107%MATCH2%"
-  END "%MATCH1%102%MATCH2%"
-  REPLACE_EVALUATE ~^\(AXE[ %TAB%]+\)+92\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_axe "%MATCH1%94%MATCH2%"
-  END "UNUSED 92%MATCH2%"
-  REPLACE_EVALUATE ~^SHORTSWORD\([ %TAB%]+\)+91\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_sswd "SHORT_SWORD%MATCH1%105%MATCH2%"
-  END "UNUSED%MATCH1%91%MATCH2%"
+ACTION_FOR_EACH file IN weapprof racethac BEGIN
 
-  // for profs being merged, take the highest of both values
-  COUNT_2DA_COLS col_num
-  FOR (col = 4; col < col_num; ++col) BEGIN
-    READ_2DA_ENTRY  9 col col_num star_bast
-    READ_2DA_ENTRY 10 col col_num star_lswd
-    READ_2DA_ENTRY 13 col col_num star_2hsw
-    READ_2DA_ENTRY 14 col col_num star_kata
-    READ_2DA_ENTRY 15 col col_num star_scim
-    READ_2DA_ENTRY 25 col col_num star_lbow
-    READ_2DA_ENTRY 26 col col_num star_sbow
-    READ_2DA_ENTRY 27 col col_num star_dart
-    READ_2DA_ENTRY 28 col col_num star_slng
-    PATCH_IF (star_bast < star_2hsw) BEGIN SET star_bast = star_2hsw END // great swords
-    PATCH_IF (star_lswd < star_kata) BEGIN SET star_lswd = star_kata END // large swords
-    PATCH_IF (star_lswd < star_scim) BEGIN SET star_lswd = star_scim END // large swords
-    PATCH_IF (star_lbow < star_sbow) BEGIN SET star_lbow = star_sbow END // bows
-    PATCH_IF (star_dart < star_slng) BEGIN SET star_dart = star_slng END // missile
-    SET_2DA_ENTRY 20 col col_num ~%star_bast%~ // replaces old halberd line
-    SET_2DA_ENTRY 23 col col_num ~%star_lswd%~ // replaces old staff line
-    SET_2DA_ENTRY 15 col col_num ~%star_lbow%~ // replaces old scimitar line
-    SET_2DA_ENTRY 25 col col_num ~%star_dart%~ // replaces old long bow line
-    PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
-      SET_2DA_ENTRY 29 col col_num 0 // two-handed weapon style
-      SET_2DA_ENTRY 30 col col_num 0 // sword & shield
-      SET_2DA_ENTRY 31 col col_num 0 // single weapon
-      SET_2DA_ENTRY 32 col col_num 0 // dual-wield
-    END
-    FOR (row = 9 ; row < 14 ; ++row) BEGIN // eliminate first six profs
-      SET_2DA_ENTRY row col col_num 0 // nuke first five rows
-    END
+  ACTION_IF FILE_EXISTS_IN_GAME ~%file%.2da~ THEN BEGIN
+
+    COPY_EXISTING ~%file%.2da~ ~override~
+
+      PATCH_IF ("%file%" STRING_COMPARE_CASE "weapprof" = 0) THEN BEGIN
+        SET col_start = 4
+        SET skip_rows = 8
+        SET label_col = 0
+
+        // read in halberd and staff lines since loop below overwrites them
+        REPLACE_EVALUATE ~^\(HALBERD[ %TAB%]+\)99\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_halb "%MATCH1%100%MATCH2%"
+        END "%MATCH1%99%MATCH2%"
+        REPLACE_EVALUATE ~^\(QUARTERSTAFF[ %TAB%]+\)102\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_staf "%MATCH1%107%MATCH2%"
+        END "%MATCH1%102%MATCH2%"
+        REPLACE_EVALUATE ~^\(AXE[ %TAB%]+\)92\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_axe "%MATCH1%94%MATCH2%"
+        END "UNUSED 92%MATCH2%"
+        REPLACE_EVALUATE ~^SHORTSWORD\([ %TAB%]+\)91\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_sswd "SHORT_SWORD%MATCH1%105%MATCH2%"
+        END "UNUSED%MATCH1%91%MATCH2%"
+
+      END ELSE BEGIN
+        SET col_start = 2
+        SET skip_rows = 0
+        SET label_col = 1
+
+        // read in halberd and staff lines since loop below overwrites them
+        REPLACE_EVALUATE ~^99\([ %TAB%]+\)HALBERD\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_halb "100%MATCH1%HALBERD%MATCH2%"
+        END "99%MATCH1%UNUSED%MATCH2%"
+        REPLACE_EVALUATE ~^102\([ %TAB%]+\)QUARTERSTAFF\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_staf "107%MATCH1%QUARTERSTAFF%MATCH2%"
+        END "102%MATCH1%UNUSED%MATCH2%"
+        REPLACE_EVALUATE ~^92\([ %TAB%]+\)AXE\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_axe "94%MATCH1%AXE%MATCH2%"
+        END "92%MATCH1%UNUSED%MATCH2%"
+        REPLACE_EVALUATE ~^91\([ %TAB%]+\)SHORTSWORD\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_sswd "105%MATCH1%SHORTSWORD%MATCH2%"
+        END "91%MATCH1%UNUSED%MATCH2%"
+
+      END
+
+      READ_2DA_ENTRY 0 0 3 foo
+      SET_2DA_ENTRY 0 0 3 ~CD_DELETE_ME %foo%~
+    
+      // for profs being merged, take the highest of both values
+      COUNT_2DA_COLS col_num
+      FOR (col = col_start; col < col_num; ++col) BEGIN
+        READ_2DA_ENTRY (skip_rows + 1) col col_num star_bast
+        READ_2DA_ENTRY (skip_rows + 2) col col_num star_lswd
+        READ_2DA_ENTRY (skip_rows + 5) col col_num star_2hsw
+        READ_2DA_ENTRY (skip_rows + 6) col col_num star_kata
+        READ_2DA_ENTRY (skip_rows + 7) col col_num star_scim
+        READ_2DA_ENTRY (skip_rows + 17) col col_num star_lbow
+        READ_2DA_ENTRY (skip_rows + 18) col col_num star_sbow
+        READ_2DA_ENTRY (skip_rows + 19) col col_num star_dart
+        READ_2DA_ENTRY (skip_rows + 20) col col_num star_slng
+        PATCH_IF (star_bast < star_2hsw) BEGIN SET star_bast = star_2hsw END // great swords
+        PATCH_IF (star_lswd < star_kata) BEGIN SET star_lswd = star_kata END // large swords
+        PATCH_IF (star_lswd < star_scim) BEGIN SET star_lswd = star_scim END // large swords
+        PATCH_IF (star_lbow < star_sbow) BEGIN SET star_lbow = star_sbow END // bows
+        PATCH_IF (star_dart < star_slng) BEGIN SET star_dart = star_slng END // missile
+        SET_2DA_ENTRY (skip_rows + 12) col col_num ~%star_bast%~ // replaces old halberd line
+        SET_2DA_ENTRY (skip_rows + 15) col col_num ~%star_lswd%~ // replaces old staff line
+        SET_2DA_ENTRY (skip_rows + 7) col col_num ~%star_lbow%~ // replaces old scimitar line
+        SET_2DA_ENTRY (skip_rows + 17) col col_num ~%star_dart%~ // replaces old long bow line
+        PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
+          SET_2DA_ENTRY (skip_rows + 21) col col_num 0 // two-handed weapon style
+          SET_2DA_ENTRY (skip_rows + 22) col col_num 0 // sword & shield
+          SET_2DA_ENTRY (skip_rows + 23) col col_num 0 // single weapon
+          SET_2DA_ENTRY (skip_rows + 24) col col_num 0 // dual-wield
+        END
+        FOR (row = (skip_rows + 1) ; row < (skip_rows + 6) ; ++row) BEGIN // eliminate first six profs
+          SET_2DA_ENTRY row col col_num 0 // nuke first five rows
+        END
+      END
+      // now read-and-shuffle other profs to correct lines
+      REPLACE_TEXTUALLY ~^107[ %TAB%]+SLING\([ %TAB%]+.+\)$~ ~%line_staf%~
+      REPLACE_TEXTUALLY ~^SLING[ %TAB%]+107\([ %TAB%]+.+\)$~ ~%line_staf%~
+
+      PATCH_IF (col_start = 4) BEGIN
+
+        REPLACE_EVALUATE ~^FLAILMORNINGSTAR\([ %TAB%]+\)100\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_flai "FLAIL%MATCH1%98%MATCH2%"
+        END "%line_halb%"
+        REPLACE_EVALUATE ~^\(SPEAR[ %TAB%]+\)98\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_sper "%MATCH1%106%MATCH2%"
+        END "%line_flai%"
+
+      END ELSE BEGIN
+
+        REPLACE_EVALUATE ~^100\([ %TAB%]+\)FLAILMORNINGSTAR\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_flai "98%MATCH1%FLAIL%MATCH2%"
+        END "%line_halb%"
+        REPLACE_EVALUATE ~^98\([ %TAB%]+\)SPEAR\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_sper "106%MATCH1%SPEAR%MATCH2%"
+        END "%line_flai%"
+
+      END
+
+      REPLACE_TEXTUALLY ~^106[ %TAB%]+DART[ %TAB]+.+$~ ~%line_sper%~
+      REPLACE_TEXTUALLY ~^DART[ %TAB%]+106[ %TAB]+.+$~ ~%line_sper%~
+
+      PATCH_IF (col_start = 4) BEGIN
+
+        REPLACE_EVALUATE ~^\(CLUB[ %TAB%]+\)115\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_club "%MATCH1%96%MATCH2%"
+        END "%MATCH1%115%MATCH2%"
+        REPLACE_EVALUATE ~^\(EXTRAPROFICIENCY1[ %TAB%]+\)115\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_club "%MATCH1%96%MATCH2%"
+        END "%MATCH1%115%MATCH2%"
+        REPLACE_EVALUATE ~^\(DAGGER[ %TAB%]+\)96\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_dagg "%MATCH1%115%MATCH2%"
+        END "%line_club%"
+
+      END ELSE BEGIN
+        
+        REPLACE_EVALUATE ~^115\([ %TAB%]+\)CLUB\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_club "96%MATCH1%CLUB%MATCH2%"
+        END "96%MATCH1%CLUB%MATCH2%"
+        REPLACE_EVALUATE ~^115\([ %TAB%]+\)EXTRAPROFICIENCY1\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_club "96%MATCH1%EXTRAPROFICIENCY1%MATCH2%"
+        END "96%MATCH1%EXTRAPROFICIENCY1%MATCH2%"
+        REPLACE_EVALUATE ~^96\([ %TAB%]+\)DAGGER\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_dagg "115%MATCH1%DAGGER%MATCH2%"
+        END "%line_club%"
+
+      END
+
+      REPLACE_TEXTUALLY ~^115[ %TAB%]+\(CLUB\|EXTRAPROFICIENCY1\)\([ %TAB%]+.+\)$~ ~%line_dagg%~
+      REPLACE_TEXTUALLY ~^\(CLUB\|EXTRAPROFICIENCY1\)[ %TAB%]+115\([ %TAB%]+.+\)$~ ~%line_dagg%~
+
+      PATCH_IF (col_start = 4) BEGIN
+    
+        REPLACE_EVALUATE ~^\(MACE[ %TAB%]+\)101\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_mace "%MATCH1%103%MATCH2%"
+        END "%MATCH1%101%MATCH2%"
+        REPLACE_EVALUATE ~^\(CROSSBOW[ %TAB%]+\)103\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_xbow "%MATCH1%97%MATCH2%"
+        END "%line_mace%"
+        REPLACE_EVALUATE ~^\(WARHAMMER[ %TAB%]+\)97\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_hamm "%MATCH1%101%MATCH2%"
+        END "%line_xbow%"
+      END ELSE BEGIN
+
+        REPLACE_EVALUATE ~^101\([ %TAB%]+\)MACE\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_mace "103%MATCH1%MACE%MATCH2%"
+        END "101%MATCH1%MACE%MATCH2%"
+        REPLACE_EVALUATE ~^103\([ %TAB%]+\)CROSSBOW\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_xbow "97%MATCH1%CROSSBOW%MATCH2%"
+        END "%line_mace%"
+        REPLACE_EVALUATE ~^97\([ %TAB%]+\)WARHAMMER\([ %TAB%]+.+\)$~ BEGIN
+          SPRINT line_hamm "101%MATCH1%WARHAMMER%MATCH2%"
+        END "%line_xbow%"
+      
+      END
+      
+      REPLACE_TEXTUALLY ~^101[ %TAB%]+MACE\([ %TAB%]+.+\)$~ ~%line_hamm%~
+      REPLACE_TEXTUALLY ~^MACE[ %TAB%]+101\([ %TAB%]+.+\)$~ ~%line_hamm%~
+
+      REPLACE_TEXTUALLY ~^105[ %TAB%]+SHORTBOW\([ %TAB%]+.+\)$~ ~%line_sswd%~
+      REPLACE_TEXTUALLY ~^SHORTBOW[ %TAB%]+105\([ %TAB%]+.+\)$~ ~%line_sswd%~
+      REPLACE_TEXTUALLY ~^94[ %TAB%]+KATANA\([ %TAB%]+.+\)$~ ~%line_axe%~
+      REPLACE_TEXTUALLY ~^KATANA[ %TAB%]+94\([ %TAB%]+.+\)$~ ~%line_axe%~
+
+      // final touchups to get descripts and row names correct
+      SET_2DA_ENTRY (skip_rows +  7) label_col col_num BOW              // bow ref
+      SET_2DA_ENTRY (skip_rows + 12) label_col col_num GREAT_SWORD      // great sword ref
+      SET_2DA_ENTRY (skip_rows + 15) label_col col_num LARGE_SWORD      // large sword ref
+      SET_2DA_ENTRY (skip_rows + 17) label_col col_num MISSILE          // missile ref
+
+      PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
+        FOR (row = (skip_rows + 21) ; row < (skip_rows + 25) ; ++row) BEGIN
+          SET_2DA_ENTRY row label_col col_num UNUSED // ref
+        END
+      END
+      FOR (row = (skip_rows + 1) ; row < (skip_rows + 6) ; ++row) BEGIN // eliminate first six profs
+        SET_2DA_ENTRY row label_col col_num UNUSED // ref
+      END
+
+      PATCH_IF (col_start = 4) BEGIN // descript updates only needed for weapprof
+        SET_2DA_ENTRY 15 2 col_num 8733             // bow name
+        SET_2DA_ENTRY 15 3 col_num 9591             // bow descript
+        SET_2DA_ENTRY 20 2 col_num cd_prof_name     // great sword name
+        SET_2DA_ENTRY 20 3 col_num cd_prof_descript // great sword descript
+        REPLACE ~cd_prof_name~       @216301
+        REPLACE ~cd_prof_descript~   @216302
+        SET_2DA_ENTRY 23 2 col_num 8668             // large sword name
+        SET_2DA_ENTRY 23 3 col_num cd_prof_descript // large sword descript
+        REPLACE ~cd_prof_descript~   @216303
+        SET_2DA_ENTRY 25 2 col_num 9403             // missile name
+        SET_2DA_ENTRY 25 3 col_num cd_prof_descript // missile descript
+        REPLACE ~cd_prof_descript~   @216304
+        SET_2DA_ENTRY 24 2 col_num cd_prof_name     // mace name
+        SET_2DA_ENTRY 24 3 col_num cd_prof_descript // mace descript
+        REPLACE ~cd_prof_name~       @216011
+        REPLACE ~cd_prof_descript~   @216005
+        SET_2DA_ENTRY 19 2 col_num 6704             // flail name
+        SET_2DA_ENTRY 19 3 col_num cd_prof_descript // flail descript
+        REPLACE ~cd_prof_descript~   @216004
+        PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
+          FOR (row = 29 ; row < 33 ; ++row) BEGIN
+            SET_2DA_ENTRY row 2 col_num 0      // name
+            SET_2DA_ENTRY row 3 col_num 0      // descript
+          END
+        END
+        FOR (row = 9 ; row < 14 ; ++row) BEGIN // eliminate first six profs
+          SET_2DA_ENTRY row 2 col_num 0      // name
+          SET_2DA_ENTRY row 3 col_num 0      // descript
+        END
+      END
+      REPLACE_TEXTUALLY ~CD_DELETE_ME~ ~~
+      PRETTY_PRINT_2DA
+      BUT_ONLY
+
   END
-  // now read-and-shuffle other profs to correct lines
-  REPLACE_TEXTUALLY ~^SLING[ %TAB]+.+$~ ~%line_staf%~
-
-  REPLACE_EVALUATE ~^FLAILMORNINGSTAR\([ %TAB%]+\)100\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_flai "FLAIL%MATCH1%98%MATCH2%"
-  END "%line_halb%"
-  REPLACE_EVALUATE ~^\(SPEAR[ %TAB%]+\)98\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_sper "%MATCH1%106%MATCH2%"
-  END "%line_flai%"
-  REPLACE_TEXTUALLY ~^DART[ %TAB]+.+$~ ~%line_sper%~
-
-  REPLACE_EVALUATE ~^\(CLUB[ %TAB%]+\)115\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_club "%MATCH1%96%MATCH2%"
-  END "%MATCH1%115%MATCH2%"
-  REPLACE_EVALUATE ~^\(EXTRAPROFICIENCY1[ %TAB%]+\)115\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_club "%MATCH1%96%MATCH2%"
-  END "%MATCH1%115%MATCH2%"
-  REPLACE_EVALUATE ~^\(DAGGER[ %TAB%]+\)96\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_dagg "%MATCH1%115%MATCH2%"
-  END "%line_club%"
-  REPLACE_TEXTUALLY ~^\(CLUB\|EXTRAPROFICIENCY1\)[ %TAB%]+115.+$~ ~%line_dagg%~
-
-  REPLACE_EVALUATE ~^\(MACE[ %TAB%]+\)101\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_mace "%MATCH1%103%MATCH2%"
-  END "%MATCH1%101%MATCH2%"
-  REPLACE_EVALUATE ~^\(CROSSBOW[ %TAB%]+\)103\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_xbow "%MATCH1%97%MATCH2%"
-  END "%line_mace%"
-  REPLACE_EVALUATE ~^\(WARHAMMER[ %TAB%]+\)97\([ %TAB%]+.+\)$~ BEGIN
-    SPRINT line_hamm "%MATCH1%101%MATCH2%"
-  END "%line_xbow%"
-  REPLACE_TEXTUALLY ~^MACE[ %TAB%]+101\([ %TAB%]+.+\)$~ ~%line_hamm%~
-
-  REPLACE_TEXTUALLY ~^SHORTBOW[ %TAB%]+105\([ %TAB%]+.+\)$~ ~%line_sswd%~
-  REPLACE_TEXTUALLY ~^KATANA[ %TAB%]+94\([ %TAB%]+.+\)$~ ~%line_axe%~
-  // final touchups to get descripts and row names correct
-  SET_2DA_ENTRY 15 0 col_num BOW              // bow ref
-  SET_2DA_ENTRY 15 2 col_num 8733             // bow name
-  SET_2DA_ENTRY 15 3 col_num 9591             // bow descript
-  SET_2DA_ENTRY 20 0 col_num GREAT_SWORD      // great sword ref
-  SET_2DA_ENTRY 20 2 col_num cd_prof_name     // great sword name
-  SET_2DA_ENTRY 20 3 col_num cd_prof_descript // great sword descript
-  REPLACE ~cd_prof_name~       @216301
-  REPLACE ~cd_prof_descript~   @216302
-  SET_2DA_ENTRY 23 0 col_num LARGE_SWORD      // large sword ref
-  SET_2DA_ENTRY 23 2 col_num 8668             // large sword name
-  SET_2DA_ENTRY 23 3 col_num cd_prof_descript // large sword descript
-  REPLACE ~cd_prof_descript~   @216303
-  SET_2DA_ENTRY 25 0 col_num MISSILE          // missile ref
-  SET_2DA_ENTRY 25 2 col_num 9403             // missile name
-  SET_2DA_ENTRY 25 3 col_num cd_prof_descript // missile descript
-  REPLACE ~cd_prof_descript~   @216304
-  SET_2DA_ENTRY 24 2 col_num cd_prof_name     // mace name
-  SET_2DA_ENTRY 24 3 col_num cd_prof_descript // mace descript
-  REPLACE ~cd_prof_name~       @216011
-  REPLACE ~cd_prof_descript~   @216005
-  SET_2DA_ENTRY 19 2 col_num 6704             // flail name
-  SET_2DA_ENTRY 19 3 col_num cd_prof_descript // flail descript
-  REPLACE ~cd_prof_descript~   @216004
-  PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
-    FOR (row = 29 ; row < 33 ; ++row) BEGIN
-      SET_2DA_ENTRY row 0 col_num UNUSED // ref
-      SET_2DA_ENTRY row 2 col_num 0      // name
-      SET_2DA_ENTRY row 3 col_num 0      // descript
-    END
-  END
-  FOR (row = 9 ; row < 14 ; ++row) BEGIN // eliminate first six profs
-    SET_2DA_ENTRY row 0 col_num UNUSED // ref
-    SET_2DA_ENTRY row 2 col_num 0      // name
-    SET_2DA_ENTRY row 3 col_num 0      // descript
-  END
-  REPLACE_TEXTUALLY ~CD_DELETE_ME~ ~~
-  PRETTY_PRINT_2DA
-  BUT_ONLY
   
+END
+
 COPY_EXISTING ~stats.ids~ ~override~
   REPLACE_TEXTUALLY ~^\(89\|90\|91\|92\|93\)[ %TAB%]+.+$~ ~\1 UNUSEDPROF\1~
   REPLACE_TEXTUALLY ~^\(94[ %TAB%]+\).+$~ ~\1PROFICIENCYAXE~

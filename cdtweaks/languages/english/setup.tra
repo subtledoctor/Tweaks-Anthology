@@ -838,6 +838,8 @@ Special Abilities:
 – Acid Resistance: 50%
 – Magic Resistance: 40%
 - Immune to non-magical weapons~
+@115008 = ~Werewolf Paw~
+@115009 = ~Greater Werewolf Paw~
 
 @116000 = ~Multiple Strongholds (Baldurdash)~
 @116001 = ~No Restrictions (Baldurdash)~
@@ -1512,8 +1514,23 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 
 @320000 = ~Sellable Items (Icelus)~
 
+@320500 = ~Stores Purchase All Item Types~
+
 @321000 = ~Minimum Stats Cheat~
-@321001 = ~Select a minimum stat value, between 6 and 15:~
+//@321001 = ~Select a minimum stat value, between 6 and 15:~
+@321002 = ~Select a minimum STRENGTH value, between 6 and 15, or 0 for no minimum:~
+@321003 = ~Select a minimum DEXTERITY value, between 6 and 15, or 0 for no minimum:~
+@321004 = ~Select a minimum CONSTITUTION value, between 6 and 15, or 0 for no minimum:~
+@321005 = ~Select a minimum INTELLIGENCE value, between 6 and 15, or 0 for no minimum:~
+@321006 = ~Select a minimum WISDOM value, between 6 and 15, or 0 for no minimum:~
+@321007 = ~Select a minimum CHARISMA value, between 6 and 15, or 0 for no minimum:~
+@321008 = ~Minimum STRENGTH:~
+@321009 = ~Minimum DEXTERITY:~
+@321010 = ~Minimum CONSTITUTION:~
+@321011 = ~Minimum INTELLIGENCE:~
+@321012 = ~Minimum WISDOM:~
+@321013 = ~Minimum CHARISMA:~
+@321014 = ~No changes selected! Choose again.~
 
 @322000 = ~Sensible Entrance Points~
 @322001 = ~Atta Girl~

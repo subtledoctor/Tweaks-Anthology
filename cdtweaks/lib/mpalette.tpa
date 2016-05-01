@@ -5,12 +5,14 @@
 // rows beyond 200 generally get overridden by randcolr.2da
 COPY_EXISTING ~mpalette.bmp~ ~override~
   READ_LONG 0x0a pixel_off
-  FOR (index = 0 ; index < 256 ; ++index) BEGIN
-    READ_BYTE (pixel_off + 0x02 + (36 * (255 - index)) + (3 * column)) red
-    READ_BYTE (pixel_off + 0x01 + (36 * (255 - index)) + (3 * column)) green
-    READ_BYTE (pixel_off + 0x00 + (36 * (255 - index)) + (3 * column)) blue
+  READ_LONG 0x16 height
+  PATCH_PRINT ~max colors is %height%~
+  FOR (index = 0 ; index < height ; ++index) BEGIN
+    READ_BYTE (pixel_off + 0x02 + (36 * ((height - 1) - index)) + (3 * column)) red
+    READ_BYTE (pixel_off + 0x01 + (36 * ((height - 1) - index)) + (3 * column)) green
+    READ_BYTE (pixel_off + 0x00 + (36 * ((height - 1) - index)) + (3 * column)) blue
     SET mashed = ((red << 8) + (green << 16) + (blue << 24))
-    PATCH_PRINT ~color %index% is RGB %red% %green% %blue%, mashed as %mashed%~
+//    PATCH_PRINT ~color %index% is RGB %red% %green% %blue%, mashed as %mashed%~
     SET $cdcolors(~%index%~) = ~%mashed%~
   END
   BUT_ONLY
