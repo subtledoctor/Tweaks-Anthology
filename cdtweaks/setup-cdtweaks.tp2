@@ -5594,6 +5594,7 @@ REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst~ @25
 SUBCOMPONENT @215000 // wear multiple protection items
 
 INCLUDE ~cdtweaks/lib/pnp_descripts.tpa~  // text replacement macros
+INCLUDE ~cdtweaks/lib/fj_spl_itm_reindex.tpa~
 
 // first, eliminate iwd items on list without AC bonuses
 COPY_EXISTING ~itemexcl.2da~ ~override~
@@ -5655,6 +5656,7 @@ COPY + ~override/cdpnp.2da~ ~cdtweaks/2da/cdpnp.2da~
       ACTION_IF FILE_EXISTS_IN_GAME ~%orig%.itm~ THEN BEGIN
 
         COPY_EXISTING ~%orig%.itm~ ~override~
+          LPF ~FJ_SPL_ITM_REINDEX~ END
           READ_ASCII  0x3a bam (8)
           READ_SHORT  0x42 lore
           PATCH_IF (lore = 0) BEGIN
