@@ -2437,7 +2437,7 @@ END ELSE BEGIN
 
     END ELSE BEGIN // eet
      
-      OUTER_SPRINT "sendai_file" "_sendai"
+      OUTER_SPRINT "sendai_file" "sendai_"
 
       EXTEND_BOTTOM ~bg1803.bcs~ ~cdtweaks/baf/_ar1803.baf~ // adds Contagion scroll to Davaeorn's loot
       EXTEND_BOTTOM ~bg3601.bcs~ ~cdtweaks/baf/_ar3601.baf~ // adds Ninja-To +0 to Sirine cave loot
