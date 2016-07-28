@@ -5,7 +5,7 @@ BEGIN
   ACTION_IF NOT VARIABLE_IS_SET bg2_chapter THEN BEGIN
 
     ACTION_IF FILE_CONTAINS ~override/EET.flag~ ~EET_JOURNAL~ BEGIN
-      OUTER_SET bg2_chapter = 14
+      OUTER_SET bg2_chapter = 12
     END ELSE BEGIN
       OUTER_SET bg2_chapter = 0
     END
