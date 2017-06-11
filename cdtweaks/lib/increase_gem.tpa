@@ -1,7 +1,11 @@
 ACTION_IF GAME_IS ~pst~ THEN BEGIN
 
-  ACTION_IF stack > 255 BEGIN OUTER_SET stack = 255 END
+  ACTION_IF ((GAME_IS ~pst~) AND (!FILE_EXISTS_IN_GAME ~savename.2da~)) THEN BEGIN // pst, not pstee
   
+    ACTION_IF stack > 255 BEGIN OUTER_SET stack = 255 END
+  
+  END
+
   // gems/jewelry/misc
   COPY_EXISTING ~addrtear.itm~ ~override~ // adder's tear
                 ~agoody.itm~   ~override~ // a goody!
@@ -56,13 +60,15 @@ ACTION_IF GAME_IS ~pst~ THEN BEGIN
                 ~tail.itm~     ~override~ // cranium rat tail
                 ~tbchrm.itm~   ~override~ // thrice-blind charm
                 ~tsilbra.itm~  ~override~ // tarnished silver bracelet
-    READ_BYTE 0x38 current
+    READ_SHORT 0x38 current
     PATCH_IF (stack > current) BEGIN
-      WRITE_BYTE  0x38 stack
+      WRITE_SHORT  0x38 stack
     END
     BUT_ONLY
 
 END ELSE BEGIN
+
+  ACTION_CLEAR_ARRAY cd_stackables
 
   ACTION_IF GAME_IS ~iwd how totlm bg1 totsc~ THEN BEGIN // old engines need a header to be able to stack items
     OUTER_SET needs_header = 1
@@ -118,6 +124,9 @@ END ELSE BEGIN
         READ_SHORT 0x38 current
         PATCH_IF (stack > current) BEGIN
           WRITE_SHORT  0x38 stack
+          PATCH_IF current < 2 BEGIN 
+            DEFINE_ASSOCIATIVE_ARRAY cd_stackables BEGIN ~%SOURCE_RES%~ => 1 END
+          END
         END
         PATCH_IF ((needs_header = 1) AND (abil_num = 0)) BEGIN // old engines need a header to be able to stack items
           WRITE_SHORT  0x68 1 // add one ability
@@ -128,18 +137,6 @@ END ELSE BEGIN
     END
     BUT_ONLY_IF_IT_CHANGES
   
-  //alter nashkel shopkeep to only take one wolf pelt at a time instead of the whole stack
-  ACTION_FOR_EACH dialog IN shopkn _shopkn BEGIN
-  
-    ACTION_IF FILE_EXISTS_IN_GAME ~%dialog%.dlg~ BEGIN
-  
-      COPY_EXISTING ~%dialog%.dlg~ ~override~
-        DECOMPILE_AND_PATCH BEGIN
-          REPLACE_TEXTUALLY ~TakePartyItem("\(_?MISC01\)")~ ~TakePartyItemNum("\1",1)~
-        END
-    
-    END
-  
-  END
-  
+  INCLUDE ~cdtweaks/lib/increase_scripts.tpa~
+
 END

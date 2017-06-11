@@ -1068,29 +1068,29 @@ Thieving Abilities in Heavy Armor' Component~
 @318200 = ~No Gender/Racial Requirements for Romance, Allow Multiple Romances, Nothing Kills Romances~
 
 @318300 = ~Romance Cheats~
-@318301 = ~Remove racial requirements for romances? (Select a or b)
-  a) Remove
-  b) No changes~
+@318301 = ~Remove racial requirements for romances? (Select 1 or 2)
+  1) Remove
+  2) No changes~
 @318302 = ~  * Remove racial requirements for romances~
-@318303 = ~Remove gender requirements for romances? (Select a or b)
-  a) Remove
-  b) No changes~
+@318303 = ~Remove gender requirements for romances? (Select 1 or 2)
+  1) Remove
+  2) No changes~
 @318304 = ~  * Remove gender requirements for romances~
-@318305 = ~Allow multiple romances? (Select a or b)
-  a) Allow multiple
-  b) No changes~
+@318305 = ~Allow multiple romances? (Select 1 or 2)
+  1) Allow multiple
+  2) No changes~
 @318306 = ~  * Allow multiple romances~
-@318307 = ~Nothing kills romances? (Select a or b)
-  a) Nothing kills romances
-  b) No changes~
+@318307 = ~Nothing kills romances? (Select 1 or 2)
+  1) Nothing kills romances
+  2) No changes~
 @318308 = ~  * Nothing kills romances~
 @318309 = ~You have selected to install the following options:~
-@318310 = ~Are these choices correct?
-  a) Yes, proceed with install
-  b) No, let me re-select them~
-@318311 = ~Start romances for new games in ToB?
-  a) Start for new ToB games
-  b) No changes~
+@318310 = ~Are these choices correct? (Select 1 or 2)
+  1) Yes, proceed with install
+  2) No, let me re-select them~
+@318311 = ~Start romances for new games in ToB? (Select 1 or 2)
+  1) Start for new ToB games
+  2) No changes~
 @318312 = ~  * Start romances for new games in ToB~
 @318313 = ~Вызови мою возлюбленную, Аэри.~
 @318314 = ~Вызови мою возлюбленную, Джахейру.~

@@ -1,6 +1,6 @@
 IF
   GlobalGT("MakeArmor","GLOBAL",1)
-  PartyHasItem("MISC12")
+  PartyHasItem("%tutu_var%MISC12")
 THEN
   RESPONSE #100
    SetGlobal("MakeArmor","GLOBAL",0)
@@ -10,7 +10,7 @@ END
 
 IF
   GlobalGT("MakeArmor","GLOBAL",1)
-  !PartyHasItem("MISC12")
+  !PartyHasItem("%tutu_var%MISC12")
 THEN
   RESPONSE #100
    SetGlobal("MakeArmor","GLOBAL",0)

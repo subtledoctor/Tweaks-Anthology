@@ -839,29 +839,29 @@ pri stredni reputaci~
 nic nemuze zrusit romanci~
 
 @318300 = ~Podvudky s romanci~
-@318301 = ~Odtran pozadavky na rasu pro romance? (Zvol a nebo b)
-  a) Odstran
-  b) Beze zmen~
+@318301 = ~Odtran pozadavky na rasu pro romance? (Zvol 1 nebo 2)
+  1) Odstran
+  2) Beze zmen~
 @318302 = ~  * Odtran pozadavky na rasu pro romance~
-@318303 = ~Odtran pozadavky na pohlavi pro romance? (Zvol a nebo b)
-  a) Odstran
-  b) Beze zmen~
+@318303 = ~Odtran pozadavky na pohlavi pro romance? (Zvol 1 nebo 2)
+  1) Odstran
+  2) Beze zmen~
 @318304 = ~  * Odtran pozadavky na pohlavi pro romance~
-@318305 = ~Umozni vice romanci najednou? (Zvol a nebo b)
-  a) Umozni
-  b) Beze zmen~
+@318305 = ~Umozni vice romanci najednou? (Zvol 1 nebo 2)
+  1) Umozni
+  2) Beze zmen~
 @318306 = ~  * Umozni vice romanci najednou~
-@318307 = ~Nic nezrusi romance? (Zvol a nebo b)
-  a) Nic nezrusi romance
-  b) Beze zmen~
+@318307 = ~Nic nezrusi romance? (Zvol 1 nebo 2)
+  1) Nic nezrusi romance
+  2) Beze zmen~
 @318308 = ~  * Nic nezrusi romance~
 @318309 = ~Zvolil jsi nasledujici moznosti pro instalaci:~
 @318310 = ~Jsou tyto volby spravne?
-  a) Ano, pokracuj s instalaci
-  b) Ne, nech me je navolit znova~
+  1) Ano, pokracuj s instalaci
+  2) Ne, nech me je navolit znova~
 @318311 = ~Zacit romanci s novou hrou v ToB(datadisk)?
-  a) Zacit s novou ToB hrou
-  b) Beze zmen~
+  1) Zacit s novou ToB hrou
+  2) Beze zmen~
 @318312 = ~  * Zacit romanci s novou hrou v ToB(datadisk)~
 @318313 = ~Pøiveï mi mou milovanou Aerii.~
 @318314 = ~Pøiveï mi mou milovanou Jaheiru.~

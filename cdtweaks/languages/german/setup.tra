@@ -925,29 +925,29 @@ durchschnittlichem Ruf~
 @318100 = ~Keine Geschlecht/Rassen Voraussetzungen fuer Romanzen, mehrfache Romanzen erlauben~
 @318200 = ~Keine Geschlecht/Rassen Voraussetzungen fuer Romanzen, mehrfache Romanzen erlauben, nichts zerstoert Romanzen~
 @318300 = ~Romanzen Cheats~
-@318301 = ~Rassenvoraussetzungen fuer Romanzen entfernen? (Waehle a oder b)
-  a) Entfernen
-  b) Keine Aenderungen~
+@318301 = ~Rassenvoraussetzungen fuer Romanzen entfernen? (Waehle 1 oder 2)
+  1) Entfernen
+  2) Keine Aenderungen~
 @318302 = ~  * Rassenvoraussetzungen fuer Romanzen entfernen~
-@318303 = ~Geschlechtsvoraussetzungen fuer Romanzen entfernen? (Waehle a oder b)
-  a) Entfernen
-  b) Keine Aenderungen~
+@318303 = ~Geschlechtsvoraussetzungen fuer Romanzen entfernen? (Waehle 1 oder 2)
+  1) Entfernen
+  2) Keine Aenderungen~
 @318304 = ~  * Geschlechtsvoraussetzungen fuer Romanzen entfernen~
-@318305 = ~Mehrfache Romanzen erlauben? (Waehle a oder b)
-  a) Mehrfache erlauben
-  b) Keine Aenderungen~
+@318305 = ~Mehrfache Romanzen erlauben? (Waehle 1 oder 2)
+  1) Mehrfache erlauben
+  2) Keine Aenderungen~
 @318306 = ~  * Mehrfache Romanzen erlauben~
-@318307 = ~Nichts zerstoert Romanzen? (Waehle a oder b)
-  a) Nichts zerstoert Romanzen
-  b) Keine Aenderungen~
+@318307 = ~Nichts zerstoert Romanzen? (Waehle 1 oder 2)
+  1) Nichts zerstoert Romanzen
+  2) Keine Aenderungen~
 @318308 = ~  * Nichts zerstoert Romanzen~
 @318309 = ~Ihr habt folgende Installationsoptionen ausgewaehlt:~
 @318310 = ~Sind diese Einstellungen richtig?
-  a) Ja, mit der Installation fortfahren
-  b) Nein, lass sie mich erneut auswaehlen~
+  1) Ja, mit der Installation fortfahren
+  2) Nein, lass sie mich erneut auswaehlen~
 @318311 = ~Romanzen fuer neue Spiele in TdB starten?
-  a) Starte fuer neue TdB Spiele
-  b) Keine Aenderungen~
+  1) Starte fuer neue TdB Spiele
+  2) Keine Aenderungen~
 @318312 = ~  * Romanzen fuer neue Spiele in TdB starten~
 @318313 = ~Bring mir meine Geliebte, Aerie.~
 @318314 = ~Bring mir meine Geliebte, Jaheira.~

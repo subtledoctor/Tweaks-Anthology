@@ -1167,29 +1167,29 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen niveau.
 @318200 = ~Pas de restriction de race ni de sexe, romances multiples possibles et pas de risque de rater les romances~
 
 @318300 = ~Triche sur les romances~
-@318301 = ~Supprimer les restrictions de race des romances ? (Choisissez a ou b)
-  a) Supprimer
-  b) Pas de changements~
+@318301 = ~Supprimer les restrictions de race des romances ? (Choisissez 1 ou 2)
+  1) Supprimer
+  2) Pas de changements~
 @318302 = ~  * Supprimer les restrictions de race des romances~
-@318303 = ~Supprimer les restrictions de sexe des romances ? (Choisissez a ou b)
-  a) Supprimer
-  b) Pas de changements~
+@318303 = ~Supprimer les restrictions de sexe des romances ? (Choisissez 1 ou 2)
+  1) Supprimer
+  2) Pas de changements~
 @318304 = ~  * Supprimer les restrictions de sexe des romances~
-@318305 = ~Autoriser les romances multiples ? (Choisissez a ou b)
-  a) Autoriser
-  b) Pas de changements~
+@318305 = ~Autoriser les romances multiples ? (Choisissez 1 ou 2)
+  1) Autoriser
+  2) Pas de changements~
 @318306 = ~  * Autoriser les romances multiples~
-@318307 = ~Pas de risque de rater les romances ? (Choisissez a ou b)
-  a) Pas de risque de rater les romances
-  b) Pas de changements~
+@318307 = ~Pas de risque de rater les romances ? (Choisissez 1 ou 2)
+  1) Pas de risque de rater les romances
+  2) Pas de changements~
 @318308 = ~  * Pas de risque de rater les romances~
 @318309 = ~Vous avez choisi d'installer les options suivantes :~
 @318310 = ~Ces choix sont-ils corrects ?
-  a) Oui, lancer l'installation
-  b) Non, refaire mes choix~
+  1) Oui, lancer l'installation
+  2) Non, refaire mes choix~
 @318311 = ~Demarrer les romances pour les nouvelles parties ToB ?
-  a) Demarrer pour les nouvelles parties ToB
-  b) Pas de changements~
+  1) Demarrer pour les nouvelles parties ToB
+  2) Pas de changements~
 @318312 = ~  * Demarrer les romances pour les nouvelles parties ToB~
 @318313 = ~Amène-moi mon amour, Aerie.~
 @318314 = ~Amène-moi mon amour, Jaheira.~

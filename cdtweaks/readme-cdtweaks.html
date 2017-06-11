@@ -52,7 +52,7 @@
         subtledoctor, Wendy Yung,  
         Zed Nocear 
       </p>
-      <p><strong> Version Beta 5</strong><br />
+      <p><strong> Version 1</strong><br />
         <strong> Languages:</strong> Chinese, Czech, English, French, German, Italian,
         Korean, Polish, Russian, and Spanish<br />
         <strong>Platforms: </strong>Windows,  Mac OS X, Linux</p>
@@ -79,7 +79,7 @@
         Pack, the Tutu Tweak Pack,  Wes Weimer's Ease of Use, the Icewind Dale Tweak Pack, the Icewind Dale II Tweak Pack, the Baldur's Gate Tweak Pack, and the Planescape: Torment Tweak Pack. </p>
       <p>This mod works on all Infinity Engine games. This includes</p>
       <ul>
-        <li>The series of Enhanced Editions published by Beamdog, which at present includes Baldur's Gate: Enhanced Edition (BGEE), Baldur's Gate II: Enhanced Edition (BG2EE), and Icewind Dale: Enhanced Edition (IWDEE). The forthcoming Siege of Dragonspear expansion (SoD) is supported as well. All of the Enhanced Edition games include the original expansion packs, e.g. IWDEE includes Heart of Winter and Trials of the Luremaster. </li>
+        <li>The series of Enhanced Editions published by Beamdog, which at present includes Baldur's Gate: Enhanced Edition (BGEE), Baldur's Gate II: Enhanced Edition (BG2EE),  Icewind Dale: Enhanced Edition (IWDEE), and Planescape: Torment: Enhanced Edition (PsTEE). The BGEE Siege of Dragonspear expansion (SoD) is supported as well. All of the Enhanced Edition games include the original expansion packs, e.g. IWDEE includes Heart of Winter and Trials of the Luremaster. </li>
         <li>The original Baldur's Gate (BG), with or without the Tales of the Sword Coast (TotSC) expansion</li>
         <li>The original Baldur's Gate II (BG2), with or without the Throne of Bhaal (ToB) expansion</li>
         <li>The conversion projects Baldur's Gate Trilogy (BGT), Baldur's Gate Tutu (Tutu), Icewind Dale-in-Baldur's Gate II (IWD-in-BG2), and Enhanced Edition Trilogy (EET)</li>
@@ -116,6 +116,10 @@
     <div class="ribbon_triangle_h2-l"></div>
     <div class="ribbon_triangle_h2-r"></div>
     <div class="section">
+      <p><strong>Special Note for Siege of Dragonspear from Steam/GOG<br />
+      </strong>Good Old Games (GOG) and Steam both package the additional content for Siege of Dragonspear in a method that WeiDU, the tool used to install this mod, can not access. You must  run a program called <a href="https://forums.beamdog.com/discussion/50441/modmerge-merge-your-steam-gog-zip-based-dlc-into-something-weidu-nearinfinity-dltcep-can-use/p1">Modmerge</a> on your SoD installation  before you can install this or any other WeiDU-based mod. </p>
+      <p><strong>Unattended Installation</strong><br />
+      A new configuration file, cdtweaks.txt, is now available in the mod's folder. Players can use this file to set inputs for the <strong>Romance Cheats</strong> and <strong>Minimum Stats Cheat</strong> components prior to installation. Doing so will allow the mod to be installed unattended, e.g. as part of a Big World Setup install. If the configuration file is not utilized, or indicates no changes, the player will be prompted during installation of these components, just like before.      </p>
       <p><strong>Windows</strong><br />
         The Tweaks Anthology is packaged
         and installed with WeiDU and
@@ -134,7 +138,7 @@
         If properly extracted, you should have a cdtweaks folder, setup-cdtweaks,
         and setup-cdtweaks.command in your game folder.
         To install, simply double-click setup-cdtweaks.command and
-        follow the instructions on screen.</p>
+        follow the instructions on screen to install or uninstall components.</p>
       <p><strong>Linux</strong><br />
         Download the latest version of WeiDU for
         Linux from <a href="http://www.weidu.org/~thebigg/">weidu.org</a> and extract
@@ -148,6 +152,9 @@
         options is the safe bet.</p>
       <p> After that, run 'weinstall cdtweaks' from your game installation directory
         to install or uninstall the mod. </p>
+      <p><strong> Note for Complete Uninstallation</strong><br />
+        In addition to the methods above for removing individual components, you can completely uninstall the mod using setup-cdtweaks --uninstall at the command line to remove all components without wading through prompts. . 
+      </p>
     </div>
     <div class="ribbon_rectangle_h2"><a id="Contents" name="Contents"></a>
       <h2>Contents</h2>
@@ -171,7 +178,7 @@
       <p>This batch of tweaks generally changes the look and feel of the game, without
         making general rule changes or altering the underlying mechanics of the engine. </p>
       <p><strong>Remove Helmet Animations</strong><br />
-        <em>All games except PsT</em></p>
+        <em>All games except PsT, PsTEE</em></p>
       <p>Many don't like how any of the helmets look on the character avatars. Now
         they can't be seen at all - just like ioun stones. This component will
         affect <em>all</em> helmets in the game, including helmets introduced by
@@ -253,7 +260,7 @@
         for commoners to a drab palette. The dress of noblemen and noblewomen are
         not affected. </p>
       <p><strong>Icon Improvements </strong><br />
-        <em>All games except IWD2</em></p>
+        <em>All games except IWD2, PsT, PsTEE</em></p>
       <p> This component uses a combination of BG, IWD,
         and BG2 icons to better differentiate
         armor when it is on the ground. It also restores the inventory icon to the
@@ -268,7 +275,7 @@
         <em>BGEE, BG2EE,  EET, BG, BG2,    BGT, Tutu</em></p>
       <p> When you click on Boo in Minsc's inventory you're treated to a terrible, sped-up sound of someone saying 'squeak'. This component replaces this awful noise with an actual Boo squeak pared from one of Minsc's sound files. </p>
       <p><strong>Make Magic Shields Glow (plainab/grogerson)</strong><br />
-        <em>All games except PsT</em></p>
+        <em>All games except PsT, PsTEE</em></p>
       <p> For those who don't like that magic shields either mimic the primary color of the wielder or      are a dull wood brown, this little component changes the magic shields so their panels      now glow with their protective enchantments. </p>
       <p><strong>Unique Icons</strong><br />
         <em>BG2EE, IWDEE, EET, BG2, BGT, IWD, IWD-in-BG2</em></p>
@@ -281,9 +288,10 @@
         <p> &quot;The mod will also fix various issues with stores and containers in              both the unmodded (and Fixpacked) games, as well as with mods. Some              of those mods include <acronym title="Big Picture">BP</acronym>, <acronym title="Check the Bodies">CtB</acronym>, <acronym title="Never-Ending Journey Second Edition">NEJ2</acronym>, <acronym title="Region of Terror">RoT</acronym>, <acronym title="Shadows Over Soubar">SOS</acronym> and <acronym title="Unfinished Business">UB</acronym>. Most              significantly, it fixes some issues with Lost Items              v2, including containers with duplicate stores attached and              other mod usability issues pointed out by Bursk and SixOfSpades.              You don't need to have any of these mods installed to use the main              feature though.&quot;</p></div>
         <p><em>Note:</em> While the mod has been expanded to cover IWD/IWDEE/IWD-in-BG2,  it will use BG2-style container icons instead of IWD-style ones.</p>
         <p><strong>Use Character Colors Instead of Item Colors</strong><br />
-        <em>All games except PsT</em></p>
+        <em>All games except PsT, PsTEE</em></p>
         <p>In the original Baldur's Gate, shields and helmets generally took on the major/minor colors of the character wearing them. In Baldur's Gate II, most shields and helmets instead set fixed colors so that the paperdoll and game screen would always match the item icons. You can <a href="http://gibberlings3.net/forums/index.php?app=gallery&amp;image=503">see a comparison</a> in the Tweaks gallery. This component allows you to use the BG behavior to allow helmets and shields to use character colors. The component allows you to select changing shield, helmets or both; and for choosing to alter all or just non-magical ones. </p>
-      </blockquote>
+        <p><strong>Remove Blur Effect from Equipped Items</strong></p>
+        <p>This component will remove the blur effect from items such as the Cloak of Displacement and The Claw of Kazgaroth. This will not interfere with items that provide blur effects for creatures such as ghosts or from limited blur effects from spells or limited-use items. </p>
     </div>
     <div class="ribbon_rectangle_h3">
       <h3>Content Changes </h3>
@@ -392,23 +400,22 @@
       <p>This component also fixes a known bug in the game, in that the merchant
         at Gullykin and the Helm temple in Nashkel shared the same store file. </p>
       <p><strong>Reveal City Maps</strong><br />
-        <em>BGEE,  IWDEE,  BG,  IWD,    Tutu, IWD-in-BG2</em> </p>
+        <em>BGEE, BGT,  IWDEE,  BG,  IWD,    Tutu, IWD-in-BG2, PsT, PsTEE</em> </p>
       <p> In Baldur's Gate II, city maps were revealed as soon as you entered the area.
         For Baldur's Gate content, this component will reveal the maps of Baldur's Gate, Nashkel, Beregost,
         Candlekeep, and (if Tales of the Sword Coast is installed) Ulgoth's Beard.
-        This tweak is not available for Baldur's Gate Trilogy as it contains this
-        functionality by default. For Icewind Dale content, the maps of Easthaven, Kuldahar, and Lonelywood will be revealed. </p>
+        For Icewind Dale content, the maps of Easthaven, Kuldahar, and Lonelywood will be revealed. </p>
       <p><strong>Do Not Reveal City Maps</strong><br />
         <em> BG2EE,  EET,  BG2,    BGT </em> </p>
-      <p> In Baldur's Gate II, city maps were revealed as soon as you entered the area, and this idea was extended to BG cities in BGT.
-        This component will change city maps (in both BG2 and the BG cities in BGT) to no longer be revealed, forcing exploration of the area.</p>
+      <p> In Baldur's Gate II, city maps were revealed as soon as you entered the area.
+        This component will change BG2 city maps to no longer be revealed, forcing exploration of the area.</p>
       <p><strong>Add Map Notes</strong><br />
         <em>Tutu, IWD-in-BG2</em></p>
       <p> This component will add map notes to many areas throughout
         the game, including some wilderness areas. This process is done interactively,
         so no areas are overwritten. </p>
       <p><strong>Stores Sell Larger Stacks of Items</strong><br />
-        <em>All games except PsT</em></p>
+        <em>All games except PsT, PsTEE</em></p>
       <p> This component will alter all stores in the game to use higher stacks of
         arrows, bolts, bullets, darts, throwing axes, throwing daggers, and (where available) throwing hammers. This
         component will affect <em>all</em> stores in the game, including ones introduced
@@ -423,11 +430,11 @@
         from Ribald. Despite the events of Baldur's Gate, the protagonist and the
         party are more or less unknown in Amn. </p>
       <p><strong>Gems and Potions Require Identification</strong><br />
-        <em>All games except PsT</em></p>
+        <em>All games except PsT, PsTEE</em></p>
       <p> This component assigns a lore value to gems and potions, meaning that they
         now require identification. Lore value is calculated by an algorithm based
         on the value of the item, but smaller gems and lesser potions should still
-        be fairly easy to identify by the party. </p>
+        be fairly easy to identify by the party. The component has he option to be applied to just gems, just potions, or both. </p>
       <p><strong>Shapeshifter Rebalancing (Weimer)</strong><br />
         <em>BGEE, BG2EE, IWDEE, EET,  BG2,    BGT, Tutu, IWD-in-BG2</em></p>
       <p> Please note that this is a legacy component from Wes Weimer's Ease of Use
@@ -903,7 +910,7 @@
         Mages will have the same dual-class options (cleric, fighter, and thief)
         with the same requirement (15 intelligence) as regular mages. </p>
       <p><strong>Wear Multiple Protection Items</strong><br />
-        <em>All games except IWD2 and PsT</em></p>
+        <em>All games except IWD2, PsT, PsTEE</em></p>
       <p> This component allows players to wear more than one &quot;X of Protection&quot; item
         at a time. Players have their choice of two different implementations (originally from
         Ease of Use and G3/Tutu
@@ -923,7 +930,7 @@
           item's special ability--the new item will be created in your inventory. </li>
       </ul>
       <p><strong>Alter Weapon Proficiency System</strong><br />
-        <em>BGEE, BG2EE, IWDEE, EET, BG, BG2, IWD, IWD2, PsT, BGT, Tutu, IWD-in-BG2</em></p>
+        <em>BGEE, BG2EE, IWDEE, EET,  BG2,    BGT, Tutu, IWD-in-BG2</em></p>
       <p> This component provides five different options to allow you to change how
         the weapon proficiency system works. </p>
       <p> The first option, Rebalanced Weapon Proficiencies, attempts to rebalance
@@ -974,8 +981,8 @@
       <p> Scrolls and a few other items allow your party to cast spells from the item.
         When cast in this fashion, the spell is cast as if the character using
         the item is at a fixed level (for example, 10 in BG2 or 6 in BG) in terms of determining damages, durations, etc.
-        This tweak will allow you to cast spells from items at your character's
-        level, instead of the fixed value. </p>
+        This tweak will allow you to cast spells from items at your character's 
+        level, instead of the fixed value. One item to note here--the game will use your character's mage level; if you're in the habit of casting scrolls with your thief via Use Any Item, the spell will likely be cast at a minimum level. </p>
       <p><strong>Shopkeepers Have Limited Identification Ability </strong> <br />
         <em>All games except IWD2</em></p>
       <p> This component makes the identification abilities of stores more in line
@@ -993,7 +1000,7 @@
           use lore scores based on their character. </li>
       </ul>
       <p><strong>Multi-Class Grandmastery (Weimer)</strong><br />
-        <em>All games except IWD2 and PsT</em></p>
+        <em>All games except IWD2, PsT, PsTEE</em></p>
       <p> This is for players who believe that AD&amp;D's dual-class
         and multi-class system is inherently broken and that there is no conceptual
         reason for multi-class characters to be denied grandmastery. Multi-class
@@ -1011,7 +1018,7 @@
         to restore Grandmastery to what it was. </p>
       <p>The second option allows you to use the BG2 grandmastery in other games. </p>
       <p><strong>Change Magically Created Weapons to Zero Weight</strong><br />
-        <em>All games except PsT</em></p>
+        <em>All games except PsT, PsTEE</em></p>
       <p> Nearly all magically created items in BG2 have
         zero weight, though there are a few exceptions. The reasoning is that if you had a low-strength mage, he or she could become encumbered by a weapon they can't drop. This component will change
         items such as Melf's Minute Meteors, Jan's Flasher Master Bruiser Mates, weapons created
@@ -1168,26 +1175,71 @@
       <p>This component will remove the racial restrictions for all kits though it will not remove the class restrictions (see the previous component). For example, if your selected race can't be a paladin, then the paladin kits remain unavailable. Two hardcoded limitation remains--gnome mages must be illusionists and monks remain human-only; other races do not have a monk animation so the game will crash during character creation. </p>
       <p><em>Please note: </em>the game will freeze during the ability score part of character creation if it reaches a point where a class or kit requires a minimum score in an ability that, due to racial limitations, can't be reached. The only potential instance of this in the unmodded game is the charisma requirement for dwarven paladins (which this component addresses) but it can't account for modded kits or requirements. </p>
       <p><strong>Paladins Use IWD-HoW Spell Progression Tables (grogerson)</strong><br />
-        <em>BGEE, BG2EE,  EET, BG, BG2,  IWD2, PsT, BGT, Tutu</em></p>
+        <em>BGEE, BG2EE,  EET, BG, BG2,  IWD2, PsT, PsTEE, BGT, Tutu</em></p>
       <p> Icewind Dale expanded the level and number of spells high level paladins        could cast. This component replaces the game tables with those of IWD-HoW. <em>NOTE:</em> If you are playing BG without the expansion Tales of the Sword Coast a        paladin will not gain access to spells until 10th level due to a hard-coded bug.</p>
       <p><strong>Rangers Use IWD-HoW Spell Progression Tables (grogerson)</strong><br />
-        <em>BGEE, BG2EE,  EET, BG, BG2,  IWD2, PsT, BGT, Tutu</em></p>
+        <em>BGEE, BG2EE,  EET, BG, BG2,  IWD2, PsT, PsTEE, BGT, Tutu</em></p>
       <p> Icewind Dale expanded the level and number of spells high level rangers could cast. This component replaces the game tables with those of IWD-HoW. </p>
       <p><strong>Druids Use 3e Alignment Restrictions</strong><br />
-        <em>All games except IWD2 and PsT</em></p>
+        <em>All games except IWD2, PsT, PsTEE</em></p>
       <p> This component will allow druids to be any alignment as long as it lies on      one axis of neutrality (NG, LN, TN, CN, NE),      as in the 3e rules. By default druids can only be True Neutral. This component will also try to find and adjust all druid kits to the new allowed alignments, including the original three druid kits.</p>
       <p><strong>Loosen Item Restrictions for Multi- and Dual-class Clerics</strong><br />
-        <em>All games except IWD2 and PsT</em></p>
+        <em>All games except IWD2, PsT, PsTEE</em></p>
       <p> Multi- and dual-class  clerics retain their restrictions on items,      i.e. a mage-cleric still can not use daggers and a fighter-cleric can't      use swords. This component will open up more items for cleric      multi- and dual-classes by allowing them to use all items available to      both classes. </p>
       <p><strong>Loosen Item Restrictions for Multi- and Dual-class Druids</strong><br />
-        <em>All games except IWD2 and PsT</em></p>
+      <em>All games except IWD2, PsT, PsTEE</em></p>
       <p> Multi- and dual-class fighter-druids  retain their restrictions on items,      i.e.  a fighter-druid can't      use plate armor. This component will open up more items for fighter-druids by allowing them to use all items available to      both classes. </p>
       <p><strong>Everyone Gets Bonus APR from Specialization (subtledoctor)</strong><br />
       <em>BGEE, BG2EE, IWDEE, EET</em></p>
       <p>Only warriors (fighters, paladins, rangers) gain extra attacks per round (APR) from specializing (or more) in weapon proficiencies. This component will grant these APR bonuses from specialization to all classes. Warriors will still receive their extra half-attack per round at levels 7 and 13. </p>
       <p><strong>Enforce PnP Proficiency Rules on Dual-Classed Characters (subtledoctor)</strong><br />
       <em>BGE, BG2EE, IWDEE, EET, BG2, BGT, Tutu, IWD-in-BG2</em></p>
-      <p>This component is designed to enforce the PnP weapon proficiency rule that you can only advance as far as your <em>current </em>class   allows.&nbsp; Meaning, if you dual from fighter to cleric and you only have   Mastery (+++) in maces, you will NOT be able to advance to Grandmastery   after dual-classing.&nbsp; For technical reasons the limit after   dual-classing from a warrior class to a non-warrior class is actually   Specialization (++), so you can still do a little better than   single-class priests/rogues/wizards. So in short, as far as   proficiencies go, dual-classing is now on par with multiclassing.&nbsp; (But,   you do get to keep any proficiency advancement you achieved <em>before</em> you dual-classed.)</p>
+      <p>This component is designed to enforce the PnP weapon proficiency rule that you can only advance as far as your <em>current </em>class   allows.&nbsp; Meaning, if you dual from fighter to cleric and you only have   Mastery (+++) in maces, you will NOT be able to advance to Grandmastery   after dual-classing.&nbsp; For technical reasons the limit after   dual-classing from a warrior class to a non-warrior class is actually   Specialization (++), so you can still do a little better than   single-class priests/rogues/wizards. So in short, as far as   proficiencies go, dual-classing is now on par with multiclassing.&nbsp; (But,   you do get to keep any proficiency advancement you achieved <em>before</em> you dual-classed.)      </p>
+      <p><strong>Exceptional Strength Weight Limit Changes (sarevok57)</strong><br />
+      <em>All games except IWD2</em></p>
+      <p>This component will alter the weight limit for characters with exceptional strength, meaning strength scores between 18/01 to 18/100. Instead of five distinct tiers of strength scores and weight limits from PnP, every point of exceptional strength will result in an additional two pounds of carrying capacity before your character becomes encumbered. Outside of very low exceptional strength scores (9 or lower), this will increase your character's weight limit and provide a finer gradient of variation within the scores. All other bonuses for exceptional strength (such as THAC0 and damage bonuses) are unchanged. </p>
+      <table summary="Table of Thieving Skill Penalties, by Armor Type">
+        <tr>
+          <th class="leftalign">Strengh Score</th>
+          <th>Weight Limit (2e rules)</th>
+          <th>Weight Limit  (with this Tweak)</th>
+        </tr>
+        <tr>
+          <td class="leftalign">18</td>
+          <td>200</td>
+          <td>200 (no change)</td>
+        </tr>
+        <tr>
+          <td class="leftalign">18/01 - 18/50</td>
+          <td>220</td>
+          <td>Varies from 202 - 300</td>
+        </tr>
+        <tr>
+          <td class="leftalign">18/51 - 18/75</td>
+          <td>250</td>
+          <td>Varies from 302 - 350</td>
+        </tr>
+        <tr>
+          <td class="leftalign">18/76 - 18/90</td>
+          <td>280</td>
+          <td>Varies from 352 - 380</td>
+        </tr>
+        <tr>
+          <td class="leftalign">18/91 - 18/99</td>
+          <td>320</td>
+          <td>Varies from 382 - 398</td>
+        </tr>
+        <tr>
+          <td class="leftalign">18/100</td>
+          <td>400</td>
+          <td>400 (no change)</td>
+        </tr>
+        <tr>
+          <td class="leftalign">19</td>
+          <td>500</td>
+          <td>500 (no change)</td>
+        </tr>
+      </table>
     </div>
     <div class="ribbon_rectangle_h3">
       <h3>Convenience Tweaks and/or Cheats</h3>
@@ -1240,7 +1292,8 @@
         introduced by mods, save one: an item from Shadows of Soubar will remain
         unidentified, as a quest revolves around it being unidentified. </p>
       <p><strong>Easy Spell Learning <br />
-        </strong> <em>All games</em><br />
+        </strong> <em>All games</em></p>
+      <p>
         This component makes it easier for arcane spellcasters to scribe scrolls
         to their spellbook. The player has a choice between two implementations:</p>
       <ul>
@@ -1303,7 +1356,7 @@
         This component will affect <em>all</em> items in the game, including items
         introduced by mods. </p>
       <p><strong>Happy Patch </strong><br />
-        <em>BGEE, BG2EE, IWDEE, EET, BG, BG2,   PsT, BGT, Tutu, IWD-in-BG2</em></p>
+        <em>BGEE, BG2EE, IWDEE, EET, BG, BG2,    BGT, Tutu, IWD-in-BG2</em></p>
       <p> This provides many options for party unity. First, the player can control party complaints through one of three options:</p>
       <ul>
         <li>NPCs never get angry about reputation</li>
@@ -1315,13 +1368,13 @@
         this component will be changed to prevent your party members leaving due
         to Virtue--but the kicker is that they'll now leave due to reputation. </p>
       <p><strong>NPCs Don't Fight</strong><br />
-        <em>BGEE, BG2EE,  EET, BG, BG2,   PsT, BGT, Tutu</em></p>
+        <em>BGEE, BG2EE,  EET, BG, BG2,    BGT, Tutu</em></p>
       <p> At certain points, stock BG/BG2 characters will get fed up with another and start fights, only ending when one or more of them are dead. This component will simply prevent the fights from starting. </p>
       <p><strong>Prevent Aerie-Haer'Dalis Romance</strong><br />
         <em> BG2EE,  EET,  BG2,    BGT</em></p>
       <p> This component will prevent the Aerie-Haer'Dalis romance from starting. </p>
       <p><strong>Neutral Characters Make Happy Comments at Mid-Range Reputation (Luiz) </strong><br />
-        <em>BGEE, BG2EE, IWDEE, EET, BG, BG2,   PsT, BGT, Tutu, IWD-in-BG2</em></p>
+        <em>BGEE, BG2EE, IWDEE, EET, BG, BG2,    BGT, Tutu, IWD-in-BG2</em></p>
       <p> Every joinable NPC has lines
         they say when they're happy, ambivalent, or upset about the party's reputation.
         In the original tables, neutral characters could never be happy--even at
@@ -1400,10 +1453,10 @@
         <em>All games</em></p>
       <p> This component allows you to rest in any area. Inns and outdoor campsites      are no longer required. You can still be interrupted by monsters or guards; see the next two components if you wish to adjust those as well. </p>
       <p><strong>Disable Non-Hostile Rest Spawns</strong><br />
-      All games</p>
+      <em>All games</em></p>
       <p>This component will disable non-hostile creatures spawning when you try to rest, such as a guard in town trying to stop you from sleeping in the street. </p>
       <p><strong>Alter Hostile Rest Spawns</strong><br />
-      All games</p>
+      <em>All games</em></p>
       <p>This component will allow you to alter the frequency of hostile spawns when you try to sleep, e.g. monsters attacking when you try to rest. You can disable them completely, or adjust the frequency up or down: decrease 50%, increase 50%, double frequency, or quadruple frequency. </p>
       <p><strong>Sellable Items (Icelus)</strong><br />
         <em>All games</em></p>
@@ -1414,9 +1467,9 @@
         a store tweak: stores which buy arrows now buy bolts as well. </p>
       <p><strong>Stores Purchase All Item Types</strong><br />
         <em>All games</em></p>
-      <p>This component will modify merchants and stores to purchase all item types; e.g. Galoomp the Bookkeeper in BG2 will now purchase armor, Oswald in IWD will purchase more than just potions, etc. This especially helps in places like BG's Beregost or IWD's Kuldahar, where you have to cross the map repeatedly to visit multiple merchants to sell  your latest loot. </p>
+      <p>This component will modify merchants and stores to purchase all item types; e.g. Galoomp the Bookkeeper in BG2 will now purchase armor, Oswald in IWD will purchase more than just potions, etc. This especially helps in places like BG's Beregost or IWD's Kuldahar, where you have to cross the map repeatedly to visit multiple merchants to sell  your latest loot. Some stores, such as Officer Vai, may have special markups to buy/sell items very close to their actual values. These stores are ignored by this component to avoid creating an exploitable, infinite-money cheat for high reputation/high charisma characters. </p>
       <p> <strong>Minimum Stats Cheat </strong><br />
-        <em>All games except IWD and PsT</em></p>
+        <em>All games except IWD, PsT, PsTEE</em></p>
       <p> This component will let you set  individual minimum stats for all classes
         and kits. Minimum stats are a drawback in P&amp;P,
         but in IE games it will simply re-roll a stat until it meets the minimum--essentially an unnatural
@@ -1703,6 +1756,26 @@
     <div class="ribbon_triangle_h2-l"></div>
     <div class="ribbon_triangle_h2-r"></div>
     <div class="section">
+      <p><strong>Version 1 - June 11, 2017</strong></p>
+      <ul>
+        <li>A new configuration file, cdtweaks.txt, is now available in the mod's folder. Players can use this file to set inputs for the <strong>Romance Cheats</strong> and <strong>Minimum Stats Cheat</strong> components prior to installation. Doing so will allow the mod to be installed unattended, e.g. as part of a Big World Setup install. If the configuration file is not utilized, or indicates no changes, the player will be prompted during installation of these components, just like before. </li>
+        <li>Added <strong>Remove Blur Effect from Equipped Items</strong> and <strong>Exceptional Strength Weight Limit Changes </strong> components</li>
+        <li><strong>Reveal City Maps</strong> is not actually the default for BGT, so this component is now available</li>
+        <li>Fixed a bug with <strong>Do Not Reveal City Maps</strong> where it could stuff other on-load actions in area scripts</li>
+        <li><strong>Gems and Potions Require Identification</strong> now has the option to just affect gems, just affect potions, or both</li>
+        <li>Fixed two bugs with the <strong>Change Experience Point Cap</strong> &gt; <em>Remove Completely</em> option. It was not extending the shaman spell tables, causing shamans to lose spellcasting ability after level 40. In addition, players on BGEE/SoD games would get trapped at the level-up screen on high levels, since the game had HLA tables defined but no HLAs to select. </li>
+        <li>With the BG1 NPC Project installed, Shar-Teel could still leave due to high reputation with the <strong>Happy Patch </strong>installed. This is no longer the case. </li>
+        <li><strong>No Traps or Locks</strong> had a small bug where it could overwrite flags in the area file. It also tries to be a bit more precise on which traps and locks to remove. </li>
+        <li>Fixed a bug with the <em>Multiple Romances </em>option of <strong>Romance Cheats</strong> where the original Bioware romances could possibly stall after meeting the Gorion-wraith in Throne of Bhaal. </li>
+        <li>Closed an exploit with <strong>Stores Purchase All Item Types</strong> where special stores--such as Officer Vai in Beregost--could be used for money generation due to their special buy/sell markups. </li>
+        <li>Fixed bug with <strong>Taerom Makes Additional Ankheg Armors</strong> where he was not checking for the correct item in Tutu games to reset his armor timer</li>
+        <li><strong>Improved Fate Spirit Summoning</strong> is no longer available for install on EET games, as EET includes similar functionality by default</li>
+        <li>The armor lookup table used by <strong>Allow Stealth and Thieving Abilities in Heavy Armor per P&amp;P</strong>, <strong>Allow Arcane Spellcasting in Armor</strong>, and <strong>Icon Improvements</strong> has been expanded with new items, notably EET. </li>
+        <li>The werewolf paws in <strong>Shapeshifter Rebalancing</strong> are now flagged as two-handed items to prevent their use in the offhand or with a shield. </li>
+        <li><strong>Alter Weapon Proficiency System</strong> &gt; <em>Rebalanced Weapon Proficiencies</em> should now be more reliable updating weapon proficiency names in items, specifically ninja-t&#333;, in EE games. </li>
+        <li>Fixed bug with <strong>Unique Containers</strong> trying to patch a mod item that was not a bag. </li>
+        <li>If the <strong>Increase Jewelry and Gem Stacks</strong> or <strong>Increase Scroll Stacking</strong> components make an item stackable where it was not, actions in scripts and dialogues could potentially take an entire stack of these items where previously they only took one item. The component will now adjust these actions to only take one item. </li>
+      </ul>
       <p><strong>Version Beta 5 - July 27, 2016</strong></p>
       <ul>
         <li><strong>Wear Multiple Protection Items</strong> will no longer fail when patching items that have effects listed before abilities (thanks Nythrun, Ardanis, and Mike1072)</li>

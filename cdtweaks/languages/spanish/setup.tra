@@ -1061,29 +1061,29 @@ Esta habilidad permite al ladrón crear hechizos. Los que puede crear son los sig
 @318200 = ~Quitar el requerimiento Racial y de Sexo de los Romances, Permitir Romances Multiples, Nada Mata a los Romances~
 
 @318300 = ~Trucos en los Romances~
-@318301 = ~Eliminar requerimientos raciales para romances? (Selecciona a o b)
-  a) Eliminar
-  b) Sin cambios~
+@318301 = ~Eliminar requerimientos raciales para romances? (Selecciona 1 o 2)
+  1) Eliminar
+  2) Sin cambios~
 @318302 = ~  * Eliminar requerimientos raciales para romances~
-@318303 = ~Eliminar requerimientos de genero para romances? (Selecciona a o b)
-  a) Eliminar
-  b) Sin cambios~
+@318303 = ~Eliminar requerimientos de genero para romances? (Selecciona 1 o 2)
+  1) Eliminar
+  2) Sin cambios~
 @318304 = ~  * Eliminar requerimientos de genero para romances~
-@318305 = ~Permitir romances multiples? (Selecciona a o b)
-  a) Permitir
-  b) Sin cambios~
+@318305 = ~Permitir romances multiples? (Selecciona 1 o 2)
+  1) Permitir
+  2) Sin cambios~
 @318306 = ~  * Permitir romances multiples~
-@318307 = ~Nada mata romances? (Selecciona a o b)
-  a) Nada mata romances
-  b) Sin cambios~
+@318307 = ~Nada mata romances? (Selecciona 1 o 2)
+  1) Nada mata romances
+  2) Sin cambios~
 @318308 = ~  * Nada mata romances~
 @318309 = ~Has elegido instalar las siguientes opciones:~
 @318310 = ~Has elegido correctamente?
-  a) Si, instalar
-  b) No, quiero re-seleccionarlos~
+  1) Si, instalar
+  2) No, quiero re-seleccionarlos~
 @318311 = ~Comenzar romances para nuevas partidas en ToB?
-  a) Romances para nuevas partidas de ToB
-  b) Sin cambios~
+  1) Romances para nuevas partidas de ToB
+  2) Sin cambios~
 @318312 = ~  * Start romances para new games in ToB~
 @318313 = ~Deseo a mi amante, Aerie.~
 @318314 = ~Deseo a mi amante, Jaheira.~

@@ -6,7 +6,7 @@
 
 ACTION_PHP_EACH cd_unique_containers AS id => item BEGIN
 
-  ACTION_IF FILE_EXISTS_IN_GAME ~%item%.itm~ BEGIN
+  ACTION_IF ((FILE_EXISTS_IN_GAME ~%item%.itm~) AND (FILE_EXISTS_IN_GAME ~%item%.sto~)) BEGIN
     
     ACTION_IF id < 200 BEGIN                          // gem bags (100s)
       OUTER_SET    idic = (id - 100)

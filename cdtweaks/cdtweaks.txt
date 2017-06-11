@@ -1,0 +1,47 @@
+/*
+The settings in this file allow for this mod to be installed in an unattended mode, e.g.
+if you install Tweaks Anthology with the Big World Setup. A handful of components will
+otherwise pause WeiDU and wait for input; defining these values ahead of time in this 
+file will instead use the values defined here instead of waiting on user input in the
+middle of installation.
+*/
+
+// The following values are used for the Romance Cheats component. 
+// Set this value to 1 if you want to use the values defined here:
+OUTER_SET romance_use_config_values = 0
+
+// This variable will remove the racial requirement if set to 1
+// e.g. a value of 1 will allow Viconia to romance gnomes, or Aerie half-orcs
+OUTER_SET romance_racial_requirements = 0
+
+// This variable will remove the gender-based requirements for romances if set to 1
+// e.g. a value of 1 will allow Anomen to romance males or Jaheira to romance females
+OUTER_SET romance_gender_requirements = 0
+
+// This variable will allow multiple romances if set to 1
+// e.g. a value of 1 will allow you to romance both Jaheira and Aerie
+OUTER_SET romance_multiple = 0
+
+// This variable will prevent anything from ending a romance prematurely if set to 1
+// e.g. with a value of 1 you can be as mean in dialogues as you like and the romance will proceed
+// This also requires the romance_multiple, above, to be set to 1
+OUTER_SET romance_nothing_kills = 0
+
+// This variable controls whether romances start for new ToB games if set to 1
+// e.g. if set to 1, summoning Anomen via the Fate Spirit in a new game will behave as if you romanced him in SoA
+OUTER_SET romance_starts_in_ToB = 0
+
+
+
+// This next batch of variables will be used for the  Minimum Stats Cheat component.
+// Set this value to 1 if you wish to use the values defined here:
+OUTER_SET minimum_stats_use_config_values = 0
+
+// The following six stats will be used as the minimums by the component itself.
+// All values must be between 6 and 15, or 0 if you don't want to change them.
+OUTER_SET minimum_stats_strength     = 0
+OUTER_SET minimum_stats_constitution = 0
+OUTER_SET minimum_stats_dexterity    = 0
+OUTER_SET minimum_stats_intelligence = 0
+OUTER_SET minimum_stats_wisdom       = 0
+OUTER_SET minimum_stats_charisma     = 0

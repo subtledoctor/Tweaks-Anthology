@@ -1499,29 +1499,29 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 @318200 = ~Disabilita i requisiti di sesso e di razza, consenti piu' romance simultaneamente, impossibile interrompere una romance~
 
 @318300 = ~Trucchi per le romance~     
-@318301 = ~Disabilita i requisiti di razza per le romance? (Selezionare a o b)
-a) Si                                
-b) No~                               
+@318301 = ~Disabilita i requisiti di razza per le romance? (Selezionare 1 o 2)
+1) Si
+2) No~
 @318302 = ~  * Disabilita i requisiti di razza per le romance~
-@318303 = ~Disabilita i requisiti di sesso per le romance? (Selezionare a o b)
-a) Si                                
-b) No~                               
+@318303 = ~Disabilita i requisiti di sesso per le romance? (Selezionare 1 o 2)
+1) Si
+2) No~
 @318304 = ~  * Disabilita i requisiti di sesso per le romance~
-@318305 = ~Consenti lo svolgimento di piu' romance contemporaneamente? (Selezionare a o b)          
-a) Si                                
-b) No~                               
+@318305 = ~Consenti lo svolgimento di piu' romance contemporaneamente? (Selezionare 1 o 2)
+1) Si
+2) No~
 @318306 = ~  * Consenti lo svolgimento di piu' romance contemporaneamente~
-@318307 = ~Rendere impossibile l'interruzione di una romance? (Selezionare a o b)
-a) Si                                
-b) No~                               
+@318307 = ~Rendere impossibile l'interruzione di una romance? (Selezionare 1 o 2)
+1) Si
+2) No~
 @318308 = ~  * Rendi impossibile l'interruzione di una romance~
 @318309 = ~Hai scelto di installare le seguenti opzioni:~
-@318310 = ~Sono corrette?              
-a) Si, procedi con l'installazione   
-b) No, desidero cambiare le mie selezioni~
+@318310 = ~Sono corrette?
+1) Si, procedi con l'installazione
+2) No, desidero cambiare le mie selezioni~
 @318311 = ~Consenti l'inizio di una romance nelle nuove partite di ToB?
-a) Si                                
-b) No~                               
+1) Si
+2) No~
 @318312 = ~  * Consenti l'inizio di una romance nelle nuove partite di ToB~
 @318313 = ~Portami la mia amante, Aerie.~
 @318314 = ~Portami la mia amante, Jaheira.~

@@ -1,5 +1,5 @@
 IF
-	!Global("LovedOne","GLOBAL",0)
+	Global("WraithPunish","GLOBAL",3)
 	!Global("LovedOne","GLOBAL",2)
 	InParty(Myself)
 	Global("JaheiraRomanceActive","GLOBAL",2)

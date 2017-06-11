@@ -1,7 +1,7 @@
 OUTER_SET alleg_off = 0x270 // cre v1.0
 OUTER_SET rest_offr = 0x0c0 // are v1.0
 
-ACTION_IF GAME_IS ~pst~ BEGIN
+ACTION_IF ((GAME_IS ~pst~) AND (!FILE_EXISTS_IN_GAME ~savename.2da~)) BEGIN // pstee uses cre v1
   OUTER_SET alleg_off = 0x314 // cre v1.2
 END
 

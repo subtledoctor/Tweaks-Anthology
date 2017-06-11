@@ -711,29 +711,29 @@ Ta umiejêtnoœæ pozwala ³otrzykowi zapisaæ czary niskiego i œredniego poziomu na 
 @318100 = ~Brak wymagan odnosnie rasy/plci, zezwol na wiele romansow~
 @318200 = ~Brak wymagan odnosnie rasy/plci, zezwol na wiele romansow, nic nie niszczy romansow~
 @318300 = ~Oszustwa w romansach~
-@318301 = ~Usun rasowe wymagania dla romansow (wybierz a lub b)
- a) Usun
- b) Bez zmian~
+@318301 = ~Usun rasowe wymagania dla romansow (wybierz 1 lub 2)
+ 1) Usun
+ 2) Bez zmian~
 @318302 = ~  * Usun rasowe wymagania dla romansow~
-@318303 = ~Usun wymagania plci dla romansow (wybierz a lub b)
- a) Usun
- b) Bez zmian~
+@318303 = ~Usun wymagania plci dla romansow (wybierz 1 lub 2)
+ 1) Usun
+ 2) Bez zmian~
 @318304 = ~  * Usun wymagania plci dla romansow~
-@318305 = ~Zezwol na prowadzenie wielu romansow? (wybierz a lub b)
-  a) Zezwol na wiele romansow
-  b) Bez zmian~
+@318305 = ~Zezwol na prowadzenie wielu romansow? (wybierz 1 lub 2)
+ 1) Zezwol na wiele romansow
+ 2) Bez zmian~
 @318306 = ~  * Zezwol na prowadzenie wielu romansow~
-@318307 = ~Nic nie niszczy romansow? (wybierz a lub b)
- a) Nic nie niszczy romansow
- b) Bez zmian~
+@318307 = ~Nic nie niszczy romansow? (wybierz 1 lub 2)
+ 1) Nic nie niszczy romansow
+ 1) Bez zmian~
 @318308 = ~  * Nic nie niszczy romansow~
 @318309 = ~Wybrales instalacje nastepujacych opcji:~
 @318310 = ~Czy ten wybor jest prawidlowy?
- a) Tak, kontynuuj instalacje
- b) Nie, pozwol mi wybrac ponownie~
+ 1) Tak, kontynuuj instalacje
+ 2) Nie, pozwol mi wybrac ponownie~
 @318311 = ~Rozpocznij romanse dla nowej gry w Tronie Bhaala?
- a) Zacznij w Tronie Bhaala
- b) Bez zmian~
+ 1) Zacznij w Tronie Bhaala
+ 2) Bez zmian~
 @318312 = ~  * Rozpoczecie romansow dla nowej gry w Tronie Bhaala~
 @318313 = ~SprowadŸ tu moj¹ ukochan¹, Aerie.~
 @318314 = ~SprowadŸ tu moj¹ ukochan¹, Jaheirê.~

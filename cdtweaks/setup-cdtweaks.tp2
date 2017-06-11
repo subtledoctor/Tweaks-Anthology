@@ -1,4 +1,4 @@
-//GAME_IS ~soa tob iwd2 pst bg1 totsc iwd how totlm tutu tutu_totsc bgt ca iwd_in_bg2 bgee bg2ee eet iwdee~
+//GAME_IS ~soa tob iwd2 pst pstee bg1 totsc iwd how totlm tutu tutu_totsc bgt ca iwd_in_bg2 bgee bg2ee eet iwdee~
 // possibilities: 2^82 + 3^13 + 4^8 + 5^5 + 6^2 + 7^1 + 8^1 + 9^2 + 11^6 =
 // 4.5676999303007184033606171596646 e+50
 
@@ -10,6 +10,8 @@ ALWAYS
   ACTION_IF NOT VARIABLE_IS_SET cd_always THEN BEGIN
 
     OUTER_SET cd_always = 1 // just do this once per install
+    
+    INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
 
     ACTION_IF GAME_IS ~soa tob bgt ca tutu tutu_totsc iwd_in_bg2~ THEN BEGIN
 
@@ -27,7 +29,7 @@ ALWAYS
 
 END
 
-VERSION ~Beta 5~
+VERSION ~v1~
 
 README ~cdtweaks/readme-cdtweaks.html~
 
@@ -230,7 +232,7 @@ COPY ~cdtweaks/cre/ikmorph.cre~  ~override~
 BEGIN @6000 DESIGNATED 60
 GROUP @11
 
-ACTION_IF GAME_IS ~bg1 totsc iwd how totlm iwd2~ THEN BEGIN
+ACTION_IF ((GAME_IS ~bg1 totsc iwd how totlm iwd2 pst~) AND (!FILE_EXISTS_IN_GAME ~savename.2da~)) THEN BEGIN // exlcude pstee
   OUTER_SET use_type = 1
 END ELSE BEGIN
   OUTER_SET use_type = 0
@@ -465,7 +467,7 @@ COPY_EXISTING ~randcolr.2da~ ~override~
 
 BEGIN @11000 DESIGNATED 110
 GROUP @11
-REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst~ @25
 
 COPY ~cdtweaks/bam/cdgchan.bam~  ~override~
      ~cdtweaks/bam/cdgelchn.bam~ ~override~
@@ -493,7 +495,7 @@ COPY + ~cdtweaks/2da/common_armor_list.2da~ ~cdtweaks/2da/common_armor_list.2da~
                 ("%appearance%" STRING_COMPARE_CASE "chain" = 0) OR
                 ("%appearance%" STRING_COMPARE_CASE "chain_elven" = 0)) BEGIN
         INNER_ACTION BEGIN
-      
+
           COPY_EXISTING ~%file%.itm~ ~override~
             READ_ASCII 0x44 icon ELSE 0
             PATCH_IF (("%appearance%" STRING_COMPARE_CASE "leather" = 0) AND // leather using generic leather icons
@@ -1014,6 +1016,25 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
     END
   END
   BUT_ONLY
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Remove annoying blur effect                      \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @20000 DESIGNATED 200
+GROUP @11
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_BYTE 0x18 flags
+  PATCH_IF ((flags & BIT2) = BIT2) BEGIN // don't care if not droppable
+    LPF DELETE_EFFECT INT_VAR silent = 1 check_headers = 0 match_opcode = 65 match_timing = 2 END // only delete equipping blur effects
+  END
+  BUT_ONLY
+
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1887,7 +1908,7 @@ ACTION_IF GAME_IS ~how totlm iwd_in_bg2~ THEN BEGIN
       SAY 0x0c @108005
   
   END
-  
+
   ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3040~ THEN BEGIN // if bottomless bags
 
     COPY_EXISTING ~cdammo1.sto~ ~override~
@@ -1940,7 +1961,7 @@ END ELSE BEGIN
                   ~bag05.itm~ ~override/cdammo2.itm~  // ammo belt #2
                   ~bag06.itm~ ~override/cdpotion.itm~ // potion case
                   ~bag06.itm~ ~override/cdpotio2.itm~ // potion case #2
-  
+
   END ELSE BEGIN // if no ToB, create potion case & ammo belt
   
     // bams
@@ -1993,7 +2014,7 @@ END ELSE BEGIN
         BUT_ONLY
   
     END
-  
+
   END
   
   ACTION_IF NOT GAME_IS ~bgee~ BEGIN // non-BGEE
@@ -2046,7 +2067,7 @@ END ELSE BEGIN
                   ~cdpotion.sto~ ~override/c!potion.sto~
                   ~bag03g.itm~   ~override/c!bag03.itm~  // scroll case
                   ~bag03g.sto~   ~override/c!bag03.sto~
-  
+
     ACTION_IF GAME_IS ~bgee~ BEGIN // missing bgee resources
     
       COPY ~cdtweaks/itm/bag04.itm~ ~override/c!bag04.itm~
@@ -2599,7 +2620,7 @@ END
 
 BEGIN @110000 DESIGNATED 1100
 GROUP @13
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgee pst iwdee iwd_in_bg2 iwd how totlm~ @25
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgee pst iwdee iwd_in_bg2 iwd how totlm bgt~ @25
 
 ACTION_IF GAME_IS ~pst~ THEN BEGIN
 
@@ -2635,15 +2656,16 @@ ACTION_IF GAME_IS ~iwdee iwd_in_bg2 iwd how totlm~ THEN BEGIN
 
 END
 
-ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgee~ THEN BEGIN
+ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgee bgt~ THEN BEGIN
 
-  ACTION_FOR_EACH file IN _ar0300 ar0300 BEGIN
+  INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~ // ye olde bg/tutu/bgt/gee library
 
-    ACTION_IF ((FILE_EXISTS_IN_GAME ~%file%.bcs~) AND
-               (NOT FILE_CONTAINS_EVALUATED(~%file%.BCS~ ~CDNarlenExists~))) BEGIN // bugfix
+  //fixes Narlen's goofiness
+  COPY_EXISTING ~%NEBaldursGate%.are~ ~override~
+    READ_ASCII 0x94 script
+    INNER_ACTION BEGIN
 
-      //fixes Narlen's goofiness
-      COPY_EXISTING ~%file%.bcs~ ~override~
+      COPY_EXISTING ~%script%.bcs~ ~override~
         DECOMPILE_BCS_TO_BAF
           REPLACE_TEXTUALLY ~TimeGT(20)~ ~TimeGT(20) Global("CDNarlenExists","GLOBAL",0)~
           REPLACE_TEXTUALLY ~TimeLT(4)~  ~TimeLT(4)  Global("CDNarlenExists","GLOBAL",0)~
@@ -2651,52 +2673,38 @@ ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgee~ THEN BEGIN
           REPLACE_TEXTUALLY ~\bActivate("narlen")~   ~Activate("narlen") SetGlobal("CDNarlenExists","GLOBAL",1)~
           REPLACE_TEXTUALLY ~Deactivate("narlen")~ ~Deactivate("narlen") SetGlobal("CDNarlenExists","GLOBAL",0)~
         COMPILE_BAF_TO_BCS
-        BUT_ONLY
-    
+        BUT_ONLY IF ~CDNarlenExists~ IF_EXISTS
+
     END
+    BUT_ONLY
 
-  END
-  
-  ACTION_FOR_EACH file IN
-    ~AR0100~  // NW BALDUR'S GATE
-    ~AR0200~  // N BALDUR'S GATE
-    ~AR0300~  // NE BALDUR'S GATE
-    ~AR0600~  // W BALDUR'S GATE
-    ~AR0700~  // CENTRAL BALDUR'S GATE
-    ~AR0800~  // E BALDUR'S GATE
-    ~AR1000~  // ULGOTH'S BEARD
-    ~AR1100~  // SW BALDUR'S GATE
-    ~AR1200~  // S BALDUR'S GATE
-    ~AR1300~  // SE BALDUR'S GATE
-    ~AR2600~  // CANDLEKEEP PROLOGUE
-    ~AR2626~  // CANDLEKEEP CHAPTER 6
-    ~AR3300~  // BEREGOST
-    ~AR4800~  // NASHKEL
-    BEGIN
+  COPY_EXISTING ~%NWBaldursGate%.are~      ~override~ // ar0100
+                ~%NBaldursGate%.are~       ~override~ // ar0200
+                ~%NEBaldursGate%.are~      ~override~ // ar0300
+                ~%WBaldursGate%.are~       ~override~ // ar0600
+                ~%CentralBaldursGate%.are~ ~override~ // ar0700
+                ~%EBaldursGate%.are~       ~override~ // ar0800
+                ~%UlgothsBeard%.are~       ~override~ // ar1000
+                ~%SWBaldursGate%.are~      ~override~ // ar1100
+                ~%BaldursGateDocks%.are~   ~override~ // ar1200
+                ~%SEBaldursGate%.are~      ~override~ // ar1300
+                ~%Candlekeep%.are~         ~override~ // ar2600
+                ~%Candlekeep_Ch6%.are~     ~override~ // ar2626
+                ~%Beregost%.are~           ~override~ // ar3300
+                ~%Nashkel%.are~            ~override~ // ar4800
+    READ_ASCII 0x94 script
+    SPRINT scope ~%SOURCE_RES%~
+    INNER_ACTION BEGIN
 
-    ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN // should probably check areas, but all of these exist in bogstandard TotSC
-  
-      COPY_EXISTING ~%file%.bcs~ ~override~
+      COPY_EXISTING ~%script%.bcs~ ~override~
         DECOMPILE_BCS_TO_BAF
           APPEND_FILE ~cdtweaks/baf/reveal.baf~
-          REPLACE_TEXTUALLY ~CD_MYAREA_VAR_SCOPE~ ~%SOURCE_RES%~ // bg1 doesn't like MYAREA
+          REPLACE_TEXTUALLY ~CD_MYAREA_VAR_SCOPE~ ~%scope%~ // bg1 doesn't like MYAREA
         COMPILE_BAF_TO_BCS
-        BUT_ONLY_IF_IT_CHANGES
-    
-    END
-    
-    ACTION_IF FILE_EXISTS_IN_GAME ~_%file%.bcs~ BEGIN // tutu versions
+        BUT_ONLY IF_EXISTS
 
-      COPY_EXISTING ~_%file%.bcs~ ~override~
-        DECOMPILE_BCS_TO_BAF
-          APPEND_FILE ~cdtweaks/baf/reveal.baf~
-          REPLACE_TEXTUALLY ~CD_MYAREA_VAR_SCOPE~ ~%file%~ // done separately so var scope isn't invalid, e.g. "foo","_ar0100",1
-        COMPILE_BAF_TO_BCS
-        BUT_ONLY_IF_IT_CHANGES
-    
     END
-    
-  END
+    BUT_ONLY IF_EXISTS
 
 END
 
@@ -2766,7 +2774,7 @@ ACTION_FOR_EACH file IN
 
     COPY_EXISTING ~%file%.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
-        REPLACE_TEXTUALLY ~[ %TAB%]Explore()~ ~ ~
+        REPLACE_TEXTUALLY ~[ %TAB%]Explore()~ ~Continue()~
       END
       BUT_ONLY
 
@@ -3133,7 +3141,7 @@ END ELSE BEGIN
     ADD_MAP_NOTE #1416 #1211 ~gray~ @111034
     ADD_MAP_NOTE #2975 #908  ~gray~ @111049
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw5506.are~ ~override~ // Candlekeep Catacombs Lvl 3
     ADD_MAP_NOTE #689 #124  ~gray~ @111049
     ADD_MAP_NOTE #279 #2107 ~gray~ @111052
@@ -3232,101 +3240,47 @@ EXTEND_BOTTOM ~ar0602.bcs~ ~cdtweaks/baf/ar0602.baf~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @114000 DESIGNATED 1140
+/////                                                  \\\\\
+///// Gems and potions                                 \\\\\
+/////                                                  \\\\\
+
+BEGIN @114002 DESIGNATED 1140
+SUBCOMPONENT @114000
 GROUP @13
 REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c "type" ELSE 0
-  READ_SHORT 0x42 "lore" ELSE 1
-  PATCH_IF ((("%type%" = 1) OR ("%type%" = 10) OR ("%type%" = 34) OR ("%type%" = 9)) AND ("%lore%" = 0)) BEGIN // amulets or rings or gems
-    READ_LONG  0x34 "price"
-    READ_LONG  0x64 "abil_off"
-    READ_SHORT 0x68 "abil_num"
-    PATCH_IF (("%type%" = 1) OR ("%type%" = 10) OR ("%type%" = 34)) BEGIN // amulets or rings or gems
-      PATCH_IF ("%price%" > 19999) BEGIN
-        WRITE_SHORT 0x42 100
-      END ELSE
-      PATCH_IF ("%price%" > 4025) BEGIN
-        WRITE_SHORT 0x42 (50 + (("%price%" - 4025) / 400))
-      END ELSE
-      PATCH_IF ("%price%" > 2025) BEGIN
-        WRITE_SHORT 0x42 (40 + (("%price%" - 2025) / 200))
-      END ELSE
-      PATCH_IF ("%price%" > 1025) BEGIN
-        WRITE_SHORT 0x42 (30 + (("%price%" - 1025) / 80))
-      END ELSE
-      PATCH_IF ("%price%" > 425) BEGIN
-        WRITE_SHORT 0x42 (20 + (("%price%" - 425) / 40))
-      END ELSE
-      PATCH_IF ("%price%" > 175) BEGIN
-        WRITE_SHORT 0x42 (20 + (("%price%" - 225) / 25))
-      END ELSE
-      PATCH_IF ("%price%" > 25) BEGIN
-        WRITE_SHORT 0x42 (5 + (("%price%" - 50) / 10))
-      END ELSE
-      PATCH_IF ("%price%" > 5) BEGIN
-        WRITE_SHORT 0x42 ("%price%" / 5)
-      END ELSE BEGIN
-        WRITE_SHORT 0x42 1
-      END
-    END
-    PATCH_IF ("%type%" = 9) BEGIN // potions
-      PATCH_IF ("%price%" > 6400) BEGIN
-        WRITE_SHORT 0x42 100
-      END ELSE
-      PATCH_IF ("%price%" > 1500) BEGIN
-        WRITE_SHORT 0x42 (35 + (("%price%" - 1250) / 80))
-      END ELSE
-      PATCH_IF ("%price%" > 950) BEGIN
-        WRITE_SHORT 0x42 (25 + (("%price%" - 950) / 40))
-      END ELSE
-      PATCH_IF ("%price%" > 450) BEGIN
-        WRITE_SHORT 0x42 (13 + (("%price%" - 450) / 40))
-      END ELSE
-      PATCH_IF ("%price%" > 200) BEGIN
-        WRITE_SHORT 0x42 (8 + (("%price%" - 250) / 40))
-      END ELSE
-      PATCH_IF ("%price%" > 100) BEGIN
-        WRITE_SHORT 0x42 (4 + (("%price%" - 150) / 20))
-      END ELSE BEGIN
-        WRITE_SHORT 0x42 1
-      END
-    END
-    // force them to be id'd before use
-    FOR (index = 0 ; index < abil_num ; index = index + 1) BEGIN
-      READ_BYTE ("%abil_off%" +        ("%index%" * 0x38)) "abil_type"
-      PATCH_IF ("%abil_type%" = 3) BEGIN // if magical ability
-        WRITE_BYTE ("%abil_off%" + 0x01 + ("%index%" * 0x38)) 1 // force identification before use
-      END
-    END
-    // identified strings
-    PATCH_FOR_EACH offset IN 0x0c 0x54 BEGIN
-      READ_LONG offset id_strref
-      PATCH_IF ("%id_strref%" > 2147483646) OR ("%id_strref%" < 1) THEN BEGIN // if no id'd strings, move un-id strings to identifed
-        READ_LONG  (offset - 0x04) unid_strref
-        WRITE_LONG offset unid_strref
-      END
-    END
-    // now set generic unidentified strings
-    PATCH_IF ("%type%" = 9) BEGIN // potions
-      SAY 0x08  #6976
-      SAY 0x50 #16264
-    END ELSE 
-    PATCH_IF ("%type%" = 34) BEGIN // gems
-      SAY 0x08   #7106
-      SAY 0x50 @114001
-    END ELSE 
-    PATCH_IF ("%type%" = 10) BEGIN // rings
-      SAY 0x08  #6348
-      SAY 0x50 #17054
-    END ELSE
-    PATCH_IF ("%type%" = 1) BEGIN // amulets
-      SAY 0x08 #6913
-      SAY 0x50 #6912
-    END
-  END
-  BUT_ONLY_IF_IT_CHANGES
+OUTER_SET match_jewelry = 1
+OUTER_SET match_potion  = 1
+
+INCLUDE ~cdtweaks/lib/lore.tpa~
+
+/////                                                  \\\\\
+///// just gems                                        \\\\\
+/////                                                  \\\\\
+
+BEGIN @114100 DESIGNATED 1141
+SUBCOMPONENT @114000
+GROUP @13
+REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
+
+OUTER_SET match_jewelry = 1
+OUTER_SET match_potion  = 0
+
+INCLUDE ~cdtweaks/lib/lore.tpa~
+
+/////                                                  \\\\\
+///// just potions                                     \\\\\
+/////                                                  \\\\\
+
+BEGIN @114200 DESIGNATED 1142
+SUBCOMPONENT @114000
+GROUP @13
+REQUIRE_PREDICATE NOT GAME_IS ~pst~ @25
+
+OUTER_SET match_jewelry = 0
+OUTER_SET match_potion  = 1
+
+INCLUDE ~cdtweaks/lib/lore.tpa~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -4060,7 +4014,7 @@ END ELSE BEGIN
   
     COPY ~cdtweaks/dlg/x#aloramoves.d~ ~cdtweaks/dlg/x#aloramoves_ac.d~
       REPLACE_TEXTUALLY ~Global("Z!EmulAreaCheck","GLOBAL",4000)~ ~AreaCheck("%Gullykin%")~
-  
+
     COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves_ac.d~
   
   END
@@ -4724,7 +4678,7 @@ END
 ACTION_IF ((game_is_eet = 0) AND ((FILE_EXISTS_IN_GAME ~_ax1h01.spl~) OR (FILE_EXISTS_IN_GAME ~ax1h01.spl~))) THEN BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~_ax1h01.spl~ THEN BEGIN
-  
+
     OUTER_SPRINT break_spell "_ax1h01"
     
   END ELSE BEGIN
@@ -5015,13 +4969,13 @@ GROUP @9
 REQUIRE_PREDICATE GAME_IS ~tob bg2ee bgt eet~   @25 // ToB required
 
 COPY_EXISTING ~lunumab.2da~ ~override~
-  FOR (row = 3; row < 33; row = row + 1) BEGIN
-    READ_2DA_ENTRY row 1 1 level
+  COUNT_2DA_ROWS 5 rows
+  FOR (row = 0; row < rows; ++row) BEGIN
+    READ_2DA_ENTRY row 1 5 level
     PATCH_IF (level < 21) BEGIN
-      SET_2DA_ENTRY_LATER ~lunumab~ row 1 ~21~
+      SET_2DA_ENTRY row 1 5 ~21~
     END
   END
-  SET_2DA_ENTRIES_NOW ~lunumab~ 1
   BUT_ONLY
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -5057,10 +5011,12 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_extend_tables BEGIN
   mxsplpal => 0 // paladin spell table
   mxsplprs => 0 // priest spell table
   mxsplran => 0 // ranger spell table
+  mxsplshm => 0 // shaman spell table
   mxsplsrc => 0 // sorcerer spell table
   mxsplwiz => 0 // mage spell table
   raisdead => 0 // raise dead temple prices
-  splsrckn => 0 // socerer spell table
+  splsrckn => 0 // sorcerer spell table
+  splshmkn => 0 // shaman spell table
 
   // manually add hp tables for non-ee games; being added below again harms nothing
   hpbarb   => 0 // barbarian hp table
@@ -5091,16 +5047,18 @@ ACTION_PHP_EACH cd_extend_tables AS file => foo BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%file%.2da~ THEN BEGIN
 
+    APPEND ~%file%.2da~ ~CD_EOF_CUSTOM~ // also normalizes excessive/missing line breaks at EOF
+
+    // why the chicanery with CD_EOF_CUSTOM and REPLACE_EVALUATE? The 2DA functions get unreliable on two-column tables such as raisdead
     COPY_EXISTING ~%file%.2da~ ~override~ // wild mage level modulation for wild surges
-      COUNT_2DA_COLS col_num
-      COUNT_2DA_ROWS col_num row_num
-      READ_2DA_ENTRY row_num 0 (col_num - 1) level
-      FOR (index = level ; index < 50 ; ++index) BEGIN
-        SET new = index + 1
-        REPLACE_TEXTUALLY ~^%index%\([ %TAB%].*\)~
+      FOR (index = 1 ; index < 50 ; ++index) BEGIN
+        REPLACE_EVALUATE ~^%index%\([ %TAB%].*\)\([%LNL%%MNL%%WNL%]+CD_EOF_CUSTOM\)~ BEGIN
+          SET new = index + 1
+        END
 ~%index%\1
-%new%\1~
+%new%\1\2~
       END
+      REPLACE_TEXTUALLY ~CD_EOF_CUSTOM~ ~~
       PRETTY_PRINT_2DA
       BUT_ONLY
 
@@ -5218,6 +5176,17 @@ ACTION_PHP_EACH cd_start_areas AS file => val BEGIN
 
 END
 
+ACTION_IF ((FILE_EXISTS_IN_GAME ~lunumab.2da~) AND (!FILE_EXISTS_IN_GAME ~spcl900.spl~)) THEN BEGIN // games with hla tables but no hlas (looking at you bgee, sod)
+    
+  COPY_EXISTING ~lunumab.2da~ ~override~
+    COUNT_2DA_ROWS 5 rows
+    FOR (row = 0; row < rows; ++row) BEGIN
+      SET_2DA_ENTRY row 1 5 ~99~
+    END
+    BUT_ONLY
+
+END
+
 /////                                                  \\\\\
 ///// cap at level 20                                  \\\\\
 /////                                                  \\\\\
@@ -5260,7 +5229,7 @@ INCLUDE ~cdtweaks/lib/thieving_to_50.tpa~     // extend bard, ranger pickpocketi
 // to get unarmored bonuses to work, bonuses are added in the race bonus tables
 // all non-robe armor offsets these
 COPY_EXISTING ~skillrac.2da~ ~override~
-  PATCH_IF (GAME_IS ~bg1 totsc iwd how totlm pst~) BEGIN // old games that use stealth
+  PATCH_IF (GAME_IS ~bg1 totsc iwd how totlm pst~) BEGIN // games that use stealth
     SET use_stealth = 1
     SET penalty_hide = 255 // forces patch to skip HiS adjustments; needed below
     SET max_col = 5
@@ -6117,7 +6086,7 @@ COPY_EXISTING ~cdstores.2da~ ~override~
           READ_BYTE 0x234 "level1" // level of primary class
           READ_BYTE 0x235 "level2" // Highest attained level in secondary class (0-100)
           READ_BYTE 0x236 "level3" // Highest attained level in tertiary class (0-100)
-  
+
           // lore due to class and level
           PATCH_IF ("%class%" = 5) BEGIN // bard
             SET "lore" = (10 * "%level1%")
@@ -6604,7 +6573,7 @@ END
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @225000 DESIGNATED 2250
-GROUP @9 
+GROUP @9
 REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxsplsrc.2da~) OR (FILE_EXISTS_IN_GAME ~mxsplsor.2da~)) @25
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
@@ -6649,6 +6618,7 @@ END
 BEGIN @226001 DESIGNATED 2260
 GROUP @9
 SUBCOMPONENT @226000 // alter mage progression
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~mxsplwiz.2da~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
@@ -6731,6 +6701,7 @@ END
 BEGIN @226100 DESIGNATED 2261
 GROUP @9
 SUBCOMPONENT @226000 // alter mage progression
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~mxsplwiz.2da~ @25
 
 COPY ~cdtweaks/2da/mxsplwiz.2da~ ~override~
 
@@ -6749,6 +6720,7 @@ COPY ~cdtweaks/2da/mxsplwiz.2da~ ~override~
 BEGIN @226001 DESIGNATED 2270
 GROUP @9
 SUBCOMPONENT @227000 // alter bard progression
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~mxsplbrd.2da~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
@@ -6762,6 +6734,7 @@ COPY ~cdtweaks/2da/un_mxsplbrd.2da~ ~override/mxsplbrd.2da~
 BEGIN @226100 DESIGNATED 2271
 GROUP @9
 SUBCOMPONENT @227000 // alter bard progression
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~mxsplbrd.2da~ @25
 
 COPY ~cdtweaks/2da/mxsplbrd.2da~ ~override~
 
@@ -6780,6 +6753,7 @@ COPY ~cdtweaks/2da/mxsplbrd.2da~ ~override~
 BEGIN @226001 DESIGNATED 2280
 GROUP @9
 SUBCOMPONENT @228000 // alter cleric progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxsplclr.2da~) OR (FILE_EXISTS_IN_GAME ~mxsplprs.2da~)) @25
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
@@ -6870,6 +6844,7 @@ END
 BEGIN @226100 DESIGNATED 2281
 GROUP @9
 SUBCOMPONENT @228000 // alter cleric progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxsplclr.2da~) OR (FILE_EXISTS_IN_GAME ~mxsplprs.2da~)) @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -6896,6 +6871,7 @@ END
 BEGIN @229001 DESIGNATED 2290
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
@@ -6917,6 +6893,7 @@ END
 BEGIN @229100 DESIGNATED 2291
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -6935,6 +6912,7 @@ END
 BEGIN @229200 DESIGNATED 2292
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 
 // use cleric level progression
 INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
@@ -6946,6 +6924,7 @@ INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
 BEGIN @229300 DESIGNATED 2293
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -6967,6 +6946,7 @@ INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
 BEGIN @229400 DESIGNATED 2294
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -6988,6 +6968,7 @@ INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
 BEGIN @229500 DESIGNATED 2295
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -7009,8 +6990,17 @@ INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
 BEGIN @229600 DESIGNATED 2296
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 
-COPY ~cdtweaks/2da/un_mxsplprs.2da~ ~override/mxspldru.2da~
+ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
+
+  COPY ~cdtweaks/2da/un_mxsplprs.2da~ ~override/mxspldrd.2da~
+
+END ELSE BEGIN
+
+  COPY ~cdtweaks/2da/un_mxsplprs.2da~ ~override/mxspldru.2da~
+
+END
 
 // use cleric level progression
 INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
@@ -7018,7 +7008,7 @@ INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
-///// triple-class HLA tables                           \\\\\
+///// triple-class HLA tables                          \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -8357,6 +8347,25 @@ COPY_EXISTING ~weapprof.2da~  ~override~
   REPLACE_TEXTUALLY ~CDDELETEME~ ~~
   PRETTY_PRINT_2DA
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Exceptional Strength Weight Limit Changes                  \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @250000 DESIGNATED 2500
+GROUP @9
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~strmodex.2da~ @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
+
+COPY_EXISTING ~strmodex.2da~ ~override~
+  REPLACE_EVALUATE ~^\([0-9]+\)\([ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+\)\([0-9]+\)~
+  BEGIN SET weight = (%MATCH1% * 2) END
+  ~%MATCH1%%MATCH2%%weight%~
+  BUT_ONLY
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -8897,7 +8906,7 @@ END
 // i've learned that GAME_IS checks in a regexp copy are very slooooow, so...
 OUTER_SET itm_off_are = 0x078 // are v1.0
 OUTER_SET itm_off_cre = 0x2bc // cre v1.0
-ACTION_IF GAME_IS ~pst~ BEGIN
+ACTION_IF ((GAME_IS ~pst~) AND (!FILE_EXISTS_IN_GAME ~savename.2da~)) BEGIN // pstee uses v1.0
   OUTER_SET itm_off_cre = 0x360 // creV1.2
 END
 ACTION_IF GAME_IS ~iwd2~ BEGIN          // V2.2 cre, v9.1 are
@@ -9316,6 +9325,14 @@ COPY_EXISTING ~happy.2da~ ~override~
   PRETTY_PRINT_2DA
   BUT_ONLY
 
+// bg1 npc can let shar-teel leave anyway
+COPY_EXISTING ~sharteel.bcs~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~[ %TAB%]Global("X#ShHighReputation","GLOBAL",[01])~ ~ False()~
+    REPLACE_TEXTUALLY ~[ %TAB%]Global("X#ShHighMale","GLOBAL",[01])~ ~ False()~
+  END
+  BUT_ONLY IF_EXISTS
+
 /////                                                  \\\\\
 ///// angry but never leave                            \\\\\
 /////                                                  \\\\\
@@ -9332,6 +9349,14 @@ COPY_EXISTING ~happy.2da~ ~override~
   END ~-%new%~
   PRETTY_PRINT_2DA
   BUT_ONLY
+
+// bg1 npc can let shar-teel leave anyway
+COPY_EXISTING ~sharteel.bcs~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~[ %TAB%]Global("X#ShHighReputation","GLOBAL",[01])~ ~ False()~
+    REPLACE_TEXTUALLY ~[ %TAB%]Global("X#ShHighMale","GLOBAL",[01])~ ~ False()~
+  END
+  BUT_ONLY IF_EXISTS
 
 /////                                                  \\\\\
 ///// always neutral                                   \\\\\
@@ -9352,6 +9377,14 @@ COPY_EXISTING ~happy.2da~ ~override~
   PRETTY_PRINT_2DA
   BUT_ONLY
 
+// bg1 npc can let shar-teel leave anyway
+COPY_EXISTING ~sharteel.bcs~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~[ %TAB%]Global("X#ShHighReputation","GLOBAL",[01])~ ~ False()~
+    REPLACE_TEXTUALLY ~[ %TAB%]Global("X#ShHighMale","GLOBAL",[01])~ ~ False()~
+  END
+  BUT_ONLY IF_EXISTS
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -9366,7 +9399,6 @@ REQUIRE_PREDICATE GAME_IS ~bgee bg1 totsc tutu tutu_totsc eet bgt bg2ee soa tob~
 
 // remove NPC conflicts
 INCLUDE ~cdtweaks/lib/happy.tpa~
-
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -9420,26 +9452,38 @@ GROUP @4
 ACTION_IF GAME_IS ~iwd2~ BEGIN OUTER_SET off = 0x10 END ELSE BEGIN OUTER_SET off = 0 END // outside of this, patch works for v1.0 and v9.1 areas
 
 COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
-  READ_SHORT (0x5a + off) "trig_num"
-  READ_LONG  (0x5c + off) "trig_off"
-  READ_SHORT (0x74 + off) "cont_num"
-  READ_LONG  (0x70 + off) "cont_off"
-  READ_SHORT (0xa4 + off) "door_num"
-  READ_LONG  (0xa8 + off) "door_off"
-  FOR (index = 0 ; index < trig_num ; index = index + 1) BEGIN // cycle through triggers
-    READ_SHORT ("%trig_off%" + 0x6a + (0xc4 * "%index%")) "trap_diff"
-    PATCH_IF (("%trap_diff%" > 0) AND ("%trap_diff%" < 100)) BEGIN
-      WRITE_SHORT ("%trig_off%" + 0x6c + (0xc4 * "%index%")) 0 // is not a trap
+  READ_SHORT (0x5a + off) trig_num
+  READ_LONG  (0x5c + off) trig_off
+  READ_SHORT (0x74 + off) cont_num
+  READ_LONG  (0x70 + off) cont_off
+  READ_LONG  (0xa4 + off) door_num
+  READ_LONG  (0xa8 + off) door_off
+  FOR (index = 0 ; index < trig_num ; ++index) BEGIN // cycle through triggers
+    READ_SHORT (trig_off + 0x6a + (0xc4 * index)) trap_diff
+    PATCH_IF ((trap_diff > 0) AND (trap_diff < 100)) BEGIN
+      WRITE_SHORT (trig_off + 0x6c + (0xc4 * index)) 0 // is not a trap
     END
   END
-  FOR (index2 = 0 ; index2 < cont_num ; index2 = index2 + 1) BEGIN // cycle through containers
-    WRITE_LONG  ("%cont_off%" + 0x26 + ("%index2%" * 0xc0)) 0 // lock difficulty
-    WRITE_SHORT ("%cont_off%" + 0x30 + ("%index2%" * 0xc0)) 0 // is not a trap
+  FOR (index2 = 0 ; index2 < cont_num ; ++index2) BEGIN // cycle through containers
+    READ_SHORT  (cont_off + 0x26 + (index2 * 0xc0)) lock_diff // lock difficulty
+    PATCH_IF ((lock_diff > 0) AND (lock_diff < 100)) BEGIN
+      WRITE_SHORT  (cont_off + 0x26 + (index2 * 0xc0)) 0 // lock difficulty
+    END
+    READ_SHORT  (cont_off + 0x2c + (index2 * 0xc0)) trap_diff // trap difficulty
+    PATCH_IF ((trap_diff > 0) AND (trap_diff < 100)) BEGIN
+      WRITE_SHORT (cont_off + 0x30 + (index2 * 0xc0)) 0 // is not a trap
+    END
   END
-  FOR (index3 = 0 ; index3 < door_num ; index3 = index3 + 1) BEGIN // cycle through doors
-    WRITE_SHORT ("%door_off%" + 0x70 + ("%index3%" * 0xc8)) 0 // is not a trap
-    WRITE_LONG  ("%door_off%" + 0x88 + ("%index3%" * 0xc8)) 0 // detect diff
-    WRITE_LONG  ("%door_off%" + 0x8c + ("%index3%" * 0xc8)) 0 // lock diff
+  FOR (index3 = 0 ; index3 < door_num ; ++index3) BEGIN // cycle through doors
+    WRITE_LONG (door_off + 0x88 + (index3 * 0xc8)) 0         // detect diff (secret doors)
+    READ_SHORT (door_off + 0x6e + (index3 * 0xc8)) trap_diff // detect diff
+    PATCH_IF ((trap_diff > 0) AND (trap_diff < 100)) BEGIN
+      WRITE_SHORT (door_off + 0x70 + (index3 * 0xc8)) 0 // is not a trap
+    END
+    READ_LONG  (door_off + 0x8c + (index3 * 0xc8)) lock_diff // lock diff
+    PATCH_IF ((lock_diff > 0) AND (lock_diff < 100)) BEGIN
+      WRITE_LONG  (door_off + 0x8c + (index3 * 0xc8)) 0 // lock diff
+    END
   END
   BUT_ONLY
 
@@ -9565,73 +9609,111 @@ END
 // fixes for Anomen's join dialogue
 COMPILE ~cdtweaks/dlg/ano_rom_fix.d~
 
-// questions to set options
-OUTER_SET "proceed" = 0
-OUTER_SET "req_race" = 0
-OUTER_SET "req_gender" = 0
-OUTER_SET "multiple" = 0
-OUTER_SET "no_kill" = 0
-OUTER_SET "start_tob" = 0
+ACTION_IF ((romance_use_config_values = 1) AND NOT // sanity check; if no changes specified in config, do normal prompting
+          ((romance_racial_requirements != 1) AND 
+           (romance_gender_requirements != 1) AND 
+           (romance_multiple != 1) AND 
+           ((romance_nothing_kills != 1) OR (romance_multiple != 1)) AND
+           ((romance_starts_in_ToB != 1) OR (!GAME_IS ~soa~))))  THEN BEGIN
 
-OUTER_WHILE ("%proceed%" STRING_COMPARE_REGEXP "[Aa]") BEGIN
-  OUTER_WHILE ("%req_race%" STRING_COMPARE_REGEXP "[AaBb]") BEGIN
-    PRINT @318301
-    ACTION_READLN req_race
-  END
-  OUTER_WHILE ("%req_gender%" STRING_COMPARE_REGEXP "[AaBb]") BEGIN
-    PRINT @318303
-    ACTION_READLN req_gender
-  END
-  OUTER_WHILE ("%multiple%" STRING_COMPARE_REGEXP "[AaBb]") BEGIN
-    PRINT @318305
-    ACTION_READLN multiple
-  END
-  ACTION_IF ("%multiple%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN // only offer no kill if multi-romance selected
-    OUTER_WHILE ("%no_kill%" STRING_COMPARE_REGEXP "[AaBb]") BEGIN
-      PRINT @318307
-      ACTION_READLN no_kill
-    END
-  END
-  ACTION_IF NOT GAME_IS ~soa~ THEN BEGIN // tob
-    OUTER_WHILE ("%start_tob%" STRING_COMPARE_REGEXP "[AaBb]") BEGIN
-      PRINT @318311
-      ACTION_READLN start_tob
-    END
-  END
-  // print summary of options before proceeding
+  // print mini-summary for debug
+  PRINT @26
   PRINT @318309
-  ACTION_IF ("%req_race%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
+  ACTION_IF romance_racial_requirements = 1 THEN BEGIN
     PRINT @318302
   END
-  ACTION_IF ("%req_gender%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
+  ACTION_IF romance_gender_requirements = 1 THEN BEGIN
     PRINT @318304
   END
-  ACTION_IF ("%multiple%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
+  ACTION_IF romance_multiple = 1 THEN BEGIN
     PRINT @318306
+    ACTION_IF romance_nothing_kills = 1 THEN BEGIN
+      PRINT @318308
+    END
   END
-  ACTION_IF ("%no_kill%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
-    PRINT @318308
+  ACTION_IF NOT GAME_IS ~soa~ THEN BEGIN
+    ACTION_IF romance_starts_in_ToB = 1 THEN BEGIN
+      PRINT @318312
+    END
   END
-  ACTION_IF ("%start_tob%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
-    PRINT @318312
+
+END ELSE BEGIN
+
+  // questions to set options
+  OUTER_SET romance_proceed = 0
+  OUTER_SET romance_racial_requirements = 0
+  OUTER_SET romance_gender_requirements = 0
+  OUTER_SET romance_multiple = 0
+  OUTER_SET romance_nothing_kills = 0
+  OUTER_SET romance_starts_in_ToB = 0
+  
+  OUTER_WHILE (romance_proceed != 1) BEGIN
+    OUTER_WHILE ((romance_racial_requirements != 1) AND (romance_racial_requirements != 2)) BEGIN // stay here until we have a 1 or a 2
+      PRINT @318301
+      ACTION_READLN romance_racial_requirements
+    END
+    OUTER_WHILE ((romance_gender_requirements != 1) AND (romance_gender_requirements != 2)) BEGIN // stay here until we have a 1 or a 2
+      PRINT @318303
+      ACTION_READLN romance_gender_requirements
+    END
+    OUTER_WHILE ((romance_multiple != 1) AND (romance_multiple != 2)) BEGIN // stay here until we have a 1 or a 2
+      PRINT @318305
+      ACTION_READLN romance_multiple
+    END
+    ACTION_IF (romance_multiple = 1) THEN BEGIN // only offer no kill if multi-romance selected
+      OUTER_WHILE ((romance_nothing_kills != 1) AND (romance_nothing_kills != 2)) BEGIN
+        PRINT @318307
+        ACTION_READLN romance_nothing_kills
+      END
+    END
+    ACTION_IF NOT GAME_IS ~soa~ THEN BEGIN // tob
+      OUTER_WHILE ((romance_starts_in_ToB != 1) AND (romance_starts_in_ToB != 2)) BEGIN
+        PRINT @318311
+        ACTION_READLN romance_starts_in_ToB
+      END
+    END
+    // sanity check, make sure some change has been selected
+    ACTION_IF ((romance_racial_requirements != 1) AND (romance_gender_requirements != 1) AND (romance_multiple != 1) AND (romance_nothing_kills != 1) AND (romance_starts_in_ToB != 1)) BEGIN
+      OUTER_SET romance_proceed = 2
+      PRINT @321014
+    END ELSE BEGIN
+      // print summary of options before proceeding
+      PRINT @318309
+      ACTION_IF romance_racial_requirements = 1 THEN BEGIN
+        PRINT @318302
+      END
+      ACTION_IF romance_gender_requirements = 1 THEN BEGIN
+        PRINT @318304
+      END
+      ACTION_IF romance_multiple = 1 THEN BEGIN
+        PRINT @318306
+      END
+      ACTION_IF romance_nothing_kills = 1 THEN BEGIN
+        PRINT @318308
+      END
+      ACTION_IF romance_starts_in_ToB = 1 THEN BEGIN
+        PRINT @318312
+      END
+      OUTER_WHILE ((romance_proceed != 1) AND (romance_proceed != 2)) BEGIN
+        PRINT @318310
+        ACTION_READLN romance_proceed
+      END
+    END
+    ACTION_IF (romance_proceed = 2) THEN BEGIN
+      OUTER_SET romance_proceed = 0
+      OUTER_SET romance_racial_requirements = 0
+      OUTER_SET romance_gender_requirements = 0
+      OUTER_SET romance_multiple = 0
+      OUTER_SET romance_nothing_kills = 0
+      OUTER_SET romance_starts_in_ToB = 0
+    END
   END
-  OUTER_WHILE ("%proceed%" STRING_COMPARE_REGEXP "[AaBb]") BEGIN
-    PRINT @318310
-    ACTION_READLN proceed
-  END
-  ACTION_IF ("%proceed%" STRING_COMPARE_CASE "b" = 0) THEN BEGIN
-    OUTER_SET "proceed" = 0
-    OUTER_SET "req_race" = 0
-    OUTER_SET "req_gender" = 0
-    OUTER_SET "multiple" = 0
-    OUTER_SET "no_kill" = 0
-    OUTER_SET "start_tob" = 0
-  END
+
 END
 
 // take care of tob_start
 // this will also take care of any romance requirement adjustments on the ToB side while we're here
-ACTION_IF ("%start_tob%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
+ACTION_IF (romance_starts_in_ToB = 1) THEN BEGIN
 
   EXTEND_TOP ~aeri25.bcs~ ~cdtweaks/baf/aeri25_start_tob.baf~
 
@@ -9641,19 +9723,19 @@ ACTION_IF ("%start_tob%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
     COMPILE ~cdtweaks/dlg/rom_start_tob.d~
   END
 
-  ACTION_IF ("%req_gender%" STRING_COMPARE_CASE "b" = 0) THEN BEGIN // if gender reqs intact
+  ACTION_IF (romance_gender_requirements != 1) THEN BEGIN // if gender reqs intact
 
     COMPILE ~cdtweaks/dlg/rom_start_tob_gender.d~
 
   END
 
-  ACTION_IF ("%req_race%" STRING_COMPARE_CASE "b" = 0) THEN BEGIN // if  race reqs intact
+  ACTION_IF (romance_racial_requirements != 1) THEN BEGIN // if  race reqs intact
 
     COMPILE ~cdtweaks/dlg/rom_start_tob_race.d~
 
   END
 
-  ACTION_IF ("%multiple%" STRING_COMPARE_CASE "b" = 0) THEN BEGIN // if no multi allowed
+  ACTION_IF (romance_multiple != 1) THEN BEGIN // if no multi allowed
 
     COMPILE ~cdtweaks/dlg/rom_start_tob_multi.d~
 
@@ -9661,7 +9743,7 @@ ACTION_IF ("%start_tob%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
 
 END
 
-ACTION_IF (("%req_race%" STRING_COMPARE_CASE "a" = 0) OR ("%req_gender%" STRING_COMPARE_CASE "a" = 0)) BEGIN
+ACTION_IF ((romance_racial_requirements = 1) OR (romance_gender_requirements = 1)) BEGIN
 
   ACTION_PHP_EACH cd_romances AS npc => tob BEGIN
     
@@ -9669,7 +9751,7 @@ ACTION_IF (("%req_race%" STRING_COMPARE_CASE "a" = 0) OR ("%req_gender%" STRING_
   
   END
       
-  ACTION_IF ("%req_race%" STRING_COMPARE_CASE "a") BEGIN // if racial requirements intact (ee romances have no racial reqs)
+  ACTION_IF (romance_racial_requirements != 1) BEGIN // if racial requirements intact (ee romances have no racial reqs)
   
     COPY_EXISTING ~aerie.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
@@ -9695,7 +9777,7 @@ ACTION_IF (("%req_race%" STRING_COMPARE_CASE "a" = 0) OR ("%req_gender%" STRING_
   
   END
       
-  ACTION_IF ("%req_gender%" STRING_COMPARE_CASE "a") BEGIN // if gender requirements intact
+  ACTION_IF (romance_gender_requirements != 1) BEGIN // if gender requirements intact
   
     ACTION_FOR_EACH npc IN aerie jaheira neera viconia BEGIN
   
@@ -9742,7 +9824,7 @@ ACTION_IF (("%req_race%" STRING_COMPARE_CASE "a" = 0) OR ("%req_gender%" STRING_
 END
 
 // allow multiple romances
-ACTION_IF ("%multiple%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
+ACTION_IF (romance_multiple = 1) THEN BEGIN
 
   ACTION_PHP_EACH cd_romances AS npc => tob BEGIN
     
@@ -9753,7 +9835,7 @@ ACTION_IF ("%multiple%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
             REPLACE_TEXTUALLY ~\b\(Global("%npc2%RomanceActive","GLOBAL",[12])\)~ ~False()~
           END
         END
-        PATCH_IF ("%no_kill%" STRING_COMPARE_CASE "a" = 0) BEGIN // nothing kiills romance option
+        PATCH_IF (romance_nothing_kills = 1) BEGIN // nothing kills romance option
           APPEND_FILE ~cdtweaks/baf/%npc%_rom3.baf~
         END
       END
@@ -9770,7 +9852,7 @@ ACTION_IF ("%multiple%" STRING_COMPARE_CASE "a" = 0) THEN BEGIN
           END
           REPLACE_TEXTUALLY ~GlobalGT("WraithPunish","GLOBAL",0)~ ~False()~
           APPEND_FILE ~cdtweaks/baf/%tob%_rom2.baf~
-          PATCH_IF ("%no_kill%" STRING_COMPARE_CASE "a" = 0) BEGIN // nothing kiills romance option
+          PATCH_IF (romance_nothing_kills = 1) BEGIN // nothing kills romance option
             APPEND_FILE ~cdtweaks/baf/%tob%_rom3.baf~
           END
         END
@@ -10012,7 +10094,16 @@ END
 
 ACTION_IF GAME_IS ~pst~ THEN BEGIN
 
-  OUTER_SET store_match = "-1" // no containers in PsT
+  ACTION_IF NOT FILE_EXISTS_IN_GAME ~savename.2da~ THEN BEGIN
+  
+    OUTER_SET store_match = "-1" // no containers in PsT
+  
+  END ELSE BEGIN
+  
+    OUTER_SET store_match = 4 // containers in PsTEE
+
+  END
+  
   ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_buyable_item_types BEGIN // pst exclusives
      2 => 0 // armor
      8 => 0 // keys
@@ -10155,7 +10246,10 @@ END
 COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
   READ_LONG 0x08 store_type
   READ_LONG 0x10 flags
-  PATCH_IF ((store_type != store_match) AND ((flags & BIT1) = BIT1)) BEGIN // don't bother if store can't buy, or if it's a container
+  READ_LONG 0x14 markup_sell
+  READ_LONG 0x18 markup_buy
+  PATCH_IF ((store_type != store_match) AND ((flags & BIT1) = BIT1) AND  // don't bother if store can't buy, or if it's a container
+            (markup_sell > 119) AND (markup_buy < 81)) BEGIN // don't mess with stores with exploitable buy/sell markups
     SET delta = 0
     READ_LONG 0x2c purch_off
     READ_LONG 0x30 purch_num
@@ -10196,92 +10290,127 @@ BEGIN @321000 DESIGNATED 3210
 GROUP @4
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst~ @25
 
-OUTER_SET min_str = 1
-OUTER_SET min_dex = 1
-OUTER_SET min_con = 1
-OUTER_SET min_int = 1
-OUTER_SET min_wis = 1
-OUTER_SET min_chr = 1
-OUTER_SET proceed = 0
-OUTER_SPRINT min_str_text @321008
-OUTER_SPRINT min_dex_text @321009
-OUTER_SPRINT min_con_text @321010
-OUTER_SPRINT min_int_text @321011
-OUTER_SPRINT min_wis_text @321012
-OUTER_SPRINT min_chr_text @321013
+OUTER_SPRINT minimum_stats_strength_text     @321008
+OUTER_SPRINT minimum_stats_dexterity_text    @321009
+OUTER_SPRINT minimum_stats_constitution_text @321010
+OUTER_SPRINT minimum_stats_intelligence_text @321011
+OUTER_SPRINT minimum_stats_wisdom_text       @321012
+OUTER_SPRINT minimum_stats_charisma_text     @321013
 
-OUTER_WHILE ("%proceed%" STRING_COMPARE_CASE "a") BEGIN
-  OUTER_WHILE ((NOT IS_AN_INT min_str) OR ((min_str < 6) AND (min_str != 0)) OR (min_str > 15)) BEGIN
-    PRINT @321002
-    ACTION_READLN min_str
+ACTION_IF ((minimum_stats_use_config_values = 1) AND // if we should use the config file
+           (((minimum_stats_strength > 5)     AND (minimum_stats_strength < 16))     OR (minimum_stats_strength = 0))     AND // STR is either 0 or 6-15
+           (((minimum_stats_dexterity > 5)    AND (minimum_stats_dexterity < 16))    OR (minimum_stats_dexterity = 0))    AND // DEX is either 0 or 6-15
+           (((minimum_stats_constitution > 5) AND (minimum_stats_constitution < 16)) OR (minimum_stats_constitution = 0)) AND // CON is either 0 or 6-15
+           (((minimum_stats_intelligence > 5) AND (minimum_stats_intelligence < 16)) OR (minimum_stats_intelligence = 0)) AND // INT is either 0 or 6-15
+           (((minimum_stats_wisdom > 5)       AND (minimum_stats_wisdom < 16))       OR (minimum_stats_wisdom = 0))       AND // WIS is either 0 or 6-15
+           (((minimum_stats_charisma > 5)     AND (minimum_stats_charisma < 16))     OR (minimum_stats_charisma = 0))     AND // CHR is either 0 or 6-15
+           (minimum_stats_strength + minimum_stats_dexterity + minimum_stats_constitution + minimum_stats_intelligence + minimum_stats_wisdom + minimum_stats_charisma != 0)) THEN BEGIN // make sure we have some changes
+  // print summary of options for the debug file
+  PRINT @26
+  PRINT @318309
+  ACTION_IF (minimum_stats_strength != 0) THEN BEGIN
+    PRINT ~%minimum_stats_strength_text% %minimum_stats_strength%~
   END
-  OUTER_WHILE ((NOT IS_AN_INT min_dex) OR ((min_dex < 6) AND (min_dex != 0)) OR (min_dex > 15)) BEGIN
-    PRINT @321003
-    ACTION_READLN min_dex
+  ACTION_IF (minimum_stats_dexterity != 0) THEN BEGIN
+    PRINT ~%minimum_stats_dexterity_text% %minimum_stats_dexterity%~
   END
-  OUTER_WHILE ((NOT IS_AN_INT min_con) OR ((min_con < 6) AND (min_con != 0)) OR (min_con > 15)) BEGIN
-    PRINT @321004
-    ACTION_READLN min_con
+  ACTION_IF (minimum_stats_constitution != 0) THEN BEGIN
+    PRINT ~%minimum_stats_constitution_text% %minimum_stats_constitution%~
   END
-  OUTER_WHILE ((NOT IS_AN_INT min_int) OR ((min_int < 6) AND (min_int != 0)) OR (min_int > 15)) BEGIN
-    PRINT @321005
-    ACTION_READLN min_int
+  ACTION_IF (minimum_stats_intelligence != 0) THEN BEGIN
+    PRINT ~%minimum_stats_intelligence_text% %minimum_stats_intelligence%~
   END
-  OUTER_WHILE ((NOT IS_AN_INT min_wis) OR ((min_wis < 6) AND (min_wis != 0)) OR (min_wis > 15)) BEGIN
-    PRINT @321006
-    ACTION_READLN min_wis
+  ACTION_IF (minimum_stats_wisdom != 0) THEN BEGIN
+    PRINT ~%minimum_stats_wisdom_text% %minimum_stats_wisdom%~
   END
-  OUTER_WHILE ((NOT IS_AN_INT min_chr) OR ((min_chr < 6) AND (min_chr != 0)) OR (min_chr > 15)) BEGIN
-    PRINT @321007
-    ACTION_READLN min_chr
+  ACTION_IF (minimum_stats_charisma != 0) THEN BEGIN
+    PRINT ~%minimum_stats_charisma_text% %minimum_stats_charisma%~
   END
-  ACTION_IF ((min_str = 0) AND (min_dex = 0) AND (min_con = 0) AND (min_int = 0) AND (min_wis = 0) AND (min_chr = 0)) BEGIN
-    PRINT @321014
-    OUTER_SPRINT proceed "b"
-  END ELSE BEGIN
-    // print summary of options before proceeding
-    PRINT @318309
-    ACTION_IF (min_str != 0) THEN BEGIN
-      PRINT ~%min_str_text% %min_str%~
+
+END ELSE BEGIN
+
+  OUTER_SET minimum_stats_strength = 1
+  OUTER_SET minimum_stats_dexterity = 1
+  OUTER_SET minimum_stats_constitution = 1
+  OUTER_SET minimum_stats_intelligence = 1
+  OUTER_SET minimum_stats_wisdom = 1
+  OUTER_SET minimum_stats_charisma = 1
+  OUTER_SET minimum_stats_proceed = 0
+
+  OUTER_WHILE (minimum_stats_proceed != 1) BEGIN
+    OUTER_WHILE ((NOT IS_AN_INT minimum_stats_strength) OR ((minimum_stats_strength < 6) AND (minimum_stats_strength != 0)) OR (minimum_stats_strength > 15)) BEGIN
+      PRINT @321002
+      ACTION_READLN minimum_stats_strength
     END
-    ACTION_IF (min_dex != 0) THEN BEGIN
-      PRINT ~%min_dex_text% %min_dex%~
+    OUTER_WHILE ((NOT IS_AN_INT minimum_stats_dexterity) OR ((minimum_stats_dexterity < 6) AND (minimum_stats_dexterity != 0)) OR (minimum_stats_dexterity > 15)) BEGIN
+      PRINT @321003
+      ACTION_READLN minimum_stats_dexterity
     END
-    ACTION_IF (min_con != 0) THEN BEGIN
-      PRINT ~%min_con_text% %min_con%~
+    OUTER_WHILE ((NOT IS_AN_INT minimum_stats_constitution) OR ((minimum_stats_constitution < 6) AND (minimum_stats_constitution != 0)) OR (minimum_stats_constitution > 15)) BEGIN
+      PRINT @321004
+      ACTION_READLN minimum_stats_constitution
     END
-    ACTION_IF (min_int != 0) THEN BEGIN
-      PRINT ~%min_int_text% %min_int%~
+    OUTER_WHILE ((NOT IS_AN_INT minimum_stats_intelligence) OR ((minimum_stats_intelligence < 6) AND (minimum_stats_intelligence != 0)) OR (minimum_stats_intelligence > 15)) BEGIN
+      PRINT @321005
+      ACTION_READLN minimum_stats_intelligence
     END
-    ACTION_IF (min_wis != 0) THEN BEGIN
-      PRINT ~%min_wis_text% %min_wis%~
+    OUTER_WHILE ((NOT IS_AN_INT minimum_stats_wisdom) OR ((minimum_stats_wisdom < 6) AND (minimum_stats_wisdom != 0)) OR (minimum_stats_wisdom > 15)) BEGIN
+      PRINT @321006
+      ACTION_READLN minimum_stats_wisdom
     END
-    ACTION_IF (min_chr != 0) THEN BEGIN
-      PRINT ~%min_chr_text% %min_chr%~
+    OUTER_WHILE ((NOT IS_AN_INT minimum_stats_charisma) OR ((minimum_stats_charisma < 6) AND (minimum_stats_charisma != 0)) OR (minimum_stats_charisma > 15)) BEGIN
+      PRINT @321007
+      ACTION_READLN minimum_stats_charisma
     END
-    OUTER_WHILE ("%proceed%" STRING_COMPARE_REGEXP "[AaBb]") BEGIN
-      PRINT @318310
-      ACTION_READLN proceed
+    ACTION_IF ((minimum_stats_strength = 0) AND (minimum_stats_dexterity = 0) AND (minimum_stats_constitution = 0) AND (minimum_stats_intelligence = 0) AND (minimum_stats_wisdom = 0) AND (minimum_stats_charisma = 0)) BEGIN
+      PRINT @321014
+      OUTER_SET minimum_stats_proceed = 2
+    END ELSE BEGIN
+      // print summary of options before proceeding
+      PRINT @318309
+      ACTION_IF (minimum_stats_strength != 0) THEN BEGIN
+        PRINT ~%minimum_stats_strength_text% %minimum_stats_strength%~
+      END
+      ACTION_IF (minimum_stats_dexterity != 0) THEN BEGIN
+        PRINT ~%minimum_stats_dexterity_text% %minimum_stats_dexterity%~
+      END
+      ACTION_IF (minimum_stats_constitution != 0) THEN BEGIN
+        PRINT ~%minimum_stats_constitution_text% %minimum_stats_constitution%~
+      END
+      ACTION_IF (minimum_stats_intelligence != 0) THEN BEGIN
+        PRINT ~%minimum_stats_intelligence_text% %minimum_stats_intelligence%~
+      END
+      ACTION_IF (minimum_stats_wisdom != 0) THEN BEGIN
+        PRINT ~%minimum_stats_wisdom_text% %minimum_stats_wisdom%~
+      END
+      ACTION_IF (minimum_stats_charisma != 0) THEN BEGIN
+        PRINT ~%minimum_stats_charisma_text% %minimum_stats_charisma%~
+      END
+      OUTER_WHILE ((minimum_stats_proceed != 1) AND (minimum_stats_proceed != 2)) BEGIN
+        PRINT @318310
+        ACTION_READLN minimum_stats_proceed
+      END
+    END
+    ACTION_IF (minimum_stats_proceed = 2) THEN BEGIN
+      OUTER_SET minimum_stats_strength = 1
+      OUTER_SET minimum_stats_dexterity = 1
+      OUTER_SET minimum_stats_constitution = 1
+      OUTER_SET minimum_stats_intelligence = 1
+      OUTER_SET minimum_stats_wisdom = 1
+      OUTER_SET minimum_stats_charisma = 1
+      OUTER_SET minimum_stats_proceed = 0
     END
   END
-  ACTION_IF ("%proceed%" STRING_COMPARE_CASE "b" = 0) THEN BEGIN
-    OUTER_SET min_str = 1
-    OUTER_SET min_dex = 1
-    OUTER_SET min_con = 1
-    OUTER_SET min_int = 1
-    OUTER_SET min_wis = 1
-    OUTER_SET min_chr = 1
-    OUTER_SET proceed = 0
-  END
+
 END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_min_stats BEGIN
-  1 => "%min_str%"
-  2 => "%min_dex%"
-  3 => "%min_con%"
-  4 => "%min_int%"
-  5 => "%min_wis%"
-  6 => "%min_chr%"
+  1 => "%minimum_stats_strength%"
+  2 => "%minimum_stats_dexterity%"
+  3 => "%minimum_stats_constitution%"
+  4 => "%minimum_stats_intelligence%"
+  5 => "%minimum_stats_wisdom%"
+  6 => "%minimum_stats_charisma%"
 END
 
 COPY_EXISTING ~abclasrq.2da~ ~override~
@@ -10658,7 +10787,7 @@ END ELSE BEGIN
   COMPILE ~cdtweaks/dlg/ankheg_bg1.d~ // otherwise stuck with TakePartyItem
 END
 
-EXTEND_TOP ~%tutu_var%taerom.bcs~ ~cdtweaks/baf/taerom.baf~ // reset timer/vars after completing armor
+EXTEND_TOP ~%tutu_var%taerom.bcs~ ~cdtweaks/baf/taerom.baf~ EVALUATE_BUFFER // reset timer/vars after completing armor
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -10829,7 +10958,7 @@ ACTION_IF ((GAME_IS ~iwdee~) OR (MOD_IS_INSTALLED ~ub_iwd/setup-ub_iwd.tp2~ ~150
   END
 
   ACTION_IF NOT GAME_IS ~iwd~ THEN BEGIN // how, totlm items
-  
+
     // add unused random drop to one of alpheus (choice of two mage staves)
     COPY_EXISTING ~alpheus.cre~  ~override~
       ADD_CRE_ITEM ~quost~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP TWOHANDED // give undroppable staff, push token to inventory
@@ -11396,7 +11525,7 @@ COMPILE ~cdtweaks/dlg/evilnpc.d~
 
 BEGIN @401000 DESIGNATED 4010
 GROUP @0
-REQUIRE_PREDICATE     GAME_IS ~tob bg2ee eet bgt~   @25 // ToB required
+REQUIRE_PREDICATE     GAME_IS ~tob bg2ee bgt~   @25 // ToB required
 
 // end of SoA cutscenes set extra variable
 COPY_EXISTING ~cut100a.bcs~ ~override~
@@ -11503,7 +11632,9 @@ COPY_EXISTING ~pdialog.2da~ ~override~
 
 COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
   READ_LONG 0x1cc bio ELSE "-1"
-  PATCH_IF (bio >= 0) BEGIN // don't bother if no bio
+  PATCH_IF (("%SOURCE_RES%" STRING_COMPARE_CASE "BDIMOEN") AND  // exclude special imoen files
+            ("%SOURCE_RES%" STRING_COMPARE_CASE "BDSHIMOE") AND // exclude special imoen files
+            (bio >= 0)) BEGIN // don't bother if no bio
     READ_ASCII 0x280 "dvcre" (32) NULL
     PHP_EACH cd_dv_array AS dv => file BEGIN
       PATCH_IF ("%dv%" STRING_COMPARE_CASE "%dvcre%" = 0) BEGIN
@@ -11995,7 +12126,7 @@ END ELSE BEGIN // tutu, bgt, bgee
   COMPILE ~cdtweaks/dlg/p#khalid.d~ EVALUATE_BUFFER
   
   EXTEND_BOTTOM ~%FriendlyArmInn_L1_BCS%.bcs~ ~cdtweaks/baf/p#fw2301.baf~ EVALUATE_BUFFER
-  
+
   EXTEND_TOP    ~%KHALID_BCS%.bcs~ ~cdtweaks/baf/p#khalid.baf~
   
   // if bg-style proficiencies are installed, adjust proficiencies to match new system
