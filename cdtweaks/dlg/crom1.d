@@ -18,9 +18,5 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN NoThanks SAY @122002
    COPY_TRANS WSMITH01 13
   END
-  
-  IF WEIGHT #-1 ~GlobalGT("CDCraft","ar0334",0)~ THEN BEGIN HeresYourJunk SAY #59797
-    IF ~~ THEN DO ~SetGlobal("CDCraft","ar0334",0)~ EXIT
-  END
 
 END

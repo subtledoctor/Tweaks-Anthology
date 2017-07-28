@@ -1,0 +1,67 @@
+ACTION_IF GAME_IS ~bgee~ THEN BEGIN
+
+  INCLUDE ~cdtweaks/lib/liam_bgee_cpmvars.tpa~ // bgee
+
+END ELSE BEGIN
+  
+  ACTION_IF GAME_IS ~eet~ THEN BEGIN
+
+    INCLUDE ~cdtweaks/lib/eet_cpmvars.tpa~ // eet
+
+  END ELSE BEGIN
+
+    ACTION_IF GAME_IS ~tutu tutu_totsc~ THEN BEGIN
+
+      INCLUDE ~cdtweaks/lib/g3_tutu_cpmvars.tpa~ // tutu
+
+    END ELSE BEGIN
+
+      ACTION_IF GAME_IS ~bgt~ THEN BEGIN
+
+        INCLUDE ~cdtweaks/lib/g3_bgt_cpmvars.tph~ // bgt
+
+      END ELSE BEGIN
+
+        INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tph~ // vanilla bg
+      
+      END
+
+    END
+
+  END
+
+END
+
+
+DEFINE_ACTION_FUNCTION cd_extend_bg_area_script
+
+  INT_VAR extend_top = 0
+  STR_VAR area       = ""
+          script     = ""
+BEGIN
+          
+  // make sure we have area scripts assigned
+  COPY_EXISTING ~%area%.are~ ~override~
+    READ_ASCII 0x94 a_script
+    PATCH_IF ("%script%" STRING_COMPARE_CASE ~~ = 0) BEGIN // if blank
+      PATCH_IF GAME_IS ~tutu tutu_totsc~ BEGIN // if Tutu
+        WRITE_ASCIIE 0x95 ~%SOURCE_RES%~ #7
+        WRITE_ASCII  0x94 ~_ar~
+      END ELSE BEGIN // bgt
+        WRITE_ASCIIE 0x94 ~%SOURCE_RES%~ #8
+      END
+      READ_ASCII 0x94 a_script
+    END
+    BUT_ONLY
+  
+  ACTION_IF extend_top = 1 THEN BEGIN
+
+    EXTEND_TOP ~%a_script%.bcs~ ~%script%.baf~ EVALUATE_BUFFER
+
+  END ELSE BEGIN
+
+    EXTEND_BOTTOM ~%a_script%.bcs~ ~%script%.baf~ EVALUATE_BUFFER
+    
+  END
+  
+END

@@ -56,7 +56,7 @@ DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
     REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%short_sword%\|%dagger%\)~ ~%prof_text% %prof_ssword%~ // daggers/short swords
   END ELSE
   PATCH_IF (prof = 103) BEGIN // large swords
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%scimitar% */ *%waki% */ *\(%ninjato%\|Ninja-?to\|Ninja-?t≈\)\)\|\(%katana%\)\|\(%lsword%\)\|\(%bastard%\)\|\(%2hsword%\)\)~ ~%prof_text% %prof_lsword%~ // all blades except daggs & short swords
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%scimitar% */ *%waki% */ *\(%ninjato%\|%ninjato_special%\|Ninja-?to\|Ninja-?t≈\)\)\|\(%katana%\)\|\(%lsword%\)\|\(%bastard%\)\|\(%2hsword%\)\)~ ~%prof_text% %prof_lsword%~ // all blades except daggs & short swords
   END ELSE // 104 is axe, no change
   PATCH_IF (prof = 105) BEGIN // blunt
     REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%hammer%\|%mace%\|%club%\|%staff%\)~ ~%prof_text% %blunt%~ // hammers, maces, clubs
@@ -283,3 +283,6 @@ APPEND ~stats.ids~ ~100 PROFICIENCYLONGBOW
 106 PROFICIENCYMISSILE
 107 PROFICIENCYHALBERD
 107 PROFICIENCYSPEAR~
+
+// adjust joinable NPCs who lose total pips when profs combine
+INCLUDE ~cdtweaks/lib/profs_common3.tpa~

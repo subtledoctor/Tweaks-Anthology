@@ -3,8 +3,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("quiver04",Player1,0,0,0) // Case of Plenty +2
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -14,8 +15,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("helm30",Player1,3,0,0) // Thieves' Hood
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -25,8 +27,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("helm32",Player1,3,0,0) // Helm of the Rock
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -36,8 +39,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("brac25",Player1,0,0,0) // Wondrous Gloves
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -47,8 +51,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("brac23",Player1,1,1,0) // Blessed Bracers
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -58,8 +63,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("tome02",Player1,1,0,0) // Clay Golem Manual
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -69,8 +75,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("clck31",Player1,0,0,0) // Improved Cloak of Protection +2
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -80,8 +87,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("chan20",Player1,3,0,0) // White Dragon Scale
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -91,8 +99,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("chan19",Player1,0,0,0) // Aslyferund Elven Chain +5
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -102,8 +111,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("slng09",Player1,0,1,0) // Erinne Sling +5
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -113,8 +123,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("quiver03",Player1,0,0,0) // Quiver of Plenty +2
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -124,8 +135,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("blun30c",Player1,0,0,0) // Flail of Ages +4
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -135,8 +147,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("blun27",Player1,0,0,0) // Club of Detonation +5
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -146,8 +159,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("sper12",Player1,0,0,0) // Ixil's Spike +6
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END
@@ -157,8 +171,9 @@ IF
   Global("ForgeStuff","GLOBAL",1)
 THEN
   RESPONSE #100
+    SetGlobal("ForgeStuff","GLOBAL",0)
     SetGlobal("CDItems","ar0334",0)
-    SetGlobal("CDCraft","ar0334",1)
+    SetGlobal("ForgeItem","GLOBAL",999) // route to existing 'here you go' dialogue
     GiveItemCreate("dagg22",Player1,0,0,0) // Dagger of the Star +5
     ActionOverride("wsmith01",StartDialogueNoSet([PC]))
 END

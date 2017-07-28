@@ -56,7 +56,7 @@ DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
     REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%bastard%\|%2hsword%\)~ ~%prof_text% %prof_gsword%~ // bastard sword/2h sword
   END ELSE
   PATCH_IF (prof = 102) BEGIN // large swords
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%scimitar% */ *%waki% */ *\(%ninjato%\|Ninja-?to\|Ninja-?t≈\)\)\|\(%katana%\)\|\(%lsword%\)\)~ ~%prof_text% %prof_lsword%~
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%scimitar% */ *%waki% */ *\(%ninjato%\|%ninjato_special%\|Ninja-?to\|Ninja-?t≈\)\)\|\(%katana%\)\|\(%lsword%\)\)~ ~%prof_text% %prof_lsword%~
   END ELSE
   PATCH_IF (prof = 103) BEGIN // morningstars/maces
     REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%flail% */ *%mstar1% ?%mstar2%\)\|\(%mace%\)\)~ ~%prof_text% %mace%/%mstar%~
@@ -368,3 +368,6 @@ APPEND ~stats.ids~  ~95 PROFICIENCYLONGBOW
 104 PROFICIENCYMISSILE
 105 PROFICIENCYSHORTSWORD
 105 PROFICIENCYSHORT_SWORD~
+
+// adjust joinable NPCs who lose total pips when profs combine
+INCLUDE ~cdtweaks/lib/profs_common3.tpa~

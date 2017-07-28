@@ -36,7 +36,8 @@
     @24 = ~This component is incompatible with another mod already installed.~
     @25 = ~This component is not available for your game.~
     @26 = ~Using values from the cdtweaks.txt config file for this component...~
-
+    @27 = ~Modmerge is required before mods can be installed on this game. Check the readme for more information and a link to download Modmerge.~
+    
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -342,6 +343,8 @@
  @19500 = ~For non-magical shields~
  
  @20000 = ~Remove Blur Effect from Items, e.g. Cloack of Displacement~
+ 
+ @21000 = ~Separate Resist Fire/Cold Icon into Separate Icons (Angel)~
     
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -825,7 +828,7 @@ Number of Attacks: 2
 Attack Damage: 1d12 (slashing), strikes as +2 weapon
 
 Special Abilities:
-– Magic Resistance: 20%
+â€“ Magic Resistance: 20%
 - Immune to non-magical weapons~
 @115007 = ~Shapeshift: Greater Werewolf
 
@@ -838,11 +841,11 @@ Number of Attacks: 3
 Attack Damage: 2d8 (slashing)
 
 Special Abilities:
-– Fire Resistance: 50%
-– Cold Resistance: 50%
-– Electricity Resistance: 50%
-– Acid Resistance: 50%
-– Magic Resistance: 40%
+â€“ Fire Resistance: 50%
+â€“ Cold Resistance: 50%
+â€“ Electricity Resistance: 50%
+â€“ Acid Resistance: 50%
+â€“ Magic Resistance: 40%
 - Immune to non-magical weapons~
 @115008 = ~Werewolf Paw~
 @115009 = ~Greater Werewolf Paw~
@@ -930,7 +933,12 @@ Special Abilities:
 @122043 = ~I knows recipes for two heads for Flail of Ages.  You can adds poison head... or you adds electricity head.  Only recipes I have, sorry.~
 @122044 = ~You gots three heads there... I can adds electric heads to it.  So four heads, you know?  5,000 gp and I can do it.  You wants?~
 @122045 = ~Ooo!  You gots four heads and I can add the final head.  Real pestilent, that one.  5,000 gp and I do it okay.  You want?~
-    
+
+@122500 = ~Adjust Cromwell's Forging Time~
+@122501 = ~Instant forging (original BG2 default)~
+@122600 = ~Eight hours~
+@122700 = ~Full 24 hours (BG2EE default, includes sleep)~
+
 @123000 = ~Allow Cespenar to Use Cromwell Recipes~
 @123001 = ~Oh, shiny red scales is it? I make good scale armor, protect from fire real good.~
 @123002 = ~What's whis pile of shiny? Ooh, illitium!~
@@ -1103,6 +1111,8 @@ Thieving Abilities in Heavy Armor' Component~
 @215002 = ~[ %TAB%]*.?.?.?[ %TAB%]*Armou?r Class[^:]*:.*$~ // lone . at front to catch EE emdash
 
 @215100 = ~No Restrictions~
+
+@215200 = ~Allow Armor Plus One Protection Item (Angel)~
 
 @216000 = ~Rebalanced Weapon Proficiencies~
 @216001 = ~SHORT SWORD/NINJA-TO:  The preferred weapon of many a thief and halfling, short swords and ninja-tos are light but useful weapons.
@@ -1355,6 +1365,9 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @242000 = ~Loosen Equipment Restrictions for Cleric Multi-Classes~
 
 @243000 = ~Loosen Equipment Restrictions for Druid Multi-Classes~
+@243001 = ~Change Equipment Restrictions for Druid Multi-Classes~
+
+@243100 = ~Tighten Equipment Restrictions for Druid Multi-Classes (Angel)~
 
 @244000 = ~Everyone Gets Bonus APR from Specialization~
 // translators - the next three strings are used to replace game text, so they need to be copied from the game itself
@@ -1367,6 +1380,12 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @245000 = ~Enforce PnP Proficiency Rules on Dual-Classed Characters~
 
 @250000 = ~Exceptional Strength Weight Limit Changes~
+
+@251000 = ~Level-Lock Spell Scrolls (Angel)~
+
+@252000 = ~Allow Mages to Use Bucklers and Thieves to Use Small Shields (Angel)~
+
+@253000 = ~Lightning Bolts Don't Bounce (Angel)~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1386,6 +1405,8 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @300200 = ~Average Rolls~
 
 @300300 = ~Low Variance Rolls~
+
+@300800 = ~Allow HP Rolls Through Level 20 (Angel)~
 
 @301000 = ~Maximum HP for NPCs (the bigg)~
 @301001 = ~For All Creatures in Game~
@@ -1625,6 +1646,8 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 
 @327000 = ~Recoverable throwing weapons~
 
+@328000 = ~Give Every Class/Kit Four Weapon Slots~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -1664,3 +1687,5 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @412000 = ~Give Coran A Legal Dexterity Score of 19~
 
 @413000 = ~Make Xan a Generalist Mage (Mike1072)~
+
+@414000 = ~Don't Auto-Assign Advanced AI Scripting to Party~

@@ -53,7 +53,7 @@ END ELSE BEGIN
   OUTER_SPRINT mstar2 ""
 END
 
-// one more bit of hackery for that damned ninja-to (thanks to arent77)
+// one more bit of hackery for that damned ninja-to (thanks to argent77)
 OUTER_TEXT_SPRINT ninjato_special ~Ninja-?t..~
 OUTER_PATCH_SAVE ninjato_special ~%ninjato_special%~ BEGIN
   WRITE_SHORT (STRING_LENGTH ~%ninjato_special%~ - 2) 0x8dc5   // utf-8 code of "lowercase O with macron"

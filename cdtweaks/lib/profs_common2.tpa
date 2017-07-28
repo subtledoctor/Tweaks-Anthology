@@ -47,13 +47,10 @@ OUTER_INNER_PATCH_SAVE flail ~%flail_temp%~ BEGIN // generic flail string has tr
   REPLACE_TEXTUALLY ~\([^ ]+\) *~ ~\1~ // remove trailing space
 END
 
-// since morning star can also be morningstar, we dance a little for the matches
-ACTION_IF ("%LANGUAGE%" STRING_COMPARE_CASE "ENGLISH" = 0) BEGIN
-  OUTER_SPRINT mstar1 "Morning"
-  OUTER_SPRINT mstar2 "star"
-END ELSE BEGIN
-  ACTION_GET_STRREF  6853 mstar1
-  OUTER_SPRINT mstar2 ""
+// one more bit of hackery for that damned ninja-to (thanks to argent77)
+OUTER_TEXT_SPRINT ninjato_special ~Ninja-?t..~
+OUTER_PATCH_SAVE ninjato_special ~%ninjato_special%~ BEGIN
+  WRITE_SHORT (STRING_LENGTH ~%ninjato_special%~ - 2) 0x8dc5   // utf-8 code of "lowercase O with macron"
 END
 
 // add a few from the tra files
@@ -114,7 +111,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
     READ_BYTE 0x33 "fx_type" ELSE 2
     SET "min_size" = 0x2d4
   END
-  PATCH_IF (SOURCE_SIZE >= min_size) BEGIN
+  PATCH_IF (SOURCE_SIZE >= min_size) BEGIN // exclude joinable cre files
     FOR (index = (0 - global_loop) ; index < abil_num ; index = index + 1) BEGIN
       PATCH_IF ("%index%" < 0) BEGIN // if loop through globals needed
         SET "abil_fx_idx" = 0
