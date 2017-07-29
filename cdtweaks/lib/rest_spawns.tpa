@@ -15,11 +15,6 @@ ACTION_IF GAME_IS ~iwd2~ BEGIN
 END
 
 COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
-  PATCH_IF alleg_off = 0x314 BEGIN // pst
-    WRITE_BYTE 0x14 (THIS | BIT1) // this bit is called "Tutorial" in NI, but is really the can_not_sleep one.
-  END ELSE BEGIN
-    WRITE_BYTE 0x48 (THIS | BIT7)
-  END
   PATCH_IF factor != 100 BEGIN // don't bother if no change
     READ_LONG rest_offr rest_off
     READ_SHORT (rest_off + 0xa6) active
