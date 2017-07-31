@@ -43,7 +43,7 @@ LANGUAGE
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
 LANGUAGE
-  ~Czech (Translation by Razfallow and Vlas�k)~
+  ~Czech (Translation by Razfallow and Vlasák)~
   ~czech~
   ~cdtweaks/languages/english/setup.tra~
   ~cdtweaks/languages/czech/setup.tra~
@@ -91,12 +91,17 @@ LANGUAGE
   ~cdtweaks/languages/spanish/description_updates.tra~
   ~cdtweaks/languages/spanish/setup.tra~
 LANGUAGE
-  ~Chinese (translated by Miranda)~
-  ~chinese~
+  ~Simplified Chinese 简体中文 (Translation from bg2_tweaks by Miranda, distance20 and c4_angel for anthology)~
+  /*
+    The folder name should be schinese to work properly with HANDLE_CHARSETS.
+    And also make difference between simplified and traditional Chinese.
+    Will add the tradition Chinese translation soon.
+  */
+  ~schinese~
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
-  ~cdtweaks/languages/chinese/description_updates.tra~
-  ~cdtweaks/languages/chinese/setup.tra~
+  ~cdtweaks/languages/schinese/description_updates.tra~
+  ~cdtweaks/languages/schinese/setup.tra~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -881,7 +886,8 @@ REQUIRE_PREDICATE (("%LANGUAGE%" STRING_COMPARE_CASE "english" = 0) OR
                    ("%LANGUAGE%" STRING_COMPARE_CASE "german" = 0) OR
                    ("%LANGUAGE%" STRING_COMPARE_CASE "italian" = 0) OR
                    ("%LANGUAGE%" STRING_COMPARE_CASE "russian" = 0) OR
-                   ("%LANGUAGE%" STRING_COMPARE_CASE "spanish" = 0)) @7 // english/french/german/italian/russian/spanish only
+                   ("%LANGUAGE%" STRING_COMPARE_CASE "schinese" = 0) OR // schinese language supported
+                   ("%LANGUAGE%" STRING_COMPARE_CASE "spanish" = 0)) @7 // english/french/german/italian/russian/spanish/schinese only
 
 OUTER_SET names = 1 // set names
 INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
@@ -10049,8 +10055,8 @@ END
 COMPILE ~cdtweaks/dlg/ano_rom_fix.d~
 
 ACTION_IF ((romance_use_config_values = 1) AND NOT // sanity check; if no changes specified in config, do normal prompting
-          ((romance_racial_requirements != 1) AND 
-           (romance_gender_requirements != 1) AND 
+          ((remove_romance_racial_requirements != 1) AND 
+           (remove_romance_gender_requirements != 1) AND 
            (romance_multiple != 1) AND 
            ((romance_nothing_kills != 1) OR (romance_multiple != 1)) AND
            ((romance_starts_in_ToB != 1) OR (!GAME_IS ~soa~))))  THEN BEGIN
@@ -10058,10 +10064,10 @@ ACTION_IF ((romance_use_config_values = 1) AND NOT // sanity check; if no change
   // print mini-summary for debug
   PRINT @26
   PRINT @318309
-  ACTION_IF romance_racial_requirements = 1 THEN BEGIN
+  ACTION_IF remove_romance_racial_requirements = 1 THEN BEGIN
     PRINT @318302
   END
-  ACTION_IF romance_gender_requirements = 1 THEN BEGIN
+  ACTION_IF remove_romance_gender_requirements = 1 THEN BEGIN
     PRINT @318304
   END
   ACTION_IF romance_multiple = 1 THEN BEGIN
@@ -10080,20 +10086,20 @@ END ELSE BEGIN
 
   // questions to set options
   OUTER_SET romance_proceed = 0
-  OUTER_SET romance_racial_requirements = 0
-  OUTER_SET romance_gender_requirements = 0
+  OUTER_SET remove_romance_racial_requirements = 0
+  OUTER_SET remove_romance_gender_requirements = 0
   OUTER_SET romance_multiple = 0
   OUTER_SET romance_nothing_kills = 0
   OUTER_SET romance_starts_in_ToB = 0
   
   OUTER_WHILE (romance_proceed != 1) BEGIN
-    OUTER_WHILE ((romance_racial_requirements != 1) AND (romance_racial_requirements != 2)) BEGIN // stay here until we have a 1 or a 2
+    OUTER_WHILE ((remove_romance_racial_requirements != 1) AND (remove_romance_racial_requirements != 2)) BEGIN // stay here until we have a 1 or a 2
       PRINT @318301
-      ACTION_READLN romance_racial_requirements
+      ACTION_READLN remove_romance_racial_requirements
     END
-    OUTER_WHILE ((romance_gender_requirements != 1) AND (romance_gender_requirements != 2)) BEGIN // stay here until we have a 1 or a 2
+    OUTER_WHILE ((remove_romance_gender_requirements != 1) AND (remove_romance_gender_requirements != 2)) BEGIN // stay here until we have a 1 or a 2
       PRINT @318303
-      ACTION_READLN romance_gender_requirements
+      ACTION_READLN remove_romance_gender_requirements
     END
     OUTER_WHILE ((romance_multiple != 1) AND (romance_multiple != 2)) BEGIN // stay here until we have a 1 or a 2
       PRINT @318305
@@ -10112,16 +10118,16 @@ END ELSE BEGIN
       END
     END
     // sanity check, make sure some change has been selected
-    ACTION_IF ((romance_racial_requirements != 1) AND (romance_gender_requirements != 1) AND (romance_multiple != 1) AND (romance_nothing_kills != 1) AND (romance_starts_in_ToB != 1)) BEGIN
+    ACTION_IF ((remove_romance_racial_requirements != 1) AND (remove_romance_gender_requirements != 1) AND (romance_multiple != 1) AND (romance_nothing_kills != 1) AND (romance_starts_in_ToB != 1)) BEGIN
       OUTER_SET romance_proceed = 2
       PRINT @321014
     END ELSE BEGIN
       // print summary of options before proceeding
       PRINT @318309
-      ACTION_IF romance_racial_requirements = 1 THEN BEGIN
+      ACTION_IF remove_romance_racial_requirements = 1 THEN BEGIN
         PRINT @318302
       END
-      ACTION_IF romance_gender_requirements = 1 THEN BEGIN
+      ACTION_IF remove_romance_gender_requirements = 1 THEN BEGIN
         PRINT @318304
       END
       ACTION_IF romance_multiple = 1 THEN BEGIN
@@ -10140,8 +10146,8 @@ END ELSE BEGIN
     END
     ACTION_IF (romance_proceed = 2) THEN BEGIN
       OUTER_SET romance_proceed = 0
-      OUTER_SET romance_racial_requirements = 0
-      OUTER_SET romance_gender_requirements = 0
+      OUTER_SET remove_romance_racial_requirements = 0
+      OUTER_SET remove_romance_gender_requirements = 0
       OUTER_SET romance_multiple = 0
       OUTER_SET romance_nothing_kills = 0
       OUTER_SET romance_starts_in_ToB = 0
@@ -10162,13 +10168,13 @@ ACTION_IF (romance_starts_in_ToB = 1) THEN BEGIN
     COMPILE ~cdtweaks/dlg/rom_start_tob.d~
   END
 
-  ACTION_IF (romance_gender_requirements != 1) THEN BEGIN // if gender reqs intact
+  ACTION_IF (remove_romance_gender_requirements != 1) THEN BEGIN // if gender reqs intact
 
     COMPILE ~cdtweaks/dlg/rom_start_tob_gender.d~
 
   END
 
-  ACTION_IF (romance_racial_requirements != 1) THEN BEGIN // if  race reqs intact
+  ACTION_IF (remove_romance_racial_requirements != 1) THEN BEGIN // if  race reqs intact
 
     COMPILE ~cdtweaks/dlg/rom_start_tob_race.d~
 
@@ -10182,7 +10188,7 @@ ACTION_IF (romance_starts_in_ToB = 1) THEN BEGIN
 
 END
 
-ACTION_IF ((romance_racial_requirements = 1) OR (romance_gender_requirements = 1)) BEGIN
+ACTION_IF ((remove_romance_racial_requirements = 1) OR (remove_romance_gender_requirements = 1)) BEGIN
 
   ACTION_PHP_EACH cd_romances AS npc => tob BEGIN
     
@@ -10190,7 +10196,7 @@ ACTION_IF ((romance_racial_requirements = 1) OR (romance_gender_requirements = 1
   
   END
       
-  ACTION_IF (romance_racial_requirements != 1) BEGIN // if racial requirements intact (ee romances have no racial reqs)
+  ACTION_IF (remove_romance_racial_requirements != 1) BEGIN // if racial requirements intact (ee romances have no racial reqs)
   
     COPY_EXISTING ~aerie.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
@@ -10216,7 +10222,7 @@ ACTION_IF ((romance_racial_requirements = 1) OR (romance_gender_requirements = 1
   
   END
       
-  ACTION_IF (romance_gender_requirements != 1) BEGIN // if gender requirements intact
+  ACTION_IF (remove_romance_gender_requirements != 1) BEGIN // if gender requirements intact
   
     ACTION_FOR_EACH npc IN aerie jaheira neera viconia BEGIN
   

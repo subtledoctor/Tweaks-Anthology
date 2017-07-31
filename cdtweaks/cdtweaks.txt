@@ -12,11 +12,11 @@ OUTER_SET romance_use_config_values = 0
 
 // This variable will remove the racial requirement if set to 1
 // e.g. a value of 1 will allow Viconia to romance gnomes, or Aerie half-orcs
-OUTER_SET romance_racial_requirements = 0
+OUTER_SET remove_romance_racial_requirements = 0
 
 // This variable will remove the gender-based requirements for romances if set to 1
 // e.g. a value of 1 will allow Anomen to romance males or Jaheira to romance females
-OUTER_SET romance_gender_requirements = 0
+OUTER_SET remove_romance_gender_requirements = 0
 
 // This variable will allow multiple romances if set to 1
 // e.g. a value of 1 will allow you to romance both Jaheira and Aerie
