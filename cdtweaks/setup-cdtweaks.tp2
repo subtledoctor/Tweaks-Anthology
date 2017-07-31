@@ -54,7 +54,7 @@ LANGUAGE
   ~cdtweaks/languages/english/setup.tra~
   ~cdtweaks/languages/french/description_updates.tra~
   ~cdtweaks/languages/french/setup.tra~
-LANGUAGE 
+LANGUAGE
   ~Deutsch (Uebersetzung von Leonardo Watson, Caswallon und Jester)~
   ~german~
   ~cdtweaks/languages/english/description_updates.tra~
@@ -7021,7 +7021,7 @@ END
 BEGIN @229200 DESIGNATED 2292
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
-//REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 
 // use cleric level progression
 INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
@@ -7110,6 +7110,30 @@ END ELSE BEGIN
   COPY ~cdtweaks/2da/un_mxsplprs.2da~ ~override/mxspldru.2da~
 
 END
+
+// use cleric level progression
+INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Alter druid Spell/level Progression Table (BG/IWD)         \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// cleric level, normal druid spells                          \\\\\
+/////                                                            \\\\\
+
+// why is this here separately? Because WeiDU doesn't handle a pile of
+// subcomponents with different REQUIRE_PREDICATEs very well.
+// this allows this component to be installed for BG/IWD. 
+
+BEGIN @229200 DESIGNATED 2297
+GROUP @9
+//SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE NOT ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 
 // use cleric level progression
 INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
@@ -8173,14 +8197,14 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
             ("%SOURCE_RES%" STRING_COMPARE_CASE "helm34") AND
             ("%SOURCE_RES%" STRING_COMPARE_CASE "mh#ioun1") AND
             ("%SOURCE_RES%" STRING_COMPARE_CASE "misc5x")) BEGIN // exclude jaheira's harper pin
-    READ_LONG  0x18 use
     READ_SHORT 0x1c type
+    READ_LONG  0x1e use
     PATCH_IF type = 7 BEGIN // helmets
       PATCH_IF ((use BAND BIT6) = BIT6) BEGIN        // if unusable by bards (regular helmet)...
-        WRITE_LONG 0x18 ((THIS BOR BIT12) BOR BIT30) // adds f/d, druid flags
+        WRITE_LONG 0x1e ((THIS BOR BIT12) BOR BIT30) // adds f/d, druid flags
       END ELSE BEGIN                                 // if not helmet, assume ioun stone
         PATCH_IF ((use BAND BIT30) = BIT30) BEGIN    // if unusable by druids...
-          WRITE_LONG 0x18 (THIS BOR BIT12)           // adds f/d flag
+          WRITE_LONG 0x1e (THIS BOR BIT12)           // adds f/d flag
         END 
       END
     END ELSE
@@ -8194,11 +8218,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
               (type = 35)) BEGIN // wands
       PATCH_IF (((use BAND BIT30) = BIT30) AND    // if unusable by druids...
                 ((use BAND BIT11) = BIT11)) BEGIN // ...and unusable by fighters...
-        WRITE_LONG 0x18 (THIS BOR BIT12)          // adds f/d flag
+        WRITE_LONG 0x1e (THIS BOR BIT12)          // adds f/d flag
       END
     END ELSE BEGIN // all other item types
       PATCH_IF ((use BAND BIT30) = BIT30) BEGIN // if unusable by druids...
-        WRITE_LONG 0x18 (THIS BOR BIT12)        // adds f/d flag
+        WRITE_LONG 0x1e (THIS BOR BIT12)        // adds f/d flag
       END
     END
   END
@@ -8648,7 +8672,7 @@ COPY + ~cdtweaks/2da/common_armor_list.2da~ ~cdtweaks/2da/common_armor_list.2da~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @253000 DESIGNATED 2530
-//GROUP @9
+GROUP @9
 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee iwd2~ @25
 
 OUTER_SET proj_protect = 1
