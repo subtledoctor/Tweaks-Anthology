@@ -18,11 +18,11 @@ END ELSE BEGIN
 
       ACTION_IF GAME_IS ~bgt~ THEN BEGIN
 
-        INCLUDE ~cdtweaks/lib/g3_bgt_cpmvars.tph~ // bgt
+        INCLUDE ~cdtweaks/lib/g3_bgt_cpmvars.tpa~ // bgt
 
       END ELSE BEGIN
 
-        INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tph~ // vanilla bg
+        INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~ // vanilla bg
       
       END
 

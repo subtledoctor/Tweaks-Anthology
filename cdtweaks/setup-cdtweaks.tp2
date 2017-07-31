@@ -8648,7 +8648,7 @@ COPY + ~cdtweaks/2da/common_armor_list.2da~ ~cdtweaks/2da/common_armor_list.2da~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @253000 DESIGNATED 2530
-GROUP @9
+//GROUP @9
 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee iwd2~ @25
 
 OUTER_SET proj_protect = 1
@@ -8720,11 +8720,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
       FOR (index2 = 0 ; index2 < counter ; ++index2) BEGIN
         READ_SHORT (fx_off        + ((abil_fx_idx + index2) * 0x30)) opcode
         READ_LONG  (fx_off + 0x08 + ((abil_fx_idx + index2) * 0x30)) param2
-        PATCH_IF (((opcode = 83) OR (opcode = 197)) AND (param2 = 39) AND ) BEGIN      // reflect/immunity to existing lightning bolt
-          READ_ASCII   (fx_off        + ((abil_fx_idx + index2) * 0x30)) clone (48)    // read existing effect
-          INSERT_BYTES (fx_off        + ((abil_fx_idx + index2) * 0x30)) 0x30          // insert bytes
-          WRITE_ASCIIE (fx_off        + ((abil_fx_idx + index2) * 0x30)) "%clone%" #48 // write existing effect
-          WRITE_LONG   (fx_off + 0x08 + ((abil_fx_idx + index2) * 0x30)) (lightb - 1)  // update to new projectile
+        PATCH_IF (((opcode = 83) OR (opcode = 197)) AND (param2 = 39)) BEGIN            // reflect/immunity to existing lightning bolt
+          READ_ASCII   (fx_off        + ((abil_fx_idx + index2) * 0x30)) clone (48)     // read existing effect
+          INSERT_BYTES (fx_off        + ((abil_fx_idx + index2) * 0x30)) 0x30           // insert bytes
+          WRITE_ASCIIE (fx_off        + ((abil_fx_idx + index2) * 0x30)) "%clone%" #48  // write existing effect
+          WRITE_LONG   (fx_off + 0x08 + ((abil_fx_idx + index2) * 0x30)) (cdlightb - 1) // update to new projectile
           SET new_fx += 1
           SET index2 += 1
           SET counter += 1
@@ -8735,12 +8735,12 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
     PATCH_IF projectile = 40 BEGIN
       WRITE_SHORT  (abil_off + pro_off + (abil_length * index)) cdlightb
       PATCH_IF proj_protect BEGIN
-        INSERT_BYTES (fx_off        + (abil_fx_idx * 0x30)) 0x30         // insert bytes for new effect
-        WRITE_SHORT  (fx_off        + (abil_fx_idx * 0x30)) 83           // immunity to projectile
-        WRITE_BYTE   (fx_off + 0x02 + (abil_fx_idx * 0x30)) 1            // target:self
-        WRITE_LONG   (fx_off + 0x08 + (abil_fx_idx * 0x30)) (lightb - 1) // new lightning projectile
-        WRITE_LONG   (fx_off + 0x0e + (abil_fx_idx * 0x30)) 2            // duration
-        WRITE_BYTE   (fx_off + 0x12 + (abil_fx_idx * 0x30)) 100          // probability
+        INSERT_BYTES (fx_off        + (abil_fx_idx * 0x30)) 0x30           // insert bytes for new effect
+        WRITE_SHORT  (fx_off        + (abil_fx_idx * 0x30)) 83             // immunity to projectile
+        WRITE_BYTE   (fx_off + 0x02 + (abil_fx_idx * 0x30)) 1              // target:self
+        WRITE_LONG   (fx_off + 0x08 + (abil_fx_idx * 0x30)) (cdlightb - 1) // new lightning projectile
+        WRITE_LONG   (fx_off + 0x0e + (abil_fx_idx * 0x30)) 2              // duration
+        WRITE_BYTE   (fx_off + 0x12 + (abil_fx_idx * 0x30)) 100            // probability
         SET new_fx += 1
         SET counter += 1
       END
@@ -10474,7 +10474,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
     END
   END
   BUT_ONLY
-  
+
 // get prices from lookup table
 ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_prices BEGIN
   _blun01  =>    1 // club, tutu

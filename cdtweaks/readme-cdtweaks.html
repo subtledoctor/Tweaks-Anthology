@@ -1233,8 +1233,8 @@
         </tr>
       </table>
       <p><strong>Level-Locked Spell Scrolls (Angel)</strong><br />
-        <em>All games except IWD2, PsT, PstEE</em></p>
-      <p>This component will restrict casting spells from arcane spell scrolls to the level that the spell can normally be cast by a mage. For example, Aganazzar's Scorcher is a second level spell, and mages can cast the spell until they reach level three. As such, the scroll is made unavailable to characters until they reach level three. </p>
+        <em>BG2, Tutu, BGT, BGEE, BG2EE, IWDEE</em></p>
+      <p>This component will restrict casting spells from   scrolls to the level that the spell can normally be cast by a mage, plus one level beyond. For example, a fifth-level mage can memorize and cast spells of level three or below. With this tweak installed the mage would be able to use spell scrolls of level four or below, e.g. they could use a Stoneskin scroll (level four) but not a Cloudkill scroll (level five). These level requirements do not affect the ability of a mage to scribe a spell into their spellbook, just to cast spells from them. </p>
       <p><strong>Allow Mages to Use Bucklers and Thieves to Use Small Shields (Angel)</strong><br />
         <em>All games except IWD2, PsT, PstEE</em></p>
       <p>As it says on the label, this component will allow single-class mages and sorcerers to use bucklers, and allow bards and single-class thieves to use small shields. </p>
@@ -1653,7 +1653,7 @@
       <p> This depressed elf mage has the lowest constitution in the game, giving him      low survivability. Add to this a general lack of strong attack      spells as an enchanter. Inspired by Kulyok's Xan mods for both BG1 and BG2,      this mod makes Xan the only straight generalist mage in the game. This gives      him access to all mage spells in the game to help offset his overall weakness.      There is a trade-off, however, since he will not have the extra spells given      to the specialist mages.</p>
       <p><strong>Don't Auto-Assign Advanced AI Scripting to Party</strong><br />
         <em>BGEE,   BG2EE, EET</em></p>
-      <p> Party members automatically get assigned the 'Advanced AI' script in BGEE/BG2EE. This component alters the NPCs to instead come with no AI script assigned, as they do in vanilla BG/BG2 games. </p>
+      <p> Party members automatically get assigned the 'Advanced AI' script in BGEE/BG2EE. This component alters the NPCs to instead come with the &quot;DEFAULT&quot; AI script assigned, which does nothing, as they do in vanilla BG/BG2 games. </p>
     </div>
     <div class="ribbon_rectangle_h2"><a id="Contact" name="Contact"></a>
       <h2>Contact Information</h2>
@@ -1706,7 +1706,7 @@
       <p>Thanks to the folks at G3 who
         contributed ideas for the various components. Thank you as well to our translators:</p>
       <ul>
-        <li><strong>Chinese</strong>: Miranda </li>
+        <li><strong>Chinese</strong>: Translation from BG2 Tweaks by Miranda, distance20 and c4_angel for Anthology </li>
         <li><strong>Czech</strong>: Razfallow, Vlas&aacute;k</li>
         <li><strong>French</strong>: Elgaern the Dragon Slayer, elminster, Isaya,
           Anomaly </li>
@@ -1765,12 +1765,17 @@
     <div class="ribbon_triangle_h2-l"></div>
     <div class="ribbon_triangle_h2-r"></div>
     <div class="section">
-      <p><strong>Version 3 - July 30, 2017</strong></p>
+      <p><strong>Version 3 - July 31, 2017</strong></p>
       <ul>
         <li><strong>Bottomless Bags of Holding</strong> now works for PsTEE</li>
-        <li>The <strong>Exotic Item Pack</strong> was missing a library and could fail to install on EET</li>
+        <li>The <strong>Exotic Item Pack</strong> could fail to install on EET, BGT, or BG1 due to typos and a missing library. Strings for the items could also potentially be incorrect.</li>
         <li><strong>Increase Ammo Stack Size</strong> had a typo in the library that would prevent installation</li>
         <li><strong>Disable Non-Hostile Rest Spawns</strong> and <strong>Alter Hostile Rest Spawns</strong> were also enabling <strong>Rest Anywhere</strong></li>
+        <li><strong>Level-Locked Spell Scrolls</strong> now covers divine spell scrolls, and allows for casting of spells one level beyond spells available to the priest or mage</li>
+        <li>Tightening restrictions with <strong>Change Item Restrictions for Multi- and Dual-class Druids</strong> would erroneously lock Jaheira out of her Harper Pin</li>
+        <li><strong>Don't Auto-Assign Advanced AI Scripting to Party</strong> will now assign the &quot;DEFAULT&quot; script, instead of none, to party members</li>
+        <li>Updated Chinese translation thanks to c4_angel</li>
+        <li>Updated variable names for the <strong>Romance Cheats</strong> component</li>
       </ul>
       <p><strong>Version 2 - July 27, 2017</strong></p>
       <ul>
