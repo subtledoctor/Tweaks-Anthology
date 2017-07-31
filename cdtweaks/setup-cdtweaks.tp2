@@ -2396,7 +2396,7 @@ END ELSE BEGIN // bgt, tutu
   ACTION_IF NOT FILE_EXISTS_IN_GAME ~%tutu_var%tem4003.sto~ THEN BEGIN // if Gullykin does not have a store already
 
     COPY_EXISTING ~%tutu_var%tem4802.sto~ ~override/%tutu_var%tem4003.sto~ // clones and renames Temple of Helm
-      SAY 0x0C @190022
+      SAY 0x0C @109022
 
   END
   
@@ -2412,47 +2412,47 @@ COPY ~cdtweaks/bam/cdiammo.bam~  ~override~
 
 // add and name items
 COPY ~cdtweaks/itm/cdplquiv.itm~ ~override~ // quiver of plenty +0
-  SAY 0x08 @190001
-  SAY 0x0c @190001
-  SAY 0x50 @190002
-  SAY 0x54 @190002
+  SAY 0x08 @109001
+  SAY 0x0c @109001
+  SAY 0x50 @109002
+  SAY 0x54 @109002
 
 COPY ~cdtweaks/itm/cdplcase.itm~ ~override~ // case of plenty +0
-  SAY 0x08 @190003
-  SAY 0x0c @190003
-  SAY 0x50 @190004
-  SAY 0x54 @190004
+  SAY 0x08 @109003
+  SAY 0x0c @109003
+  SAY 0x50 @109004
+  SAY 0x54 @109004
 
 COPY ~cdtweaks/itm/cdplbag.itm~ ~override~ // bag of plenty +0
-  SAY 0x08 @190005
-  SAY 0x0c @190005
-  SAY 0x50 @190006
-  SAY 0x54 @190006
+  SAY 0x08 @109005
+  SAY 0x0c @109005
+  SAY 0x50 @109006
+  SAY 0x54 @109006
 
 COPY ~cdtweaks/itm/cdioun1.itm~ ~override~  // Deep Purple Ioun Stone
-  SAY 0x0c @190007
-  SAY 0x54 @190008
+  SAY 0x0c @109007
+  SAY 0x54 @109008
   WRITE_LONG 0x08 generic_ioun_name
   WRITE_LONG 0x50 generic_ioun_desc
 
 COPY ~cdtweaks/itm/cdioun2.itm~ ~override~ // Flickering White Ioun Stone
-  SAY 0x0c @190009
-  SAY 0x54 @190010
+  SAY 0x0c @109009
+  SAY 0x54 @109010
   WRITE_LONG 0x08 generic_ioun_name
   WRITE_LONG 0x50 generic_ioun_desc
 
 COPY ~cdtweaks/itm/cdkat2.itm~ ~override~ // Katana +2
-  SAY 0x0c @190013
-  SAY 0x54 @190014
+  SAY 0x0c @109013
+  SAY 0x54 @109014
   WRITE_LONG 0x08 generic_kat_name
   WRITE_LONG 0x50 generic_kat_desc
-  SAY 0x19e @190015 // wisdom modification
-  SAY 0x1fe @190021 // strength modification
-  SAY 0x25e @190020 // intelligence modification
-  SAY 0x2be @190019 // hit point modification
-  SAY 0x31e @190017 // dexterity modification
-  SAY 0x37e @190016 // constitution modification
-  SAY 0x3de @190018 // charisma modification
+  SAY 0x19e @109015 // wisdom modification
+  SAY 0x1fe @109021 // strength modification
+  SAY 0x25e @109020 // intelligence modification
+  SAY 0x2be @109019 // hit point modification
+  SAY 0x31e @109017 // dexterity modification
+  SAY 0x37e @109016 // constitution modification
+  SAY 0x3de @109018 // charisma modification
 
 LAF cd_extend_bg_area_script STR_VAR area = EVAL "%CloakwoodMines_L4%"           script = ~cdtweaks/baf/_ar1803~ END  // adds Contagion scroll to Davaeorn's loot
 LAF cd_extend_bg_area_script STR_VAR area = EVAL "%Lighthouse_BlackAlaricsCave%" script = ~cdtweaks/baf/_ar3601~ END  // adds Ninja-To +0 to Sirine cave loot
@@ -7015,7 +7015,7 @@ END
 BEGIN @229200 DESIGNATED 2292
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
-REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+//REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
 
 // use cleric level progression
 INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
@@ -8161,9 +8161,40 @@ SUBCOMPONENT @243001
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
   
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_BYTE 0x21 use
-  PATCH_IF ((use BAND BIT6) = BIT6) BEGIN // if unusable by druids...
-    WRITE_BYTE 0x1f (THIS BOR BIT4)       // adds f/d flag
+  PATCH_IF (("%SOURCE_RES%" STRING_COMPARE_CASE "cdrelm") AND
+            ("%SOURCE_RES%" STRING_COMPARE_CASE "d1brac02") AND
+            ("%SOURCE_RES%" STRING_COMPARE_CASE "gauntem") AND
+            ("%SOURCE_RES%" STRING_COMPARE_CASE "helm34") AND
+            ("%SOURCE_RES%" STRING_COMPARE_CASE "mh#ioun1") AND
+            ("%SOURCE_RES%" STRING_COMPARE_CASE "misc5x")) BEGIN // exclude jaheira's harper pin
+    READ_LONG  0x18 use
+    READ_SHORT 0x1c type
+    PATCH_IF type = 7 BEGIN // helmets
+      PATCH_IF ((use BAND BIT6) = BIT6) BEGIN        // if unusable by bards (regular helmet)...
+        WRITE_LONG 0x18 ((THIS BOR BIT12) BOR BIT30) // adds f/d, druid flags
+      END ELSE BEGIN                                 // if not helmet, assume ioun stone
+        PATCH_IF ((use BAND BIT30) = BIT30) BEGIN    // if unusable by druids...
+          WRITE_LONG 0x18 (THIS BOR BIT12)           // adds f/d flag
+        END 
+      END
+    END ELSE
+    PATCH_IF ((type = 1) OR      // amulets
+              (type = 3) OR      // belts
+              (type = 4) OR      // boots
+              (type = 6) OR      // bracers
+              (type = 9) OR      // potions
+              (type = 10) OR     // rings
+              (type = 32) OR     // cloaks
+              (type = 35)) BEGIN // wands
+      PATCH_IF (((use BAND BIT30) = BIT30) AND    // if unusable by druids...
+                ((use BAND BIT11) = BIT11)) BEGIN // ...and unusable by fighters...
+        WRITE_LONG 0x18 (THIS BOR BIT12)          // adds f/d flag
+      END
+    END ELSE BEGIN // all other item types
+      PATCH_IF ((use BAND BIT30) = BIT30) BEGIN // if unusable by druids...
+        WRITE_LONG 0x18 (THIS BOR BIT12)        // adds f/d flag
+      END
+    END
   END
   BUT_ONLY
 
@@ -8525,7 +8556,7 @@ COPY_EXISTING ~strmodex.2da~ ~override~
 
 BEGIN @251000 DESIGNATED 2510
 GROUP @9
-REQUIRE_PREDICATE GAME_IS ~soa tob bg1 totsc iwd how totlm tutu tutu_totsc bgt ca iwd_in_bg2 bgee bg2ee eet iwdee~ @25
+REQUIRE_PREDICATE GAME_IS ~soa tob tutu tutu_totsc bgt ca iwd_in_bg2 bgee bg2ee eet iwdee~ @25
 
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   READ_SHORT 0x1c type
@@ -8541,10 +8572,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
         READ_SHORT (fx_off +        (0x30 * (abil_fx_idx + index2))) opcode
         PATCH_IF ((opcode = 146) OR (opcode = 148)) BEGIN // cast spell
           READ_ASCII (fx_off + 0x14 + (0x30 * (abil_fx_idx + index2))) spell
-          PATCH_IF ("%spell%" STRING_COMPARE_REGEXP ~[Ss][Pp][Ww][Ii][1-9][0-9][0-9]~ = 0) BEGIN
+          PATCH_IF ("%spell%" STRING_COMPARE_REGEXP ~[Ss][Pp][PpWw][RrIi][3-9][0-9][0-9]~ = 0) BEGIN // levels 1&2 usable by level 0/1, so no need for level requirements
+            PATCH_IF ("%spell%" STRING_COMPARE_REGEXP ~[Ss][Pp][Ww][Ii][3-9][0-9][0-9]~ = 0) BEGIN SET level_break = 11 END ELSE BEGIN SET level_break = 13 END // account for extra level for priest 6>7 and wizard 5>6
             READ_BYTE  (fx_off + 0x18 + (0x30 * (abil_fx_idx + index2))) level
-            SET level = ((level - 0x30) * 2)
-            PATCH_IF level < 12 BEGIN
+            SET level = ((level - 0x31) * 2)
+            PATCH_IF level < level_break BEGIN
               SET level -= 1
             END
           END
@@ -8613,6 +8645,7 @@ BEGIN @253000 DESIGNATED 2530
 GROUP @9
 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee iwd2~ @25
 
+OUTER_SET proj_protect = 1
 ACTION_IF ((FILE_EXISTS_IN_GAME ~lightb.pro~) OR (FILE_EXISTS_IN_GAME ~idpro40.pro~)) THEN BEGIN // for EE games w/o hardcoded projectile...
 
   COPY_EXISTING ~idpro40.pro~ ~override~ // iwdee lightning bolt
@@ -8621,6 +8654,8 @@ ACTION_IF ((FILE_EXISTS_IN_GAME ~lightb.pro~) OR (FILE_EXISTS_IN_GAME ~idpro40.p
     WRITE_SHORT 0x200 (THIS BAND `BIT4)  // remove secondary projectile flag
     WRITE_SHORT 0x214 0                  // blank secondary projectile reference
     BUT_ONLY IF_EXISTS
+
+    OUTER_SET cdlightb = 40
 
 END ELSE BEGIN
 
@@ -8634,24 +8669,79 @@ END ELSE BEGIN
   END ELSE BEGIN // if engine without projectile files, we'll just change to hardcoded call lightning projectile
 
     OUTER_SET cdlightb = 23
+    OUTER_SET proj_protect = 0
 
   END
 
   INCLUDE ~cdtweaks/lib/macro_alter_header.tpa~
 
+  // update anything that is immune/reflects original lightning bolt to do the same with new projectile
   COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
-                            ~^.+\.itm$~ ~override~
-                            ~^.+\.spl$~ ~override~
-    READ_ASCII 0x00 type (3)
-    PATCH_IF ("%type%" STRING_COMPARE_CASE "cre") BEGIN // skip creatures for this step
-      LPF ALTER_HEADER INT_VAR silent = 1 match_projectile = 40 projectile = cdlightb END // update spells/items to use new projectile
-    END
-    // update anything that is immune/reflects original lightning bolt to do the same with new projectile
     LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode =  83 match_parameter2 = 39 parameter2 = (cdlightb - 1) END // immunity to projectile
     LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 197 match_parameter2 = 39 parameter2 = (cdlightb - 1) END // reflect projectile
     BUT_ONLY
 
 END
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+                          ~^.+\.spl$~ ~override~
+  READ_ASCII 0x00 type (3)
+  SET counter_offset = 0x70
+  READ_LONG  0x64 abil_off ELSE 0
+  READ_SHORT 0x68 abil_num ELSE 0
+  READ_LONG  0x6a fx_off   ELSE 0
+  PATCH_IF ("%type%" STRING_COMPARE_CASE "spl" = 0) BEGIN
+    SET abil_length    = 0x28
+    SET global_loop    = 0
+  END ELSE BEGIN // item
+    SET abil_length    = 0x38
+    SET global_loop    = 1
+  END
+  SET pro_off = abil_length = 0x38 ? 0x2a : 0x26
+  SET new_fx = 0
+  FOR (index = (0 - global_loop) ; index < abil_num ; ++index) BEGIN
+    PATCH_IF (index < 0) BEGIN // if loop through globals needed
+      SET abil_fx_idx = 0
+    END ELSE BEGIN // otherwise normal ability
+      SET proj_protect_add = 0
+      SET counter_offset = (abil_off + 0x1e + (abil_length * index))
+      READ_SHORT  (abil_off + 0x20 + (abil_length * index)) abil_fx_idx
+      SET abil_fx_idx += new_fx
+      WRITE_SHORT (abil_off + 0x20 + (abil_length * index)) (abil_fx_idx)
+    END
+    READ_SHORT counter_offset counter // fx_num on global loop, otherwise abil_fx_num
+    PATCH_IF (cdlightb != 40) BEGIN // don't bother with updating immunity/reflection if EE game where projectile number doesn't change
+      FOR (index2 = 0 ; index2 < counter ; ++index2) BEGIN
+        READ_SHORT (fx_off        + ((abil_fx_idx + index2) * 0x30)) opcode
+        READ_LONG  (fx_off + 0x08 + ((abil_fx_idx + index2) * 0x30)) param2
+        PATCH_IF (((opcode = 83) OR (opcode = 197)) AND (param2 = 39) AND ) BEGIN      // reflect/immunity to existing lightning bolt
+          READ_ASCII   (fx_off        + ((abil_fx_idx + index2) * 0x30)) clone (48)    // read existing effect
+          INSERT_BYTES (fx_off        + ((abil_fx_idx + index2) * 0x30)) 0x30          // insert bytes
+          WRITE_ASCIIE (fx_off        + ((abil_fx_idx + index2) * 0x30)) "%clone%" #48 // write existing effect
+          WRITE_LONG   (fx_off + 0x08 + ((abil_fx_idx + index2) * 0x30)) (lightb - 1)  // update to new projectile
+          SET new_fx += 1
+          SET index2 += 1
+          SET counter += 1
+        END
+      END
+    END
+    READ_SHORT  (abil_off + pro_off + (abil_length * index)) projectile
+    PATCH_IF projectile = 40 BEGIN
+      WRITE_SHORT  (abil_off + pro_off + (abil_length * index)) cdlightb
+      PATCH_IF proj_protect BEGIN
+        INSERT_BYTES (fx_off        + (abil_fx_idx * 0x30)) 0x30         // insert bytes for new effect
+        WRITE_SHORT  (fx_off        + (abil_fx_idx * 0x30)) 83           // immunity to projectile
+        WRITE_BYTE   (fx_off + 0x02 + (abil_fx_idx * 0x30)) 1            // target:self
+        WRITE_LONG   (fx_off + 0x08 + (abil_fx_idx * 0x30)) (lightb - 1) // new lightning projectile
+        WRITE_LONG   (fx_off + 0x0e + (abil_fx_idx * 0x30)) 2            // duration
+        WRITE_BYTE   (fx_off + 0x12 + (abil_fx_idx * 0x30)) 100          // probability
+        SET new_fx += 1
+        SET counter += 1
+      END
+    END
+    WRITE_SHORT counter_offset counter // fx_num on global loop, otherwise abil_fx_num
+  END
+  BUT_ONLY
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -10226,16 +10316,14 @@ GROUP @4
 
 ACTION_IF GAME_IS ~pst~ BEGIN
 
-  PRINT ~game is pst~
   COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
     WRITE_BYTE 0x14 (THIS | BIT1) // this bit is called "Tutorial" in NI, but is really the can_not_sleep one.
     BUT_ONLY
 
 END ELSE BEGIN
 
-  PRINT ~game is pstee~
   ACTION_IF GAME_IS ~pstee~ BEGIN
-  
+
     COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
       WRITE_LONG 0x14 ((THIS & `BIT7) & `BIT8) // removes can't rest, too dangerous to rest flags
       BUT_ONLY
@@ -12871,7 +12959,7 @@ GROUP @0
 REQUIRE_PREDICATE GAME_IS ~eet bgee bg2ee~ @25 // EEs with joinables
 
 COPY_EXISTING ~partyai.2da~ ~override~
-  REPLACE_TEXTUALLY ~\([ %TAB%]+\)BD[A-Z]+[ %TAB%]*~ ~\1NONE~
+  REPLACE_TEXTUALLY ~\([ %TAB%]+\)BD[A-Z]+[ %TAB%]*~ ~\1DEFAULT~
   BUT_ONLY
 
 COPY_EXISTING ~ar0602.bcs~ ~override~ // irenicus's dungeon
