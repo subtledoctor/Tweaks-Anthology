@@ -7133,7 +7133,7 @@ INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
 BEGIN @229200 DESIGNATED 2297
 GROUP @9
 //SUBCOMPONENT @229000 // alter druid progression
-REQUIRE_PREDICATE NOT ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc iwd how totlm~ @25
 
 // use cleric level progression
 INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
