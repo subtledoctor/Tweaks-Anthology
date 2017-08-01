@@ -1180,7 +1180,7 @@
       <p> Multi- and dual-class  clerics retain their restrictions on items,      i.e. a mage-cleric still cannot use daggers and a fighter-cleric can't      use swords. This component will open up more items for cleric      multi- and dual-classes by allowing them to use all items available to      both classes. </p>
       <p><strong>Change Item Restrictions for Multi- and Dual-class Druids</strong><br />
         <em>All games except IWD2, PsT, PsTEE</em></p>
-      <p> Multi- and dual-class fighter-druids  retain some restrictions on items,      i.e.  a fighter-druid can't      use plate armor. This component will allow the player to make these restrictions consistent, by either loosening restrictions--fighter-druids can use any items aavailable to fighters--or by tightening them--fighter-druids can only use items available to druids. </p>
+      <p> Multi- and dual-class fighter-druids  retain some restrictions on items,      i.e.  a fighter-druid can't      use plate armor. This component will allow the player to make these restrictions consistent, by either loosening restrictions--fighter-druids can use any items available to fighters--or by tightening them. Fighter-druids will be allowed amulets, belts, boots, bracers, cloaks, potions, rings, and wands available to fighters, but all other items (such as armor and weapons) will only be available to fighter-druids if single-class druids can use the item. Metallic helmets are also restricted. </p>
       <p><strong>Everyone Gets Bonus APR from Specialization (subtledoctor)</strong><br />
         <em>BGEE, BG2EE, IWDEE, EET</em></p>
       <p>Only warriors (fighters, paladins, rangers) gain extra attacks per round (APR) from specializing (or more) in weapon proficiencies. This component will grant these APR bonuses from specialization to all classes. Warriors will still receive their extra half-attack per round at levels 7 and 13. </p>
@@ -1772,10 +1772,13 @@
         <li><strong>Increase Ammo Stack Size</strong> had a typo in the library that would prevent installation</li>
         <li><strong>Disable Non-Hostile Rest Spawns</strong> and <strong>Alter Hostile Rest Spawns</strong> were also enabling <strong>Rest Anywhere</strong></li>
         <li><strong>Level-Locked Spell Scrolls</strong> now covers divine spell scrolls, and allows for casting of spells one level beyond spells available to the priest or mage</li>
-        <li>Tightening restrictions with <strong>Change Item Restrictions for Multi- and Dual-class Druids</strong> would erroneously lock Jaheira out of her Harper Pin</li>
         <li><strong>Don't Auto-Assign Advanced AI Scripting to Party</strong> will now assign the &quot;DEFAULT&quot; script, instead of none, to party members</li>
         <li>Updated Chinese translation thanks to c4_angel</li>
         <li>Updated variable names for the <strong>Romance Cheats</strong> component</li>
+        <li> <strong>Level-Locked Spell Scrolls</strong> is no longer an option for IWD/BG games,   as these engines ignore minimum level requirements in item files</li>
+        <li><strong>Lightning Bolts Don't Bounce</strong> will now protect the caster from being hit by his/her own lightning bolt for games which still use a multi-target projectile (everything but IWD/BG, which use a single-target projectile that can't hurt the caster)</li>
+        <li><strong>Alter Druid Spell and Level Progression Tables</strong>, specifically the option to have druids use the cleric XP progression table, is now available for IWD/BG games</li>
+        <li>The option to tighten restrictions via <strong>Change Item Restrictions for Multi- and Dual-class Druids</strong> is now more selective about tightening restrictions; among other things this fixes a bug where Jaheira got locked out of her Harper Pin</li>
       </ul>
       <p><strong>Version 2 - July 27, 2017</strong></p>
       <ul>
