@@ -8755,18 +8755,20 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
         END
       END
     END
-    READ_SHORT  (abil_off + pro_off + (abil_length * index)) projectile
-    PATCH_IF projectile = 40 BEGIN
-      WRITE_SHORT  (abil_off + pro_off + (abil_length * index)) cdlightb
-      PATCH_IF proj_protect BEGIN
-        INSERT_BYTES (fx_off        + (abil_fx_idx * 0x30)) 0x30           // insert bytes for new effect
-        WRITE_SHORT  (fx_off        + (abil_fx_idx * 0x30)) 83             // immunity to projectile
-        WRITE_BYTE   (fx_off + 0x02 + (abil_fx_idx * 0x30)) 1              // target:self
-        WRITE_LONG   (fx_off + 0x08 + (abil_fx_idx * 0x30)) (cdlightb - 1) // new lightning projectile
-        WRITE_LONG   (fx_off + 0x0e + (abil_fx_idx * 0x30)) 2              // duration
-        WRITE_BYTE   (fx_off + 0x12 + (abil_fx_idx * 0x30)) 100            // probability
-        SET new_fx += 1
-        SET counter += 1
+    PATCH_IF (index >= 0) BEGIN // skip on globals loop
+      READ_SHORT  (abil_off + pro_off + (abil_length * index)) projectile
+      PATCH_IF projectile = 40 BEGIN
+        WRITE_SHORT  (abil_off + pro_off + (abil_length * index)) cdlightb
+        PATCH_IF proj_protect BEGIN
+          INSERT_BYTES (fx_off        + (abil_fx_idx * 0x30)) 0x30           // insert bytes for new effect
+          WRITE_SHORT  (fx_off        + (abil_fx_idx * 0x30)) 83             // immunity to projectile
+          WRITE_BYTE   (fx_off + 0x02 + (abil_fx_idx * 0x30)) 1              // target:self
+          WRITE_LONG   (fx_off + 0x08 + (abil_fx_idx * 0x30)) (cdlightb - 1) // new lightning projectile
+          WRITE_LONG   (fx_off + 0x0e + (abil_fx_idx * 0x30)) 2              // duration
+          WRITE_BYTE   (fx_off + 0x12 + (abil_fx_idx * 0x30)) 100            // probability
+          SET new_fx += 1
+          SET counter += 1
+        END
       END
     END
     WRITE_SHORT counter_offset counter // fx_num on global loop, otherwise abil_fx_num
