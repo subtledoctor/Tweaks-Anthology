@@ -12,7 +12,7 @@ ALWAYS
   ACTION_IF NOT VARIABLE_IS_SET cd_always THEN BEGIN
 
     OUTER_SET cd_always = 1 // just do this once per install
-    
+
     INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
 
     ACTION_IF GAME_IS ~soa tob bgt ca tutu tutu_totsc iwd_in_bg2~ THEN BEGIN
@@ -31,7 +31,7 @@ ALWAYS
 
 END
 
-VERSION ~v2~
+VERSION ~v3~
 
 README ~cdtweaks/readme-cdtweaks.html~
 
