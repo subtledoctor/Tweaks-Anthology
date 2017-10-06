@@ -1,0 +1,52 @@
+/**
+ * Patches savegame names.
+ */
+
+// Inserts character name into the save name string (used internally)
+DEFINE_PATCH_FUNCTION a7_local_personalize
+STR_VAR
+  old_string = ~~
+  charname_string = ~~  // e.g. "(<CHARNAME>)-"
+RET new_string
+BEGIN
+  TEXT_SPRINT new_strig ~~
+
+  PATCH_IF (~%old_string%~ STRING_MATCHES_REGEXP ~[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-.+~ = 0) BEGIN
+    INNER_PATCH_SAVE new_string ~%old_string%~ BEGIN
+      REPLACE_TEXTUALLY ~\([0-9]+\)-\(.+\)~ ~\1-%charname_string%\2~
+    END
+    PATCH_IF (~%old_string%~ STR_EQ ~%new_string%~) BEGIN
+      TEXT_SPRINT new_strref ~~
+    END
+  END
+END
+
+DEFINE_ACTION_FUNCTION PERSONALIZE_SAVENAMES
+STR_VAR
+  charname_string = ~~  // e.g. "(<CHARNAME>)-" - Caution: Game does not handle all special characters properly
+BEGIN
+  COPY_EXISTING ~savename.2da~ ~override~
+    COUNT_2DA_COLS numCols
+    COUNT_2DA_ROWS numCols numRows
+
+    PATCH_IF (numRows > 0 && numCols >= 4) BEGIN
+      // updating individual values
+      FOR (idx = 0; idx < numRows; ++idx) BEGIN
+        READ_2DA_ENTRY idx 1 numCols value
+        PATCH_IF (IS_AN_INT ~value~) BEGIN
+          GET_STRREF value text
+          LPF a7_local_personalize
+          STR_VAR
+            old_string = EVAL ~%text%~
+            charname_string = EVAL ~%charname_string%~
+          RET new_string
+          END
+          PATCH_IF (NOT ~%new_string%~ STR_EQ ~~) BEGIN
+            SET value = RESOLVE_STR_REF(~%new_string%~)
+            SET_2DA_ENTRY idx 1 numCols ~%value%~
+          END
+        END
+      END
+    END
+  BUT_ONLY
+END

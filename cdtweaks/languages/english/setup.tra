@@ -1648,6 +1648,19 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 
 @328000 = ~Give Every Class/Kit Four Weapon Slots~
 
+@329000 = ~Personalize automatic save names~
+@329001 = ~Use scheme: 000000000-Protagonist-Save-Name~
+
+@329100 = ~Use scheme: 000000000-Protagonist Save-Name~
+
+@329200 = ~Use scheme: 000000000-(Protagonist)-Save-Name~
+
+@329300 = ~Use scheme: 000000000-(Protagonist) Save-Name~
+
+@329400 = ~Use scheme: 000000000-[Protagonist]-Save-Name~
+
+@329500 = ~Use scheme: 000000000-[Protagonist] Save-Name~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

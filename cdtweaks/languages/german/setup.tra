@@ -972,6 +972,14 @@ durchschnittlichem Ruf~
 @326700 = ~100% der Munition nach einem erfolgreichen Treffer wiederverwertbar, nur bei Gegnern~
 @327000 = ~Wiederverwertbare Wurfwaffen~
 
+@329000 = ~Individuelle Namen fuer automatische Speicherstaende~
+@329001 = ~Schema anwenden: 000000000-Protagonist-Save-Name~
+@329100 = ~Schema anwenden: 000000000-Protagonist Save-Name~
+@329200 = ~Schema anwenden: 000000000-(Protagonist)-Save-Name~
+@329300 = ~Schema anwenden: 000000000-(Protagonist) Save-Name~
+@329400 = ~Schema anwenden: 000000000-[Protagonist]-Save-Name~
+@329500 = ~Schema anwenden: 000000000-[Protagonist] Save-Name~
+
 @400000 = ~Reaktionswuerfe von anschlussfaehigen boesen NSCs anpassen~
 @401000 = ~Verbessertes Herbeirufen beim Geist des Schicksals~
 @402000 = ~TdB-Stil NSCs~
