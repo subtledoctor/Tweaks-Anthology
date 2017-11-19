@@ -12009,6 +12009,112 @@ COPY_EXISTING ~numwslot.2da~ ~override~
   REPLACE_TEXTUALLY ~\([ %TAB%]+\)[123][ %TAB%]*$~ ~\14~
   BUT_ONLY
 
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Personalize automatic save names                 \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// Use scheme: 000000000-Protagonist-Save-Name      \\\\\
+/////                                                  \\\\\
+
+BEGIN @329001 DESIGNATED 3290
+GROUP @4
+REQUIRE_PREDICATE (FILE_EXISTS_IN_GAME ~savename.2da~) @25 // EEs (since patch 2.0)
+SUBCOMPONENT @329000 // Personalize automatic save names
+
+INCLUDE ~cdtweaks/lib/personalized_save_names.tpa~
+
+LAF PERSONALIZE_SAVENAMES
+  STR_VAR
+    charname_string = ~<CHARNAME>-~
+END
+
+/////                                                  \\\\\
+///// Use scheme: 000000000-Protagonist Save-Name      \\\\\
+/////                                                  \\\\\
+
+BEGIN @329100 DESIGNATED 3291
+GROUP @4
+REQUIRE_PREDICATE (FILE_EXISTS_IN_GAME ~savename.2da~) @25 // EEs (since patch 2.0)
+SUBCOMPONENT @329000 // Personalize automatic save names
+
+INCLUDE ~cdtweaks/lib/personalized_save_names.tpa~
+
+LAF PERSONALIZE_SAVENAMES
+  STR_VAR
+    charname_string = ~<CHARNAME> ~
+END
+
+/////                                                  \\\\\
+///// Use scheme: 000000000-(Protagonist)-Save-Name    \\\\\
+/////                                                  \\\\\
+
+BEGIN @329200 DESIGNATED 3292
+GROUP @4
+REQUIRE_PREDICATE (FILE_EXISTS_IN_GAME ~savename.2da~) @25 // EEs (since patch 2.0)
+SUBCOMPONENT @329000 // Personalize automatic save names
+
+INCLUDE ~cdtweaks/lib/personalized_save_names.tpa~
+
+LAF PERSONALIZE_SAVENAMES
+  STR_VAR
+    charname_string = ~(<CHARNAME>)-~
+END
+
+/////                                                  \\\\\
+///// Use scheme: 000000000-(Protagonist) Save-Name    \\\\\
+/////                                                  \\\\\
+
+BEGIN @329300 DESIGNATED 3293
+GROUP @4
+REQUIRE_PREDICATE (FILE_EXISTS_IN_GAME ~savename.2da~) @25 // EEs (since patch 2.0)
+SUBCOMPONENT @329000 // Personalize automatic save names
+
+INCLUDE ~cdtweaks/lib/personalized_save_names.tpa~
+
+LAF PERSONALIZE_SAVENAMES
+  STR_VAR
+    charname_string = ~(<CHARNAME>) ~
+END
+
+/////                                                  \\\\\
+///// Use scheme: 000000000-[Protagonist]-Save-Name    \\\\\
+/////                                                  \\\\\
+
+BEGIN @329400 DESIGNATED 3294
+GROUP @4
+REQUIRE_PREDICATE (FILE_EXISTS_IN_GAME ~savename.2da~) @25 // EEs (since patch 2.0)
+SUBCOMPONENT @329000 // Personalize automatic save names
+
+INCLUDE ~cdtweaks/lib/personalized_save_names.tpa~
+
+LAF PERSONALIZE_SAVENAMES
+  STR_VAR
+    charname_string = ~\[<CHARNAME>\]-~
+END
+
+/////                                                  \\\\\
+///// Use scheme: 000000000-[Protagonist] Save-Name    \\\\\
+/////                                                  \\\\\
+
+BEGIN @329500 DESIGNATED 3295
+GROUP @4
+REQUIRE_PREDICATE (FILE_EXISTS_IN_GAME ~savename.2da~) @25 // EEs (since patch 2.0)
+SUBCOMPONENT @329000 // Personalize automatic save names
+
+INCLUDE ~cdtweaks/lib/personalized_save_names.tpa~
+
+LAF PERSONALIZE_SAVENAMES
+  STR_VAR
+    charname_string = ~\[<CHARNAME>\] ~
+END
+
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
