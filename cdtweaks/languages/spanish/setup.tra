@@ -735,6 +735,9 @@ Tipo: A una mano
 @203000 = ~Katanas de dos puños~
 
 @204000 = ~Palos universales~
+@204001 = ~^[ %TAB%]*No \(lo puede usar\|utilizable por\|usable por\|permitido a\)[ %TAB%]*:.*~
+@204002 = ~No permitido a:~
+@204003 = ~[%LNL%%MNL%%WNL%][- %TAB%]*\(El \)?Mago.*~
 
 @205000 = ~Actualizaciones a las Descripciones para los Palos Universales~
 @205001 = ~Requiere tener instalado el componente de Palos Universales~

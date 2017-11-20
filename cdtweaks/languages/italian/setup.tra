@@ -1061,6 +1061,9 @@ Abilità speciali:
 @203500 = ~Asce a due mani~            
 
 @204000 = ~Rendi le clave utilizzabili da chiunque~
+@204001 = ~^[ %TAB%]*Non[ %TAB%]*utilizzabile[ %TAB%]*da[ %TAB%]*:.*~
+@204002 = ~Non utilizzabile da:~
+@204003 = ~[%LNL%%MNL%%WNL%][- %TAB%]*Mago.*~
 
 @205000 = ~Aggiorna la descrizione delle clave affinche' rispecchino la componente "Rendi le clave utilizzabili da chiunque"~
 @205001 = ~Questa componente richiede che "Rendi le clave utilizzabili da chiunque" sia installato.~

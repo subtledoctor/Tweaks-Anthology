@@ -662,6 +662,9 @@ Typ: 1-händig
 @202004 = ~Typ: 2-händig~
 @203000 = ~Zweihaendige Katanas~
 @204000 = ~Universelle Keulen~
+@204001 = ~^[ %TAB%]*Kann nicht verwendet werden von[ %TAB%]*:.*~
+@204002 = ~Kann nicht verwendet werden von:~
+@204003 = ~[%LNL%%MNL%%WNL%][- %TAB%]*Magiern?.*~
 @205000 = ~Beschreibung fuer die Universelle Keulen Komponente anpassen~
 @205001 = ~Erfordert die Installation von 'Universelle Keulen'~
 @205002 = ~'Ashes of Embers' ist installiert, welches bereits die Beschreibungen der Keulen angepasst hat.~

@@ -345,7 +345,7 @@
  @20000 = ~Remove Blur Effect from Items, e.g. Cloack of Displacement~
  
  @21000 = ~Separate Resist Fire/Cold Icon into Separate Icons (Angel)~
-    
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -1039,12 +1039,16 @@ Special Abilities:
 @203500 = ~Two-Handed Axes~
 
 @204000 = ~Universal Clubs~
+@204001 = ~^[ %TAB%]*\(Unusable By\|Not Usable By\).*~
+@204002 = ~Not Usable By:~
+@204003 = ~[%LNL%%MNL%%WNL%].*[ %TAB%]*Mage.*~
 
+/* deprecated component
 @205000 = ~Description Updates for Universal
   Clubs Component~
 @205001 = ~Requires Universal Clubs to be installed~
 @205002 = ~Ashes of Embers is installed, which already adjusts club descriptions.~
-
+*/
 @206000 = ~Weapon Styles for All~
 
 @207000 = ~Druids Use Cleric Level and Spell Progression~

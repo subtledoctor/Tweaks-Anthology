@@ -4838,123 +4838,90 @@ END
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @204000 DESIGNATED 2040
-GROUP @9 
+GROUP @9
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
 
-// this does the work of our description patching when fed a few regular expressions and replacements
-DEFINE_PATCH_FUNCTION ~REMOVE_MAGE_LINE_FROM_USABILITIES~
-  INT_VAR
-    offset = 0 // offset to write description to
-  STR_VAR
-    desc = ~~ // original description
-    unusable_regexp = ~~ // regexp that matches the Unusable By/Not Usable By line
-    unusable_replacement = ~~ // replacement for the Unusable By line
-    mage_regexp = ~~ // regexp that matches the Mage line in the usability section
-    class_prefix = ~~ // in the usability section, this precedes all class listings (ex: in english, this is one space)
-BEGIN
-  INNER_PATCH_SAVE desc ~%desc%~ BEGIN
-    REPLACE_TEXTUALLY ~%unusable_regexp%~ ~%unusable_replacement%~
-  END
-  PATCH_IF ((~%desc%~ STRING_CONTAINS_REGEXP ~^%unusable_replacement%~) == 0) BEGIN
-    // extract usability info
-    INNER_PATCH_SAVE usab_block ~%desc%~ BEGIN
-      REPLACE_TEXTUALLY ~\(.*[%LNL%%MNL%%WNL%]\)*%unusable_replacement%~ ~~
-    END
-    // update info
-    INNER_PATCH_SAVE usab_block_new ~%usab_block%~ BEGIN
-      REPLACE_TEXTUALLY ~[%LNL%%MNL%%WNL%][- %TAB%]*$~ ~~ // remove any empty lines
-      REPLACE_TEXTUALLY ~^[- %TAB%]*~ ~%class_prefix%~ // make sure entries are indented by one space
-      REPLACE_TEXTUALLY ~%mage_regexp%~ ~~ // remove mage line
-    END
-    // replace old usability info with new
-    INNER_PATCH_SAVE desc ~%desc%~ BEGIN
-      REPLACE_TEXTUALLY EXACT_MATCH ~%usab_block%~ ~%usab_block_new%~
-    END
-    
-    // check if mage was the only thing that couldn't use
-    INNER_PATCH_SAVE compare ~%desc%~ BEGIN 
-      REPLACE_TEXTUALLY ~^%unusable_replacement%.*[%LNL%%MNL%%WNL%]%class_prefix%[^- %TAB%]~ ~~
-    END
-    // if it was...
-    PATCH_IF (~%desc%~ STRING_EQUAL ~%compare%~) BEGIN
-      INNER_PATCH_SAVE desc ~%desc%~ BEGIN
-        // remove 'not usable by' line, so it won't be sitting all by its lonesome now
-        REPLACE_TEXTUALLY ~[%LNL%%MNL%%WNL%]%unusable_replacement%.*~ ~~
-      END
-    END
+OUTER_SET type_match = 0
+OUTER_SET modify_descript = 0
 
-    // write changes
-    SAY_EVALUATED ~%offset%~ ~%desc%~
-  END
-END
+ACTION_IF NOT GAME_IS ~bgee bg2ee iwdee eet~ BEGIN
 
-
-ACTION_IF GAME_IS ~bg1 totsc iwd how totlm iwd2~ THEN BEGIN
-  ACTION_IF GAME_IS ~iwd how totlm~ THEN BEGIN
-    OUTER_SET type_match = 44
-  END ELSE BEGIN
-    OUTER_SET type_match = 17
+  ACTION_IF GAME_IS ~bg1 totsc iwd how totlm iwd2~ THEN BEGIN
+    ACTION_IF GAME_IS ~iwd how totlm~ THEN BEGIN
+      OUTER_SET type_match = 44
+    END ELSE BEGIN
+      OUTER_SET type_match = 17
+    END
   END
-END ELSE BEGIN
-  OUTER_SET type_match = 0
+  
+  ACTION_IF FILE_CONTAINS_EVALUATED (~cdtweaks/languages/%LANGUAGE%/setup.tra~ ~^[ %TAB%]*@204001[ %TAB%]*=~) BEGIN // if translated strings are available...
+
+    OUTER_SET modify_descript = 1 // ...then try to update item descriptions
+  
+    OUTER_SPRINT unusable_regexp_text      @204001
+    OUTER_SPRINT unusable_replacement_text @204002
+    OUTER_SPRINT mage_regexp_text          @204003
+  
+  END
+
 END
 
 PRINT @1
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  PATCH_IF (SOURCE_SIZE > 0x71) BEGIN
-    READ_BYTE 0x31 "prof" ELSE 0
-    READ_SHORT 0x1c type
-    READ_ASCII 0x22 anim (2)
-    PATCH_IF ((((type_match = 0) AND (prof = 115)) OR          // for bg2-based games w/ proficiencies
-                (type = type_match)) AND                       // games w/o profs
-                ("%anim%" STRING_COMPARE_CASE "cl" = 0)) BEGIN // animation must match
-      READ_BYTE 0x1f "fighter"
-      PATCH_IF (("%fighter%" BAND "0b00001000") = "0b00000000") BEGIN // if usable by single-class fighter
-        READ_BYTE   0x20 "mage"
-        WRITE_BYTE 0x20 ("%mage%" BAND "0b11111011")
-        
+  READ_BYTE  0x31 prof ELSE 0
+  READ_SHORT 0x1c type
+  READ_ASCII 0x22 anim (2)
+  PATCH_IF ((((type_match = 0) AND (prof = 115)) OR          // for bg2-based games w/ proficiencies
+              (type = type_match)) AND                       // games w/o profs
+              ("%anim%" STRING_COMPARE_CASE "cl" = 0)) BEGIN // animation must match
+    READ_BYTE 0x1f fighter
+    PATCH_IF ((fighter BAND BIT3) = 0) BEGIN // if usable by single-class fighter
+      WRITE_BYTE 0x20 (THIS BAND `BIT2)      // make usable by single-class mages
+      PATCH_IF modify_descript BEGIN // skip this junk for EEs or if translation not available
+
         // update descriptions
-        PATCH_FOR_EACH offset IN
-          ~0x50~
-          ~0x54~
-        BEGIN
+        PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
           READ_LONG ~%offset%~ desc_strref
           PATCH_IF (desc_strref >= 0 && desc_strref < 2147483646) BEGIN
             READ_STRREF ~%offset%~ desc
-            // remove mage line from matching english descriptions
-            LAUNCH_PATCH_FUNCTION ~REMOVE_MAGE_LINE_FROM_USABILITIES~
-              STR_VAR
-                unusable_regexp = EVALUATE_BUFFER ~^[ %TAB%]*\(Unusable By\|Not Usable By\).*~
-                unusable_replacement = ~Not Usable By:~
-                mage_regexp = EVALUATE_BUFFER ~[%LNL%%MNL%%WNL%].*\bMage.*~
-                class_prefix = ~ ~
+            INNER_PATCH_SAVE desc ~%desc%~ BEGIN
+              REPLACE_TEXTUALLY ~%unusable_regexp_text%~ ~%unusable_replacement_text%~
             END
-            // remove mage line from matching german descriptions
-            LAUNCH_PATCH_FUNCTION ~REMOVE_MAGE_LINE_FROM_USABILITIES~
-              STR_VAR
-                unusable_regexp = EVALUATE_BUFFER ~^[ %TAB%]*Kann nicht verwendet werden von[ %TAB%]*:.*~
-                unusable_replacement = ~Kann nicht verwendet werden von:~
-                mage_regexp = EVALUATE_BUFFER ~[%LNL%%MNL%%WNL%][- %TAB%]*Magiern?.*~
-                class_prefix = ~- ~
+            PATCH_IF ((~%desc%~ STRING_CONTAINS_REGEXP ~^%unusable_replacement_text%~) == 0) BEGIN
+              // extract usability info
+              INNER_PATCH_SAVE usab_block ~%desc%~ BEGIN
+                REPLACE_TEXTUALLY ~\(.*[%LNL%%MNL%%WNL%]\)*%unusable_replacement_text%~ ~~
+              END
+              // update info
+              INNER_PATCH_SAVE usab_block_new ~%usab_block%~ BEGIN
+                REPLACE_TEXTUALLY ~[%LNL%%MNL%%WNL%][- %TAB%]*$~ ~~ // remove any empty lines
+                REPLACE_TEXTUALLY ~^[- %TAB%]*~ ~ ~ // make sure entries are indented by one space
+                REPLACE_TEXTUALLY ~%mage_regexp_text%~ ~~ // remove mage line
+              END
+              // replace old usability info with new
+              INNER_PATCH_SAVE desc ~%desc%~ BEGIN
+                REPLACE_TEXTUALLY EXACT_MATCH ~%usab_block%~ ~%usab_block_new%~
+              END
+              
+              // check if mage was the only thing that couldn't use
+              INNER_PATCH_SAVE compare ~%desc%~ BEGIN 
+                REPLACE_TEXTUALLY ~^%unusable_replacement_text%.*[%LNL%%MNL%%WNL%] [^- %TAB%]~ ~~
+              END
+              // if it was...
+              PATCH_IF (~%desc%~ STRING_EQUAL ~%compare%~) BEGIN
+                INNER_PATCH_SAVE desc ~%desc%~ BEGIN
+                  // remove 'not usable by' line, so it won't be sitting all by its lonesome now
+                  REPLACE_TEXTUALLY ~[%LNL%%MNL%%WNL%]%unusable_replacement_text%.*~ ~~
+                END
+              END
+          
+              // write changes
+              SAY_EVALUATED ~%offset%~ ~%desc%~
             END
-            // remove mage line from matching italian descriptions
-            LAUNCH_PATCH_FUNCTION ~REMOVE_MAGE_LINE_FROM_USABILITIES~
-              STR_VAR
-                unusable_regexp = EVALUATE_BUFFER ~^[ %TAB%]*Non[ %TAB%]*utilizzabile[ %TAB%]*da[ %TAB%]*:.*~
-                unusable_replacement = ~Non utilizzabile da:~
-                mage_regexp = EVALUATE_BUFFER ~[%LNL%%MNL%%WNL%][- %TAB%]*Mago.*~
-                class_prefix = ~ ~
-            END
-            // remove mage line from matching spanish descriptions
-            LAUNCH_PATCH_FUNCTION ~REMOVE_MAGE_LINE_FROM_USABILITIES~
-              STR_VAR
-                unusable_regexp = EVALUATE_BUFFER ~^[ %TAB%]*No \(lo puede usar\|utilizable por\|usable por\|permitido a\)[ %TAB%]*:.*~
-                unusable_replacement = ~No permitido a:~
-                mage_regexp = EVALUATE_BUFFER ~[%LNL%%MNL%%WNL%][- %TAB%]*\(El \)?Mago.*~
-                class_prefix = ~ ~
-            END
+
           END
         END
+        
       END
     END
   END
@@ -6543,7 +6510,7 @@ END
 BEGIN @223100 DESIGNATED 2231
 GROUP @9
 REQUIRE_COMPONENT ~cdtweaks/setup-cdtweaks.tp2~ ~2230~ @17
-REQUIRE_PREDICATE (("%LANGUAGE%" STRING_COMPARE_CASE "chinese" = 0) OR
+REQUIRE_PREDICATE (("%LANGUAGE%" STRING_COMPARE_CASE "schinese" = 0) OR
                    ("%LANGUAGE%" STRING_COMPARE_CASE "english" = 0) OR
                    ("%LANGUAGE%" STRING_COMPARE_CASE "french" = 0) OR
                    ("%LANGUAGE%" STRING_COMPARE_CASE "german" = 0) OR 
