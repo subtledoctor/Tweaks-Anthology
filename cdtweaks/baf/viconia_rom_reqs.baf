@@ -1,5 +1,4 @@
 IF
-	InParty(Myself)
 	!Global("ViconiaMatch","GLOBAL",1)
 	Global("CDRomanceFoo","LOCALS",0)
 THEN

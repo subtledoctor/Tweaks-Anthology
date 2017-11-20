@@ -1,14 +1,14 @@
 // Don't use this for your own mod; go get the BG1 NPC libraries instead. They keep up to date and are more extensive; this
 // one is old and modified specifically for Tweaks with some customizations you probably shouldn't use.
 
-ACTION_IF NOT VARIABLE_IS_SET firebeadstate1 THEN BEGIN // if vars already set, no need to do this again
+//ACTION_IF NOT VARIABLE_IS_SET firebeadstate1 THEN BEGIN // if vars already set, no need to do this again
 
   /////                                                  \\\\\
   ///// bgee                                             \\\\\
   /////                                                  \\\\\
   
   /* Declaration of BG:EE Platform Variables */
-  ACTION_IF GAME_IS ~bgee bg1 totsc~ THEN BEGIN
+//  ACTION_IF GAME_IS ~bgee bg1 totsc~ THEN BEGIN
       /* tp2, d, and baf parsing variables */
       OUTER_SPRINT "tutubgtbgee" "bgee"
       OUTER_SPRINT "bgdreams" "DREAM"
@@ -2293,7 +2293,7 @@ ACTION_IF NOT VARIABLE_IS_SET firebeadstate1 THEN BEGIN // if vars already set, 
       OUTER_SPRINT ~BGT_VAR~ ~GlobalLT("ENDOFBG1","GLOBAL",2)~
 
       /* EET naming convention */
-      OUTER_SPRINT "eet_var" "_" //EET '_' suffix for conflicting resources with 7 or less characters
+      OUTER_SPRINT "eet_var" "" //EET '_' suffix for conflicting resources with 7 or less characters
 
       OUTER_SPRINT "tutu_imoen6" "imoen6_"
       OUTER_SPRINT "tutu_viconi6" "viconi6_"
@@ -3015,6 +3015,6 @@ ACTION_IF NOT VARIABLE_IS_SET firebeadstate1 THEN BEGIN // if vars already set, 
       OUTER_SPRINT "WyrmsCross_BCS" "BG0900"
       OUTER_SPRINT "XvartVillageCave_BCS" "BG4701"
       OUTER_SPRINT "Undercity_BCS" "BG0123"
-  END
+//  END
 
-END
+//END

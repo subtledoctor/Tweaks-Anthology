@@ -31,7 +31,7 @@ ALWAYS
 
 END
 
-VERSION ~v3~
+VERSION ~v3 (GitHub WIP, 111917)~
 
 README ~cdtweaks/readme-cdtweaks.html~
 
@@ -422,46 +422,49 @@ GROUP @11
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 totsc iwdee iwd how totlm iwd_in_bg2 iwd2 pst pstee~ @25
 
 COPY_EXISTING ~randcolr.2da~ ~override~
-  SET_2DA_ENTRY 3 9 50 ~114~ // AthPeasantMajor (208)
-  SET_2DA_ENTRY 4 9 50 ~107~
-  SET_2DA_ENTRY 5 9 50 ~36~
-  SET_2DA_ENTRY 6 9 50 ~37~
-  SET_2DA_ENTRY 7 9 50 ~38~
-  SET_2DA_ENTRY 8 9 50 ~39~
-  SET_2DA_ENTRY 9 9 50 ~40~
-  SET_2DA_ENTRY 10 9 50 ~41~
-  SET_2DA_ENTRY 11 9 50 ~42~
-  SET_2DA_ENTRY 12 9 50 ~43~
-  SET_2DA_ENTRY 3 10 50 ~63~ // AthPeasantMinor (209)
-  SET_2DA_ENTRY 4 10 50 ~64~
-  SET_2DA_ENTRY 5 10 50 ~65~
-  SET_2DA_ENTRY 6 10 50 ~66~
-  SET_2DA_ENTRY 7 10 50 ~87~
-  SET_2DA_ENTRY 8 10 50 ~91~
-  SET_2DA_ENTRY 9 10 50 ~92~
-  SET_2DA_ENTRY 10 10 50 ~93~
-  SET_2DA_ENTRY 11 10 50 ~94~
-  SET_2DA_ENTRY 12 10 50 ~95~
-  SET_2DA_ENTRY 3 13 50 ~114~ // TradePeasantMajor (212)
-  SET_2DA_ENTRY 4 13 50 ~107~
-  SET_2DA_ENTRY 5 13 50 ~36~
-  SET_2DA_ENTRY 6 13 50 ~37~
-  SET_2DA_ENTRY 7 13 50 ~38~
-  SET_2DA_ENTRY 8 13 50 ~39~
-  SET_2DA_ENTRY 9 13 50 ~40~
-  SET_2DA_ENTRY 10 13 50 ~41~
-  SET_2DA_ENTRY 11 13 50 ~42~
-  SET_2DA_ENTRY 12 13 50 ~43~
-  SET_2DA_ENTRY 3 14 50 ~63~ // TradePeasantMinor (213)
-  SET_2DA_ENTRY 4 14 50 ~64~
-  SET_2DA_ENTRY 5 14 50 ~65~
-  SET_2DA_ENTRY 6 14 50 ~66~
-  SET_2DA_ENTRY 7 14 50 ~87~
-  SET_2DA_ENTRY 8 14 50 ~91~
-  SET_2DA_ENTRY 9 14 50 ~92~
-  SET_2DA_ENTRY 10 14 50 ~93~
-  SET_2DA_ENTRY 11 14 50 ~94~
-  SET_2DA_ENTRY 12 14 50 ~95~
+  REPLACE_TEXTUALLY ~HairSet1~ ~CD_DELETE_ME HairSet1~
+  SET_2DA_ENTRY  2  9 15 114 // AthPeasantMajor (208)
+  SET_2DA_ENTRY  3  9 15 107
+  SET_2DA_ENTRY  4  9 15  36
+  SET_2DA_ENTRY  5  9 15  37
+  SET_2DA_ENTRY  6  9 15  38
+  SET_2DA_ENTRY  7  9 15  39
+  SET_2DA_ENTRY  8  9 15  40
+  SET_2DA_ENTRY  9  9 15  41
+  SET_2DA_ENTRY 10  9 15  42
+  SET_2DA_ENTRY 11  9 15  43
+  SET_2DA_ENTRY  2 10 15  63 // AthPeasantMinor (209)
+  SET_2DA_ENTRY  3 10 15  64
+  SET_2DA_ENTRY  4 10 15  65
+  SET_2DA_ENTRY  5 10 15  66
+  SET_2DA_ENTRY  6 10 15  87
+  SET_2DA_ENTRY  7 10 15  91
+  SET_2DA_ENTRY  8 10 15  92
+  SET_2DA_ENTRY  9 10 15  93
+  SET_2DA_ENTRY 10 10 15  94
+  SET_2DA_ENTRY 11 10 15  95
+  SET_2DA_ENTRY  2 13 15 114 // TradePeasantMajor (212)
+  SET_2DA_ENTRY  3 13 15 107
+  SET_2DA_ENTRY  4 13 15  36
+  SET_2DA_ENTRY  5 13 15  37
+  SET_2DA_ENTRY  6 13 15  38
+  SET_2DA_ENTRY  7 13 15  39
+  SET_2DA_ENTRY  8 13 15  40
+  SET_2DA_ENTRY  9 13 15  41
+  SET_2DA_ENTRY 10 13 15  42
+  SET_2DA_ENTRY 11 13 15  43
+  SET_2DA_ENTRY  2 14 15  63 // TradePeasantMinor (213)
+  SET_2DA_ENTRY  3 14 15  64
+  SET_2DA_ENTRY  4 14 15  65
+  SET_2DA_ENTRY  5 14 15  66
+  SET_2DA_ENTRY  6 14 15  87
+  SET_2DA_ENTRY  7 14 15  91
+  SET_2DA_ENTRY  8 14 15  92
+  SET_2DA_ENTRY  9 14 15  93
+  SET_2DA_ENTRY 10 14 15  94
+  SET_2DA_ENTRY 11 14 15  95
+  REPLACE_TEXTUALLY ~CD_DELETE_ME~ ~~
+  PRETTY_PRINT_2DA
   BUT_ONLY
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1315,7 +1318,7 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt bgee eet~ @25 // Tutu, BGEE or BGT only
 REQUIRE_PREDICATE NOT MOD_IS_INSTALLED ~BG1NPC/BG1NPC.TP2~ ~29~ @24 // don't install if same component from bg1 npc installed
 
-INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 COPY_EXISTING ~worldmap.wmp~ ~override~
   READ_LONG  0x30 "area_num"
@@ -1353,7 +1356,7 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt bgee eet~ @25 // Tutu, BGEE or BGT only
 REQUIRE_PREDICATE NOT MOD_IS_INSTALLED ~BG1NPC/BG1NPC.TP2~ ~29~ @24 // don't install if same component from bg1 npc installed
 
-INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 COPY_EXISTING ~worldmap.wmp~ ~override~
   READ_LONG  0x30 "area_num"
@@ -1802,7 +1805,7 @@ END ELSE BEGIN // bg2-based engines
 
   ACTION_IF GAME_IS ~bgee bgt eet tutu tutu_totsc~ THEN BEGIN
 
-    INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+    INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
     COMPILE ~cdtweaks/dlg/multi_bgee.d~ EVALUATE_BUFFER // adds FAI, Nashkel, BG, Beregost options
 
     ACTION_IF GAME_IS ~bgt eet~ THEN BEGIN
@@ -2355,7 +2358,7 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~tutu tutu_totsc bgt bgee eet~ @25 // Tutu, bgee or BGT only
 REQUIRE_PREDICATE NOT MOD_IS_INSTALLED ~thecalling/setup-thecalling.tp2~ ~40~ @16 // already installed by the calling
 
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets vars as appropriate, cd_extend_bg_area_script macro
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 OUTER_SET generic_kat_name  = 7523
 OUTER_SET generic_kat_desc  = 35963
@@ -2563,7 +2566,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~  // adds generic scimitars to s
     WRITE_LONG 0x38 (sale_num + 1)
     PATCH_FOR_EACH off IN 0x2c 0x4c 0x70 BEGIN // item, drink, cure offsets
       READ_LONG off val                        // read offset
-      PATCH_IF val < sale_off BEGIN            // if after for-sale list...
+      PATCH_IF val > sale_off BEGIN            // if after for-sale list...
         WRITE_LONG off (THIS + 0x1c)           // push back for new scimitar
       END
     END
@@ -2638,7 +2641,7 @@ END
 
 ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgee bgt~ THEN BEGIN
 
-  INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~ // ye olde bg/tutu/bgt/gee library
+  INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
   //fixes Narlen's goofiness
   COPY_EXISTING ~%NEBaldursGate%.are~ ~override~
@@ -3886,21 +3889,8 @@ EXTEND_BOTTOM ~ar0334.bcs~ ~cdtweaks/baf/ar0334.baf~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-/////                                                  \\\\\
-///// instant                                          \\\\\
-/////                                                  \\\\\
-
-BEGIN @122501 DESIGNATED 1225
-SUBCOMPONENT @122500
-GROUP @13
-REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-
-
-COPY_EXISTING ~cromwell.bcs~ ~override~
-  DECOMPILE_AND_PATCH BEGIN
-    REPLACE_TEXTUALLY ~RestParty()[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~ ~~ // remove rest/advancetime
-  END
-  BUT_ONLY
+// out of order, component-number-wise, because WeiDU will suppress other options if the first isn't the most inclusive
+// e.g. putting instant first means bgt games don't get to pick 8 hours, even though it's technically available
 
 /////                                                  \\\\\
 ///// eight hours                                      \\\\\
@@ -3933,6 +3923,22 @@ END ELSE BEGIN
   EXTEND_TOP ~ar0334.bcs~ ~cdtweaks/baf/ar0334_cromwell.baf~
 
 END
+
+/////                                                  \\\\\
+///// instant                                          \\\\\
+/////                                                  \\\\\
+
+BEGIN @122501 DESIGNATED 1225
+SUBCOMPONENT @122500
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+
+
+COPY_EXISTING ~cromwell.bcs~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~RestParty()[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~ ~~ // remove rest/advancetime
+  END
+  BUT_ONLY
 
 /////                                                  \\\\\
 ///// 24 hours, including rest                         \\\\\
@@ -4070,7 +4076,7 @@ REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 REQUIRE_PREDICATE ((NOT FILE_EXISTS ~override/X#AloraMove.G3~) AND (NOT FILE_EXISTS ~override/X#QuayleMove.G3~) AND (NOT FILE_EXISTS ~override/X#TiaxMove.G3~)) @16 // bg1 npc does these separately
 
-INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 ACTION_IF NOT FILE_EXISTS ~override/X#TiaxMove.G3~   THEN BEGIN OUTER_SET move_tiax   = 1 END ELSE BEGIN OUTER_SET move_tiax   = 0 END
 ACTION_IF NOT FILE_EXISTS ~override/X#QuayleMove.G3~ THEN BEGIN OUTER_SET move_quayle = 1 END ELSE BEGIN OUTER_SET move_quayle = 0 END
@@ -4258,7 +4264,7 @@ BEGIN @127000 DESIGNATED 1270 // ~Revert Chapter Change in Cloakwood Mines to No
 GROUP @13
 REQUIRE_PREDICATE GAME_IS ~totsc bgt eet bgee tutu tutu_totsc~ @25
 
-INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 COPY_EXISTING ~%CloakwoodMines_L4%.are~ override // AR1803, 8603bgt
   READ_ASCII 0x94 areascript (8) NULL
@@ -7697,10 +7703,10 @@ COPY_EXISTING ~mgsrcreq.2da~ ~override~
   BUT_ONLY 
 
 // let dwarves get 17 CHR to be paladins
-COPY_EXISTING ~abracerq.2da~ ~override~
-  READ_2DA_ENTRY 1 12 13 foo
-  PATCH_IF (foo < 18) THEN BEGIN
-    SET_2DA_ENTRY  1 12 13 18
+COPY_EXISTING ~abracead.2da~ ~override~
+  READ_2DA_ENTRY 1 6 7 foo
+  PATCH_IF (foo < "-1") THEN BEGIN
+    SET_2DA_ENTRY  1 6 7 "-1"
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
@@ -7821,7 +7827,7 @@ COPY_EXISTING ~mgsrcreq.2da~ ~override~
   COUNT_2DA_ROWS (col_start + 8) rows
   FOR (row = 1 ; row < rows ; ++row) BEGIN
     FOR (col = (col_start + 1); col < (col_start + 8) ; ++col) BEGIN
-      PATCH_IF col = (col_start + 5) BEGIN SET col += 1 END // skip gnome column
+      PATCH_IF col = (col_start + 6) BEGIN SET col += 1 END // skip gnome column
       SET_2DA_ENTRY row col (col_start + 8) 1
     END
   END
@@ -7861,7 +7867,7 @@ COPY_EXISTING ~kitlist.2da~ ~override~
 //      PATCH_IF class = 20 BEGIN SPRINT letter mn END
       PATCH_IF class = 21 BEGIN SPRINT letter sh END
       SET available = 0
-      PATCH_FOR_EACH race IN d e g he hl ho BEGIN // first loop is to check and see if the kit is available to any race so we don't expose internal mod kits
+      PATCH_FOR_EACH race IN d e g h he hl ho BEGIN // first loop is to check and see if the kit is available to any race so we don't expose internal mod kits
         PATCH_IF FILE_EXISTS_IN_GAME ~k_%letter%_%race%.2da~ BEGIN
           INNER_ACTION BEGIN
 
@@ -7883,7 +7889,7 @@ COPY_EXISTING ~kitlist.2da~ ~override~
         END
       END
       PATCH_IF available = 1 THEN BEGIN // only if it actually is available do we add it to all races
-        PATCH_FOR_EACH race IN d e g he hl ho BEGIN
+        PATCH_FOR_EACH race IN d e g h he hl ho BEGIN
           PATCH_IF FILE_EXISTS_IN_GAME ~k_%letter%_%race%.2da~ BEGIN
             INNER_ACTION BEGIN
 
@@ -8137,8 +8143,8 @@ REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
   
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   READ_BYTE 0x1f use
-  PATCH_IF ((use BAND BIT4) = 0) BEGIN // if usable by single-class fighters...
-    WRITE_BYTE 0x1f (THIS BAND `BIT4)   // removes f/d flag
+  PATCH_IF ((use BAND BIT3) = 0) BEGIN // if usable by single-class fighters...
+    WRITE_BYTE 0x1f (THIS BAND `BIT4)  // removes f/d flag
   END
   BUT_ONLY
 
@@ -8602,10 +8608,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
         READ_SHORT (fx_off +        (0x30 * (abil_fx_idx + index2))) opcode
         PATCH_IF ((opcode = 146) OR (opcode = 148)) BEGIN // cast spell
           READ_ASCII (fx_off + 0x14 + (0x30 * (abil_fx_idx + index2))) spell
-          PATCH_IF ("%spell%" STRING_COMPARE_REGEXP ~[Ss][Pp][PpWw][RrIi][3-9][0-9][0-9]~ = 0) BEGIN // levels 1&2 usable by level 0/1, so no need for level requirements
-            PATCH_IF ("%spell%" STRING_COMPARE_REGEXP ~[Ss][Pp][Ww][Ii][3-9][0-9][0-9]~ = 0) BEGIN SET level_break = 11 END ELSE BEGIN SET level_break = 13 END // account for extra level for priest 6>7 and wizard 5>6
+          PATCH_IF (("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Ww][Ii][3-9][0-9][0-9]$~ = 0) OR
+                    ("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Pp][Rr][3-7][0-9][0-9]$~ = 0)) BEGIN // levels 1&2 usable by level 0/1, so no need for level requirements
+            PATCH_IF ("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Ww][Ii][3-9][0-9][0-9]$~ = 0) BEGIN SET level_break = 11 END ELSE BEGIN SET level_break = 13 END // account for extra level for priest 6>7 and wizard 5>6
             READ_BYTE  (fx_off + 0x18 + (0x30 * (abil_fx_idx + index2))) level
-            SET level = ((level - 0x31) * 2)
+            SET level = ((level - 0x31) * 2) // 0x31 is ascii 1, 0x32 is ascii 2, etc. This basically uses a level one below the numerical value and then doubles it
             PATCH_IF level < level_break BEGIN
               SET level -= 1
             END
@@ -10083,7 +10090,7 @@ COMPILE ~cdtweaks/dlg/ano_rom_fix.d~
 ACTION_IF ((romance_use_config_values = 1) AND NOT // sanity check; if no changes specified in config, do normal prompting
           ((remove_romance_racial_requirements != 1) AND 
            (remove_romance_gender_requirements != 1) AND 
-           (romance_multiple != 1) AND 
+           (romance_multiple != 1) AND
            ((romance_nothing_kills != 1) OR (romance_multiple != 1)) AND
            ((romance_starts_in_ToB != 1) OR (!GAME_IS ~soa~))))  THEN BEGIN
 
@@ -10119,26 +10126,26 @@ END ELSE BEGIN
   OUTER_SET romance_starts_in_ToB = 0
   
   OUTER_WHILE (romance_proceed != 1) BEGIN
-    OUTER_WHILE ((remove_romance_racial_requirements != 1) AND (remove_romance_racial_requirements != 2)) BEGIN // stay here until we have a 1 or a 2
+    OUTER_WHILE ((!IS_AN_INT remove_romance_racial_requirements) OR ((remove_romance_racial_requirements != 1) AND (remove_romance_racial_requirements != 2))) BEGIN // stay here until we have a 1 or a 2
       PRINT @318301
       ACTION_READLN remove_romance_racial_requirements
     END
-    OUTER_WHILE ((remove_romance_gender_requirements != 1) AND (remove_romance_gender_requirements != 2)) BEGIN // stay here until we have a 1 or a 2
+    OUTER_WHILE ((!IS_AN_INT remove_romance_gender_requirements) OR ((remove_romance_gender_requirements != 1) AND (remove_romance_gender_requirements != 2))) BEGIN // stay here until we have a 1 or a 2
       PRINT @318303
       ACTION_READLN remove_romance_gender_requirements
     END
-    OUTER_WHILE ((romance_multiple != 1) AND (romance_multiple != 2)) BEGIN // stay here until we have a 1 or a 2
+    OUTER_WHILE ((!IS_AN_INT romance_multiple) OR ((romance_multiple != 1) AND (romance_multiple != 2))) BEGIN // stay here until we have a 1 or a 2
       PRINT @318305
       ACTION_READLN romance_multiple
     END
     ACTION_IF (romance_multiple = 1) THEN BEGIN // only offer no kill if multi-romance selected
-      OUTER_WHILE ((romance_nothing_kills != 1) AND (romance_nothing_kills != 2)) BEGIN
+      OUTER_WHILE ((!IS_AN_INT romance_nothing_kills) OR ((romance_nothing_kills != 1) AND (romance_nothing_kills != 2))) BEGIN
         PRINT @318307
         ACTION_READLN romance_nothing_kills
       END
     END
     ACTION_IF NOT GAME_IS ~soa~ THEN BEGIN // tob
-      OUTER_WHILE ((romance_starts_in_ToB != 1) AND (romance_starts_in_ToB != 2)) BEGIN
+      OUTER_WHILE ((!IS_AN_INT romance_starts_in_ToB) OR ((romance_starts_in_ToB != 1) AND (romance_starts_in_ToB != 2))) BEGIN
         PRINT @318311
         ACTION_READLN romance_starts_in_ToB
       END
@@ -10165,7 +10172,7 @@ END ELSE BEGIN
       ACTION_IF romance_starts_in_ToB = 1 THEN BEGIN
         PRINT @318312
       END
-      OUTER_WHILE ((romance_proceed != 1) AND (romance_proceed != 2)) BEGIN
+      OUTER_WHILE ((!IS_AN_INT romance_proceed) OR ((romance_proceed != 1) AND (romance_proceed != 2))) BEGIN
         PRINT @318310
         ACTION_READLN romance_proceed
       END
@@ -10933,7 +10940,7 @@ REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee soa tob~ @25
 
 ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgt bgee eet~ THEN BEGIN // BGT/Tutu/BGEE changes
 
-  INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+  INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
   ACTION_IF GAME_IS ~bgt eet~ THEN BEGIN // BGT
     
@@ -11271,7 +11278,7 @@ BEGIN @323000 DESIGNATED 3230
 GROUP @4
 REQUIRE_PREDICATE GAME_IS ~bgee bg1 totsc tutu tutu_totsc eet bgt~ @25
 
-INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 ACTION_IF NOT GAME_IS ~bg1 totsc~ THEN BEGIN // change fenten/taerom to only take one shell at a time
   COMPILE ~cdtweaks/dlg/ankheg.d~ EVALUATE_BUFFER // use TakePartyItemNum when we can
@@ -12235,7 +12242,7 @@ COPY_EXISTING ~pdialog.2da~ ~override~
   COUNT_2DA_ROWS col_min rows
   FOR (index = 0 ; index < rows ; ++index) BEGIN
     READ_2DA_ENTRY index 0 col_min curdv //
-    DEFINE_ASSOCIATIVE_ARRAY cd_dv_array BEGIN "%curdv%" => "cdtob_%curdv%" END
+    DEFINE_ASSOCIATIVE_ARRAY cd_dv_array BEGIN "cdtob_%curdv%" => "%curdv%" END
     INNER_ACTION BEGIN
     
       COPY ~cdtweaks/lib/tob_lookup.txt~ ~override/cdtob_%curdv%.txt~
@@ -12250,45 +12257,111 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
             ("%SOURCE_RES%" STRING_COMPARE_CASE "BDSHIMOE") AND // exclude special imoen files
             (bio >= 0)) BEGIN // don't bother if no bio
     READ_ASCII 0x280 "dvcre" (32) NULL
-    PHP_EACH cd_dv_array AS dv => file BEGIN
+    PHP_EACH cd_dv_array AS file => dv BEGIN
       PATCH_IF ("%dv%" STRING_COMPARE_CASE "%dvcre%" = 0) BEGIN
-        READ_LONG 0x18 xp
+        READ_LONG 0x018 xp
+        READ_BYTE 0x273 class
         INNER_ACTION BEGIN
-          APPEND ~%file%.txt~ ~%SOURCE_RES% %xp%~
+          APPEND ~%file%.txt~ ~%SOURCE_RES% %xp% %class%~
         END
       END
     END
   END
   BUT_ONLY
 
-
-ACTION_PHP_EACH cd_dv_array AS dv => file BEGIN
+// for creatuers like imoen, split files for cre files with same dv but different classes
+ACTION_PHP_EACH cd_dv_array AS file => dv BEGIN
 
   COPY_EXISTING ~%file%.txt~ ~override~
-    COUNT_2DA_ROWS 2 rows
+    SET split = 0
+    COUNT_2DA_ROWS 3 rows
     PATCH_IF (rows > 1) BEGIN // don't bother if only one creature
-      READ_2DA_ENTRY 0 0 2 orig
-      READ_2DA_ENTRY 0 1 2 xp
+      READ_2DA_ENTRY 0 2 3 test_class
       FOR (index = 1 ; index < rows ; ++index) BEGIN
-        READ_2DA_ENTRY index 1 2 xp_test
-        PATCH_IF (xp_test < xp) BEGIN
-          READ_2DA_ENTRY index 0 2 orig
-          SET xp = xp_test
+        READ_2DA_ENTRY index 2 3 class
+        PATCH_IF class != test_class BEGIN
+          SET split = 1
+          DEFINE_ASSOCIATIVE_ARRAY cd_dv_array_split BEGIN "%class%"      => "%file%_%class%" END
+          DEFINE_ASSOCIATIVE_ARRAY cd_dv_array_split BEGIN "%test_class%" => "%file%"         END
+        END
+      END
+    END
+    BUT_ONLY
+
+  ACTION_IF split BEGIN
+
+    ACTION_PHP_EACH cd_dv_array_split AS class => dest_file BEGIN
+
+      ACTION_IF NOT FILE_EXISTS_IN_GAME ~%dest_file%.txt~ BEGIN
+    
+        ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_dv_array BEGIN "%dest_file%" => "%dv%" END
+
+        COPY_EXISTING ~%file%.txt~ ~override/%dest_file%.txt~
+          COUNT_2DA_ROWS 3 rows
+          FOR (index = 0 ; index < rows ; ++index) BEGIN
+            READ_2DA_ENTRY index 2 3 class_check
+            PATCH_IF class != class_check BEGIN
+              SET_2DA_ENTRY index 2 3 999
+            END
+          END
+          BUT_ONLY
+
+      END
+
+    END
+
+    COPY_EXISTING ~%file%.txt~ ~override~
+      COUNT_2DA_ROWS 3 rows
+      READ_2DA_ENTRY 0 2 3 class_check
+      FOR (index = 1 ; index < rows ; ++index) BEGIN
+        READ_2DA_ENTRY index 2 3 class
+        PATCH_IF class != class_check BEGIN
+          SET_2DA_ENTRY index 2 3 999
+        END
+      END
+      BUT_ONLY
+  
+    END
+
+END
+
+ACTION_PHP_EACH cd_dv_array AS file => dv BEGIN
+
+  COPY_EXISTING ~%file%.txt~ ~override~
+    COUNT_2DA_ROWS 3 rows
+    PATCH_IF (rows > 1) BEGIN // don't bother if only one creature
+      SET xp = "-1"
+      FOR (index = 0 ; index < rows ; ++index) BEGIN
+        READ_2DA_ENTRY index 2 3 sanity
+        PATCH_IF sanity != 999 BEGIN
+          PATCH_IF (xp < 0) BEGIN
+            READ_2DA_ENTRY index 1 2 xp
+            READ_2DA_ENTRY index 0 2 orig
+          END ELSE BEGIN
+            READ_2DA_ENTRY index 1 2 xp_test
+            PATCH_IF (xp_test < xp) BEGIN
+              READ_2DA_ENTRY index 0 2 orig
+              SET xp = xp_test
+            END
+          END
         END
       END
       FOR (index = 0 ; index < rows ; ++index) BEGIN
-        READ_2DA_ENTRY index 0 2 dest
-        INNER_ACTION BEGIN
-  
-          ACTION_IF ((FILE_EXISTS_IN_GAME ~%orig%.cre~) AND (FILE_EXISTS_IN_GAME ~%dest%.cre~)) THEN BEGIN
-  
-            COPY_EXISTING ~%orig%.cre~ ~override/%dest%.cre~
-              PATCH_PRINT " -- copying %orig% to %dest%..."
-              LAUNCH_PATCH_MACRO ~tob_style_npcs~
-              BUT_ONLY
-  
+        READ_2DA_ENTRY index 2 3 sanity
+        PATCH_IF sanity != 999 BEGIN
+          READ_2DA_ENTRY index 0 2 dest
+          INNER_ACTION BEGIN
+
+            ACTION_IF ((FILE_EXISTS_IN_GAME ~%orig%.cre~) AND (FILE_EXISTS_IN_GAME ~%dest%.cre~)) THEN BEGIN
+    
+              COPY_EXISTING ~%orig%.cre~ ~override/%dest%.cre~
+                PATCH_PRINT " -- copying %orig% to %dest%..."
+                LAUNCH_PATCH_MACRO ~tob_style_npcs~
+                BUT_ONLY
+    
+            END
+            
           END
-          
         END
       END
     END
@@ -12688,7 +12761,7 @@ ACTION_IF GAME_IS ~bg1 totsc~ BEGIN
 
 END ELSE BEGIN // tutu, bgt, bgee
 
-  INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+  INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
   
   COPY_EXISTING ~%tutu_var%khalid2.cre~ ~override~
     READ_ASCII 0x0a4 soundset (396) // read soundset from existing cre file
@@ -12833,7 +12906,7 @@ BEGIN @409000 DESIGNATED 4090
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee tutu tutu_totsc eet bgt~ @25
 
-INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 COPY_EXISTING ~%tutu_var%montar.cre~ ~override~
   READ_ASCII 0x0a4 soundset (396) // read soundset from existing cre file
