@@ -3,7 +3,7 @@
 // 4.5676999303007184033606171596646 e+50
 
 BACKUP ~cdtweaks/backup~ // location to store files for
-AUTHOR ~pcamagna@yahoo.com~ // email address displayed if install fails
+AUTHOR ~http://gibberlings3.net/forums/index.php?showforum=34~ // email address displayed if install fails
 
 ALWAYS
 
@@ -13,7 +13,16 @@ ALWAYS
 
     OUTER_SET cd_always = 1 // just do this once per install
 
-    INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
+    ACTION_IF FILE_EXISTS ~cdtweaks/cdtweaks.txt~ THEN BEGIN
+      
+      INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
+    
+    END ELSE BEGIN
+    
+      OUTER_SET minimum_stats_use_config_values = 0
+      OUTER_SET romance_use_config_values = 0
+    
+    END
 
     ACTION_IF GAME_IS ~soa tob bgt ca tutu tutu_totsc iwd_in_bg2~ THEN BEGIN
 
@@ -31,9 +40,9 @@ ALWAYS
 
 END
 
-VERSION ~v3 (GitHub WIP, 111917)~
+VERSION ~v4~
 
-README ~cdtweaks/readme-cdtweaks.html~
+README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
 
 AUTO_TRA ~cdtweaks/languages/%s~
 
@@ -1336,11 +1345,7 @@ COPY_EXISTING ~worldmap.wmp~ ~override~
   END
   BUT_ONLY
 
-COPY_EXISTING ~%BanditCamp_RaemonsTent%.are~ ~override~
-  READ_ASCII 0x94 script
-  BUT_ONLY
-
-COPY_EXISTING ~%script%.bcs~ ~override~
+COPY_EXISTING ~%BanditCamp_RaemonsTent_BCS%.bcs~ ~override~
   DECOMPILE_BCS_TO_BAF
     REPLACE_TEXTUALLY ~RevealAreaOnMap("%CloakwoodLodge%")~ ~RevealAreaOnMap("%CloakwoodLodge%") RevealAreaOnMap("%CloakwoodNest%")~
   COMPILE_BAF_TO_BCS
@@ -1374,11 +1379,7 @@ COPY_EXISTING ~worldmap.wmp~ ~override~
   END
   BUT_ONLY
 
-COPY_EXISTING ~%BanditCamp_RaemonsTent%.are~ ~override~
-  READ_ASCII 0x94 script
-  BUT_ONLY
-
-COPY_EXISTING ~%script%.bcs~ ~override~
+COPY_EXISTING ~%BanditCamp_RaemonsTent_BCS%.bcs~ ~override~
   DECOMPILE_BCS_TO_BAF
     REPLACE_TEXTUALLY ~RevealAreaOnMap("%CloakwoodLodge%")~ ~RevealAreaOnMap("%CloakwoodLodge%") RevealAreaOnMap("%CloakwoodMines%")~
   COMPILE_BAF_TO_BCS
@@ -2643,23 +2644,15 @@ ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgee bgt~ THEN BEGIN
 
   INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
-  //fixes Narlen's goofiness
-  COPY_EXISTING ~%NEBaldursGate%.are~ ~override~
-    READ_ASCII 0x94 script
-    INNER_ACTION BEGIN
-
-      COPY_EXISTING ~%script%.bcs~ ~override~
-        DECOMPILE_BCS_TO_BAF
-          REPLACE_TEXTUALLY ~TimeGT(20)~ ~TimeGT(20) Global("CDNarlenExists","GLOBAL",0)~
-          REPLACE_TEXTUALLY ~TimeLT(4)~  ~TimeLT(4)  Global("CDNarlenExists","GLOBAL",0)~
-          REPLACE_TEXTUALLY ~TimeGT(4)~  ~TimeGT(4)  Global("CDNarlenExists","GLOBAL",1)~
-          REPLACE_TEXTUALLY ~\bActivate("narlen")~   ~Activate("narlen") SetGlobal("CDNarlenExists","GLOBAL",1)~
-          REPLACE_TEXTUALLY ~Deactivate("narlen")~ ~Deactivate("narlen") SetGlobal("CDNarlenExists","GLOBAL",0)~
-        COMPILE_BAF_TO_BCS
-        BUT_ONLY IF ~CDNarlenExists~ IF_EXISTS
-
-    END
-    BUT_ONLY
+  COPY_EXISTING ~%NEBaldursGate_BCS%.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~TimeGT(20)~ ~TimeGT(20) Global("CDNarlenExists","GLOBAL",0)~
+      REPLACE_TEXTUALLY ~TimeLT(4)~  ~TimeLT(4)  Global("CDNarlenExists","GLOBAL",0)~
+      REPLACE_TEXTUALLY ~TimeGT(4)~  ~TimeGT(4)  Global("CDNarlenExists","GLOBAL",1)~
+      REPLACE_TEXTUALLY ~\bActivate("narlen")~   ~Activate("narlen") SetGlobal("CDNarlenExists","GLOBAL",1)~
+      REPLACE_TEXTUALLY ~Deactivate("narlen")~ ~Deactivate("narlen") SetGlobal("CDNarlenExists","GLOBAL",0)~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY IF ~CDNarlenExists~ IF_EXISTS
 
   COPY_EXISTING ~%NWBaldursGate%.are~      ~override~ // ar0100
                 ~%NBaldursGate%.are~       ~override~ // ar0200
@@ -4106,7 +4099,7 @@ END ELSE BEGIN
   
   /* Alora Starts in Gullykin - VERIFY IF THIS BLOCK IS NEEDED */
   /* Trying to prevent Alora's CTD */
-  COPY_EXISTING ~%HallofWonders_BCS%.bcs~ ~override~
+  COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~
     DECOMPILE_BCS_TO_BAF
     REPLACE_TEXTUALLY
       ~!InParty("alora")~
@@ -4146,39 +4139,39 @@ END ELSE BEGIN // bgt
   ACTION_IF move_alora THEN BEGIN
 
     // disable spawns
-    COPY_EXISTING ~%HallofWonders_BCS%.bcs~ ~override~ // ar7230
+    COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~ // ar7230
       DECOMPILE_BCS_TO_BAF
         REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
       COMPILE_BAF_TO_BCS
       BUT_ONLY_IF_IT_CHANGES
   
-    EXTEND_BOTTOM ~%Gullykin%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
+    EXTEND_BOTTOM ~%Gullykin_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
   
   END
 
   ACTION_IF move_quayle THEN BEGIN
 
     // disable spawns
-    COPY_EXISTING ~%WyrmsCrossing%.bcs~     ~override~ // ar7900
+    COPY_EXISTING ~%WyrmsCrossing_BCS%.bcs~     ~override~ // ar7900
       DECOMPILE_BCS_TO_BAF
         REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
       COMPILE_BAF_TO_BCS
       BUT_ONLY_IF_IT_CHANGES
 
-    EXTEND_BOTTOM ~%NashkelCarnival%.bcs~           ~cdtweaks/baf/bgt_spawn_quayle.baf~
+    EXTEND_BOTTOM ~%NashkelCarnival_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_quayle.baf~
 
   END
 
   ACTION_IF move_tiax THEN BEGIN
 
     // disable spawns
-    COPY_EXISTING ~%SWBaldursGate%.bcs~     ~override~ // ar8000
+    COPY_EXISTING ~%SWBaldursGate_BCS%.bcs~     ~override~ // ar8000
       DECOMPILE_BCS_TO_BAF
         REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
       COMPILE_BAF_TO_BCS
       BUT_ONLY_IF_IT_CHANGES
 
-    EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~
+    EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~
 
   END
 
@@ -10852,7 +10845,7 @@ END ELSE BEGIN
       ACTION_IF (minimum_stats_charisma != 0) THEN BEGIN
         PRINT ~%minimum_stats_charisma_text% %minimum_stats_charisma%~
       END
-      OUTER_WHILE ((minimum_stats_proceed != 1) AND (minimum_stats_proceed != 2)) BEGIN
+      OUTER_WHILE ((NOT IS_AN_INT minimum_stats_proceed) OR ((minimum_stats_proceed != 1) AND (minimum_stats_proceed != 2))) BEGIN
         PRINT @318310
         ACTION_READLN minimum_stats_proceed
       END

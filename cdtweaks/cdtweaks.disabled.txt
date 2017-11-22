@@ -4,6 +4,8 @@ if you install Tweaks Anthology with the Big World Setup. A handful of component
 otherwise pause WeiDU and wait for input; defining these values ahead of time in this 
 file will instead use the values defined here instead of waiting on user input in the
 middle of installation.
+
+To use this file, rename it as cdtweaks.txt and leave it in the cdtweaks folder. 
 */
 
 // The following values are used for the Romance Cheats component. 
