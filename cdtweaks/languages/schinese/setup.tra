@@ -7,7 +7,7 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 @0 = ~NPC调整~
-@1 = ~这一步需要花一段时间 ..。~
+@1 = ~这一步需要花一段时间……~
 @2 = ~需要安装“在BG中添加次元袋”组件。~
 //     @3 = ~需要安装“穿甲时可以施展奥术”组件~
 @4 = ~便利的调整/作弊~
@@ -1033,20 +1033,23 @@
 @202000 = ~双手使用巨剑~
 @202001 = ~单手持用~
 @202002 = ~双手持用~
-@202003 = ~^[ %TAB%]*type[ %TAB%]*:[ %TAB%]*\（1\|one\）[- %TAB%]*handed.*~
-@202004 = ~类型：双手武器~
+@202003 = ~^[ %TAB%]*[使用]*\(类型\|类别\)[ %TAB%]*[:：][ %TAB%]*单手[武器]*.*~
+@202004 = ~使用类别：双手~
 
 @203000 = ~双手使用武士刀~
 
 @203500 = ~双手使用战斧~
 
 @204000 = ~通用棍棒（任何人可用）~
-
+@204001 = ~^[ %TAB%]*\(无法使用的职业：\|无法使用的角色：\).*~
+@204002 = ~无法使用的角色：~
+@204003 = ~[%LNL%%MNL%%WNL%].*法师.*~
+ 
+/* deprecated component
 @205000 = ~通用棍棒的描述更新~
-
 @205001 = ~需要安装“通用棍棒”组件~
-
 @205002 = ~你已安装过Ashes of Embers，其中已经更改过棍棒的描述。~
+*/
 
 @206000 = ~武器模式通用~
 
@@ -1064,29 +1067,29 @@
 @210000 = ~穿重甲时可以使用盗贼技能~
 // Moved from thieving_descripts.tpa
 // Typical weight line for an item, used for a search matching the whole line
-@210001 = ~\（weight：[ %TAB%]*[0-9]+\）~
+@210001 = ~\(重量[:：][ %TAB%]*[0-9]+\)~
 // Typical lock picking penalty line in original armors
-@210002 = ~^[ %TAB%]*lock picking：.+$[%MNL%%LNL%%WNL%]+~
+@210002 = ~^[ %TAB%]*开锁[:：].+$[%MNL%%LNL%%WNL%]+~
 // Title for lock picking added after Weight line, penalty is added after this text
 @210003 = ~开锁：~
 // Typical find trap penalty line in original armors
-@210004 = ~^[ %TAB%]*Find/Remove Traps:.+$[%MNL%%LNL%%WNL%]+~
+@210004 = ~^[ %TAB%]*找寻陷阱[:：].+$[%MNL%%LNL%%WNL%]+~
 // Title for find trap added after Weight line, penalty is added after this text
-@210005 = ~寻找/解除陷阱：~
+@210005 = ~找寻陷阱：~
 // Typical pick pocket penalty line in original armors
-@210006 = ~^[ %TAB%]*pick pocket：.+$[%MNL%%LNL%%WNL%]+~
+@210006 = ~^[ %TAB%]*扒窃：[:：].+$[%MNL%%LNL%%WNL%]+~
 // Title for pick pocket added after Weight line, penalty is added after this text
-@210007 = ~偷窃：~
+@210007 = ~扒窃：~
 // Typical hide en shadow penalty line in original armors
-@210008 = ~^[ %TAB%]*hide in shadow：.+$[%MNL%%LNL%%WNL%]+~
+@210008 = ~^[ %TAB%]*阴影躲藏[:：].+$[%MNL%%LNL%%WNL%]+~
 // Title for hide in shadow added after Weight line, penalty is added after this text
 @210009 = ~阴影躲藏：~
 // Typical move silently penalty line in original armors
-@210010 = ~^[ %TAB%]*for move silently：.+$[%MNL%%LNL%%WNL%]+~
+@210010 = ~^[ %TAB%]*无声行动[:：].+$[%MNL%%LNL%%WNL%]+~
 // Title for move silently added after Weight line, penalty is added after this text
 @210011 = ~无声行动：~
 // Typical move silently penalty line in original armors
-@210012 = ~^[ %TAB%]*.?.?.?[ %TAB%]*Stealth:：.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+@210012 = ~^[ %TAB%]*.?.?.?[ %TAB%]*潜行[:：].+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
 // Title for move silently added after Weight line, penalty is added after this text
 @210013 = ~潜行：~
 
@@ -1096,7 +1099,7 @@
 @212000 = ~着甲时可以施展奥术~
 // Moved from arcane_descripts.tpa
 // Typical weight line for an item, used for a search matching the whole line
-@212001 = ~\（weight：[ %TAB%]*[0-9]+\）~
+@212001 = ~\(重量[:：][ %TAB%]*[0-9]+\)~
 // Title for miscast chance added after Weight line, value is added after this text
 @212002 = ~施法干扰：~
 
@@ -1156,7 +1159,7 @@
 <DOTS4>
 <DOTS5>~
 @216006 = ~更改武器熟练系统~
-@216007 = ~武器特长\（ 类别\）?[:-] *~
+@216007 = ~武器特长\( 类别\)?[:-] *~
 @216008 = ~武器特长类别：~
 @216009 = ~短剑/忍者刀~
 @216010 = ~武士刀/腰刀~
