@@ -17,7 +17,7 @@ EXTEND_TOP FATESP 6 #16 // rasaad
                                                                              SetGlobal("CDRasaadSummonedInRomance","GLOBAL",1)~ GOTO 8
 END
 
-EXTEND_TOP FATESP 6 #14 // neera
+EXTEND_TOP FATESP 6 #15 // neera
   IF ~HasDLC("Neera")
       !Dead("Neera")
       !InMyArea("Neera")
