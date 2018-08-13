@@ -1093,11 +1093,16 @@ Capacités spéciales :
 @203500 = ~Haches a deux mains~
 
 @204000 = ~Gourdins universels~
+// Isaya : repris de @100401 dans Item Revisions + adaptation
+@204001 = ~^[ %TAB%]*\([Nn]on[ %tab%]+\|[Ii]n\)[Uu]tilisable[ %tab%]+[Pp]ar.*~
+@204002 = ~Non utilisable par :~
+@204003 = ~[%LNL%%MNL%%WNL%].*[ %TAB%]*Mage.*~
 
+/* deprecated component
 @205000 = ~Mise a jour des descriptions pour les Gourdins universels~
 @205001 = ~Exige le composant Gourdins universels~
 @205002 = ~Ashes of Embers est present : les descriptions sont deja corrigees.~
-
+*/
 @206000 = ~Styles de combat pour toutes les classes~
 
 @207000 = ~Les druides utilisent la table de progression en XP et en sorts des clercs~
@@ -1263,7 +1268,7 @@ AVERTISSEMENT : Les katanas magiques sont très rares en dehors de Kara-Tur !
 @218003 = ~Alchimie (Roublard)~
 @218004 = ~Alchimie (Mage)
 Cette capacité permet au mage de créer des potions. Les potions que le mage peut créer sont choisies aléatoirement dans la liste suivante :
-1)  Potion d'absorbsion
+1)  Potion d'absorption
 2)  Potion de résistance au feu
 3)  Potion de résistance au froid
 4)  Potion d'invisibilité
@@ -1278,22 +1283,22 @@ Cette capacité permet au prêtre de créer des potions. Les potions que le prêtre 
 1)  Potion de soins
 2)  Potion de grands soins
 3)  Potion de soins majeurs
-4)  Elixir de santé
+4)  Élixir de santé
 5)  Potion de perspicacité
-6)  Potion de regénération
+6)  Potion de régénération
 7)  Potion de clarté
 8)  Antidote
 9)  Potion de focalisation mentale
 10) Potion de génie~
 @218006 = ~Alchimie (Roublard)
-Avec l'ingéniosité naturelle de cette classe, un roublard expérimenté a vu suffisamment de potions dans sa vie aventureuse pour simuler la création d'une de de ces potions. Avec le don d'Alchimie, le roublard peut créer une potion parmis huit, une fois par jour.
+Avec l'ingéniosité naturelle de cette classe, un roublard expérimenté a vu suffisamment de potions dans sa vie aventureuse pour simuler la création d'une de de ces potions. Avec le don d'Alchimie, le roublard peut créer une potion parmi huit, une fois par jour.
 
 Les potions que le roublard peut créer sont choisies aléatoirement dans la liste suivante :
 1) Potion de focalisation mentale
 2) Potion de perception
 3) Potion d'invisibilité
 4) Potion de soins majeurs
-5) Potion de regénération
+5) Potion de régénération
 6) Antidote
 7) Huile de rapidité
 8) Potion de force de géant du froid (spécifique aux roublards)~
@@ -1715,6 +1720,19 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen niveau.
 @327000 = ~Armes de jet recuperables~
 
 @328000 = ~Accorder a chaque classe/kit quatre emplacements d'arme~
+
+@329000 = ~Personnaliser le nom des sauvegardes automatiques~
+@329001 = ~Employer la forme : 000000000-Protagoniste-Nom de sauvegarde~
+
+@329100 = ~Employer la forme : 000000000-Protagoniste Nom de sauvegarde~
+
+@329200 = ~Employer la forme : 000000000-(Protagoniste)-Nom de sauvegarde~
+
+@329300 = ~Employer la forme : 000000000-(Protagoniste) Nom de sauvegarde~
+
+@329400 = ~Employer la forme : 000000000-[Protagoniste]-Nom de sauvegarde~
+
+@329500 = ~Employer la forme : 000000000-[Protagoniste] Nom de sauvegarde~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
