@@ -933,6 +933,9 @@ Special Abilities:
 @122043 = ~I knows recipes for two heads for Flail of Ages.  You can adds poison head... or you adds electricity head.  Only recipes I have, sorry.~
 @122044 = ~You gots three heads there... I can adds electric heads to it.  So four heads, you know?  5,000 gp and I can do it.  You wants?~
 @122045 = ~Ooo!  You gots four heads and I can add the final head.  Real pestilent, that one.  5,000 gp and I do it okay.  You want?~
+@122046 = ~This is a gnomish sling. I've got a few tricks up my sleeve that can make it more accurate.~
+@122047 = ~If ye come across a Ring of Energy, I can get ye fixed right up.~
+@122048 = ~Give me yon Ring of Energy and 5,000 gold and we can get started.~
 
 @122500 = ~Adjust Cromwell's Forging Time~
 @122501 = ~Instant forging (original BG2 default)~
@@ -1017,6 +1020,8 @@ Special Abilities:
 @131000 = ~Restore (most) BG2 spells and make scrolls available - WARNING: they will look very out of place~
 
 @132000 = ~BG2-style journal [work in progress]~
+
+@133000 = ~NPCs Cannot Use Doors~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1347,9 +1352,13 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @235000 = ~Alter Multiclass Restrictions~
 @235001 = ~Allow humans to multiclass~
 
-@235100 = ~Allow non-humans acces to all multiclass combinations~
+@235100 = ~Allow non-humans access to all multiclass combinations~
 
-@235200 = ~Install both of the above options~
+@235200 = ~Install options one and two (everyone can multiclass anything)~
+
+@235300 = ~Allow non-humans access to a multiclasses only if they can access the single-classes~
+
+@235800 = ~Install options one and three (everyone can multiclass anything they can single-class)~
 
 @236000 = ~Remove Racial Restrictions for Single Classes~
 
@@ -1390,6 +1399,8 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @252000 = ~Allow Mages to Use Bucklers and Thieves to Use Small Shields (Angel)~
 
 @253000 = ~Lightning Bolts Don't Bounce (Angel)~
+
+@254000 = ~Speed Up de'Arnise Keep Stronghold Quests~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1485,6 +1496,14 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @316000 = ~Keep Drizzt's Loot, Disable Malchor Harpell~
 
 @317000 = ~No Drow Avatars On Party In Underdark~
+
+@317500 = ~Disable Romances~
+
+@317600 = ~Accelerate/Decelerate Romances~
+@317601 = ~Please enter the percentage speed you would like to apply to the time between love talks,
+e.g. 50 would halve the current time between talks, whereas 300% would triple the length.
+
+Enter a percentage between 20 and 500:~
 
 @317900 = ~No Racial Requirements for Romance~
 
@@ -1664,6 +1683,12 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @329400 = ~Use scheme: 000000000-[Protagonist]-Save-Name~
 
 @329500 = ~Use scheme: 000000000-[Protagonist] Save-Name~
+
+@330000 = ~Death Cam~
+
+@331000 = ~Start New Games with Party AI Turned Off~
+
+@332000 = ~No Depreciation in Stores~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

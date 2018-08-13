@@ -8,6 +8,21 @@ middle of installation.
 To use this file, rename it as cdtweaks.txt and leave it in the cdtweaks folder. 
 */
 
+// The following values are used for the Accelerate/Decelerate Romances component. 
+// Set this value to 1 if you want to use the values defined here:
+OUTER_SET romance_speed_use_config_values = 0
+
+// This variable will adjust the romance speed as a percentage
+// e.g. 50 will reduce the time between romance talks to half (50%) of the current
+// time between talks; 200 would double (200%) the time between talks
+// this value must be between 20 and 500; other values will be ignored
+OUTER_SET romance_speed_factor = 100
+
+
+
+
+
+
 // The following values are used for the Romance Cheats component. 
 // Set this value to 1 if you want to use the values defined here:
 OUTER_SET romance_use_config_values = 0
