@@ -966,6 +966,9 @@ Capacités spéciales :
 @122043 = ~Je connais des recettes pour deux têtes du Fléau de l'Eternité. Vous pouvez ajouter la tête de poison... ou la tête électrique. Ce sont les seules recettes que j'ai, désolé.~
 @122044 = ~Vous avez trois têtes ici... Je peux ajouter la tête électrique, ce qui ferait quatre têtes, vous voyez ? 5 000 pièces d'or et je vous le fais. C'est d'accord ?~
 @122045 = ~Oh ! Vous avez quatre têtes ici et je peux ajouter la dernière tête ! 5 000 pièces d'or et je vous le fais. C'est d'accord ?~
+@122046 = ~C'est une fronde gnome. J'ai plusieurs trucs dans mon escarcelle qui peuvent la rendre plus précise.~
+@122047 = ~Si vous tombez sur un Anneau d'énergie, je peux vous arranger ça très vite.~
+@122048 = ~Donnez-moi votre Anneau d'énergie et 5000 po et nous pouvons commencer.~
 
 @122500 = ~Ajuster le temps de forgeage de Cromwell~
 @122501 = ~Forgeage instantane (reglage BG2 original)~
@@ -1067,6 +1070,8 @@ Capacités spéciales :
 @131000 = ~Retablir (la plupart) des sorts de BG2 et rendre leurs parchemins disponibles - ATTENTION : ils vont jurer~
 
 @132000 = ~Journal style BG II [travail en cours]~
+
+@133000 = ~Les PNJ ne peuvent pas franchir les portes~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1415,7 +1420,11 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen niveau.
 
 @235100 = ~Autoriser aux non-humains l'acces a toutes les combinaisons multi-classes~
 
-@235200 = ~Installer les deux options ci-dessus~
+@235200 = ~Installer les options une et deux (tout le monde a acces aux multi-classes sans contrainte)~
+
+@235300 = ~Permettre aux non-humains l'acces uniquement aux multi-classes basees sur des classes accessibles~
+
+@235800 = ~Installer les options une et trois (tout le monde a acces aux multi-classes des classes accessibles)~
 
 @236000 = ~Suppression des restrictions raciales pour les mono-classes~
 
@@ -1456,6 +1465,8 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen niveau.
 @252000 = ~Permettre aux mages d'utiliser une targe et les voleurs d'utiliser une rondache (Angel)~
 
 @253000 = ~Les eclairs ne rebondissent pas (Angel)~
+
+@254000 = ~Accelerer les quetes de forteresse du chateau d'Arnise~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1550,6 +1561,14 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen niveau.
 @316000 = ~Conserver le butin de Drizzt et desactiver Malchor Harpell~
 
 @317000 = ~Pas d'avatar Elfe Noir sur le groupe en Ombre-Terre~
+
+@317500 = ~Desactiver les romances~
+
+@317600 = ~Accelerer/ralentir les romances~
+@317601 = ~Veuillez entrer le pourcentage de variation que vous voudriez appliquer a l'intervalle de temps entre deux discussions,
+par exemple, 50 reduirait de moitie l'intervalle entre deux discussions tandis que 300 le triplerait.
+
+Indiquez un pourcentage entre 20 et 500 : ~
 
 @317900 = ~Pas de restriction de race~
 
@@ -1733,6 +1752,12 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen niveau.
 @329400 = ~Employer la forme : 000000000-[Protagoniste]-Nom de sauvegarde~
 
 @329500 = ~Employer la forme : 000000000-[Protagoniste] Nom de sauvegarde~
+
+@330000 = ~Focus camera en cas de mort~
+
+@331000 = ~Demarrer les nouvelles parties avec l'IA de groupe desactivee~
+
+@332000 = ~Pas de depreciation dans les magasins~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
