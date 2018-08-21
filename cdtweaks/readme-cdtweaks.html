@@ -599,7 +599,7 @@ Authors: </strong><a href="mailto:andyr@gibberlings3.net">Andyr</a>, <a href="ma
       <p>When you commission Cromwell for a special item, he says the forging will take a day to complete. In BG2, the forging is actually instant and in BG2EE the forging actually takes 24 hours (16 hours of work plus 8 hours of sleep). This component allows you to choose the length of forging time to be instant (like BG2), a full 24 hours (like BG2EE), or a third option that takes a workday (eight hours) to forge items. </p>
       <p> <strong>Give Cespenar Cromwell's Recipes</strong><br />
         <em>BG2EE,  EET,  BG2 (requires ToB),    BGT</em></p>
-      <p>Much like the previous component, Cespenar's inability to forge shadow or red dragon scales into armor is nonsensical. This component will allow Cespenar to forge the same eight items that Cromwell can, with the same components and prices. Also like the previous components, this will make one minor tweak to Cespenar
+      <p>Much like the <strong>Allow Cromwell to Upgrade Watcher's Keep Items</strong> component, Cespenar's inability to forge shadow or red dragon scales into armor is nonsensical. This component will allow Cespenar to forge the same eight items that Cromwell can, with the same components and prices. Also like the previous components, this will make one minor tweak to Cespenar
         as well--normally, he can only add the electric head to the Flail of Ages
         after the poison head has been attached. This component will allow him to
         add the heads in any order. </p>
@@ -681,7 +681,7 @@ Authors: </strong><a href="mailto:andyr@gibberlings3.net">Andyr</a>, <a href="ma
         new axe will have the animation of a two-handed halberd but, in all other
         respects, will be the same as the one-handed version. You can switch back
         to the one-handed version at any time. The ability is found behind the backpack
-        icon, once the axe is equipped. This component will  affect items introduced by mods. Axes that are two-handed by default will remain two-handed. </p>
+        icon, once the axe is equipped. This component will  affect items introduced by mods. Axes that are two-handed by default will remain two-handed. Please note that this component does not add any two-handed axes to the game; please see <a href="http://www.gibberlings3.net/iwdification/">IWDification</a> or other mods for that. </p>
       <p><em>Note:</em> Instances may occur when an axe appears to have a selling
         price of 1 gp. Resting will fix this.</p>
       <p><strong>Universal Clubs</strong><br />
@@ -1156,13 +1156,15 @@ Authors: </strong><a href="mailto:andyr@gibberlings3.net">Andyr</a>, <a href="ma
         limit of one active celestial (planetar or deva).</p>
       <p><strong>Alter Multiclass Restrictions</strong><br />
         <em>BGEE, BG2EE, IWDEE, EET,  BG2 (requires TobEx),    BGT (requires TobEx), Tutu (requires TobEx), IWD-in-BG2</em></p>
-      <p> This component has three options for changing who can multi-class, though it remains limited by valid multiclass combos in the game. Valid combos are: fighter/mage, fighter/cleric, fighter/thief, fighter/mage/thief, mage/thief, cleric/mage, cleric/thief, fighter/druid, fighter/mage/cleric, and cleric/ranger.</p>
-      <ul>
+      <p> This component has five options for changing who can multi-class, though it remains limited by valid multiclass combos in the game. Valid combos are: fighter/mage, fighter/cleric, fighter/thief, fighter/mage/thief, mage/thief, cleric/mage, cleric/thief, fighter/druid, fighter/mage/cleric, and cleric/ranger.</p>
+      <ol>
         <li><em>Allow humans to multiclass: </em>This option allows humans to become multiclass characters in any of the allowed combinations. </li>
         <li><em>Allow non-humans access to all multiclass combinations:</em> This will allow any non-human class access to any of the valid  combinations; e.g. dwarves can now be fighter/mages or half-orc fighter-druids. </li>
-        <li><em>Allow both:</em> All races have access to every valid multiclass combination. </li>
-      </ul>
-      <p>In some cases (and especially without the <strong>Remove Racial Restrictions for Single Classes</strong> component) the entries for the multi-class combos may be missing words. You can select these entries and the text and description will remain correct, and it will work in game. </p>
+        <li><em>Allow non-humans access to a multiclasses only if they can access the single-classes:</em> This allows non-humans to access a multiclass if and only if they have access to the single-classes that make up the combo, e.g. dwarves could become a cleric/thief (since they can be both clerics and thieves) but not cleric/mages (since they cannot be mages)</li>
+        <li><em>Install options one and two (everyone can multiclass anything):</em> A combination of options one and two, above.</li>
+        <li> <em>Install options one and three (everyone can multiclass anything they can single-class):</em> A combination of options one and three, above.</li>
+      </ol>
+<p>In some cases (and especially without the <strong>Remove Racial Restrictions for Single Classes</strong> component) the entries for the multi-class combos may be missing words. You can select these entries and the text and description will remain correct, and it will work in game. </p>
       <p>One other restriction is that any mage multiclass for gnomes will be replaced with illusionist, so a gnome will be fighter/illusionist/thief instead of a fighter/mage/thief.</p>
       <p> <strong>Remove Racial Restrictions for Single Classes</strong><br />
         <em>BGEE, BG2EE, IWDEE, EET,  BG2 (requires TobEx),    BGT (requires TobEx), Tutu (requires TobEx), IWD-in-BG2</em></p>
@@ -1803,7 +1805,7 @@ Authors: </strong><a href="mailto:andyr@gibberlings3.net">Andyr</a>, <a href="ma
     <div class="ribbon_triangle_h2-l"></div>
     <div class="ribbon_triangle_h2-r"></div>
     <div class="section">
-      <p><strong>Version 5 - August 11, 2018</strong></p>
+      <p><strong>Version 5 - August 21, 2018</strong></p>
       <ul>
         <li>Various components would fail to install on IWD2 since the underlying macros could fail for non-BG2 resources. </li>
         <li>Another run has been made to get all options of  <strong>Adjust Cromwell's Forging Time</strong> to work for all platforms. </li>
@@ -1811,6 +1813,7 @@ Authors: </strong><a href="mailto:andyr@gibberlings3.net">Andyr</a>, <a href="ma
         <li><strong>Disable Non-Hostile Rest Spawns</strong> and <strong>Alter Hostile Rest Spawns</strong>
         will no longer fail on areas that lack rest spawn info. </li>
         <li>Updated the Simplified Chinese translation, thanks to c4_angel!</li>
+        <li>Updated the French translation, courtesy of Isaya</li>
         <li><strong>Reputation Resets at Beginning of BG2</strong> is no longer an option for EET games, as this is already the default for EET</li>
         <li>Added new components: <strong>Death Cam</strong>, <strong>NPCs Cannot Pass Doors</strong>, <strong>Start New Games with Party AI Turned Off</strong>, <strong>No Depreciation in Stores</strong>, <strong>Disable Romances</strong>, and <strong>Accelerate/Decelerate Romances</strong> </li>
         <li>Updated the fl#add_kit_ee.tpa library (for EE kits) to the latest version</li>
