@@ -1,0 +1,16 @@
+IF
+  GlobalTimerExpired("CD_game_is_over","GLOBAL")
+THEN
+  RESPONSE #100
+    GameOver(-1)
+END	
+
+IF
+  StateCheck(Player1,STATE_REALLY_DEAD)
+  !GlobalTimerNotExpired("CD_game_is_over","GLOBAL")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("CD_game_is_over","GLOBAL",6)  
+	MoveViewObject(Player1,INSTANT)
+	CreateCreatureObjectOffset("cutspy",Player1,[1.1])
+END	

@@ -1,0 +1,21 @@
+IF
+  OR(8)
+    !Global("AnomenRomanceActive","GLOBAL",3)
+	!Global("AerieRomanceActive","GLOBAL",3)
+	!Global("DornRomanceActive","GLOBAL",3)
+	!Global("HexxatRomanceActive","GLOBAL",3)
+	!Global("JaheiraRomanceActive","GLOBAL",3)
+	!Global("NeeraRomanceActive","GLOBAL",3)
+	!Global("RasaadRomanceActive","GLOBAL",3)
+	!Global("ViconiaRomanceActive","GLOBAL",3)
+THEN
+  RESPONSE #100	
+    SetGlobal("AnomenRomanceActive","GLOBAL",3)
+	SetGlobal("AerieRomanceActive","GLOBAL",3)
+	SetGlobal("DornRomanceActive","GLOBAL",3)
+	SetGlobal("HexxatRomanceActive","GLOBAL",3)
+	SetGlobal("JaheiraRomanceActive","GLOBAL",3)
+	SetGlobal("NeeraRomanceActive","GLOBAL",3)
+	SetGlobal("RasaadRomanceActive","GLOBAL",3)
+	SetGlobal("ViconiaRomanceActive","GLOBAL",3)
+END	

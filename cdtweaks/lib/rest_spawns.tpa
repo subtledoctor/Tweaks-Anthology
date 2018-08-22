@@ -17,45 +17,47 @@ END
 COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
   PATCH_IF factor != 100 BEGIN // don't bother if no change
     READ_LONG rest_offr rest_off
-    READ_SHORT (rest_off + 0xa6) active
-    PATCH_IF active BEGIN // don't bother with inactive rest spawns
-      SET hostile = 0
-      FOR (index = 0 ; index < 10 ; ++index) BEGIN
-        READ_ASCII (rest_off + 0x48 + (index * 0x08)) cre
-        PATCH_IF (("%cre%" STRING_COMPARE_CASE "") AND ("%cre%" STRING_COMPARE_CASE "None")) BEGIN
-          PATCH_IF (FILE_CONTAINS_EVALUATED(~spawngrp.2da~ ~\b%cre%\b~)) BEGIN // if from spawngrp, assume hostile
-            SET hostile = 1
-            SET index = 10 // kill loop
-          END ELSE BEGIN
-            PATCH_IF FILE_EXISTS_IN_GAME ~%cre%.cre~ BEGIN
-              INNER_ACTION BEGIN
+	PATCH_IF rest_off BEGIN // in case area has no rest encounter section, skip attempted patching
+      READ_SHORT (rest_off + 0xa6) active
+      PATCH_IF active BEGIN // don't bother with inactive rest spawns
+        SET hostile = 0
+        FOR (index = 0 ; index < 10 ; ++index) BEGIN
+          READ_ASCII (rest_off + 0x48 + (index * 0x08)) cre
+          PATCH_IF (("%cre%" STRING_COMPARE_CASE "") AND ("%cre%" STRING_COMPARE_CASE "None")) BEGIN
+            PATCH_IF (FILE_CONTAINS_EVALUATED(~spawngrp.2da~ ~\b%cre%\b~)) BEGIN // if from spawngrp, assume hostile
+              SET hostile = 1
+              SET index = 10 // kill loop
+            END ELSE BEGIN
+              PATCH_IF FILE_EXISTS_IN_GAME ~%cre%.cre~ BEGIN
+                INNER_ACTION BEGIN
 
-                COPY_EXISTING ~%cre%.cre~ ~override~
-                  READ_BYTE alleg_off allegiance
-                  PATCH_IF (allegiance = 255) BEGIN
-                    SET hostile = 1
-                    SET index = 10 // kill loop
-                  END
-                  BUT_ONLY
+                  COPY_EXISTING ~%cre%.cre~ ~override~
+                    READ_BYTE alleg_off allegiance
+                    PATCH_IF (allegiance = 255) BEGIN
+                      SET hostile = 1
+                      SET index = 10 // kill loop
+                    END
+                    BUT_ONLY
 
-              END // inner action
-            END // file check
-          END // spawngrp else if
-        END // cre name check
-      END // for loop
-      PATCH_IF (((hostile = 1) AND (adjust_hostile = 1)) OR ((hostile = 0) AND (adjust_hostile = 0))) BEGIN // hostile/checking hostile or neutral/checking neutral
-        PATCH_IF factor = 0 BEGIN // disable completely
-          WRITE_LONG rest_off + 0xa4 0 // make inactive, set max creatures to 0, and
-          WRITE_LONG rest_off + 0xa8 0 // drop probabilities to zero for good measure
-        END ELSE BEGIN // make an adjustment
-          PATCH_FOR_EACH off IN 0xa8 0xaa BEGIN
-            READ_SHORT rest_off + off prob
-            SET prob = ((prob * factor) / 100)
-            PATCH_IF prob > 30 BEGIN SET prob = 30 END // maximum of 30%
-            WRITE_SHORT rest_off + off prob
-          END // patch_for_each offset
-        END // factor = 0 check
-      END // proceed (spawn alteration check)
-    END // active check
+                END // inner action
+              END // file check
+            END // spawngrp else if
+          END // cre name check
+        END // for loop
+        PATCH_IF (((hostile = 1) AND (adjust_hostile = 1)) OR ((hostile = 0) AND (adjust_hostile = 0))) BEGIN // hostile/checking hostile or neutral/checking neutral
+          PATCH_IF factor = 0 BEGIN // disable completely
+            WRITE_LONG rest_off + 0xa4 0 // make inactive, set max creatures to 0, and
+            WRITE_LONG rest_off + 0xa8 0 // drop probabilities to zero for good measure
+          END ELSE BEGIN // make an adjustment
+            PATCH_FOR_EACH off IN 0xa8 0xaa BEGIN
+              READ_SHORT rest_off + off prob
+              SET prob = ((prob * factor) / 100)
+              PATCH_IF prob > 30 BEGIN SET prob = 30 END // maximum of 30%
+              WRITE_SHORT rest_off + off prob
+            END // patch_for_each offset
+          END // factor = 0 check
+        END // proceed (spawn alteration check)
+      END // active check
+    END // rest_off != 0 check
   END // factor check
   BUT_ONLY

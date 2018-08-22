@@ -1,9 +1,5 @@
-//GAME_IS ~soa tob iwd2 pst pstee bg1 totsc iwd how totlm tutu tutu_totsc bgt ca iwd_in_bg2 bgee bg2ee eet iwdee~
-// possibilities: 2^82 + 3^13 + 4^8 + 5^5 + 6^2 + 7^1 + 8^1 + 9^2 + 11^6 =
-// 4.5676999303007184033606171596646 e+50
-
 BACKUP ~cdtweaks/backup~ // location to store files for
-AUTHOR ~http://gibberlings3.net/forums/index.php?showforum=34~ // email address displayed if install fails
+SUPPORT ~http://gibberlings3.net/forums/index.php?showforum=34~ // URL displayed if install fails
 
 ALWAYS
 
@@ -16,9 +12,14 @@ ALWAYS
     ACTION_IF FILE_EXISTS ~cdtweaks/cdtweaks.txt~ THEN BEGIN
       
       INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
+	  
+	  ACTION_IF !VARIABLE_IS_SET romance_speed_use_config_values THEN BEGIN OUTER_SET romance_speed_use_config_values = 0 END
+	  ACTION_IF !VARIABLE_IS_SET minimum_stats_use_config_values THEN BEGIN OUTER_SET minimum_stats_use_config_values = 0 END
+	  ACTION_IF !VARIABLE_IS_SET romance_use_config_values       THEN BEGIN OUTER_SET romance_use_config_values = 0 END
     
     END ELSE BEGIN
     
+      OUTER_SET romance_speed_use_config_values = 0
       OUTER_SET minimum_stats_use_config_values = 0
       OUTER_SET romance_use_config_values = 0
     
@@ -40,7 +41,7 @@ ALWAYS
 
 END
 
-VERSION ~v4~
+VERSION ~v5~
 
 README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
 
@@ -3865,7 +3866,11 @@ COMPILE ~cdtweaks/dlg/crom6.d~
 COMPILE ~cdtweaks/dlg/crom7.d~
 COMPILE ~cdtweaks/dlg/crom8.d~
 COMPILE ~cdtweaks/dlg/crom9.d~
-COMPILE ~cdtweaks/dlg/crom10.d~
+ACTION_IF MOD_IS_INSTALLED ~ITEM_REV/ITEM_REV.TP2~ ~0~ THEN BEGIN // ir detection
+  COMPILE ~cdtweaks/dlg/crom10_irr.d~ // ir adds ring of energy to erienne sling upgrade
+END ELSE BEGIN  
+  COMPILE ~cdtweaks/dlg/crom10.d~ // regular
+END  
 COMPILE ~cdtweaks/dlg/crom11.d~
 COMPILE ~cdtweaks/dlg/crom12.d~
 COMPILE ~cdtweaks/dlg/crom13.d~
@@ -3882,8 +3887,27 @@ EXTEND_BOTTOM ~ar0334.bcs~ ~cdtweaks/baf/ar0334.baf~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-// out of order, component-number-wise, because WeiDU will suppress other options if the first isn't the most inclusive
-// e.g. putting instant first means bgt games don't get to pick 8 hours, even though it's technically available
+// weidu gets stupid about this, so we're doing something a little different here
+// all will be displayed, but changes only made if it's not the default for that game
+
+/////                                                  \\\\\
+///// instant                                          \\\\\
+/////                                                  \\\\\
+
+BEGIN @122501 DESIGNATED 1225
+SUBCOMPONENT @122500
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+
+ACTION_IF GAME_IS ~bg2ee eet~ BEGIN
+
+  COPY_EXISTING ~cromwell.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~RestParty()[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~ ~~ // remove rest/advancetime
+    END
+    BUT_ONLY
+
+END  
 
 /////                                                  \\\\\
 ///// eight hours                                      \\\\\
@@ -3918,42 +3942,30 @@ END ELSE BEGIN
 END
 
 /////                                                  \\\\\
-///// instant                                          \\\\\
-/////                                                  \\\\\
-
-BEGIN @122501 DESIGNATED 1225
-SUBCOMPONENT @122500
-GROUP @13
-REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-
-
-COPY_EXISTING ~cromwell.bcs~ ~override~
-  DECOMPILE_AND_PATCH BEGIN
-    REPLACE_TEXTUALLY ~RestParty()[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~ ~~ // remove rest/advancetime
-  END
-  BUT_ONLY
-
-/////                                                  \\\\\
 ///// 24 hours, including rest                         \\\\\
 /////                                                  \\\\\
 
 BEGIN @122700 DESIGNATED 1227
 SUBCOMPONENT @122500
 GROUP @13
-REQUIRE_PREDICATE GAME_IS ~soa tob bgt~ @25
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
 
-OUTER_FOR (index = 0 ; index < 24 ; ++index) BEGIN
+ACTION_IF GAME_IS ~soa tob bgt~ THEN BEGIN
 
-  OUTER_SET index2 = index + 16
+  OUTER_FOR (index = 0 ; index < 24 ; ++index) BEGIN
+ 
+    OUTER_SET index2 = index + 16
 
-  ACTION_IF index2 > 23 BEGIN OUTER_SET index2 -= 24 END
+    ACTION_IF index2 > 23 BEGIN OUTER_SET index2 -= 24 END
 
-  EXTEND_TOP ~ar0334.bcs~ ~cdtweaks/baf/ar0334_sleep.baf~ EVALUATE_BUFFER
+    EXTEND_TOP ~ar0334.bcs~ ~cdtweaks/baf/ar0334_sleep.baf~ EVALUATE_BUFFER
+
+  END
+
+  EXTEND_TOP ~ar0334.bcs~ ~cdtweaks/baf/ar0334_cromwell.baf~
 
 END
-
-EXTEND_TOP ~ar0334.bcs~ ~cdtweaks/baf/ar0334_cromwell.baf~
-
+  
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -4577,6 +4589,29 @@ LAM ~journal_data~
 LAF journal_edit_dlg END
 LAF residual_journal_hacks END
 */
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// NPCs can not pass doors                                    \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @133000 DESIGNATED 1330
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~soa tob tutu tutu_totsc bgt ca iwd_in_bg2 bgee bg2ee eet iwdee~ @25
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
+  READ_SHORT 0x5a trig_num
+  READ_SHORT 0x5c trig_off
+  FOR (index = 0 ; index < trig_num ; ++index) BEGIN
+    READ_SHORT (trig_off + 0x20 + (index * 0xc4)) type
+	PATCH_IF type = 2 BEGIN // travel triggers only
+      WRITE_LONG (trig_off + 0x60 + (index * 0xc4)) (THIS | BIT9) // adds 'cannot be passed by NPC' flag
+	END
+  END	
+  BUT_ONLY
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -6342,6 +6377,7 @@ END
 BEGIN @221000 DESIGNATED 2210
 GROUP @9
 SUBCOMPONENT @221001 // Change Grandmastery Bonuses
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF FILE_CONTAINS_EVALUATED (~wspecial.2da~ ~[ %TAB%]*SPEED[ %TAB%]*~) THEN BEGIN OUTER_SET dump_speed = 0 END ELSE BEGIN OUTER_SET dump_speed = 1 END
 
@@ -6364,6 +6400,7 @@ END
 BEGIN @221100 DESIGNATED 2211
 GROUP @9
 SUBCOMPONENT @221001 // Change Grandmastery Bonuses
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF FILE_CONTAINS_EVALUATED (~wspecial.2da~ ~[ %TAB%]*SPEED[ %TAB%]*~) THEN BEGIN OUTER_SET dump_speed = 0 END ELSE BEGIN OUTER_SET dump_speed = 1 END
 
@@ -6388,7 +6425,8 @@ END
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @222000 DESIGNATED 2220
-GROUP @9 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee~ @25
+GROUP @9 
+REQUIRE_PREDICATE NOT GAME_IS ~pst pstee~ @25
 
 ACTION_IF GAME_IS ~bgee tutu tutu_totsc eet bgt bg2ee soa tob iwdee iwd_in_bg2 ca~ BEGIN
   OUTER_SET check_255 = 1
@@ -6619,6 +6657,7 @@ GROUP @9
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -6653,6 +6692,7 @@ REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxsplsrc.2da~) OR (FILE_EXISTS_IN_GAME 
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF FILE_EXISTS_IN_GAME ~mxsplsrc.2da~ THEN BEGIN
 
@@ -6697,6 +6737,7 @@ REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~mxsplwiz.2da~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 COPY ~cdtweaks/2da/un_mxsplwiz.2da~ ~override/mxsplwiz.2da~
 
@@ -6777,6 +6818,7 @@ BEGIN @226100 DESIGNATED 2261
 GROUP @9
 SUBCOMPONENT @226000 // alter mage progression
 REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~mxsplwiz.2da~ @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 COPY ~cdtweaks/2da/mxsplwiz.2da~ ~override~
 
@@ -6799,6 +6841,7 @@ REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~mxsplbrd.2da~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 COPY ~cdtweaks/2da/un_mxsplbrd.2da~ ~override/mxsplbrd.2da~
 
@@ -6810,6 +6853,7 @@ BEGIN @226100 DESIGNATED 2271
 GROUP @9
 SUBCOMPONENT @227000 // alter bard progression
 REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~mxsplbrd.2da~ @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 COPY ~cdtweaks/2da/mxsplbrd.2da~ ~override~
 
@@ -6832,6 +6876,7 @@ REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxsplclr.2da~) OR (FILE_EXISTS_IN_GAME 
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -6920,6 +6965,7 @@ BEGIN @226100 DESIGNATED 2281
 GROUP @9
 SUBCOMPONENT @228000 // alter cleric progression
 REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxsplclr.2da~) OR (FILE_EXISTS_IN_GAME ~mxsplprs.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -6950,6 +6996,7 @@ REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME 
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -6969,6 +7016,7 @@ BEGIN @229100 DESIGNATED 2291
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
 REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -6988,6 +7036,7 @@ BEGIN @229200 DESIGNATED 2292
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
 REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 // use cleric level progression
 INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~
@@ -7000,6 +7049,7 @@ BEGIN @229300 DESIGNATED 2293
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
 REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -7022,6 +7072,7 @@ BEGIN @229400 DESIGNATED 2294
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
 REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -7044,6 +7095,7 @@ BEGIN @229500 DESIGNATED 2295
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
 REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -7066,6 +7118,7 @@ BEGIN @229600 DESIGNATED 2296
 GROUP @9
 SUBCOMPONENT @229000 // alter druid progression
 REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
 
@@ -7584,10 +7637,72 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
   BUT_ONLY
 
 /////                                                            \\\\\
-///// multiclass madness                                         \\\\\
+///// deprecated                                                 \\\\\
 /////                                                            \\\\\
 
 BEGIN @235200 DESIGNATED 2352
+DEPRECATED @18
+
+// this used to be the multiclass madness component, but with the new multiclass option the component number had to be changed
+
+/////                                                            \\\\\
+///// Allow non-humans selected multi-class combos               \\\\\
+/////                                                            \\\\\
+
+BEGIN @235300 DESIGNATED 2353
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~clsrcreq.2da~ @25 // ToB required
+GROUP @9
+SUBCOMPONENT @235000 // Higher HP on Level Up
+
+COPY_EXISTING ~clsrcreq.2da~ ~override~
+  COUNT_2DA_ROWS 8 rows
+  FOR (col = 2; col < 8 ; ++col) BEGIN
+    SET fighter = 0
+    SET mage = 0
+    SET cleric = 0
+    SET thief = 0
+    SET druid = 0
+    SET ranger = 0
+    FOR (row = 0 ; row < rows ; ++row) BEGIN
+      READ_2DA_ENTRY row 0 8 entry
+      READ_2DA_ENTRY row col 8 value
+	  PATCH_IF value = 1 BEGIN
+        PATCH_MATCH ~%entry%~ WITH
+	      ~^FIGHTER$~ BEGIN SET fighter = 1 END
+	      ~^MAGE$~    BEGIN SET mage = 1 END
+	      ~^CLERIC$~  BEGIN SET cleric = 1 END
+	      ~^THIEF$~   BEGIN SET thief = 1 END
+	      ~^DRUID$~   BEGIN SET druid = 1 END
+	      ~^RANGER$~  BEGIN SET ranger = 1 END
+	      DEFAULT
+		END  
+	  END
+    END	
+    FOR (row = 0 ; row < rows ; ++row) BEGIN
+      READ_2DA_ENTRY row 0 8 entry
+      PATCH_MATCH ~%entry%~ WITH
+	    ~^FIGHTER_MAGE$~        BEGIN PATCH_IF fighter AND mage            BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_CLERIC$~      BEGIN PATCH_IF fighter AND cleric          BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_THIEF$~       BEGIN PATCH_IF fighter AND thief           BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_MAGE_THIEF$~  BEGIN PATCH_IF fighter AND mage AND thief  BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^MAGE_THIEF$~          BEGIN PATCH_IF mage AND thief              BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^CLERIC_MAGE$~         BEGIN PATCH_IF cleric AND mage             BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^CLERIC_THIEF$~        BEGIN PATCH_IF cleric AND thief            BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_DRUID$~       BEGIN PATCH_IF fighter AND druid           BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_MAGE_CLERIC$~ BEGIN PATCH_IF fighter AND mage AND cleric BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^CLERIC_RANGER$~       BEGIN PATCH_IF cleric AND ranger           BEGIN SET_2DA_ENTRY row col 8 1 END END
+		DEFAULT
+      END
+	END  
+  END
+  PRETTY_PRINT_2DA
+  BUT_ONLY
+
+/////                                                            \\\\\
+///// multiclass madness                                         \\\\\
+/////                                                            \\\\\
+
+BEGIN @235200 DESIGNATED 2357
 REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~clsrcreq.2da~ @25 // ToB required
 GROUP @9
 SUBCOMPONENT @235000 // Higher HP on Level Up
@@ -7610,6 +7725,59 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
         SET_2DA_ENTRY row col 8 1
       END
     END
+  END
+  PRETTY_PRINT_2DA
+  BUT_ONLY
+
+/////                                                            \\\\\
+///// multiclass semimadness                                     \\\\\
+/////                                                            \\\\\
+
+BEGIN @235800 DESIGNATED 2358
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~clsrcreq.2da~ @25 // ToB required
+GROUP @9
+SUBCOMPONENT @235000 // Higher HP on Level Up
+
+COPY_EXISTING ~clsrcreq.2da~ ~override~
+  COUNT_2DA_ROWS 8 rows
+  FOR (col = 1; col < 8 ; ++col) BEGIN // since humans get all of these classes, starting at 1 will open them all up
+    SET fighter = 0
+    SET mage = 0
+    SET cleric = 0
+    SET thief = 0
+    SET druid = 0
+    SET ranger = 0
+    FOR (row = 0 ; row < rows ; ++row) BEGIN
+      READ_2DA_ENTRY row 0 8 entry
+      READ_2DA_ENTRY row col 8 value
+	  PATCH_IF value = 1 BEGIN
+        PATCH_MATCH ~%entry%~ WITH
+	      ~^FIGHTER$~ BEGIN SET fighter = 1 END
+	      ~^MAGE$~    BEGIN SET mage = 1 END
+	      ~^CLERIC$~  BEGIN SET cleric = 1 END
+	      ~^THIEF$~   BEGIN SET thief = 1 END
+	      ~^DRUID$~   BEGIN SET druid = 1 END
+	      ~^RANGER$~  BEGIN SET ranger = 1 END
+	      DEFAULT
+		END  
+	  END
+    END	
+    FOR (row = 0 ; row < rows ; ++row) BEGIN
+      READ_2DA_ENTRY row 0 8 entry
+      PATCH_MATCH ~%entry%~ WITH
+	    ~^FIGHTER_MAGE$~        BEGIN PATCH_IF fighter AND mage            BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_CLERIC$~      BEGIN PATCH_IF fighter AND cleric          BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_THIEF$~       BEGIN PATCH_IF fighter AND thief           BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_MAGE_THIEF$~  BEGIN PATCH_IF fighter AND mage AND thief  BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^MAGE_THIEF$~          BEGIN PATCH_IF mage AND thief              BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^CLERIC_MAGE$~         BEGIN PATCH_IF cleric AND mage             BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^CLERIC_THIEF$~        BEGIN PATCH_IF cleric AND thief            BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_DRUID$~       BEGIN PATCH_IF fighter AND druid           BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^FIGHTER_MAGE_CLERIC$~ BEGIN PATCH_IF fighter AND mage AND cleric BEGIN SET_2DA_ENTRY row col 8 1 END END
+	    ~^CLERIC_RANGER$~       BEGIN PATCH_IF cleric AND ranger           BEGIN SET_2DA_ENTRY row col 8 1 END END
+		DEFAULT
+      END
+	END  
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
@@ -8008,7 +8176,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   BUT_ONLY_IF_IT_CHANGES
 
 COPY_EXISTING ~clasweap.2da~ ~override~
-  COUNT_2DA_COLS col_num
+  PATCH_IF GAME_IS ~iwd how totlm~ BEGIN
+    SET col_num = 16
+  END ELSE BEGIN
+    SET col_num = 9
+  END
   READ_2DA_ENTRY 0 0 (col_num - 1) val                  // weidu seems to freak out with a top line w/ one less entry
   SET_2DA_ENTRY  0 0 (col_num - 1) ~CD_DELETE_ME %val%~ // temp
   FOR (col = 1; col < col_num; ++col) BEGIN
@@ -8109,7 +8281,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   BUT_ONLY
 
 COPY_EXISTING ~clasweap.2da~ ~override~
-  COUNT_2DA_COLS col_num
+  PATCH_IF GAME_IS ~iwd how totlm~ BEGIN
+    SET col_num = 16
+  END ELSE BEGIN
+    SET col_num = 9
+  END
   READ_2DA_ENTRY 0 0 (col_num - 1) val                  // weidu seems to freak out with a top line w/ one less entry
   SET_2DA_ENTRY  0 0 (col_num - 1) ~CD_DELETE_ME %val%~ // temp
   FOR (col = 1; col < col_num; ++col) BEGIN
@@ -8195,7 +8371,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   BUT_ONLY
 
 COPY_EXISTING ~clasweap.2da~ ~override~
-  COUNT_2DA_COLS col_num
+  PATCH_IF GAME_IS ~iwd how totlm~ BEGIN
+    SET col_num = 16
+  END ELSE BEGIN
+    SET col_num = 9
+  END
   READ_2DA_ENTRY 0 0 (col_num - 1) val                  // weidu seems to freak out with a top line w/ one less entry
   SET_2DA_ENTRY  0 0 (col_num - 1) ~CD_DELETE_ME %val%~ // temp
   FOR (col = 1; col < col_num; ++col) BEGIN
@@ -8742,6 +8922,42 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   END
   BUT_ONLY
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Speed Up de'Arnise Keep Stronghold Quests                  \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @254000 DESIGNATED 2540
+GROUP @9
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+
+COPY_EXISTING ~cut32b.bcs~   ~override~
+              ~cut32c.bcs~   ~override~
+              ~cut32d.bcs~   ~override~
+              ~cut32e.bcs~   ~override~
+              ~cut32e2.bcs~  ~override~
+              ~cut32g.bcs~   ~override~
+              ~cut32h.bcs~   ~override~
+              ~cut32i.bcs~   ~override~
+              ~cut32j.bcs~   ~override~
+              ~cut32k.bcs~   ~override~
+              ~kpdomo01.dlg~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_EVALUATE ~SetGlobalTimer("KPPlotTime","GLOBAL",\([^)]+\))~ BEGIN
+      PATCH_IF IS_AN_INT MATCH1 BEGIN
+        SET time = MATCH1
+	  END ELSE BEGIN
+        SET time = IDS_OF_SYMBOL (~GTIMES~ ~%MATCH1%~) // should convert stuff like EIGHT_HOURS to numeric value
+      END
+      SET time = ((time * 67) / 100) 
+    END ~SetGlobalTimer("KPPlotTime","GLOBAL",%time%)~	
+  END
+  BUT_ONLY
+
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -9103,6 +9319,7 @@ END
 
 BEGIN @300800 DESIGNATED 3008 // maximum
 GROUP @4
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_CLEAR_ARRAY cd_hp_tables
 
@@ -10015,6 +10232,108 @@ COPY_EXISTING ~ar2102.bcs~ ~override~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
+///// Disable romances                                 \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @317500 DESIGNATED 3175
+GROUP @4
+REQUIRE_PREDICATE GAME_IS ~bgt soa tob bg2ee eet~ @25
+
+ACTION_FOR_EACH script IN baldur baldur25 BEGIN
+
+  ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ THEN BEGIN
+  
+    EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/romance_disable.baf~
+
+  END	
+
+END    
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Accelerate/decelerate romances                   \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @317600 DESIGNATED 3176
+GROUP @4
+REQUIRE_PREDICATE GAME_IS ~bgt soa tob bg2ee eet~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3175~ @16
+
+ACTION_IF (romance_speed_use_config_values = 1) THEN BEGIN // if set in the config file...
+
+  ACTION_IF ((!IS_AN_INT romance_speed_factor) OR (romance_speed_factor < 20) OR (romance_speed_factor > 500)) THEN BEGIN // but is not a valid integer between 20-500
+    
+	OUTER_SET prompt = 1 // prompt anyway
+	
+  END ELSE BEGIN // if it is an integer between 20-500
+    
+	OUTER_SET prompt = 0 // then skip prompt and use the value
+  
+  END
+
+END ELSE BEGIN // if not set in the config file
+
+  OUTER_SET prompt = 1 
+
+END
+  
+ACTION_IF prompt BEGIN
+  
+  OUTER_WHILE ((!IS_AN_INT romance_speed_factor) OR (romance_speed_factor < 20) OR (romance_speed_factor > 500)) BEGIN // stay here until we have a 20-500
+    PRINT @317601
+    ACTION_READLN romance_speed_factor
+  END
+
+END  
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_romances_timers BEGIN
+  Aeri25  => AerieRomance
+  Aerie   => AerieRomance
+  Anom25  => AnomenRomance
+  Anomen  => AnomenRomance
+  Dorn    => DornLovetalksTimer
+  Dorn25  => DornToBLovetalksTimer
+  Hexxa25 => HexxatToBLovetalksTimer
+  Hexxat  => HexxatLovetalksTimer
+  Jahe25  => JaheiraRomance
+  Jaheira => JaheiraRomance
+  Neer25  => NeeraToBLovetalksTimer
+  Neera   => NeeraLovetalksTimer
+  Rasaad  => RasaadLovetalksTimer
+  Vico25  => ExpViconiaRomance
+  Viconia => ViconiaRomance
+  rasa25  => RasaadToBLovetalksTimer
+END
+
+ACTION_PHP_EACH cd_romances_timers AS script => variable BEGIN
+
+  ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ THEN BEGIN
+  
+    COPY_EXISTING ~%script%.bcs~ ~override~
+	  DECOMPILE_AND_PATCH BEGIN
+	    REPLACE_EVALUATE ~RealSetGlobalTimer("%variable%","GLOBAL",\([^)]+\))~ BEGIN
+          PATCH_IF IS_AN_INT MATCH1 BEGIN
+		    SET time = MATCH1
+		  END ELSE BEGIN
+            SET time = IDS_OF_SYMBOL (~GTIMES~ ~%MATCH1%~) // should convert stuff like EIGHT_HOURS to numeric value
+          END
+          SET time = ((time * romance_speed_factor) / 100) 
+        END ~RealSetGlobalTimer("%variable%","GLOBAL",%time%)~	
+	  END
+	  BUT_ONLY
+	  
+  END
+
+END  
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
 ///// Romance Cheats                                   \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -10023,6 +10342,7 @@ COPY_EXISTING ~ar2102.bcs~ ~override~
 BEGIN @318300 DESIGNATED 3183
 GROUP @4
 REQUIRE_PREDICATE GAME_IS ~bgt soa tob bg2ee eet~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3175~ @16
 
 // make array for standard bg2 romances
 ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_romances BEGIN
@@ -11976,7 +12296,6 @@ COPY_EXISTING ~numwslot.2da~ ~override~
   REPLACE_TEXTUALLY ~\([ %TAB%]+\)[123][ %TAB%]*$~ ~\14~
   BUT_ONLY
 
-
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -12081,6 +12400,65 @@ LAF PERSONALIZE_SAVENAMES
     charname_string = ~\[<CHARNAME>\] ~
 END
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// death cam                                        \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @330000 DESIGNATED 3300
+GROUP @4
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet sod~ @25
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
+  WRITE_LONG 0x14 (THIS | BIT4) // add player1-can-die bit
+  BUT_ONLY
+
+ACTION_FOR_EACH script IN baldur baldur25 bdbaldur BEGIN
+
+  ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ THEN BEGIN
+  
+    EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/deathcam.baf~
+
+  END	
+
+END 
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// new games start with party ai turned off         \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @331000 DESIGNATED 3310
+GROUP @4
+REQUIRE_PREDICATE GAME_IS ~soa tob iwd2 pstee bg1 totsc iwd how totlm tutu tutu_totsc bgt ca iwd_in_bg2 bgee bg2ee eet iwdee~ @25   
+
+COPY_EXISTING ~baldur.gam~   ~override~ // all others
+              ~icewind.gam~  ~override~ // iwd
+              ~icewind2.gam~ ~override~ // iwd2
+              ~torment.gam~  ~override~ // pstee
+  WRITE_LONG 0x60 (THIS | BIT0) // set party ai disabled bit
+  BUT_ONLY IF_EXISTS
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// no store depreciation                            \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @332000 DESIGNATED 3320
+GROUP @4
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
+  WRITE_LONG 0x1c 0 // depreciation
+  BUT_ONLY
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -12652,8 +13030,8 @@ ACTION_IF GAME_IS ~bg1 totsc~ BEGIN
                 ~khalid4.cre~ ~override~
                 ~khalid6.cre~ ~override~
     WRITE_LONG 0x18 4888  // raise XP
-    WRITE_SHORT 0x24 8    // current hp
-    WRITE_SHORT 0x26 8    // max hp
+    WRITE_SHORT 0x24 10   // current hp
+    WRITE_SHORT 0x26 10   // max hp
     WRITE_BYTE 0x52 19    // lower thac0
     WRITE_BYTE 0x66 3     // lower lore
     WRITE_BYTE 0x234 2    // 1st class level
@@ -12691,8 +13069,8 @@ ACTION_IF GAME_IS ~bg1 totsc~ BEGIN
   COPY_EXISTING ~khalid4.cre~ ~override~
                 ~khalid6.cre~ ~override~
     WRITE_LONG 0x18 18822 // raise XP
-    WRITE_SHORT 0x24 14   // current hp
-    WRITE_SHORT 0x26 14   // max hp
+    WRITE_SHORT 0x24 16   // current hp
+    WRITE_SHORT 0x26 16   // max hp
     WRITE_BYTE 0x66 9     // lower lore
     WRITE_BYTE 0x6e 2     // lower large sword prof (khalid4, 6)
     WRITE_BYTE 0x72 1     // raise blunt prof (khalid2, 4, 6)
@@ -13137,6 +13515,6 @@ COPY_EXISTING ~ar0602.bcs~ ~override~ // irenicus's dungeon
               ~ar2600.bcs~ ~override~ // candlekeep
               ~ar4000.bcs~ ~override~ // tob heads
   DECOMPILE_AND_PATCH BEGIN
-    REPLACE_TEXTUALLY ~[ %TAB%]Global("BD_DEFAI","MYAREA",0)~ ~ False()~ // nuke block that assigns 'advanced ai' to player1
+    REPLACE_TEXTUALLY ~[ %TAB%]Global("BD_DEFAI","\(MYAREA\|GLOBAL\)",0)~ ~ False()~ // nuke block that assigns 'advanced ai' to player1
   END
   BUT_ONLY IF_EXISTS
