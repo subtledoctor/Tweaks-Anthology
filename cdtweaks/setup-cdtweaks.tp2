@@ -101,7 +101,7 @@ LANGUAGE
   ~cdtweaks/languages/spanish/description_updates.tra~
   ~cdtweaks/languages/spanish/setup.tra~
 LANGUAGE
-  ~Simplified Chinese 简体中文 (Translation from bg2_tweaks by Miranda, distance20 and c4_angel for anthology)~
+  ~Simplified Chinese (Translation from bg2_tweaks by Miranda, distance20 and c4_angel)~
   /*
     The folder name should be schinese to work properly with HANDLE_CHARSETS.
     And also make difference between simplified and traditional Chinese.
@@ -110,6 +110,7 @@ LANGUAGE
   ~schinese~
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
+  ~cdtweaks/languages/schinese/prompts/prompts-%WEIDU_OS%.tra~
   ~cdtweaks/languages/schinese/description_updates.tra~
   ~cdtweaks/languages/schinese/setup.tra~
 
