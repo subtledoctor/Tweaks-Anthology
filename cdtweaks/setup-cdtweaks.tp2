@@ -35,7 +35,7 @@ ALWAYS
 
     // convert strings to UTF-8 for BGEE/BG2EE
     ACTION_DEFINE_ARRAY cdreload BEGIN setup END
-    LAF HANDLE_CHARSETS INT_VAR infer_charset = 1 STR_VAR tra_path = ~cdtweaks/languages~ reload_array = cdreload END
+    LAF HANDLE_CHARSETS INT_VAR infer_charsets = 1 STR_VAR tra_path = ~cdtweaks/languages~ reload_array = cdreload END
 
   END
 
