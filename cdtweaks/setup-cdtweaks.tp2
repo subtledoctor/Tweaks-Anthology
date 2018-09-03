@@ -10214,6 +10214,7 @@ INCLUDE ~cdtweaks/lib/faster_start.tpa~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+/* // old overwrite version
 BEGIN @315000 DESIGNATED 3150
 GROUP @4
 REQUIRE_PREDICATE NOT GAME_IS ~bgee bg1 totsc tutu tutu_totsc iwd how totlm iwd2 pst pstee~ @25
@@ -10221,6 +10222,16 @@ REQUIRE_PREDICATE NOT GAME_IS ~bgee bg1 totsc tutu tutu_totsc iwd how totlm iwd2
 COPY ~cdtweaks/bam/spmagglo.bam~ ~override~
      ~cdtweaks/bam/spmagglo.bam~ ~override/spsturni.bam~
      ~cdtweaks/bam/spmagglo.bam~ ~override/spturni2.bam~
+*/
+
+BEGIN @506000 DESIGNATED 3150
+GROUP @4
+REQUIRE_PREDICATE NOT GAME_IS ~bgee bg1 totsc tutu tutu_totsc iwd how totlm iwd2 pst pstee~ @25
+
+WITH_SCOPE BEGIN
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="mirror_cloak_ease" END
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
