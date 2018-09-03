@@ -5,7 +5,6 @@
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-
      @0 = ~NPC Tweaks~
      @1 = ~This step may take a few moments ...~
      @2 = ~The Add Bags of Holding to BG is required for this component.~
@@ -34,7 +33,6 @@
     @22 = ~This component is not available for Baldur's Gate: Enhanced Edition.~
     @23 = ~This component is only for Tutu or Baldur's Gate: Enhanced Edition.~
     @24 = ~This component is incompatible with another mod already installed.~
-
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -42,38 +40,23 @@
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-
   @1000 = ~Remove Helmet Animations~
-
   @2000 = ~Change Imoen's Avatar to Mage~
-
   @3000 = ~Change Nalia's Avatar to Thief~
-
   @4000 = ~Change Viconia's Skin Color to Dark Blue~
-
   @5000 = ~Avatar Morphing Script~
   @5001 = ~AVATAR MORPHING SCRIPT:~
   @5002 = ~This script lets the user have control over the avatar of the character. Press 'S' to activate the avatar selection screen. (<script>)~
-
   @6000 = ~Weapon Animation Tweaks~
-
   @7000 = ~Icewind Dale Casting Graphics (Andyr)~
-
   @8000 = ~Restore SoA Load Screen Logo (ToB Only)~
-
   @9000 = ~Disable Portrait Icons Added by Equipped Items~
-
  @10000 = ~Commoners Use Drab Colors~
-
  @11000 = ~Icon Improvements~
-
  @12000 = ~Change Avatar When Wearing Robes or
 Armor (Galactygon)~
-
  @13000 = ~Force All Dialogue to Pause Game~
-
  @14000 = ~Fix Boo's Squeak~
-
  @18000 = ~Unique Containers~
  @18001 = ~Архивы Арканы~
  @18002 = ~Сио'чайре~
@@ -109,7 +92,6 @@ Armor (Galactygon)~
  @18032 = ~ствол~
  @18033 = ~этот ствол~
  @18034 = ~Краденые товары Селенс Хиллстар~
-
  @18100 = ~Бронзовая сумка для самоцветов~
  @18101 = ~Черно-зеленая сумка для самоцветов~
  @18102 = ~Зеленая сумка для самоцветов~
@@ -139,7 +121,6 @@ Armor (Galactygon)~
  @18126 = ~Сумка для самоцветов Дроу~
  @18127 = ~Изумрудная сумка для самоцветов~
  @18128 = ~Темная сумка для самоцветов~
-
  @18200 = ~Бронзовый ящик для свитков~
  @18201 = ~Черно-зеленый ящик для свитков~
  @18202 = ~Зеленый ящик для свитков~
@@ -184,7 +165,6 @@ Armor (Galactygon)~
  @18241 = ~Фиолетовый тубус для свитков~
  @18242 = ~Черный тубус для свитков~
  @18243 = ~Темный ящик для свитков~
-
  @18300 = ~Бронзовая сумка хранения~
  @18301 = ~Малахитовая сумка хранения~
  @18302 = ~Зеленая сумка хранения~
@@ -228,7 +208,6 @@ Armor (Galactygon)~
  @18340 = ~Сумка хранения Дроу~
  @18341 = ~Изумрудная сумка хранения~
  @18342 = ~Темная сумка хранения~
-
  @18400 = ~Бело-золотистый ремень с боеприпасами~
  @18401 = ~Красно-черный ремень с боеприпасами~
  @18402 = ~Серебряно-черный ремень с боеприпасами~
@@ -277,7 +256,6 @@ Armor (Galactygon)~
  @18445 = ~Фиолетовый железный ремень с боеприпасами~
  @18446 = ~Черный железный ремень с боеприпасами~
  @18447 = ~Темный ремень с боеприпасами~
-
  @18500 = ~Медный ящик для зелий~
  @18501 = ~Черно-зеленый ящик для зелий~
  @18502 = ~Зеленый ящик для зелий~
@@ -311,8 +289,6 @@ Armor (Galactygon)~
  @18530 = ~Окаймованная фиолетовым сумка для зелий~
  @18531 = ~Окаймованная черным сумка для зелий~
  @18532 = ~Темный ящик для зелий~
-
-
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -320,94 +296,67 @@ Armor (Galactygon)~
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-
 @101000 = ~More Interjections~
-
 @102000 = ~Alter HP Triggers for NPC Wounded Dialogues~
-
 @103000 = ~Reveal Wilderness Areas Before Chapter Six~
-
 @103500 = ~Make Cloakwood Areas Available Before Completing the Bandit Camp~
 @103501 = ~First Area Only~
-
 @103600 = ~All of Cloakwood Except the Mines~
-
 @104000 = ~Improved Athkatlan City Guard~
 @104001 = ~Солдат Амна~
 @104002 = ~Санкционированный волшебник~
 @104003 = ~Клерик~
-
 @105000 = ~Gradual Drow Item Disintegration~
 @105001 = ~Ваши предметы дроу разрушились.~
-
 @106000 = ~Breakable Iron Nonmagical Shields, Helms, and Armor~
 @106001 = ~Ваши доспехи развалились.~
 @106002 = ~Ваш щит разбит.~
 @106003 = ~Ваш шлем разбит.~
-
 @107000 = ~Improved Multi-Player Kick-out Dialogues~
 @107001 = ~Ждите нас в Гостинице Дружеская Рука. Если что-то изменится, мы найдем вас там.~
 @107002 = ~Пожалуйста, вернись в команду.~
 @107003 = ~Я отправлю тебя обратно в карманное измерение... жди меня там.~
-
 @108000 = ~Add Bags of Holding~
 @108001 = ~Ремень с боеприпасами~
 @108002 = ~Этот пояс идеален для хранения ядер пращи, дротиков, стрел и арбалетных болтов.
-
 ПАРАМЕТРЫ:
-
 Вместимость:  в общем до 2000 ядер пращи, дротиков, стрел или арбалетных болтов
 Вес:  2 ~
 @108003 = ~Ящик для бутылок~
 @108004 = ~Этот кожаный мешок обычно носят странствующие целители, его складки расправляются и позволяют обладателю прикрепить хрупкие бутыли с зельями к его мягкому валику с многочисленными кожаными ремешками для безопасной перевозки. Независимо от того, сколько зелий содержится в этом ящике, его вес всегда тот же самый.
-
 ПАРАМЕТРЫ:
-
 Вместимость:  100 бутылок
 Вес:  2~
-
 @109000 = ~Exotic Item Pack~
 @109001 = ~Колчан Изобилия~
 @109002 = ~История этого магического колчана была давно утрачена, хотя похоже, что он был предназначен для восполнения необъяснимой, но документально подтвержденной, нехватки профессиональных изготовителей луков и стрел в Смутное Время.
-
 ПАРАМЕТРЫ:
-
 Неограниченные стрелы~
 @109003 = ~Сундук Изобилия~
 @109004 = ~История этого магического сундука была давно утрачена, хотя похоже, что он был предназначен для восполнения необъяснимой, но документально подтвержденной, нехватки профессиональных изготовителей луков и стрел в Смутное Время.
-
 ПАРАМЕТРЫ:
-
 Неограниченные болты~
 @109005 = ~Сумка Изобилия~
 @109006 = ~Хотя этот мягкий матерчатый мешочек сейчас пуст, его окружает могущественная волшебная аура.
-
 ПАРАМЕТРЫ:
-
 Неограниченные ядра~
 @109007 = ~Темно-фиолетовый Камень Юун~
 @109008 = ~Этот камень, темно фиолетового оттенка, позволяет носящему его видеть в темноте.
-
 ПАРАМЕТРЫ:
-
 При экипировке:
   Инфравидение в радиусе 60 футов
   
 Вес:  2~
 @109009 = ~Мерцающий Белый Камень Юун~
 @109010 = ~Этот камень холодный на ощупь и излучает энергию.
-
 ПАРАМЕТРЫ:
-
 При экипировке:
   Сопротивлению холоду:  +10% бонус
   
 Вес:  2~
 @109011 = ~Катана~
 @109012 = ~Катана это заостренный с одной стороны, слегка изогнутый меч с резцом на конце. Возможно, катана является лучшим из всех мечей, и ее создание это долгий и секретный процесс, требующий большого искусства. Этот клинок - важный аспект культуры Кара-Тур.  Коснуться или завладеть катаной самурая, означает оскорбить его и возбудить его ярость. Гайджину, или чужестранцу, редко предоставляется возможность завладеть таким мечом. Этом может произойти только в случае если гайджин является высокочтимым другом важного министра, или если гайджин убил самурая.
-
 ПАРАМЕТРЫ:
-
 Урон:  1D10
 Тип урона:  рубящий
 Вес:  6
@@ -422,12 +371,9 @@ Armor (Galactygon)~
   Хозяин зверей~
 @109013 = ~Тсу'О'Ши +2~
 @109014 = ~Тсу'О'Ши, также известный как Лезвие Желания, было изготовлено в племени Ва более пяти столетий тому назад, кузнецом оружейником Муракакеном Шинджи, чей навык был настолько велик, что он, по слухам, был способен пробудить сам дух металла. Тсу-О-Ши прошел через руки различных наследников ничем непримечательного семейства Касуне, пока его не увидел мощный даймио и известный любитель меча Фушима Такаги. Такаги захотел завладеть мечом и сделал много безуспешных попыток приобрести лезвие. Наконец, он нанял клан ниндзя, чтобы украсть лезвие для него, замаскировав его потерю пожаром в доме семейства Касуне. Когда ниндзя представили лезвие своему нанимателю, то были зарублены им, чтобы навсегда удалить любую связь между Такаги и законными владельцами меча. Такаги спрятал меч, и часто приходил к своему тайнику, чтобы полюбоваться на его красоту и совершенство. В тот день, когда Такаги умер, его дух отказался покинуть землю и оставить меч, так что он остался с Тсу'О'Ши, слившись с ним воедино. С этого дня, любой, кто владеет могущественным Тсу'О'Ши, должен остерегаться духа Фушимы Такаги, который пьет жизненную сущность того, кто касается оружия, чтобы оставаться на Торил с целью своего желания. Как результат, это проклятое лезвие имеет шанс иссушать владельца, каждый раз, когда используется.
-
 ПАРАМЕТРЫ:
-
 Боевые способности:
   Истощает жизнь или атрибуты владельца, при использовании
-
 THAC0:  +2 бонус
 Урон:  1D10 +2
 Тип урона:  рубящий
@@ -450,9 +396,7 @@ THAC0:  +2 бонус
 @109021 = ~Изменение силы~
 @109022 = ~Храм Галликина~
 @109025 = ~Катана это заостренный с одной стороны, слегка изогнутый меч с резцом на конце. Возможно, катана является лучшим из всех мечей, и ее создание это долгий и секретный процесс, требующий большого искусства. Этот клинок - важный аспект культуры Кара-Тур.  Коснуться или завладеть катаной самурая, означает оскорбить его и возбудить его ярость. Гайджину, или чужестранцу, редко предоставляется возможность завладеть таким мечом. Этом может произойти только в случае если гайджин является высокочтимым другом важного министра, или если гайджин убил самурая.
-
 ПАРАМЕТРЫ:
-
 Урон:  1D10
 Тип урона:  рубящий
 Вес:  6
@@ -462,12 +406,9 @@ THAC0:  +2 бонус
 Требования:  Сила 6
 ~
 @109026 = ~Тсу'О'Ши, также известный как Лезвие Желания, было изготовлено в племени Ва более пяти столетий тому назад, кузнецом оружейником Муракакеном Шинджи, чей навык был настолько велик, что он, по слухам, был способен пробудить сам дух металла. Тсу-О-Ши прошел через руки различных наследников ничем непримечательного семейства Касуне, пока его не увидел мощный даймио и известный любитель меча Фушима Такаги. Такаги захотел завладеть мечом и сделал много безуспешных попыток приобрести лезвие. Наконец, он нанял клан ниндзя, чтобы украсть лезвие для него, замаскировав его потерю пожаром в доме семейства Касуне. Когда ниндзя представили лезвие своему нанимателю, то были зарублены им, чтобы навсегда удалить любую связь между Такаги и законными владельцами меча. Такаги спрятал меч, и часто приходил к своему тайнику, чтобы полюбоваться на его красоту и совершенство. В тот день, когда Такаги умер, его дух отказался покинуть землю и оставить меч, так что он остался с Тсу'О'Ши, слившись с ним воедино. С этого дня, любой, кто владеет могущественным Тсу'О'Ши, должен остерегаться духа Фушимы Такаги, который пьет жизненную сущность того, кто касается оружия, чтобы оставаться на Торил с целью своего желания. Как результат, это проклятое лезвие имеет шанс иссушать владельца, каждый раз, когда используется.
-
 ПАРАМЕТРЫ:
-
 Боевые способности:
   Истощает жизнь или атрибуты владельца, при использовании
-
 THAC0:  +2 бонус
 Урон:  1D10 +2
 Тип урона:  рубящий
@@ -477,9 +418,7 @@ THAC0:  +2 бонус
 Тип:  1-ручное
 Требования:  Сила 6
 ~
-
 @110000 = ~Reveal City Maps When Entering Area~
-
 @111000 = ~Add Map Notes~
 @111001 = ~Гостиница Кэндлкипа~
 @111002 = ~Жилище Священника~
@@ -577,14 +516,10 @@ THAC0:  +2 бонус
 @111094 = ~Выход из шахты~
 @111095 = ~Выход~
 @111096 = ~Храм Баала~
-
 @112000 = ~Stores Sell Higher Stacks of Items~
-
 @113000 = ~Reputation Resets in BG2 (BGT Only)~
-
 @114000 = ~Gems and Potions Require Identification~
 @114001 = ~Драгоценные камни - это минералы, которые после огранки и полировки приобретают коллекционнуй ценность и могут быть использованы при изготовлении украшений.~
-
 @115000 = ~Shapeshifter Rebalancing~
 @115001 = ~Призыв Животных
 Уровень:  6
@@ -595,14 +530,11 @@ THAC0:  +2 бонус
 Время чтения:  9
 Зона действия:  Особая
 Спасбросок:  Нет
-
 Это заклинание позволяет кастеру призвать и управлять двумя 20 КЗ медведями-оборотнями. Медведи подчиняются любым командам кастера во время действия заклинания. Медведи-оборотни медленнее Великих Оборотней, но они более мощные. Медведи-оборотни невосприимчевы к основным и магическим атакам и быстро восстанавливаются.~
 @115002 = ~Великий медведь-оборотень~
 @115003 = ~Медведь-оборотень~
 @115004 = ~Эта символическая лапа представляет контроль изменчивого друида над ликантропией. При использовании лапы, друид превращается в оборотня. Если убрать лапу, друид возвращается в человеческую форму. Лапы оборотня считаются оружием +2.
-
 ПАРАМЕТРЫ:
-
 Атрибуты:  сила 19, ловкость 16, телосложение 15
 Класс защиты:  1
 Сопротивление:  20% сопротивление магии, иммунен к простому оружию
@@ -614,9 +546,7 @@ THAC0:  +2 бонус
 Тип:  1-ручное
 ~
 @115005 = ~Эта символическая лапа представляет полный контроль Друида - Изменчивый над ликантропией. При использовании лапы, Изменчивый превращается в Великого Оборотня. Если убрать лапу, Изменчивый возвращается в человеческую форму. Лапы Великого Оборотня считаются оружием +3.
-
 ПАРАМЕТРЫ:
-
 Атрибуты: сила 21, ловкость 20, телосложение 25
 Класс защиты:  -6
 Базовые спасброски:  1/1/1/2/1
@@ -630,7 +560,6 @@ THAC0:  +2 бонус
 Оружейный навык:  Кинжал
 Тип: 1-ручное
 ~
-
 @116000 = ~Multiple Strongholds (Baldurdash)~
 @116001 = ~No Restrictions (Baldurdash)~
 @116002 = ~Если вам захочется применить свои способности в театральной сфере, я могу отдать вам купчую на мой театр. Самуэль - честный человек, и признает сделку.~
@@ -655,21 +584,14 @@ THAC0:  +2 бонус
 @116021 = ~Мою подругу похитили. Мне больно отказываться, но я не могу бросить ее, чтобы помогать в восстановлении рощи.~
 @116022 = ~Вы по праву получаете благословение этой земли, и я дарю вам этот Посох Грома и Молнии.~
 @116023 = ~Что ж, пусть будет так. Я останусь здесь, как мастер поединка, и служитель этой земли, пока новый правитель не взойдет на свой трон по праву.~
-
 @116100 = ~Keep Class Restrictions~
-
 @117000 = ~Bonus Merchants (Baldurdash)~
-
 @118000 = ~Female Edwina~
-
 @119000 = ~Romance Bug Fixes~
-
 @120000 = ~Imoen ToB Dialogue Fix~
-
 @121000 = ~Use BG Walking Speeds (BETA)~
     
 @122000 = ~Allow Cromwell to Upgrade Watcher's Keep Items~
-
 @122001 = ~А, полный колчан для арбалета. Я могу зачаровать его, чтобы болты били дальше, но это будет прилично стоить - 5,000.~
 @122002 = ~Ну, давай посмотрим, что еще у тебя есть.~
 @122003 = ~Капюшон вора, а?~
@@ -723,35 +645,23 @@ THAC0:  +2 бонус
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-
 @201000 = ~PnP Spell Progression Tables~
-
 @202000 = ~Two-Handed Bastard Swords~
 @202001 = ~Использовать как одноручное~
 @202002 = ~Использовать как двуручное~
-
 @203000 = ~Two-Handed Katanas~
-
 @204000 = ~Universal Clubs~
-
 @205000 = ~Description Updates for Universal
  Clubs Component~
 @205001 = ~Requires Universal Clubs to be installed~
 @205002 = ~Ashes of Embers is installed, which already adjusts club descriptions.~
-
 @206000 = ~Weapon Styles for All~
-
 @207000 = ~Druids Use Cleric Level and Spell Progression~
-
 @208000 = ~Delay High Level Abilities~
-
 @209000 = ~Change Experience Point Cap~
 @209001 = ~Remove Experience Cap~
-
 @209100 = ~Level 20 Experience Point Cap~
-
 @209200 = ~Level 30 Experience Point Cap~
-
 @210000 = ~Allow Thieving and Stealth in Heavy Armor~
 // Moved from thieving_descripts.tpa
 // See English setup.tra for details on what should be matched by the regular expression
@@ -766,76 +676,60 @@ THAC0:  +2 бонус
 @210009 = ~Скрыться в тенях:~
 @210010 = ~^[ %TAB%]*Бесшумное движение:.+$[%MNL%%LNL%%WNL%]+~
 @210011 = ~Бесшумное движение:~
-
 @211000 = ~Alter Item Descriptions for 'Stealth and
 Thieving Abilities in Heavy Armor' Component~
-
 @212000 = ~Allow Arcane Spellcasting in Heavy Armor~
 // Moved from arcane_descripts.tpa
 // See English setup.tra for details on what should be matched by the regular expression
 @212001 = ~\(Вес:[ %tab%]*[0-9]+\)~
 @212002 = ~Шанс провала заклинания:~
-
 @213000 = ~Alter Item Descriptions for 'Allow Arcane 
  Spellcasting in Armor' Component~
-
 @214000 = ~Expanded Dual-Class Options~
 @214001 = ~варвар/маг~
 @214002 = ~варвар/клерик~
 @214003 = ~варвар/вор~
 @214004 = ~варвар/друид~
-
 @215000 = ~Wear Multiple Protection Items~
 @215001 = ~P&P Restrictions~
-
 @215100 = ~No Restrictions~
-
 @216000 = ~Rebalanced Weapon Proficiencies~
 @216001 = ~КОРОТКИЙ МЕЧ/НИНДЗЯ-ТО:  Короткие мечи и ниндзя-то - лёгкое, но эффективное оружие, распространённое среди воров и полуросликов.
-
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
 @216002 = ~КАТАНА/ВАКИДЗАСИ:  Катаны и вакидзаси - превосходные образцы мастерства оружейников, требующие большой осторожности в обращении. Оттачивая владение этим типом оружия, владелец становится единым целым со своим клинком, полностью посвящая себя искусству войны. Оружие этого типа сложно найти за пределами Кара-Тура, поэтому к выбору умения владения им стоит подходить с осторожностью: умение обращаться с катаной бесполезно, если у тебя нет катаны.
-
 ВНИМАНИЕ:  Волшебные катаны очень редки в Baldur's Gate 2!
-
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
 @216003 = ~СКИМИТАР: Это умение позволяет персонажу использовать изогнутые клинки, такие как скимитары.
-
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
 @216004 = ~ЦЕП: Цеп - это дробящее оружие, способное вышибить дух из противника. Его сложно использовать, но при должном навыке и практике он оказывается очень полезен. 
-
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
 @216005 = ~БУЛАВА/МОРГЕНШТЕРН:  Булава часто ассоциируется с клериками. Это мощное дробящее оружие, похожее на дубинку, но сделанную так, чтобы наносить больше повреждений. Моргенштерн похож на булаву, но с шипами вместо кромок.
-
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
 @216006 = ~Alter Weapon Proficiency System~
-
 @216100 = ~BG-Style Weapon Proficiencies, With Weapon Styles (the bigg)~
 @216200 = ~BG-Style Weapon Proficiencies, Without Weapon Styles (the bigg)~
-
 @217000 = ~Cast Spells from Scrolls (and Other Items) 
  at Character Level~
-
 @218000 = ~Un-Nerfed THAC0 Table, Saving Throws, Grand-Mastery, and Arcane, Divine Spell Progression (Blucher)~
 @218001 = ~Алхимия (маг)~
 @218002 = ~Алхимия (клерик)~
@@ -866,7 +760,6 @@ Thieving Abilities in Heavy Armor' Component~
 10) Зелье Гения~
 @218006 = ~Алхимия (вор)
 Опытный жулик повидал достаточно зелий за время своей карьеры искателя приключений, чтобы суметь создать некоторые из них с присущим этому классу мастерством. Навык Алхимии позволяет жулику раз в день создать один из восьми типов зелий.
-
 Создаваемые вором зелья случайным образом выбираются из следующего списка:
  
 1) Зелье Сосредоточения
@@ -877,7 +770,6 @@ Thieving Abilities in Heavy Armor' Component~
 6) Противоядие
 7) Масло Скорости
 8) Плутово Зелье Силы Снежного Гиганта~
-
 @218007 = ~Рукописные Свитки (маг)~
 @218008 = ~Рукописные Свитки (клерик)~
 @218009 = ~Рукописные Свитки (вор)~
@@ -916,70 +808,40 @@ Thieving Abilities in Heavy Armor' Component~
 7) Конус Холода
 8) Вызов Монстров II
 9) Вызов Монстров III~
-
 @219000 = ~Limit Ability of Storekeepers to Identify Items~
 @219001 = ~Only Mage and Bard Storekeepers Can Identify Items~
-
 @219100 = ~Identification Ability is Based on Storekeeper's Lore~
-
 @219200 = ~Hybrid of Both Methods~
-
 @220000 = ~Multi-Class Grandmastery (Weimer)~
-
 @221000 = ~True Grandmastery (Baldurdash)~
-
 @222000 = ~Change Magically Created Weapons to Zero Weight~
-
 @223000 = ~Make +x/+y Weapons Consistent~
-
 @223100 = ~Description Updates for Make +x/+y Weapons Consistent Component~
-
 @224000 = ~Un-Nerfed THAC0 Table~
 @224001 = ~Capped, Best THAC0 is 0 (Blucher)~
-
 @224100 = ~Capped, Best THAC0 is -10 (PnP/BG1 Table)~
-
 @225000 = ~Un-Nerfed Sorcerer Spell Progression Table~
-
 @226000 = ~Alter Mage Spell Progression Table~
 @226001 = ~Un-Nerfed Table (Blucher)~
-
 @226100 = ~PnP Table~
-
 @227000 = ~Alter Bard Spell Progression Table~
-
 @228000 = ~Alter Cleric Spell Progression Table~
-
 @229000 = ~Alter Druid Spell and Level Progression Tables~
 @229001 = ~No Level Progression Changes, Un-Nerfed Druid Spell Table Only (Blucher)~
-
 @229100 = ~No Level Progression Changes, PnP Druid/Cleric Spell Table Only~
-
 @229200 = ~Use Cleric Level Progression Changes With Normal Druid Spell Table~
-
 @229300 = ~Use Cleric Level Progression Changes With Un-Nerfed Druid Spell Table (Blucher)~
-
 @229400 = ~Use Cleric Level Progression Changes With PnP Druid/Cleric Spell Table~
-
 @229500 = ~Use Cleric Level Progression Changes With Normal Cleric Spell Table~
-
 @229600 = ~Use Cleric Level Progression Changes With Un-Nerfed Cleric Spell Table (Blucher)~
-
 @230000 = ~Triple-Class HLA Tables~
-
 @231000 = ~Add Save Penalties for Spells Cast by High-Level Casters (BETA)~
 @231001 = ~Arcane Magic Only~
-
 @231100 = ~Divine Magic Only~
-
 @231200 = ~Arcane & Divine Magic~
-
 @232000 = ~Trap Cap Removal (Ardanis/GeN1e)~
-
 @233000 = ~Remove Delay for Magical Traps (Ardanis/GeN1e)~
-
 @234000 = ~Remove Summoning Cap for Celestials (Ardanis/GeN1e)~
-
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -987,86 +849,49 @@ Thieving Abilities in Heavy Armor' Component~
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-
 @300000 = ~Higher HP on Level Up~
 @300001 = ~Maximum~
-
 @300100 = ~NWN Style~
-
 @301000 = ~Maximum HP for NPCs (the bigg)~
 @301001 = ~For All Creatures in Game~
-
 @301100 = ~For Non-Party-Joinable NPCs Only~
-
 @301200 = ~For Party-Joinable NPCs Only~
-
 @302000 = ~Identify All Items~
-
 @303000 = ~Easy Spell Learning~
 @303001 = ~100% Learn Spells~
-
 @303100 = ~100% Learn Spells and No Maximum Cap~
-
 @304000 = ~Make Bags of Holding Bottomless~
-
 @305000 = ~Remove fatigue from restoration spells~
-
 @306000 = ~Remove "You Must Gather Your Party..." Sound (Weimer)~
-
 @307000 = ~Low Reputation Store Discount (Sabre)~
 @307001 = ~Change Effect of Reputation on Store Prices~
-
 @307100 = ~Reputation Has No Effect, Stores Price Fixed at 100% (Luiz)~
-
 @307200 = ~Reputation Has No Effect, Stores Price Fixed at 80% (Luiz)~
-
 @307300 = ~Reputation Has No Effect, Stores Price Fixed at 60% (Luiz)~
-
 @308000 = ~Unlimited Ammo Stacking~
-
 @309000 = ~Unlimited Gem and Jewelry Stacking~
-
 @310000 = ~Unlimited Potion Stacking~
-
 @311000 = ~Unlimited Scroll Stacking~
-
 @312000 = ~Happy Patch (Party NPCs do not complain about reputation)~
-
 @312001 = ~NPCs are never angry about reputation~
-
 @312100 = ~NPCs can be angry about reputation but never leave (Salk)~
-
 @312200 = ~NPCs are always neutral about reputation (Anomaly)~
-
 @312300 = ~NPCs don't fight~ 
-
 @312400 = ~Stop Haer'Dalis-Aerie romance from starting~
-
 @312500 = ~Neutral Characters Make Happy Comments at 
  Mid-Range Reputation~
-
 @313000 = ~No Traps or Locks (Weimer)~
-
 @314000 = ~Faster Chapter 1&2 Cut-Scenes and Dreams~
 @314001 = ~Originals from EoU (Karzak, Blucher)~
-
 @314100 = ~Non-Silly Version~
-
 @315000 = ~Turn Off The Hideous Cloak-of-Mirroring, Spell-Trap, and Physical Mirror Animations~
-
 @316000 = ~Keep Drizzt's Loot, Disable Malchor Harpell~
-
 @317000 = ~No Drow Avatars On Party In Underdark~
-
 @317900 = ~No Racial Requirements for Romance~
-
 @318000 = ~Romance Cheats~
 @318001 = ~No Gender/Racial Requirements for Romance~
-
 @318100 = ~No Gender/Racial Requirements for Romance, Allow Multiple Romances~
-
 @318200 = ~No Gender/Racial Requirements for Romance, Allow Multiple Romances, Nothing Kills Romances~
-
 @318300 = ~Romance Cheats~
 @318301 = ~Remove racial requirements for romances? (Select 1 or 2)
   1) Remove
@@ -1097,11 +922,8 @@ Thieving Abilities in Heavy Armor' Component~
 @318315 = ~Вызови моего любимого, Аномена, рыцаря Ордена.~
 @318316 = ~Вызови моего любимого, Аномена, жреца Хелма.~
 @318317 = ~Вызови мою возлюбленную, Виконию.~
-
 @319000 = ~Rest Anywhere (Japheth)~
-
 @320000 = ~Sellable Items (Icelus)~
-
 @321000 = ~Minimum Stats Cheat~
 @321001 = ~Select a minimum stat value, between 6 and 15:~
     
@@ -1112,31 +934,62 @@ Thieving Abilities in Heavy Armor' Component~
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-
 @400000 = ~Adjust Evil joinable NPC reaction rolls~
-
 @401000 = ~Improved Fate Spirit Summoning~
-
 @402000 = ~ToB-Style NPCs~
-
 @403000 = ~Consistent Stats: Edwin~
 @403001 = ~Use BG Values~
-
 @403100 = ~Use BG2 Values~
-
 @404000 = ~Consistent Stats: Jaheira~
-
 @405000 = ~Change Jaheira to Neutral Good~
-
 @406000 = ~Consistent Stats: Minsc~
-
 @407000 = ~Consistent Stats: Viconia~
-
 @408000 = ~Make Khalid a Fighter-Mage (Domi)~
 @408001 = ~Если спросить о его прошлом, КАЛИД, нервничая, рассказывает, что он был рождён и воспитан в Калимшане. Он не распространяется о своих родителях, но у тебя складывается впечатление, что его отец-торговец не замечал Калида, уделяя куда больше внимания другим своим детям. Без отцовской поддержки Калид не смог оплатить обучение у колдуна и вступил в ряды городской стражи в надежде скопить достаточно денег. Он не вдаётся в подробности о том, как он встретил Джахиру, но очевидно, что он ей восхищается. Если спросить его, как он познакомился с Горайоном, он отвечает лишь что они долго были друзьями и что многие среди их общие знакомых оплачут его гибель песней арфиста.~
-
 @409000 = ~Make Montaron an Assassin (Andyr)~
-
 @410000 = ~Change Korgan to Neutral Evil~
-
 @411000 = ~Give Kagain A Legal Constitution Score of 19~
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Ex-SCS components                                \\\\\
+///// Automatically copied over from SCS TRA files     \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+@500000 = ~Stackable ankheg shells, winterwolf pelts and wyvern heads~
+@501000 = ~Allow NPC pairs to separate~
+@502000 = ~Make party members less likely to die irreversibly~
+@503000 = ~Move Boo into Minsc's pack~
+@504000 = ~Allow Yeslick to use axes~
+@505000 = ~Ensure Shar-Teel doesn't die in the original challenge~
+@506000 = ~Remove animation from the Cloak of Mirroring (leave it for other spells and effects that use the same graphic)~
+@507001 = ~Make the starting dungeon slightly harder~
+@507002 = ~Make the bard stronghold available to all classes~
+@507003 = ~Make the cleric stronghold available to all classes~
+@507004 = ~Make the druid stronghold available to all classes~
+@507005 = ~Make the fighter stronghold available to all classes~
+@507006 = ~Make the paladin stronghold available to all classes~
+@507007 = ~Make the ranger stronghold available to all classes~
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Ex-SCS components                                \\\\\
+///// Automatically copied over from SCS TRA files     \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+@500000 = ~Stackable ankheg shells, winterwolf pelts and wyvern heads~
+@501000 = ~Allow NPC pairs to separate~
+@502000 = ~Make party members less likely to die irreversibly~
+@503000 = ~Move Boo into Minsc's pack~
+@504000 = ~Allow Yeslick to use axes~
+@505000 = ~Ensure Shar-Teel doesn't die in the original challenge~
+@506000 = ~Remove animation from the Cloak of Mirroring (leave it for other spells and effects that use the same graphic)~
+@507001 = ~Make the bard stronghold available to all classes~
+@507002 = ~Make the cleric stronghold available to all classes~
+@507003 = ~Make the druid stronghold available to all classes~
+@507004 = ~Make the fighter stronghold available to all classes~
+@507005 = ~Make the paladin stronghold available to all classes~
+@507007 = ~Make the ranger stronghold available to all classes~
+@507008 = ~Make the thief stronghold available to all classes~

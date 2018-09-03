@@ -1,8 +1,8 @@
 BACKUP ~cdtweaks/backup~ // location to store files for
 SUPPORT ~http://gibberlings3.net/forums/index.php?showforum=34~ // URL displayed if install fails
+AUTO_EVAL_STRINGS
 
 ALWAYS
-
   ACTION_IF ((FILE_EXISTS ~dlc/sod-dlc.zip~) OR (FILE_EXISTS ~sod-dlc.zip~)) THEN BEGIN FAIL @27 END // Modmerge check
 
   ACTION_IF NOT VARIABLE_IS_SET cd_always THEN BEGIN
@@ -16,7 +16,7 @@ ALWAYS
 	  ACTION_IF !VARIABLE_IS_SET romance_speed_use_config_values THEN BEGIN OUTER_SET romance_speed_use_config_values = 0 END
 	  ACTION_IF !VARIABLE_IS_SET minimum_stats_use_config_values THEN BEGIN OUTER_SET minimum_stats_use_config_values = 0 END
 	  ACTION_IF !VARIABLE_IS_SET romance_use_config_values       THEN BEGIN OUTER_SET romance_use_config_values = 0 END
-    
+
     END ELSE BEGIN
     
       OUTER_SET romance_speed_use_config_values = 0
@@ -1837,10 +1837,19 @@ END
 
 BEGIN @107500 DESIGNATED 1075
 GROUP @13
-REQUIRE_PREDICATE GAME_IS ~totsc~ @25
+REQUIRE_PREDICATE GAME_IS ~totsc tutu tutu_totsc bgt bgee eet~ @25
 
-INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
-INCLUDE ~cdtweaks/lib/inns.tpa~
+ACTION_IF GAME_IS "totsc" BEGIN
+   INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
+   INCLUDE ~cdtweaks/lib/inns.tpa~
+END ELSE BEGIN
+  WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+   WITH_TRA "cdtweaks/languages/english/dw_components.tra" "cdtweaks/languages/%LANGUAGE%/dw_components.tra" BEGIN
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="wait_at_inns" END
+   END
+  END
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -9958,6 +9967,25 @@ SUBCOMPONENT @311001 // increase scroll stacks
 OUTER_SET stack = 120
 INCLUDE ~cdtweaks/lib/increase_scroll.tpa~
 
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Unlimited Stacking for Ankheg Carapaces, Winter  \\\\\
+///// Wolf Pelts, and Wyvern Heads (borrowed from SCS) \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @500000 DESIGNATED 3115
+GROUP @4
+REQUIRE_PREDICATE GAME_IS ~bgee bg1 totsc tutu tutu_totsc eet bgt~ @25
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="ankheg_shells" END
+END
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -12464,6 +12492,22 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
+///// reduced chance of chunking                       \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @502000 DESIGNATED 3330
+GROUP @4
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="no_chunk" END
+END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
 ///// Adjust Evil joinable NPC reaction rolls          \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -12710,6 +12754,25 @@ ACTION_PHP_EACH cd_dv_array AS file => dv BEGIN
 
 END
 
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Allow NPC pairs to separate (SCS borrowing)      \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @501000 DESIGNATED 4025
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+WITH_TRA "cdtweaks/languages/english/dw_components.tra" "cdtweaks/languages/%LANGUAGE%/dw_components.tra" BEGIN
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="npc_separate" END
+END
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -13495,6 +13558,64 @@ COPY_EXISTING_REGEXP GLOB ~^_?xan[46]?\.cre$~ ~override~
     END
   END
   BUT_ONLY_IF_IT_CHANGES
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Move Boo out of Minsc's quick-access             \\\\\
+///// (SCS borrowing)                                  \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @501000 DESIGNATED 4135
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="move_boo" END
+END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Let Yeslick use axes                             \\\\\
+///// (SCS borrowing)                                  \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @504000 DESIGNATED 4136
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="yeslick_axes" END
+END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Protect Shar-Teel                                \\\\\
+///// (SCS borrowing)                                  \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @505000 DESIGNATED 4137
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="protect_sharteel" END
+END
+
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
