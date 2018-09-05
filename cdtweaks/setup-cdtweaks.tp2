@@ -13579,7 +13579,7 @@ COPY_EXISTING_REGEXP GLOB ~^_?xan[46]?\.cre$~ ~override~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @501000 DESIGNATED 4135
+BEGIN @501000 DESIGNATED 4150
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
 
@@ -13598,7 +13598,7 @@ END
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @504000 DESIGNATED 4136
+BEGIN @504000 DESIGNATED 4160
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
 
@@ -13617,7 +13617,7 @@ END
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @505000 DESIGNATED 4137
+BEGIN @505000 DESIGNATED 4170
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
 
