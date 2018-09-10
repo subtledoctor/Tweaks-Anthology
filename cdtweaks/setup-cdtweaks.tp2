@@ -12464,7 +12464,7 @@ GROUP @4
 REQUIRE_PREDICATE GAME_IS ~eet bgee bg2ee iwdee~ @25 // EEs (minus pstee)
 
 COPY_EXISTING ~numwslot.2da~ ~override~
-  REPLACE_TEXTUALLY ~\([ %TAB%]+\)[123][ %TAB%]*$~ ~\14~
+  REPLACE_TEXTUALLY ~\([ %TAB%]+\)[123][ %TAB%%MNL%]*$~ ~\14~ // thanks argent77!
   BUT_ONLY
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
