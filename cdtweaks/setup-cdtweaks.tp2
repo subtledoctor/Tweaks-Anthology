@@ -4214,51 +4214,44 @@ COPY_EXISTING ~ar2300.are~ ~override~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @125000 DESIGNATED 1250
+BEGIN @125000 DESIGNATED 1250 DEPRECATED @18 // deprecated in favor of individual components, below
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: alora              \\\\\
+/////                                                  \\\\\
+
+BEGIN @125000 DESIGNATED 1251
 GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
-REQUIRE_PREDICATE ((NOT FILE_EXISTS ~override/X#AloraMove.G3~) AND (NOT FILE_EXISTS ~override/X#QuayleMove.G3~) AND (NOT FILE_EXISTS ~override/X#TiaxMove.G3~)) @16 // bg1 npc does these separately
+REQUIRE_PREDICATE !FILE_EXISTS ~override/X#AloraMove.G3~ @16 // bg1 npc does these separately
 
 INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
-ACTION_IF NOT FILE_EXISTS ~override/X#TiaxMove.G3~   THEN BEGIN OUTER_SET move_tiax   = 1 END ELSE BEGIN OUTER_SET move_tiax   = 0 END
-ACTION_IF NOT FILE_EXISTS ~override/X#QuayleMove.G3~ THEN BEGIN OUTER_SET move_quayle = 1 END ELSE BEGIN OUTER_SET move_quayle = 0 END
+ACTION_IF GAME_IS ~bg1 totsc~ THEN BEGIN
 
-ACTION_IF FILE_EXISTS ~override/X#AloraMove.G3~ THEN BEGIN
+  INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
 
-  OUTER_SET move_alora = 0
-  
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves.d~
+
 END ELSE BEGIN
 
-  OUTER_SET move_alora = 1
+  COPY ~cdtweaks/dlg/x#aloramoves.d~ ~cdtweaks/dlg/x#aloramoves_ac.d~
+    REPLACE_TEXTUALLY ~Global("Z!EmulAreaCheck","GLOBAL",4000)~ ~AreaCheck("%Gullykin%")~
 
-  ACTION_IF GAME_IS ~bg1 totsc~ THEN BEGIN
-  
-    INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
-  
-    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves.d~
-  
-  END ELSE BEGIN
-  
-    COPY ~cdtweaks/dlg/x#aloramoves.d~ ~cdtweaks/dlg/x#aloramoves_ac.d~
-      REPLACE_TEXTUALLY ~Global("Z!EmulAreaCheck","GLOBAL",4000)~ ~AreaCheck("%Gullykin%")~
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves_ac.d~
 
-    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves_ac.d~
-  
-  END
-  
-  /* Alora Starts in Gullykin - VERIFY IF THIS BLOCK IS NEEDED */
-  /* Trying to prevent Alora's CTD */
-  COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~
-    DECOMPILE_BCS_TO_BAF
+END
+
+/* Alora Starts in Gullykin - VERIFY IF THIS BLOCK IS NEEDED */
+/* Trying to prevent Alora's CTD */
+COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~
+  DECOMPILE_BCS_TO_BAF
     REPLACE_TEXTUALLY
       ~!InParty("alora")~
       ~!InParty("alora") Global("X#AloraDontBeDifficult","GLOBAL",1)~
     COMPILE_BAF_TO_BCS
-    BUT_ONLY_IF_IT_CHANGES
-
-END
+  BUT_ONLY_IF_IT_CHANGES
 
 ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
@@ -4267,16 +4260,172 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
     READ_LONG 0x34 npc_num
     FOR (index = 0; index < npc_num; ++index) BEGIN
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
-      PATCH_IF (move_alora AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ALORA~ = 0)) BEGIN // move alora to gullykin
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ALORA~ = 0) BEGIN // move alora to gullykin
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%Gullykin%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 553
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 506
-      END ELSE
-      PATCH_IF (move_quayle AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%QUAYLE~ = 0)) BEGIN // Quayle Starts at the Nashkel Carnival
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~ // ar7230
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+  
+  EXTEND_BOTTOM ~%Gullykin_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
+
+END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: eldoth             \\\\\
+/////                                                  \\\\\
+
+BEGIN @125200 DESIGNATED 1252
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+REQUIRE_PREDICATE !FILE_EXISTS ~override/X#EldothMove.G3~ @16 // bg1 npc does these separately
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+COPY_EXISTING ~%ELDOTH_BCS%.bcs~ ~override~ // bg1npc compat
+  DECOMPILE_AND_PATCH BEGIN
+  	REPLACE_TEXTUALLY ~!Global("X#SkieLeftEldoth","GLOBAL",1)~ ~OR(2) !Global("X#SkieLeftEldoth","GLOBAL",1) !Global("EldothMove","GLOBAL",0)~
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
+      PATCH_IF (move_alora AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ELDOTH~ = 0)) BEGIN // move eldoth to coast way
+        WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%CoastWay%~ #8
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1064
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 2086
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%CloakwoodDruids_BCS%.bcs~ ~override~ // ar7230
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~CreateCreature("ELDOTH5?",[^)]+)~ ~~ // blank this action rather than false()ing entire block, since same block spawns faldorn
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+  
+  EXTEND_BOTTOM ~%CoastWay_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
+
+END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: quayle             \\\\\
+/////                                                  \\\\\
+
+BEGIN @125300 DESIGNATED 1253
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+REQUIRE_PREDICATE !FILE_EXISTS ~override/X#QuayleMove.G3~ @16 // bg1 npc does these separately
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%QUAYLE~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%NashkelCarnival%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1067
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 3784
-      END ELSE
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%WyrmsCrossing_BCS%.bcs~     ~override~ // ar7900
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+
+  EXTEND_BOTTOM ~%NashkelCarnival_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_quayle.baf~
+
+END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: shar-teel          \\\\\
+/////                                                  \\\\\
+
+BEGIN @125400 DESIGNATED 1254
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+//REQUIRE_PREDICATE !FILE_EXISTS ~override/X#QuayleMove.G3~ @16 // bg1 npc doesn't move her
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%SHARTE~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
+        WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%NorthNashkelRoad%~ #8
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1067
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 3784
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%MutaminsGarden_BCS%.bcs~     ~override~ // ar9400, mutamin's garden
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+
+  EXTEND_BOTTOM ~%NorthNashkelRoad_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_sharteel.baf~
+
+END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: tiax               \\\\\
+/////                                                  \\\\\
+
+BEGIN @125500 DESIGNATED 1255
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+REQUIRE_PREDICATE !FILE_EXISTS ~override/X#TiaxMove.G3~ @16 // bg1 npc does these separately
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
       PATCH_IF (move_tiax AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%TIAX~ = 0)) BEGIN // Tiax Starts in Beregost
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%Beregost_FeldepostsInn_L1%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 500
@@ -4287,46 +4436,63 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
 END ELSE BEGIN // bgt
 
-  ACTION_IF move_alora THEN BEGIN
+  // disable spawns
+  COPY_EXISTING ~%SWBaldursGate_BCS%.bcs~     ~override~ // ar8000
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
 
-    // disable spawns
-    COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~ // ar7230
-      DECOMPILE_BCS_TO_BAF
-        REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
-      COMPILE_BAF_TO_BCS
-      BUT_ONLY_IF_IT_CHANGES
-  
-    EXTEND_BOTTOM ~%Gullykin_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
-  
-  END
-
-  ACTION_IF move_quayle THEN BEGIN
-
-    // disable spawns
-    COPY_EXISTING ~%WyrmsCrossing_BCS%.bcs~     ~override~ // ar7900
-      DECOMPILE_BCS_TO_BAF
-        REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
-      COMPILE_BAF_TO_BCS
-      BUT_ONLY_IF_IT_CHANGES
-
-    EXTEND_BOTTOM ~%NashkelCarnival_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_quayle.baf~
-
-  END
-
-  ACTION_IF move_tiax THEN BEGIN
-
-    // disable spawns
-    COPY_EXISTING ~%SWBaldursGate_BCS%.bcs~     ~override~ // ar8000
-      DECOMPILE_BCS_TO_BAF
-        REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
-      COMPILE_BAF_TO_BCS
-      BUT_ONLY_IF_IT_CHANGES
-
-    EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~
-
-  END
+  EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~
 
 END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: viconia            \\\\\
+/////                                                  \\\\\
+
+BEGIN @125600 DESIGNATED 1256
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+//REQUIRE_PREDICATE !FILE_EXISTS ~override/X#QuayleMove.G3~ @16 // bg1 npc doesn't move her
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%VICONI~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
+        WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%SouthBeregostRoad%~ #8
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1455
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 253
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%Peldvale_BCS%.bcs~     ~override~ // ar8900, peldvale
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+
+  EXTEND_BOTTOM ~%SouthBeregostRoad_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_viconia.baf~
+
+END
+
+COPY_EXISTING ~%tutu_var%%tutu_scriptbg%viconi%eet_var%.dlg~ ~override~ // viconi in bg/bgee, bgviconi in bgt, _viconi in tutu, viconi_ in eet
+  DECOMPILE_AND_PATCH
+    REPLACE_TEXTUALLY ~CreateCreature("FLAM2",\[605\.901\]~ ~CreateCreature("FLAM2",[1620.420]~  // move the FF spawn to reflect her new coords
+    REPLACE_TEXTUALLY ~MoveToPoint(\[507\.806\])~ ~MoveToPoint([1520.320])~ 
+  END
+  BUT_ONLY	
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -13757,7 +13923,6 @@ WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in cas
      INCLUDE "cdtweaks/dw_components/always_lite.tpa"
      LAF run STR_VAR file="protect_sharteel" END
 END
-
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

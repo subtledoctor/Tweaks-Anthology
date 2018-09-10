@@ -878,6 +878,12 @@ Special Abilities:
 @125015 = ~Well if your gonna be puppy-doggin after me all <DAYNIGHT>, maybe we should work together.~
 @125016 = ~No, I have no interest in ruins.~
 @125017 = ~Hey, you're not from around here!  Yeesh! There's no polish on yer boots, no snap in yer suspenders. You're not merchants.  They're always so much more presentable. Aww nutbunnies, adventurers in Gullykin! Yer gonna loot them Firewine ruins?~
+@125100 = ~Move NPCs to Convenient Locations: Move Alora to Gullykin~
+@125200 = ~Move NPCs to Convenient Locations: Move Eldoth to the Coast Way~
+@125300 = ~Move NPCs to Convenient Locations: Move Quayle to the Nashkel Carnival~
+@125400 = ~Move NPCs to Convenient Locations: Move Shar-Teel to North Nashkel Road~
+@125500 = ~Move NPCs to Convenient Locations: Move Tiax to Beregost~
+@125600 = ~Move NPCs to Convenient Locations: Move Viconia to South Beregost Road~
 @126000 = ~Bardic Reputation Adjustment~
 @126001  = ~Lake Poet Sam~
 @126002  = ~Sam~
