@@ -3,11 +3,21 @@ SUPPORT ~http://gibberlings3.net/forums/index.php?showforum=34~ // URL displayed
 AUTO_EVAL_STRINGS
 
 ALWAYS
+
   ACTION_IF ((FILE_EXISTS ~dlc/sod-dlc.zip~) OR (FILE_EXISTS ~sod-dlc.zip~)) THEN BEGIN FAIL @27 END // Modmerge check
 
-  ACTION_IF NOT VARIABLE_IS_SET cd_always THEN BEGIN
-
-    OUTER_SET cd_always = 1 // just do this once per install
+  ACTION_IF NOT VARIABLE_IS_SET bg2_chapter THEN BEGIN // check to make this happen only once per install
+    
+	ACTION_IF GAME_IS ~eet~ BEGIN
+      OUTER_SET bg2_chapter = 12
+    END ELSE BEGIN
+      OUTER_SET bg2_chapter = 0
+    END
+    OUTER_FOR (i=1; i<=10; i=i+1) BEGIN
+      OUTER_SET bg2_chapter = bg2_chapter + 1
+      OUTER_SPRINT name_source ~bg2_chapter_%i%~
+      OUTER_SET EVAL ~%name_source%~ = bg2_chapter
+    END
 
     ACTION_IF FILE_EXISTS ~cdtweaks/cdtweaks.txt~ THEN BEGIN
       
@@ -41,7 +51,7 @@ ALWAYS
 
 END
 
-VERSION ~v5~
+VERSION ~v6~
 
 README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
 
@@ -1795,14 +1805,7 @@ END ELSE BEGIN // bg2-based engines
   // now add additional 'go to x' options for various games
   ACTION_IF GAME_IS ~bgt bg2ee soa tob eet~ THEN BEGIN
 
-    ACTION_IF GAME_IS ~eet~ THEN BEGIN // quick chapter change
-
-      INCLUDE ~cdtweaks/lib/eet_chapters.tpa~
-      LAUNCH_ACTION_FUNCTION eet_chapters STR_VAR eet_file = ~cdtweaks/dlg/multi_bg2.d~ END
-
-    END
-
-    COMPILE ~cdtweaks/dlg/multi_bg2.d~ // adds copper coronet, pocket plane options
+    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/multi_bg2.d~ // adds copper coronet, pocket plane options
 
   END
 
@@ -3469,20 +3472,19 @@ REQUIRE_PREDICATE ((GAME_IS ~soa tob bgt bg2ee eet~) OR
                    ((MOD_IS_INSTALLED ~thecalling/setup-thecalling.tp2~ ~10~) AND (FILE_EXISTS ~thecalling/baf/cheat2.baf~))) @25
 
 ACTION_IF GAME_IS ~soa tob bgt bg2ee eet~ BEGIN
-
-  ACTION_IF GAME_IS ~eet~ BEGIN
   
-    ACTION_IF GAME_IS ~eet~ THEN BEGIN // quick chapter change
-  
-      INCLUDE ~cdtweaks/lib/eet_chapters.tpa~
-      LAUNCH_ACTION_FUNCTION eet_chapters STR_VAR eet_file = ~cdtweaks/dlg/stronghold1.d~ END
-  
-    END
-  
-  END
-  
-  COMPILE ~cdtweaks/dlg/stronghold1.d~  // removes stronghold var, allows choice for bard, ranger, druid strongholds
-          ~cdtweaks/dlg/stronghold2.d~  // removes class checks
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~                 // removes stronghold var
+                          ~cdtweaks/dlg/strgonhold_cabin_choice.d~     // allows choice for ranger stronghold
+                          ~cdtweaks/dlg/strgonhold_grove_choice.d~     // allows choice for druid stronghold
+                          ~cdtweaks/dlg/strgonhold_playhouse_choice.d~ // allows choice for bard stronghold
+                          ~cdtweaks/dlg/stronghold_cabin.d~            // removes class check: ranger
+                          ~cdtweaks/dlg/stronghold_dearnise.d~         // removes class check: fighter, blackguard
+                          ~cdtweaks/dlg/stronghold_grove.d~            // removes class check: druid
+                          ~cdtweaks/dlg/stronghold_guild.d~            // removes class check: thief
+                          ~cdtweaks/dlg/stronghold_norh.d~             // removes class check: paladin
+                          ~cdtweaks/dlg/stronghold_playhouse.d~        // removes class check: bard
+                          ~cdtweaks/dlg/stronghold_sphere.d~           // removes class check: mage, sorcerer
+                          ~cdtweaks/dlg/stronghold_temples.d~          // removes class check: cleric
   
   COPY_EXISTING ~ar0900.bcs~ ~override~
                 ~ar0901.bcs~ ~override~
@@ -3521,7 +3523,10 @@ REQUIRE_PREDICATE ((GAME_IS ~soa tob bgt bg2ee eet~) OR
 
 ACTION_IF GAME_IS ~soa tob bgt bg2ee eet~ BEGIN
 
-  COMPILE ~cdtweaks/dlg/stronghold1.d~  // removes stronghold var, allows choice for bard, ranger, druid strongholds
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~                 // removes stronghold var
+                          ~cdtweaks/dlg/strgonhold_cabin_choice.d~     // allows choice for ranger stronghold
+                          ~cdtweaks/dlg/strgonhold_grove_choice.d~     // allows choice for druid stronghold
+                          ~cdtweaks/dlg/strgonhold_playhouse_choice.d~ // allows choice for bard stronghold
 
 END
 
@@ -3530,6 +3535,130 @@ ACTION_IF ((MOD_IS_INSTALLED ~thecalling/setup-thecalling.tp2~ ~10~) AND (FILE_E
   EXTEND_BOTTOM ~baldur.bcs~ ~thecalling/baf/cheat1.baf~
 
 END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// individual Stronghold allowances                 \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// planar sphere (mage)                             \\\\\
+/////                                                  \\\\\
+
+BEGIN @134000 DESIGNATED 1340
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~       // removes stronghold var
+        ~cdtweaks/dlg/stronghold_sphere.d~ // removes class check
+
+/////                                                  \\\\\
+///// de'arnise keep (fighter, monk)                   \\\\\
+/////                                                  \\\\\
+
+BEGIN @134100 DESIGNATED 1341
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~         // removes stronghold var
+        ~cdtweaks/dlg/stronghold_dearnise.d~ // removes class check
+
+/////                                                  \\\\\
+///// temples (cleric)                                 \\\\\
+/////                                                  \\\\\
+
+BEGIN @134200 DESIGNATED 1342
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~        // removes stronghold var
+        ~cdtweaks/dlg/stronghold_temples.d~ // removes class check
+  
+COPY_EXISTING ~ar0900.bcs~ ~override~
+              ~ar0901.bcs~ ~override~
+              ~ar0902.bcs~ ~override~
+              ~ar0904.bcs~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~OR([56])[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,CLERIC)[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,FIGHTER_CLERIC)[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,CLERIC_MAGE)[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,CLERIC_THIEF)[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,FIGHTER_MAGE_CLERIC)\([%TAB% %LNL%%MNL%%WNL%]+Class(Player1,CLERIC_RANGER)\)?~
+      ~~ // deletes positive class checks for oisig/arval/nalla/telwyn spawn
+    REPLACE_TEXTUALLY ~!Class(Player1,CLERIC)[ %TAB%%LNL%%MNL%%WNL%]+!Class(Player1,FIGHTER_CLERIC)[ %TAB%%LNL%%MNL%%WNL%]+!Class(Player1,CLERIC_MAGE)[ %TAB%%LNL%%MNL%%WNL%]+!Class(Player1,CLERIC_THIEF)[ %TAB%%LNL%%MNL%%WNL%]+!Class(Player1,FIGHTER_MAGE_CLERIC)\([%TAB% %LNL%%MNL%%WNL%]+!Class(Player1,CLERIC_RANGER)\)?~
+      ~False()~ // removes oisig spawn for non-clerics, who should get the regular spawn from the previous change
+  END
+
+/////                                                  \\\\\
+///// thieves guild                                    \\\\\
+/////                                                  \\\\\
+
+BEGIN @134300 DESIGNATED 1343
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~      // removes stronghold var
+        ~cdtweaks/dlg/stronghold_guild.d~ // removes class check
+
+/////                                                  \\\\\
+///// playhouse (bard)                                 \\\\\
+/////                                                  \\\\\
+
+BEGIN @134400 DESIGNATED 1344
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~                 // removes stronghold var
+                        ~cdtweaks/dlg/stronghold_playhouse.d~        // removes class check
+                        ~cdtweaks/dlg/stronghold_playhouse_choice.d~ // adds option to decline stronghold
+
+/////                                                  \\\\\
+///// norh (paladin)                                   \\\\\
+/////                                                  \\\\\
+
+BEGIN @134500 DESIGNATED 1345
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~     // removes stronghold var
+        ~cdtweaks/dlg/stronghold_norh.d~ // removes class check
+
+/////                                                  \\\\\
+///// druid grove                                      \\\\\
+/////                                                  \\\\\
+
+BEGIN @134600 DESIGNATED 1346
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~             // removes stronghold var
+                        ~cdtweaks/dlg/stronghold_grove.d~        // removes class check
+                        ~cdtweaks/dlg/stronghold_grove_choice.d~ // adds option to decline stronghold
+  
+COPY_EXISTING ~baldur.bcs~ ~override~ // non-druids not getting great druid messenger
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,DRUID_ALL)[%TAB% %LNL%%MNL%%WNL%]+\(LevelGT(Player1,13)[%TAB% %LNL%%MNL%%WNL%]+Global("DruidADSpawn","GLOBAL",0)\)~ ~\1~
+  END
+  BUT_ONLY
+
+/////                                                  \\\\\
+///// imnesvale cabin (ranger)                         \\\\\
+/////                                                  \\\\\
+
+BEGIN @134700 DESIGNATED 1347
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~             // removes stronghold var
+                        ~cdtweaks/dlg/stronghold_cabin.d~        // removes class check
+                        ~cdtweaks/dlg/stronghold_cabin_choice.d~ // adds option to decline stronghold
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -4622,6 +4751,8 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
 	END
   END	
   BUT_ONLY
+  
+// 1340 series is reserved for the individual stronghold components, but moved to be near the other stronghold components  
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

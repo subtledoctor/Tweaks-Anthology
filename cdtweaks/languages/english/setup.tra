@@ -892,6 +892,15 @@ Special Abilities:
 @131000 = ~Restore (most) BG2 spells and make scrolls available - WARNING: they will look very out of place~
 @132000 = ~BG2-style journal [work in progress]~
 @133000 = ~NPCs Cannot Use Doors~
+@134000 = ~Make the Planar Sphere Stronghold Available to All Classes~
+@134100 = ~Make the de'Arnise Keep Stronghold Available to All Classes~
+@134200 = ~Make the Temple Strongholds Available to All Classes~
+@134300 = ~Make the Thieves Guild Stronghold Available to All Classes~
+@134400 = ~Make the Playhouse Stronghold Available to All Classes~
+@134500 = ~Make the Noble Order of the Radiant Heart Stronghold Available to All Classes~
+@134600 = ~Make the Druid Grove Stronghold Available to All Classes~
+@134700 = ~Make the Imnesvale Cabin Stronghold Available to All Classes~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
