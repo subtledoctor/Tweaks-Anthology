@@ -4346,7 +4346,7 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
     READ_LONG 0x34 npc_num
     FOR (index = 0; index < npc_num; ++index) BEGIN
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
-      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%QUAYLE~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%QUAYLE%eet_var%~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%NashkelCarnival%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1067
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 3784
