@@ -4488,7 +4488,7 @@ END ELSE BEGIN // bgt
 END
 
 COPY_EXISTING ~%tutu_var%%tutu_scriptbg%viconi%eet_var%.dlg~ ~override~ // viconi in bg/bgee, bgviconi in bgt, _viconi in tutu, viconi_ in eet
-  DECOMPILE_AND_PATCH
+  DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~CreateCreature("FLAM2",\[605\.901\]~ ~CreateCreature("FLAM2",[1620.420]~  // move the FF spawn to reflect her new coords
     REPLACE_TEXTUALLY ~MoveToPoint(\[507\.806\])~ ~MoveToPoint([1520.320])~ 
   END
