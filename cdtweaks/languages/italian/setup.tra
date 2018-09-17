@@ -35,6 +35,8 @@ b) No~
 @23 = ~Questo componente e' solo per Tutu o Baldur's Gate: Enhanced Edition.~
 @24 = ~Questo componente e' incompatibile con un altra mod gia' installata.~
 @25 = ~Questo componente non e' disponibile per il tuo gioco.~
+@26 = ~Usa i valori del file di configurazione cdtweaks.txt per questo componente ...~
+@27 = ~È necessaria la modmerge prima che i mod possano essere installati su questo gioco. Controllare il readme per ulteriori informazioni e per un link per scaricare Modmerge.~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -338,7 +340,11 @@ b) No~
 
 @19400 = ~Per tutti gli scudi~            
 
-@19500 = ~Per tutti gli scudi non magici~    
+@19500 = ~Per tutti gli scudi non magici~
+
+@20000 = ~Rimuovi l'effetto sfocatura dagli oggetti~
+
+@21000 = ~Varia le icone di Resistenza al Fuoco e al Freddo (Angel)~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -432,7 +438,6 @@ b) No~
 STATISTICHE:                          
 
 Capacità: 2000 unità tra proiettili, dardi, frecce o quadrelli.
-
 Peso: 2~                               
 @108003 = ~Contenitore per Pozioni~       
 @108004 = ~Solitamente in possesso dei guaritori erranti, questo contenitore di cuoio si srotola e permette a chi lo utilizza di fissare delicate bottigliette per le pozioni, nel suo lato imbottito, con numerose strisce di cuoio per una custodia sicura durante il viaggio. Indipendentemente dalla quantità di pozioni al suo interno, il peso dell'astuccio rimane invariato.
@@ -440,7 +445,6 @@ Peso: 2~
 STATISTICHE:                        
 
 Capacità: 100 bottigliette.
-            
 Peso: 2~                               
 @108005 = ~Borsa Conservante~          
 @108006 = ~Come altre borse magiche, questa sembra essere un normale sacco di tela di circa 60 per 120 centimetri. La borsa conservante si apre in uno spazio nondimensionale e il suo interno è più grande delle sue dimensioni esterne. A prescindere da cosa sia messo in questo oggetto, la borsa ha sempre lo stesso peso.
@@ -449,7 +453,6 @@ STATISTICHE:
 
 Speciale:
 - Può conservare qualsiasi arma, armatura o altro oggetto.
-
 Peso: 5~
 
 @108500 = ~Contenitori Portabili (Zed Nocear)~
@@ -797,6 +800,9 @@ Peso: 4~
 
 @114000 = ~Gemme e Pozioni devono essere identificate~
 @114001 = ~Una gemma è un minerale che, se intagliato e levigato, può essere collezionato o usato come gioiello.~
+@114002 = ~Gemme e pozioni~
+@114100 = ~Solo gemme~
+@114200 = ~Solo pozioni~
 
 @115000 = ~Ribilanciamento del Mutaforma~
 @115001 = ~Evocare Animali             
@@ -960,6 +966,14 @@ Abilità speciali:
 @122043 = ~Conosco le ricette di due teste del Mazzafrusto delle Ere. Una per la testa del veleno... un'altra per la testa dell'elettricità. Sono le uniche che conosco, mi dispiace.~
 @122044 = ~Hai tre teste qui... posso aggiungervi una testa dell'elettricità. In tutto fanno quattro teste, sai? 5.000 monete e posso farlo. Ti va?~
 @122045 = ~Oooh! Hai quattro teste e volendo posso aggiungergli la testa finale... Proprio velenosa questa. 5.000 mo e ci penso io. Ti va?~
+@122046 = ~Questa è una fionda gnomica. Ho qualche asso nella manica che può renderla più precisa.~
+@122047 = ~Se vi imbattete in un Anello dell'Energia, posso aggiustarvelo.~
+@122048 = ~Dammi il tuo Anello dell'Energia e 5.000 gold e possiamo iniziare.~
+
+@122500 = ~Regola il tempo di forgiatura di Cromwell~
+@122501 = ~Forgiatura istantanea (impostazione predefinita BG2 originale)~
+@122600 = ~Otto ore~
+@122700 = ~Completo 24 ore (impostazione predefinita per BG2EE, include riposo)~
 
 @123000 = ~Consenti a Cespenar di utilizzare le ricette di Cromwell~
 @123001 = ~Oh, sono lucenti scaglie rosse? Posso fare un'ottima armatura, per proteggerti dal mordente fuoco.~
@@ -1039,6 +1053,8 @@ Abilità speciali:
 @131000 = ~Ripristina (la maggior parte) delle magie di BG2 e rendi disponibili le pergamene - ATTENZIONE: potrebbero risultare molto fuori contesto~
 
 @132000 = ~Diario in stile BG2 [ancora in sviluppo]~
+
+@133000 = ~ I PNG non possono usare le porte~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1125,6 +1141,7 @@ Abilità speciali:
 @213000 = ~Modifica la descrizione degli oggetti affinche' rispecchino la componente
 "Consenti il lancio di incantesimi arcani in armatura"~
 
+
 @214000 = ~Aggiungi alcune combinazioni possibili per la classe duale~
 @214001 = ~barbaro / mago~             
 @214002 = ~barbaro / chierico~         
@@ -1136,6 +1153,8 @@ Abilità speciali:
 @215002 = ~[ %TAB%]*.?.?.?[ %TAB%]*Armou?r Class[^:]*:.*$~ // lone . at front to catch EE emdash
 
 @215100 = ~Non applicare alcuna restrizione~
+
+@215200 = ~Consenti di utilizzare l'armatura con un oggetto protettivo (Angel)~
 
 @216000 = ~Ribilanciamento delle sfere di competenza nelle armi~
 @216001 = ~SPADA CORTA/NINJA-TO: Armi preferite di diversi ladri e halfling, la spada corta e il ninja-to sono utili e leggere.
@@ -1370,6 +1389,10 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 
 @235200 = ~Istalla entrambe le precedenti funzioni~
 
+@235300 = ~Consenti ai non umani di accedere a un multiclasse solo se possono accedere alle classi singole~
+
+@235800 = ~Installa le opzioni uno e tre (tutti possono essere multiclasse se possono accedere alla singola classe)~
+
 @236000 = ~Rimuovi le restrizioni razziali per le singole classi~
 
 @237000 = ~Modifica le restrizioni biclasse~
@@ -1388,6 +1411,9 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 @242000 = ~I Chierici multiclasse non hanno restrizioni di equipaggiamento~
 
 @243000 = ~I Druidi multiclasse non hanno restrizioni di equipaggiamento~
+@243001 = ~Modifica le restrizioni di equipaggiamento per i Druidi multiclasse~
+
+@243100 = ~Restrizioni di equipaggiamento di Tighten per i Druidi multiclasse (Angel)~
 
 @244000 = ~Chiunque ottiene i Bonus APR dalle specializzazioni~
 // translators - the next three strings are used to replace game text, so they need to be copied from the game itself
@@ -1398,6 +1424,16 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 @244003 = ~(for warriors only)~
 
 @245000 = ~Forza le regole di competenze nei personaggi bi-classe~
+
+@250000 = ~Variazioni limite peso con forza eccezionale~
+
+@251000 = ~Blocco livello pergamene (Angel)~
+
+@252000 = ~Permetti ai maghi di usare gli scudi e ai ladri di usare gli scudi piccoli (Angel)~
+
+@253000 = ~i fulmini non rimbalzano (Angel)~
+
+@254000 = ~SVelocizza le missioni della roccaforte de'Arnise~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1417,6 +1453,8 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 @300200 = ~Tiri dadi medi~
 
 @300300 = ~Bassa varianza tiri dadi~
+
+@300800 = ~Permetti il tiro dei dadi dopo il livello 20 (Angel)~
 
 @301000 = ~Tutti i PNG hanno punti ferita massimi (the bigg)~
 @301001 = ~Tutte le creature nel gioco hanno punti ferita massimi~
@@ -1484,7 +1522,7 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 @314000 = ~Intermezzi e sogni piu' rapidi nei capitoli 1 e 2 (Karzak, Blucher) (LEGGI LE AVVERTENZE)~
 @314001 = ~Originali da EoU (Karzak, Blucher)~
 
-@314100 = ~Versione seria~             
+@314100 = ~Versione seria~ 
 
 @315000 = ~Disabilita la fastidiosa animazione del Mantello Speculare e degli incantesimi "Trappola Magica" e "Specchio fisico"~
 
@@ -1492,9 +1530,17 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 
 @317000 = ~Disabilita gli avatar da drow sui membri del gruppo nell'Underdark~
 
+@317500 = ~Disattiva le romance~
+
+@317600 = ~Accelera / Rallenta le romance~
+@317601 = ~Inserisci la percentuale che vorresti applicare all'intervallo di tempo tra i dialoghi amorosi,
+per esempio, 50% dimezza l'intervallo corrente tra i dialoghi, mentre 300% triplica l'intervallo.
+
+Inserisci una percentuale tra 20 e 500:~
+
 @317900 = ~Disabilita i requisiti di razza per le romance~
 
-@318000 = ~Trucchi per le romance~     
+@318000 = ~Trucchi per le romance~
 @318001 = ~Disabilita i requisiti di sesso e di razza~
 
 @318100 = ~Disabilita i requisiti di sesso e di razza, consenti piu' romance simultaneamente~
@@ -1654,7 +1700,28 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 
 @326700 = ~100% possibilita' di recupero dopo un tiro a segno, solo contro nemici~
 
-@327000 = ~Armi da lancio recuperabili~                      
+@327000 = ~Armi da lancio recuperabili~
+
+@328000 = ~Dai a ogni classe / kit quattro slot per armi~
+
+@329000 = ~Personalizza i nomi dei salvataggi automatici~
+@329001 = ~Usa schema: 000000000-Protagonista-Salvataggio-Nome~
+
+@329100 = ~Usa schema: 000000000-Protagonista Salvataggio-Nome~
+
+@329200 = ~Usa schema: 000000000-(Protagonista)-Salvataggio-Nome~
+
+@329300 = ~Usa schema: 000000000-(Protagonista) Salvataggio-Nome~
+
+@329400 = ~Usa schema: 000000000-[Protagonista]-Salvataggio-Nome~
+
+@329500 = ~Usa schema: 000000000-[Protagonista] Salvataggio-Nome~
+
+@330000 = ~Death Cam~
+
+@331000 = ~Avvia nuove partite con AI del gruppo disattivata~
+
+@332000 = ~Nessun deprezzamento nei negozi~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1695,3 +1762,5 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 @412000 = ~Dai a Coran un piu' verosimile punteggio si 19 alla Destrezza~
 
 @413000 = ~Fai di Xan un Mago generico (Mike1072)~
+
+@414000 = ~Non assegnare automaticamente AI avanzate al gruppo~

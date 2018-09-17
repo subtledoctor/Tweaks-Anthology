@@ -1,13 +1,23 @@
 BACKUP ~cdtweaks/backup~ // location to store files for
 SUPPORT ~http://gibberlings3.net/forums/index.php?showforum=34~ // URL displayed if install fails
+AUTO_EVAL_STRINGS
 
 ALWAYS
 
   ACTION_IF ((FILE_EXISTS ~dlc/sod-dlc.zip~) OR (FILE_EXISTS ~sod-dlc.zip~)) THEN BEGIN FAIL @27 END // Modmerge check
 
-  ACTION_IF NOT VARIABLE_IS_SET cd_always THEN BEGIN
-
-    OUTER_SET cd_always = 1 // just do this once per install
+  ACTION_IF NOT VARIABLE_IS_SET bg2_chapter THEN BEGIN // check to make this happen only once per install
+    
+	ACTION_IF GAME_IS ~eet~ BEGIN
+      OUTER_SET bg2_chapter = 12
+    END ELSE BEGIN
+      OUTER_SET bg2_chapter = 0
+    END
+    OUTER_FOR (i=1; i<=10; i=i+1) BEGIN
+      OUTER_SET bg2_chapter = bg2_chapter + 1
+      OUTER_SPRINT name_source ~bg2_chapter_%i%~
+      OUTER_SET EVAL ~%name_source%~ = bg2_chapter
+    END
 
     ACTION_IF FILE_EXISTS ~cdtweaks/cdtweaks.txt~ THEN BEGIN
       
@@ -16,7 +26,7 @@ ALWAYS
 	  ACTION_IF !VARIABLE_IS_SET romance_speed_use_config_values THEN BEGIN OUTER_SET romance_speed_use_config_values = 0 END
 	  ACTION_IF !VARIABLE_IS_SET minimum_stats_use_config_values THEN BEGIN OUTER_SET minimum_stats_use_config_values = 0 END
 	  ACTION_IF !VARIABLE_IS_SET romance_use_config_values       THEN BEGIN OUTER_SET romance_use_config_values = 0 END
-    
+
     END ELSE BEGIN
     
       OUTER_SET romance_speed_use_config_values = 0
@@ -35,13 +45,13 @@ ALWAYS
 
     // convert strings to UTF-8 for BGEE/BG2EE
     ACTION_DEFINE_ARRAY cdreload BEGIN setup END
-    LAF HANDLE_CHARSETS INT_VAR infer_charset = 1 STR_VAR tra_path = ~cdtweaks/languages~ reload_array = cdreload END
+    LAF HANDLE_CHARSETS INT_VAR infer_charsets = 1 STR_VAR tra_path = ~cdtweaks/languages~ reload_array = cdreload END
 
   END
 
 END
 
-VERSION ~v5~
+VERSION ~v6~
 
 README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
 
@@ -1795,14 +1805,7 @@ END ELSE BEGIN // bg2-based engines
   // now add additional 'go to x' options for various games
   ACTION_IF GAME_IS ~bgt bg2ee soa tob eet~ THEN BEGIN
 
-    ACTION_IF GAME_IS ~eet~ THEN BEGIN // quick chapter change
-
-      INCLUDE ~cdtweaks/lib/eet_chapters.tpa~
-      LAUNCH_ACTION_FUNCTION eet_chapters STR_VAR eet_file = ~cdtweaks/dlg/multi_bg2.d~ END
-
-    END
-
-    COMPILE ~cdtweaks/dlg/multi_bg2.d~ // adds copper coronet, pocket plane options
+    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/multi_bg2.d~ // adds copper coronet, pocket plane options
 
   END
 
@@ -1837,10 +1840,19 @@ END
 
 BEGIN @107500 DESIGNATED 1075
 GROUP @13
-REQUIRE_PREDICATE GAME_IS ~totsc~ @25
+REQUIRE_PREDICATE GAME_IS ~totsc tutu tutu_totsc bgt bgee eet~ @25
 
-INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
-INCLUDE ~cdtweaks/lib/inns.tpa~
+ACTION_IF GAME_IS "totsc" BEGIN
+   INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
+   INCLUDE ~cdtweaks/lib/inns.tpa~
+END ELSE BEGIN
+  WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+   WITH_TRA "cdtweaks/languages/english/dw_components.tra" "cdtweaks/languages/%LANGUAGE%/dw_components.tra" BEGIN
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="wait_at_inns" END
+   END
+  END
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -3460,20 +3472,19 @@ REQUIRE_PREDICATE ((GAME_IS ~soa tob bgt bg2ee eet~) OR
                    ((MOD_IS_INSTALLED ~thecalling/setup-thecalling.tp2~ ~10~) AND (FILE_EXISTS ~thecalling/baf/cheat2.baf~))) @25
 
 ACTION_IF GAME_IS ~soa tob bgt bg2ee eet~ BEGIN
-
-  ACTION_IF GAME_IS ~eet~ BEGIN
   
-    ACTION_IF GAME_IS ~eet~ THEN BEGIN // quick chapter change
-  
-      INCLUDE ~cdtweaks/lib/eet_chapters.tpa~
-      LAUNCH_ACTION_FUNCTION eet_chapters STR_VAR eet_file = ~cdtweaks/dlg/stronghold1.d~ END
-  
-    END
-  
-  END
-  
-  COMPILE ~cdtweaks/dlg/stronghold1.d~  // removes stronghold var, allows choice for bard, ranger, druid strongholds
-          ~cdtweaks/dlg/stronghold2.d~  // removes class checks
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~                 // removes stronghold var
+                          ~cdtweaks/dlg/strgonhold_cabin_choice.d~     // allows choice for ranger stronghold
+                          ~cdtweaks/dlg/strgonhold_grove_choice.d~     // allows choice for druid stronghold
+                          ~cdtweaks/dlg/strgonhold_playhouse_choice.d~ // allows choice for bard stronghold
+                          ~cdtweaks/dlg/stronghold_cabin.d~            // removes class check: ranger
+                          ~cdtweaks/dlg/stronghold_dearnise.d~         // removes class check: fighter, blackguard
+                          ~cdtweaks/dlg/stronghold_grove.d~            // removes class check: druid
+                          ~cdtweaks/dlg/stronghold_guild.d~            // removes class check: thief
+                          ~cdtweaks/dlg/stronghold_norh.d~             // removes class check: paladin
+                          ~cdtweaks/dlg/stronghold_playhouse.d~        // removes class check: bard
+                          ~cdtweaks/dlg/stronghold_sphere.d~           // removes class check: mage, sorcerer
+                          ~cdtweaks/dlg/stronghold_temples.d~          // removes class check: cleric
   
   COPY_EXISTING ~ar0900.bcs~ ~override~
                 ~ar0901.bcs~ ~override~
@@ -3512,7 +3523,10 @@ REQUIRE_PREDICATE ((GAME_IS ~soa tob bgt bg2ee eet~) OR
 
 ACTION_IF GAME_IS ~soa tob bgt bg2ee eet~ BEGIN
 
-  COMPILE ~cdtweaks/dlg/stronghold1.d~  // removes stronghold var, allows choice for bard, ranger, druid strongholds
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~                 // removes stronghold var
+                          ~cdtweaks/dlg/strgonhold_cabin_choice.d~     // allows choice for ranger stronghold
+                          ~cdtweaks/dlg/strgonhold_grove_choice.d~     // allows choice for druid stronghold
+                          ~cdtweaks/dlg/strgonhold_playhouse_choice.d~ // allows choice for bard stronghold
 
 END
 
@@ -3521,6 +3535,130 @@ ACTION_IF ((MOD_IS_INSTALLED ~thecalling/setup-thecalling.tp2~ ~10~) AND (FILE_E
   EXTEND_BOTTOM ~baldur.bcs~ ~thecalling/baf/cheat1.baf~
 
 END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// individual Stronghold allowances                 \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// planar sphere (mage)                             \\\\\
+/////                                                  \\\\\
+
+BEGIN @134000 DESIGNATED 1340
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~       // removes stronghold var
+        ~cdtweaks/dlg/stronghold_sphere.d~ // removes class check
+
+/////                                                  \\\\\
+///// de'arnise keep (fighter, monk)                   \\\\\
+/////                                                  \\\\\
+
+BEGIN @134100 DESIGNATED 1341
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~         // removes stronghold var
+        ~cdtweaks/dlg/stronghold_dearnise.d~ // removes class check
+
+/////                                                  \\\\\
+///// temples (cleric)                                 \\\\\
+/////                                                  \\\\\
+
+BEGIN @134200 DESIGNATED 1342
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~        // removes stronghold var
+        ~cdtweaks/dlg/stronghold_temples.d~ // removes class check
+  
+COPY_EXISTING ~ar0900.bcs~ ~override~
+              ~ar0901.bcs~ ~override~
+              ~ar0902.bcs~ ~override~
+              ~ar0904.bcs~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~OR([56])[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,CLERIC)[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,FIGHTER_CLERIC)[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,CLERIC_MAGE)[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,CLERIC_THIEF)[%TAB% %LNL%%MNL%%WNL%]+Class(Player1,FIGHTER_MAGE_CLERIC)\([%TAB% %LNL%%MNL%%WNL%]+Class(Player1,CLERIC_RANGER)\)?~
+      ~~ // deletes positive class checks for oisig/arval/nalla/telwyn spawn
+    REPLACE_TEXTUALLY ~!Class(Player1,CLERIC)[ %TAB%%LNL%%MNL%%WNL%]+!Class(Player1,FIGHTER_CLERIC)[ %TAB%%LNL%%MNL%%WNL%]+!Class(Player1,CLERIC_MAGE)[ %TAB%%LNL%%MNL%%WNL%]+!Class(Player1,CLERIC_THIEF)[ %TAB%%LNL%%MNL%%WNL%]+!Class(Player1,FIGHTER_MAGE_CLERIC)\([%TAB% %LNL%%MNL%%WNL%]+!Class(Player1,CLERIC_RANGER)\)?~
+      ~False()~ // removes oisig spawn for non-clerics, who should get the regular spawn from the previous change
+  END
+
+/////                                                  \\\\\
+///// thieves guild                                    \\\\\
+/////                                                  \\\\\
+
+BEGIN @134300 DESIGNATED 1343
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~      // removes stronghold var
+        ~cdtweaks/dlg/stronghold_guild.d~ // removes class check
+
+/////                                                  \\\\\
+///// playhouse (bard)                                 \\\\\
+/////                                                  \\\\\
+
+BEGIN @134400 DESIGNATED 1344
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~                 // removes stronghold var
+                        ~cdtweaks/dlg/stronghold_playhouse.d~        // removes class check
+                        ~cdtweaks/dlg/stronghold_playhouse_choice.d~ // adds option to decline stronghold
+
+/////                                                  \\\\\
+///// norh (paladin)                                   \\\\\
+/////                                                  \\\\\
+
+BEGIN @134500 DESIGNATED 1345
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE ~cdtweaks/dlg/stronghold1.d~     // removes stronghold var
+        ~cdtweaks/dlg/stronghold_norh.d~ // removes class check
+
+/////                                                  \\\\\
+///// druid grove                                      \\\\\
+/////                                                  \\\\\
+
+BEGIN @134600 DESIGNATED 1346
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~             // removes stronghold var
+                        ~cdtweaks/dlg/stronghold_grove.d~        // removes class check
+                        ~cdtweaks/dlg/stronghold_grove_choice.d~ // adds option to decline stronghold
+  
+COPY_EXISTING ~baldur.bcs~ ~override~ // non-druids not getting great druid messenger
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,DRUID_ALL)[%TAB% %LNL%%MNL%%WNL%]+\(LevelGT(Player1,13)[%TAB% %LNL%%MNL%%WNL%]+Global("DruidADSpawn","GLOBAL",0)\)~ ~\1~
+  END
+  BUT_ONLY
+
+/////                                                  \\\\\
+///// imnesvale cabin (ranger)                         \\\\\
+/////                                                  \\\\\
+
+BEGIN @134700 DESIGNATED 1347
+GROUP @13
+REQUIRE_PREDICATE (GAME_IS ~soa tob bgt bg2ee eet~) @25
+REQUIRE_PREDICATE ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1160~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1161~)) @24
+
+COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~             // removes stronghold var
+                        ~cdtweaks/dlg/stronghold_cabin.d~        // removes class check
+                        ~cdtweaks/dlg/stronghold_cabin_choice.d~ // adds option to decline stronghold
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -4076,51 +4214,44 @@ COPY_EXISTING ~ar2300.are~ ~override~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @125000 DESIGNATED 1250
+BEGIN @125000 DESIGNATED 1250 DEPRECATED @18 // deprecated in favor of individual components, below
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: alora              \\\\\
+/////                                                  \\\\\
+
+BEGIN @125000 DESIGNATED 1251
 GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
-REQUIRE_PREDICATE ((NOT FILE_EXISTS ~override/X#AloraMove.G3~) AND (NOT FILE_EXISTS ~override/X#QuayleMove.G3~) AND (NOT FILE_EXISTS ~override/X#TiaxMove.G3~)) @16 // bg1 npc does these separately
+REQUIRE_PREDICATE !FILE_EXISTS ~override/X#AloraMove.G3~ @16 // bg1 npc does these separately
 
 INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
-ACTION_IF NOT FILE_EXISTS ~override/X#TiaxMove.G3~   THEN BEGIN OUTER_SET move_tiax   = 1 END ELSE BEGIN OUTER_SET move_tiax   = 0 END
-ACTION_IF NOT FILE_EXISTS ~override/X#QuayleMove.G3~ THEN BEGIN OUTER_SET move_quayle = 1 END ELSE BEGIN OUTER_SET move_quayle = 0 END
+ACTION_IF GAME_IS ~bg1 totsc~ THEN BEGIN
 
-ACTION_IF FILE_EXISTS ~override/X#AloraMove.G3~ THEN BEGIN
+  INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
 
-  OUTER_SET move_alora = 0
-  
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves.d~
+
 END ELSE BEGIN
 
-  OUTER_SET move_alora = 1
+  COPY ~cdtweaks/dlg/x#aloramoves.d~ ~cdtweaks/dlg/x#aloramoves_ac.d~
+    REPLACE_TEXTUALLY ~Global("Z!EmulAreaCheck","GLOBAL",4000)~ ~AreaCheck("%Gullykin%")~
 
-  ACTION_IF GAME_IS ~bg1 totsc~ THEN BEGIN
-  
-    INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
-  
-    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves.d~
-  
-  END ELSE BEGIN
-  
-    COPY ~cdtweaks/dlg/x#aloramoves.d~ ~cdtweaks/dlg/x#aloramoves_ac.d~
-      REPLACE_TEXTUALLY ~Global("Z!EmulAreaCheck","GLOBAL",4000)~ ~AreaCheck("%Gullykin%")~
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves_ac.d~
 
-    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves_ac.d~
-  
-  END
-  
-  /* Alora Starts in Gullykin - VERIFY IF THIS BLOCK IS NEEDED */
-  /* Trying to prevent Alora's CTD */
-  COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~
-    DECOMPILE_BCS_TO_BAF
+END
+
+/* Alora Starts in Gullykin - VERIFY IF THIS BLOCK IS NEEDED */
+/* Trying to prevent Alora's CTD */
+COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~
+  DECOMPILE_BCS_TO_BAF
     REPLACE_TEXTUALLY
       ~!InParty("alora")~
       ~!InParty("alora") Global("X#AloraDontBeDifficult","GLOBAL",1)~
     COMPILE_BAF_TO_BCS
-    BUT_ONLY_IF_IT_CHANGES
-
-END
+  BUT_ONLY_IF_IT_CHANGES
 
 ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
@@ -4129,16 +4260,172 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
     READ_LONG 0x34 npc_num
     FOR (index = 0; index < npc_num; ++index) BEGIN
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
-      PATCH_IF (move_alora AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ALORA~ = 0)) BEGIN // move alora to gullykin
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ALORA~ = 0) BEGIN // move alora to gullykin
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%Gullykin%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 553
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 506
-      END ELSE
-      PATCH_IF (move_quayle AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%QUAYLE~ = 0)) BEGIN // Quayle Starts at the Nashkel Carnival
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~ // ar7230
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+  
+  EXTEND_BOTTOM ~%Gullykin_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
+
+END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: eldoth             \\\\\
+/////                                                  \\\\\
+
+BEGIN @125200 DESIGNATED 1252
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+REQUIRE_PREDICATE !FILE_EXISTS ~override/X#EldothMove.G3~ @16 // bg1 npc does these separately
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+COPY_EXISTING ~%ELDOTH_BCS%.bcs~ ~override~ // bg1npc compat
+  DECOMPILE_AND_PATCH BEGIN
+  	REPLACE_TEXTUALLY ~!Global("X#SkieLeftEldoth","GLOBAL",1)~ ~OR(2) !Global("X#SkieLeftEldoth","GLOBAL",1) !Global("EldothMove","GLOBAL",0)~
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
+      PATCH_IF (move_alora AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ELDOTH~ = 0)) BEGIN // move eldoth to coast way
+        WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%CoastWay%~ #8
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1064
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 2086
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%CloakwoodDruids_BCS%.bcs~ ~override~ // ar7230
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~CreateCreature("ELDOTH5?",[^)]+)~ ~~ // blank this action rather than false()ing entire block, since same block spawns faldorn
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+  
+  EXTEND_BOTTOM ~%CoastWay_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
+
+END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: quayle             \\\\\
+/////                                                  \\\\\
+
+BEGIN @125300 DESIGNATED 1253
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+REQUIRE_PREDICATE !FILE_EXISTS ~override/X#QuayleMove.G3~ @16 // bg1 npc does these separately
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%QUAYLE%eet_var%~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%NashkelCarnival%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1067
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 3784
-      END ELSE
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%WyrmsCrossing_BCS%.bcs~     ~override~ // ar7900
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+
+  EXTEND_BOTTOM ~%NashkelCarnival_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_quayle.baf~
+
+END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: shar-teel          \\\\\
+/////                                                  \\\\\
+
+BEGIN @125400 DESIGNATED 1254
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+//REQUIRE_PREDICATE !FILE_EXISTS ~override/X#QuayleMove.G3~ @16 // bg1 npc doesn't move her
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%SHARTE~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
+        WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%NorthNashkelRoad%~ #8
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1067
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 3784
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%MutaminsGarden_BCS%.bcs~     ~override~ // ar9400, mutamin's garden
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+
+  EXTEND_BOTTOM ~%NorthNashkelRoad_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_sharteel.baf~
+
+END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: tiax               \\\\\
+/////                                                  \\\\\
+
+BEGIN @125500 DESIGNATED 1255
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+REQUIRE_PREDICATE !FILE_EXISTS ~override/X#TiaxMove.G3~ @16 // bg1 npc does these separately
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
       PATCH_IF (move_tiax AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%TIAX~ = 0)) BEGIN // Tiax Starts in Beregost
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%Beregost_FeldepostsInn_L1%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 500
@@ -4149,46 +4436,63 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
 END ELSE BEGIN // bgt
 
-  ACTION_IF move_alora THEN BEGIN
+  // disable spawns
+  COPY_EXISTING ~%SWBaldursGate_BCS%.bcs~     ~override~ // ar8000
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
 
-    // disable spawns
-    COPY_EXISTING ~%WBaldursGate_HallofWonders_BCS%.bcs~ ~override~ // ar7230
-      DECOMPILE_BCS_TO_BAF
-        REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
-      COMPILE_BAF_TO_BCS
-      BUT_ONLY_IF_IT_CHANGES
-  
-    EXTEND_BOTTOM ~%Gullykin_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
-  
-  END
-
-  ACTION_IF move_quayle THEN BEGIN
-
-    // disable spawns
-    COPY_EXISTING ~%WyrmsCrossing_BCS%.bcs~     ~override~ // ar7900
-      DECOMPILE_BCS_TO_BAF
-        REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
-      COMPILE_BAF_TO_BCS
-      BUT_ONLY_IF_IT_CHANGES
-
-    EXTEND_BOTTOM ~%NashkelCarnival_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_quayle.baf~
-
-  END
-
-  ACTION_IF move_tiax THEN BEGIN
-
-    // disable spawns
-    COPY_EXISTING ~%SWBaldursGate_BCS%.bcs~     ~override~ // ar8000
-      DECOMPILE_BCS_TO_BAF
-        REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
-      COMPILE_BAF_TO_BCS
-      BUT_ONLY_IF_IT_CHANGES
-
-    EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~
-
-  END
+  EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~
 
 END
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: viconia            \\\\\
+/////                                                  \\\\\
+
+BEGIN @125600 DESIGNATED 1256
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+//REQUIRE_PREDICATE !FILE_EXISTS ~override/X#QuayleMove.G3~ @16 // bg1 npc doesn't move her
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
+
+ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%VICONI~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
+        WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%SouthBeregostRoad%~ #8
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1455
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 253
+      END
+    END
+    BUT_ONLY_IF_IT_CHANGES
+
+END ELSE BEGIN // bgt
+
+  // disable spawns
+  COPY_EXISTING ~%Peldvale_BCS%.bcs~     ~override~ // ar8900, peldvale
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+    BUT_ONLY_IF_IT_CHANGES
+
+  EXTEND_BOTTOM ~%SouthBeregostRoad_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_viconia.baf~
+
+END
+
+COPY_EXISTING ~%tutu_var%%tutu_scriptbg%viconi%eet_var%.dlg~ ~override~ // viconi in bg/bgee, bgviconi in bgt, _viconi in tutu, viconi_ in eet
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~CreateCreature("FLAM2",\[605\.901\]~ ~CreateCreature("FLAM2",[1620.420]~  // move the FF spawn to reflect her new coords
+    REPLACE_TEXTUALLY ~MoveToPoint(\[507\.806\])~ ~MoveToPoint([1520.320])~ 
+  END
+  BUT_ONLY	
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -4613,6 +4917,8 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
 	END
   END	
   BUT_ONLY
+  
+// 1340 series is reserved for the individual stronghold components, but moved to be near the other stronghold components  
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -9958,6 +10264,25 @@ SUBCOMPONENT @311001 // increase scroll stacks
 OUTER_SET stack = 120
 INCLUDE ~cdtweaks/lib/increase_scroll.tpa~
 
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Unlimited Stacking for Ankheg Carapaces, Winter  \\\\\
+///// Wolf Pelts, and Wyvern Heads (borrowed from SCS) \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @500000 DESIGNATED 3115
+GROUP @4
+REQUIRE_PREDICATE GAME_IS ~bgee bg1 totsc tutu tutu_totsc eet bgt~ @25
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="ankheg_shells" END
+END
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -10186,6 +10511,7 @@ INCLUDE ~cdtweaks/lib/faster_start.tpa~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+/* // old overwrite version
 BEGIN @315000 DESIGNATED 3150
 GROUP @4
 REQUIRE_PREDICATE NOT GAME_IS ~bgee bg1 totsc tutu tutu_totsc iwd how totlm iwd2 pst pstee~ @25
@@ -10193,6 +10519,16 @@ REQUIRE_PREDICATE NOT GAME_IS ~bgee bg1 totsc tutu tutu_totsc iwd how totlm iwd2
 COPY ~cdtweaks/bam/spmagglo.bam~ ~override~
      ~cdtweaks/bam/spmagglo.bam~ ~override/spsturni.bam~
      ~cdtweaks/bam/spmagglo.bam~ ~override/spturni2.bam~
+*/
+
+BEGIN @506000 DESIGNATED 3150
+GROUP @4
+REQUIRE_PREDICATE NOT GAME_IS ~bgee bg1 totsc tutu tutu_totsc iwd how totlm iwd2 pst pstee~ @25
+
+WITH_SCOPE BEGIN
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="mirror_cloak_ease" END
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -12294,7 +12630,7 @@ GROUP @4
 REQUIRE_PREDICATE GAME_IS ~eet bgee bg2ee iwdee~ @25 // EEs (minus pstee)
 
 COPY_EXISTING ~numwslot.2da~ ~override~
-  REPLACE_TEXTUALLY ~\([ %TAB%]+\)[123][ %TAB%]*$~ ~\14~
+  REPLACE_TEXTUALLY ~\([ %TAB%]+\)[123][ %TAB%%MNL%]*$~ ~\14~ // thanks argent77!
   BUT_ONLY
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -12460,6 +12796,22 @@ GROUP @4
 COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
   WRITE_LONG 0x1c 0 // depreciation
   BUT_ONLY
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// reduced chance of chunking                       \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @502000 DESIGNATED 3330
+GROUP @4
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="no_chunk" END
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -12710,6 +13062,25 @@ ACTION_PHP_EACH cd_dv_array AS file => dv BEGIN
 
 END
 
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Allow NPC pairs to separate (SCS borrowing)      \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @501000 DESIGNATED 4025
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+WITH_TRA "cdtweaks/languages/english/dw_components.tra" "cdtweaks/languages/%LANGUAGE%/dw_components.tra" BEGIN
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="npc_separate" END
+END
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -13495,6 +13866,63 @@ COPY_EXISTING_REGEXP GLOB ~^_?xan[46]?\.cre$~ ~override~
     END
   END
   BUT_ONLY_IF_IT_CHANGES
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Move Boo out of Minsc's quick-access             \\\\\
+///// (SCS borrowing)                                  \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @501000 DESIGNATED 4150
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="move_boo" END
+END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Let Yeslick use axes                             \\\\\
+///// (SCS borrowing)                                  \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @504000 DESIGNATED 4160
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="yeslick_axes" END
+END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Protect Shar-Teel                                \\\\\
+///// (SCS borrowing)                                  \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @505000 DESIGNATED 4170
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+
+
+WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
+     LAF run STR_VAR file="protect_sharteel" END
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

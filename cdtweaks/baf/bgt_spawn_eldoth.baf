@@ -1,0 +1,17 @@
+IF
+	Global("cdt_spawn_eldoth","MYAREA",0)
+	LevelLT(Player1,5)
+THEN
+	RESPONSE #100
+		SetGlobal("cdt_spawn_eldoth","MYAREA",1)
+		CreateCreature("ELDOTH",[1064.2086],6)  // Eldoth
+END
+
+IF
+	Global("cdt_spawn_eldoth","MYAREA",0)
+	LevelGT(Player1,4)
+THEN
+	RESPONSE #100
+		SetGlobal("cdt_spawn_eldoth","MYAREA",1)
+		CreateCreature("ELDOTH5",[1064.2086],6)  // Eldoth
+END

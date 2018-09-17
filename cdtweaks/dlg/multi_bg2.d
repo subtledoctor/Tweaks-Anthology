@@ -1,8 +1,8 @@
 EXTEND_BOTTOM multig 1
 
-  IF ~GlobalLT("Chapter","GLOBAL",8)
+  IF ~GlobalLT("Chapter","GLOBAL",%bg2_chapter_8%)
       !AreaCheck("AR0406")~ THEN REPLY #49701 DO ~SetGlobal("Waiting","LOCALS",1)~ GOTO copper // Copper Coronet
-  IF ~!GlobalLT("Chapter","GLOBAL",8)
+  IF ~!GlobalLT("Chapter","GLOBAL",%bg2_chapter_8%)
       !AreaCheck("AR4500")
       !AreaCheck("AR4000")
       !AreaCheck("AR6200")~ THEN REPLY @107003 DO ~SetGlobal("Waiting","LOCALS",1)~ GOTO pocket // pocket plane
