@@ -45,7 +45,8 @@ ALWAYS
 
     // convert strings to UTF-8 for BGEE/BG2EE
     ACTION_DEFINE_ARRAY cdreload BEGIN setup END
-    LAF HANDLE_CHARSETS INT_VAR infer_charsets = 1 STR_VAR tra_path = ~cdtweaks/languages~ reload_array = cdreload END
+    ACTION_DEFINE_ARRAY cdnoconvert BEGIN ee END // List of tra files that contain ONLY strings for the WeiDU installer and NOT game content
+    LAF HANDLE_CHARSETS INT_VAR infer_charsets = 1 STR_VAR tra_path = ~cdtweaks/languages~ noconvert_array = cdnoconvert reload_array = cdreload END
 
   END
 
@@ -63,7 +64,7 @@ LANGUAGE
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
 LANGUAGE
-  ~Czech (Translation by Razfallow and Vlas√°k)~
+  ~Czech (Translation by Razfallow and Vlas·k)~
   ~czech~
   ~cdtweaks/languages/english/setup.tra~
   ~cdtweaks/languages/czech/setup.tra~
@@ -3474,9 +3475,9 @@ REQUIRE_PREDICATE ((GAME_IS ~soa tob bgt bg2ee eet~) OR
 ACTION_IF GAME_IS ~soa tob bgt bg2ee eet~ BEGIN
   
   COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~                 // removes stronghold var
-                          ~cdtweaks/dlg/strgonhold_cabin_choice.d~     // allows choice for ranger stronghold
-                          ~cdtweaks/dlg/strgonhold_grove_choice.d~     // allows choice for druid stronghold
-                          ~cdtweaks/dlg/strgonhold_playhouse_choice.d~ // allows choice for bard stronghold
+                          ~cdtweaks/dlg/stronghold_cabin_choice.d~     // allows choice for ranger stronghold
+                          ~cdtweaks/dlg/stronghold_grove_choice.d~     // allows choice for druid stronghold
+                          ~cdtweaks/dlg/stronghold_playhouse_choice.d~ // allows choice for bard stronghold
                           ~cdtweaks/dlg/stronghold_cabin.d~            // removes class check: ranger
                           ~cdtweaks/dlg/stronghold_dearnise.d~         // removes class check: fighter, blackguard
                           ~cdtweaks/dlg/stronghold_grove.d~            // removes class check: druid
@@ -3524,9 +3525,9 @@ REQUIRE_PREDICATE ((GAME_IS ~soa tob bgt bg2ee eet~) OR
 ACTION_IF GAME_IS ~soa tob bgt bg2ee eet~ BEGIN
 
   COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~                 // removes stronghold var
-                          ~cdtweaks/dlg/strgonhold_cabin_choice.d~     // allows choice for ranger stronghold
-                          ~cdtweaks/dlg/strgonhold_grove_choice.d~     // allows choice for druid stronghold
-                          ~cdtweaks/dlg/strgonhold_playhouse_choice.d~ // allows choice for bard stronghold
+                          ~cdtweaks/dlg/stronghold_cabin_choice.d~     // allows choice for ranger stronghold
+                          ~cdtweaks/dlg/stronghold_grove_choice.d~     // allows choice for druid stronghold
+                          ~cdtweaks/dlg/stronghold_playhouse_choice.d~ // allows choice for bard stronghold
 
 END
 
@@ -4306,7 +4307,7 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
     READ_LONG 0x34 npc_num
     FOR (index = 0; index < npc_num; ++index) BEGIN
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
-      PATCH_IF (move_alora AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ELDOTH~ = 0)) BEGIN // move eldoth to coast way
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ELDOTH~ = 0) BEGIN // move eldoth to coast way
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%CoastWay%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1064
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 2086
@@ -4426,7 +4427,7 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
     READ_LONG 0x34 npc_num
     FOR (index = 0; index < npc_num; ++index) BEGIN
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
-      PATCH_IF (move_tiax AND (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%TIAX~ = 0)) BEGIN // Tiax Starts in Beregost
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%TIAX~ = 0) BEGIN // Tiax Starts in Beregost
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%Beregost_FeldepostsInn_L1%~ #8
         WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 500
         WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 630
