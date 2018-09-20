@@ -47,6 +47,16 @@ ALWAYS
     ACTION_DEFINE_ARRAY cdreload BEGIN setup END
     ACTION_DEFINE_ARRAY cdnoconvert BEGIN ee END // List of tra files that contain ONLY strings for the WeiDU installer and NOT game content
     LAF HANDLE_CHARSETS INT_VAR infer_charsets = 1 STR_VAR tra_path = ~cdtweaks/languages~ noconvert_array = cdnoconvert reload_array = cdreload END
+		
+		// fix tokens if an EE game using schinese
+		ACTION_IF (GAME_IS ~bgee bg2ee eet~) AND (~%LANGUAGE%~ STR_EQ ~schinese~) BEGIN
+			COPY ~%MOD_FOLDER%/languages/schinese/dw_components.tra~ ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
+				REPLACE_TEXTUALLY ~<\([A-Z_]+\)>_~ ~<\1>~
+			LOAD_TRA ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
+			
+			// and always load ANSI strings for WeiDU installer
+			LOAD_TRA ~%MOD_FOLDER%/languages/schinese_prompts/setup-%WEIDU_OS%.tra~
+		END
 
   END
 
@@ -113,17 +123,13 @@ LANGUAGE
   ~cdtweaks/languages/spanish/setup.tra~
 LANGUAGE
   ~Simplified Chinese (Translation from bg2_tweaks by Miranda, distance20 and c4_angel)~
-  /*
-    The folder name should be schinese to work properly with HANDLE_CHARSETS.
-    And also make difference between simplified and traditional Chinese.
-    Will add the tradition Chinese translation soon.
-  */
   ~schinese~
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
-  ~cdtweaks/languages/schinese/prompts/prompts-%WEIDU_OS%.tra~
   ~cdtweaks/languages/schinese/description_updates.tra~
   ~cdtweaks/languages/schinese/setup.tra~
+  ~cdtweaks/languages/schinese_prompts/prompts-%WEIDU_OS%.tra~
+	~cdtweaks/languages/schinese_prompts/setup-%WEIDU_OS%.tra~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
