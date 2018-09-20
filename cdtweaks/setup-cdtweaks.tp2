@@ -62,7 +62,7 @@ ALWAYS
 
 END
 
-VERSION ~v6~
+VERSION ~v7~
 
 README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
 
