@@ -47,23 +47,24 @@ END
 DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
 
   PATCH_IF (prof = 95) BEGIN // bows
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%lbow%\|%sbow%\)~ ~%prof_text% %bow%~
+    SPRINT new_weap ~%bow%~
   END ELSE
   PATCH_IF (prof = 98) BEGIN // flails
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%%flail% */ *\(%mstar1% ?%mstar2%\)~ ~%prof_text% %flail%~
+    SPRINT new_weap ~%flail%~
   END ELSE
   PATCH_IF (prof = 99) BEGIN // great swords
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%bastard%\|%2hsword%\)~ ~%prof_text% %prof_gsword%~ // bastard sword/2h sword
+    SPRINT new_weap ~%prof_gsword%~ // bastard sword/2h sword
   END ELSE
   PATCH_IF (prof = 102) BEGIN // large swords
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%scimitar% */ *%waki% */ *\(%ninjato%\|%ninjato_special%\|Ninja-?to\|Ninja-?t≈\)\)\|\(%katana%\)\|\(%lsword%\)\)~ ~%prof_text% %prof_lsword%~
+    SPRINT new_weap ~%prof_lsword%~
   END ELSE
   PATCH_IF (prof = 103) BEGIN // morningstars/maces
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%flail% */ *%mstar1% ?%mstar2%\)\|\(%mace%\)\)~ ~%prof_text% %mace%/%mstar%~
+    SPRINT new_weap ~%mace%/%mstar%~
   END ELSE
   PATCH_IF (prof = 104) BEGIN // misile
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%dart%\|%sling%\)~ ~%prof_text% %prof_missile%~
+    SPRINT new_weap ~%prof_missile%~
   END
+  REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%.+$~ ~%prof_text% %new_weap%~
 
 END
 

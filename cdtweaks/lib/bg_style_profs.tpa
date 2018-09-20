@@ -47,26 +47,27 @@ END
 DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
 
   PATCH_IF (prof = 100) BEGIN // bows
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%lbow%\|%sbow%\)~ ~%prof_text% %bow%~ // long bow, short bow
+    SPRINT new_weap ~%bow%~ // long bow, short bow
   END ELSE
   PATCH_IF (prof = 101) BEGIN // spiked
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%%flail% */ *\(%mstar1% ?%mstar2%\)~ ~%prof_text% %spiked%~ // flails and morningstars
+    SPRINT new_weap ~%spiked%~ // flails and morningstars
   END ELSE
   PATCH_IF (prof = 102) BEGIN // small swords
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%short_sword%\|%dagger%\)~ ~%prof_text% %prof_ssword%~ // daggers/short swords
+    SPRINT new_weap ~%prof_ssword%~ // daggers/short swords
   END ELSE
   PATCH_IF (prof = 103) BEGIN // large swords
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(\(%scimitar% */ *%waki% */ *\(%ninjato%\|%ninjato_special%\|Ninja-?to\|Ninja-?t≈\)\)\|\(%katana%\)\|\(%lsword%\)\|\(%bastard%\)\|\(%2hsword%\)\)~ ~%prof_text% %prof_lsword%~ // all blades except daggs & short swords
+    SPRINT new_weap ~%prof_lsword%~ // all blades except daggs & short swords
   END ELSE // 104 is axe, no change
   PATCH_IF (prof = 105) BEGIN // blunt
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%hammer%\|%mace%\|%club%\|%staff%\)~ ~%prof_text% %blunt%~ // hammers, maces, clubs
+    SPRINT new_weap ~%blunt%~ // hammers, maces, clubs
   END ELSE
   PATCH_IF (prof = 106) BEGIN // missile
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%\(%dart%\|%sling%\|%xbow%\)~ ~%prof_text% %prof_missile%~ // dart, sling, crossbow
+    SPRINT new_weap ~%prof_missile%~ // dart, sling, crossbow
   END ELSE
   PATCH_IF (prof = 107) BEGIN // spear
-    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%%halberd%~ ~%prof_text% %spear%~ // spears and halberds (spears don't need changing)
+    SPRINT new_weap ~%spear%~ // spears and halberds (spears don't need changing)
   END
+  REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%.+$~ ~%prof_text% %new_weap%~
 
 END
 

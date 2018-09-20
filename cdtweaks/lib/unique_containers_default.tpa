@@ -97,22 +97,22 @@ ACTION_IF GAME_IS ~how totlm iwdee iwd_in_bg2~ BEGIN // so far, only iwdee conta
     413 => ~bag05~ // Leather Ammo Belt
 
     // potion cases
-    500 => ~potnbg01~ // Copper Potion Case
-    501 => ~potnbg02~ // Black-Green Potion Case
-    502 => ~potnbg03~ // Green Potion Case
-    503 => ~potnbg04~ // Turquoise Potion Case
+    500 => ~ptnbg01~ // Copper Potion Case
+    501 => ~ptnbg02~ // Black-Green Potion Case
+    502 => ~ptnbg03~ // Green Potion Case
+    503 => ~ptnbg04~ // Turquoise Potion Case
     504 => ~c!potion~ // Indigo Potion Case
-    505 => ~potnbg06~ // Purple Potion Case
+    505 => ~ptnbg06~ // Purple Potion Case
     506 => ~cdpotio2~ // Black Potion Case
     507 => ~cdpotion~ // Midnight Potion Case
-    508 => ~potnbg09~ // Green-Gold Potion Case
-    509 => ~potnbg10~ // Rust Potion Case
-    510 => ~potnbg05~ // Ruby Potion Case
+    508 => ~ptnbg09~ // Green-Gold Potion Case
+    509 => ~ptnbg10~ // Rust Potion Case
+    510 => ~ptnbg05~ // Ruby Potion Case
     511 => ~bag06b~ // Gold Potion Case
     512 => ~bag06c~ // Red Potion Case
     513 => ~bag06d~ // Black-Gold Potion Case
-    514 => ~potnbg07~ // Pink Potion Case
-    515 => ~potnbg08~ // White Potion Case
+    514 => ~ptnbg07~ // Pink Potion Case
+    515 => ~ptnbg08~ // White Potion Case
     516 => ~bag06~ // Rustic Potion Case
 
   END
