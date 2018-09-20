@@ -4221,7 +4221,7 @@ BEGIN @125000 DESIGNATED 1250 DEPRECATED @18 // deprecated in favor of individua
 ///// Move NPCs From Baldur's Gate: alora              \\\\\
 /////                                                  \\\\\
 
-BEGIN @125000 DESIGNATED 1251
+BEGIN @125100 DESIGNATED 1251
 GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
@@ -4479,9 +4479,9 @@ END ELSE BEGIN // bgt
 
   // disable spawns
   COPY_EXISTING ~%Peldvale_BCS%.bcs~     ~override~ // ar8900, peldvale
-    DECOMPILE_BCS_TO_BAF
+    DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
-    COMPILE_BAF_TO_BCS
+    END
     BUT_ONLY_IF_IT_CHANGES
 
   EXTEND_BOTTOM ~%SouthBeregostRoad_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_viconia.baf~
@@ -4490,6 +4490,7 @@ END
 
 COPY_EXISTING ~%tutu_var%%tutu_scriptbg%viconi%eet_var%.dlg~ ~override~ // viconi in bg/bgee, bgviconi in bgt, _viconi in tutu, viconi_ in eet
   DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~CreateCreature("FLAM2",\[605\.901\])~ ~CreateCreature("FLAM2",[1620.420],0)~  // BG lacks a direction parameter, fix syntax
     REPLACE_TEXTUALLY ~CreateCreature("FLAM2",\[605\.901\]~ ~CreateCreature("FLAM2",[1620.420]~  // move the FF spawn to reflect her new coords
     REPLACE_TEXTUALLY ~MoveToPoint(\[507\.806\])~ ~MoveToPoint([1520.320])~ 
   END
@@ -12748,7 +12749,7 @@ END
 
 BEGIN @330000 DESIGNATED 3300
 GROUP @4
-REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet sod~ @25
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @25
 
 COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
   WRITE_LONG 0x14 (THIS | BIT4) // add player1-can-die bit
@@ -13076,11 +13077,68 @@ BEGIN @501000 DESIGNATED 4025
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 
-WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
-WITH_TRA "cdtweaks/languages/english/dw_components.tra" "cdtweaks/languages/%LANGUAGE%/dw_components.tra" BEGIN
+ACTION_IF !GAME_IS ~bg1 totsc~ BEGIN // originally modified a bunch of junk here, but easier just to do original bg1 as a one-off
+  WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
+    WITH_TRA "cdtweaks/languages/english/dw_components.tra" "cdtweaks/languages/%LANGUAGE%/dw_components.tra" BEGIN
      INCLUDE "cdtweaks/dw_components/always_lite.tpa"
      LAF run STR_VAR file="npc_separate" END
-END
+    END
+  END
+END ELSE BEGIN 
+
+  // manually set these vars for bg1
+  OUTER_SET jaheira_loc = 4
+  OUTER_SET khalid_loc = 5
+  OUTER_SET minsc_loc = 4
+  OUTER_SET dynaheir_loc = 4
+  OUTER_SET montaron_loc = 5
+  OUTER_SET xzar_loc = 5
+  OUTER_SET eldoth_loc = 4
+  OUTER_SET skie_loc = 4
+  OUTER_SET jaheira_stay = 6
+  OUTER_SET khalid_stay = 6
+  OUTER_SET dynaheir_stay = 6
+  OUTER_SET montaron_stay = 7
+  OUTER_SET xzar_stay = 6
+  OUTER_SET eldoth_stay = 8
+  OUTER_SET skie_stay = 6
+  OUTER_SPRINT JAHEIRA_POSTJOIN  JAHEIP
+  OUTER_SPRINT KHALID_POSTJOIN   KHALIP
+  OUTER_SPRINT MINSC_POSTJOIN    MINSCP
+  OUTER_SPRINT DYNAHEIR_POSTJOIN DYNAHP
+  OUTER_SPRINT MONTARON_POSTJOIN MONTAP
+  OUTER_SPRINT XZAR_POSTJOIN     XZARP
+  OUTER_SPRINT ELDOTH_POSTJOIN   ELDOTP
+  OUTER_SPRINT SKIE_POSTJOIN     SKIEP
+  
+  APPEND ~state.ids~ ~0x80101FEF CD_STATE_NOTVALID~ UNLESS ~^0x80101FEF[ %TAB]+CD_STATE_NOTVALID[ %TAB%%LNL%%MNL%%WNL%]~
+  
+  COPY ~cdtweaks/dw_components/resource/pairsep.d~ ~cdtweaks/dw_components/resource/pairsep_bg1.d~
+    REPLACE_TEXTUALLY ~IsValidForPartyDialog("\([^"]+\)")~ ~StateCheck("\1",CD_STATE_NOTVALID)~ // no IVFPD
+    REPLACE_TEXTUALLY ~InMyArea("\([^"]+\)")~ ~Range("\1",1000)~ // no InMyArea
+	REPLACE_TEXTUALLY ~SetGlobal("%kicked_out_variable%","LOCALS",[01])~ ~~ // bg1 doesn't use LOCALS kickedout vars
+	
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dw_components/resource/pairsep_bg1.d~ USING "cdtweaks/languages/english/dw_components.tra" "cdtweaks/languages/%LANGUAGE%/dw_components.tra"
+  
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_separate_npcs BEGIN
+    JAHEIP => 6
+    KHALIP => 6
+    //MINSCP => 999
+    DYNAHP => 6
+    MONTAP => 7
+    XZARP  => 6
+    ELDOTP => 8
+    SKIEP  => 6
+  END	
+  
+<<<<<<<< ./inlined/cdtweaks/pairsep2.d
+ALTER_TRANS ~%scriptfile%~ BEGIN ~%staynum%~ END BEGIN 0 END BEGIN "ACTION" "" END
+>>>>>>>>
+	
+  ACTION_PHP_EACH cd_separate_npcs AS scriptfile => staynum BEGIN
+    COMPILE "./inlined/cdtweaks/pairsep2.d" EVALUATE_BUFFER
+  END
+  
 END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -13877,7 +13935,7 @@ COPY_EXISTING_REGEXP GLOB ~^_?xan[46]?\.cre$~ ~override~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @501000 DESIGNATED 4150
+BEGIN @503000 DESIGNATED 4150
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
 
