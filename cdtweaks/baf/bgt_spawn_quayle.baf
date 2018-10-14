@@ -1,28 +1,28 @@
 IF
-	Global("BGTNPC7900","GLOBAL",0)
+	Global("cdt_spawn_quayle","GLOBAL",0)
 	LevelLT(Player1,4)
 THEN
 	RESPONSE #100
-		SetGlobal("BGTNPC7900","GLOBAL",1)
+		SetGlobal("cdt_spawn_quayle","GLOBAL",1)
 		CreateCreature("BGQUAYLE",[1067.3784],5) // Quayle
 END
 
 IF
-	Global("BGTNPC7900","GLOBAL",0)
+	Global("cdt_spawn_quayle","GLOBAL",0)
 	OR(2)
 		Level(Player1,4)
 		Level(Player1,5)
 THEN
 	RESPONSE #100
-		SetGlobal("BGTNPC7900","GLOBAL",1)
+		SetGlobal("cdt_spawn_quayle","GLOBAL",1)
 		CreateCreature("QUAYLE4",[1067.3784],5) // Quayle
 END
 
 IF
-	Global("BGTNPC7900","GLOBAL",0)
+	Global("cdt_spawn_quayle","GLOBAL",0)
 	LevelGT(Player1,5)
 THEN
 	RESPONSE #100
-		SetGlobal("BGTNPC7900","GLOBAL",1)
+		SetGlobal("cdt_spawn_quayle","GLOBAL",1)
 		CreateCreature("QUAYLE6",[1067.3784],5) // Quayle
 END

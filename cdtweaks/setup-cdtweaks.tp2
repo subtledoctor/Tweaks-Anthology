@@ -62,7 +62,7 @@ ALWAYS
 
 END
 
-VERSION ~v7~
+VERSION ~v8~
 
 README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
 
@@ -4330,7 +4330,7 @@ END ELSE BEGIN // bgt
     COMPILE_BAF_TO_BCS
     BUT_ONLY_IF_IT_CHANGES
   
-  EXTEND_BOTTOM ~%CoastWay_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
+  EXTEND_BOTTOM ~%CoastWay_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_eldoth.baf~
 
 END
 
