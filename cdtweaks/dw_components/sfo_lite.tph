@@ -38,7 +38,9 @@ ACTION_IF !VARIABLE_IS_SET scsroot BEGIN
    OUTER_SPRINT scsroot "%TP2_BASE_NAME%"
 END
 ACTION_IF !VARIABLE_IS_SET workspace BEGIN
-    OUTER_SPRINT workspace "stratagems_external/workspace"
+    MKDIR "weidu_external"
+    MKDIR "weidu_external/workspace"
+    OUTER_SPRINT workspace "weidu_external/workspace"
 END
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
