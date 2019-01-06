@@ -11563,17 +11563,17 @@ BEGIN @322000 DESIGNATED 3220
 GROUP @4
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee soa tob~ @25
 
-ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgt bgee eet~ THEN BEGIN // BGT/Tutu/BGEE changes
+ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgt~ THEN BEGIN // BGT/Tutu/BGEE changes
 
   INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
-  ACTION_IF GAME_IS ~bgt eet~ THEN BEGIN // BGT
+  ACTION_IF GAME_IS ~bgt~ THEN BEGIN // BGT
     
     COPY_EXISTING ~%Beregost%.are~ ~override~ // only change for BGT is to move the east beregost entrance
       LPF ALTER_AREA_ENTRANCE INT_VAR x_coord = 4950 y_coord = 3085 orient = 4 STR_VAR entrance_name = "Exit9300" END
       BUT_ONLY
 
-  END ELSE BEGIN // BG/Tutu/BGEE changes
+  END ELSE BEGIN // BG/Tutu changes
 
     COPY_EXISTING ~worldmap.wmp~ ~override~
       READ_LONG 0x0c mos_off
