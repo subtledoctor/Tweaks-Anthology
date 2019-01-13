@@ -3,6 +3,7 @@ OUTER_SPRINT prof_text       @216008
 
 DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
 
+  SPRINT new_weap ""
   PATCH_IF ("%prof%" = 91) BEGIN // short swords/ninja-tos
     SPRINT new_weap ~%ssword%/%ninjato%~
   END ELSE
@@ -17,7 +18,9 @@ DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
   END ELSE BEGIN // flails
     SPRINT new_weap ~%flail%~
   END
-  REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%.+$~ ~%prof_text% %new_weap%~
+  PATCH_IF ("%new_weap%" STRING_COMPARE_CASE "") BEGIN // make sure new_weap is actually set before blindly patching
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%.+$~ ~%prof_text% %new_weap%~
+  END	
 
 END
 

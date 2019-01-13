@@ -46,6 +46,7 @@ END
 
 DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
 
+  SPRINT new_weap ""
   PATCH_IF (prof = 100) BEGIN // bows
     SPRINT new_weap ~%bow%~ // long bow, short bow
   END ELSE
@@ -67,7 +68,9 @@ DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
   PATCH_IF (prof = 107) BEGIN // spear
     SPRINT new_weap ~%spear%~ // spears and halberds (spears don't need changing)
   END
-  REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%.+$~ ~%prof_text% %new_weap%~
+  PATCH_IF ("%new_weap%" STRING_COMPARE_CASE "") BEGIN // make sure new_weap is actually set before blindly patching
+    REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%.+$~ ~%prof_text% %new_weap%~
+  END	
 
 END
 

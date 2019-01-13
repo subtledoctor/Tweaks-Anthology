@@ -3,10 +3,6 @@ IF ~Global("EnteredArmInn","GLOBAL",1)
     !Global("IslandTravel","GLOBAL",1) // not on Werewolf Isle
     !Global("teth","GLOBAL",1) // not trapped under Candlekeep AR2613, 2615, 2619, 5506
     !Global("teth","GLOBAL",2)
-    !Global("Z!EmulAreaCheck","GLOBAL","5100") // Gnoll Stronghold
-    !Global("Z!EmulAreaCheck","GLOBAL","5101") // Gnoll Stronghold Xvart Cave
-    !Global("Z!EmulAreaCheck","GLOBAL","5102") // Gnoll Stronghold Treasure Cave
-    !Global("Z!EmulAreaCheck","GLOBAL","5103") // Gnoll Stronghold Carrion Crawler Cave
     !Global("Z!EmulAreaCheck","GLOBAL","0506") // Chess Board
     !Global("Z!EmulAreaCheck","GLOBAL","0507") // Ice Node
     !Global("Z!EmulAreaCheck","GLOBAL","0508") // Fire Node
@@ -27,10 +23,6 @@ IF ~Global("EnteredBeregost","GLOBAL",1)
     !Global("IslandTravel","GLOBAL",1)
     !Global("teth","GLOBAL",1)
     !Global("teth","GLOBAL",2)
-    !Global("Z!EmulAreaCheck","GLOBAL","5100") // Gnoll Stronghold
-    !Global("Z!EmulAreaCheck","GLOBAL","5101") // Gnoll Stronghold Xvart Cave
-    !Global("Z!EmulAreaCheck","GLOBAL","5102") // Gnoll Stronghold Treasure Cave
-    !Global("Z!EmulAreaCheck","GLOBAL","5103") // Gnoll Stronghold Carrion Crawler Cave
     !Global("Z!EmulAreaCheck","GLOBAL","0506") // Chess Board
     !Global("Z!EmulAreaCheck","GLOBAL","0507") // Ice Node
     !Global("Z!EmulAreaCheck","GLOBAL","0508") // Fire Node
@@ -51,10 +43,6 @@ IF ~GlobalGT("Chapter","GLOBAL",1)
     !Global("IslandTravel","GLOBAL",1)
     !Global("teth","GLOBAL",1)
     !Global("teth","GLOBAL",2)
-    !Global("Z!EmulAreaCheck","GLOBAL","5100") // Gnoll Stronghold
-    !Global("Z!EmulAreaCheck","GLOBAL","5101") // Gnoll Stronghold Xvart Cave
-    !Global("Z!EmulAreaCheck","GLOBAL","5102") // Gnoll Stronghold Treasure Cave
-    !Global("Z!EmulAreaCheck","GLOBAL","5103") // Gnoll Stronghold Carrion Crawler Cave
     !Global("Z!EmulAreaCheck","GLOBAL","0506") // Chess Board
     !Global("Z!EmulAreaCheck","GLOBAL","0507") // Ice Node
     !Global("Z!EmulAreaCheck","GLOBAL","0508") // Fire Node
@@ -76,10 +64,6 @@ IF ~!Global("Chapter","GLOBAL",7)   // you're not wanted in the Gate for murder
     !Global("IslandTravel","GLOBAL",1)
     !Global("teth","GLOBAL",1)
     !Global("teth","GLOBAL",2)
-    !Global("Z!EmulAreaCheck","GLOBAL","5100") // Gnoll Stronghold
-    !Global("Z!EmulAreaCheck","GLOBAL","5101") // Gnoll Stronghold Xvart Cave
-    !Global("Z!EmulAreaCheck","GLOBAL","5102") // Gnoll Stronghold Treasure Cave
-    !Global("Z!EmulAreaCheck","GLOBAL","5103") // Gnoll Stronghold Carrion Crawler Cave
     !Global("Z!EmulAreaCheck","GLOBAL","0506") // Chess Board
     !Global("Z!EmulAreaCheck","GLOBAL","0507") // Ice Node
     !Global("Z!EmulAreaCheck","GLOBAL","0508") // Fire Node

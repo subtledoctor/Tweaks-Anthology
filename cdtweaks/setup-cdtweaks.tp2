@@ -35,6 +35,12 @@ ALWAYS
     
     END
 
+    ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgt bgee eet~ THEN BEGIN
+
+      INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro 
+
+    END
+
     ACTION_IF GAME_IS ~soa tob bgt ca tutu tutu_totsc iwd_in_bg2~ THEN BEGIN
 
       ACTION_FOR_EACH file IN iplot01k.itm iplot04g.itm iplot04h.itm iplot04i.itm xr2400.are xr2600.are BEGIN
@@ -1346,8 +1352,6 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt bgee eet~ @25 // Tutu, BGEE or BGT only
 REQUIRE_PREDICATE NOT MOD_IS_INSTALLED ~BG1NPC/BG1NPC.TP2~ ~29~ @24 // don't install if same component from bg1 npc installed
 
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
-
 COPY_EXISTING ~worldmap.wmp~ ~override~
   READ_LONG  0x30 "area_num"
   READ_LONG  0x34 "area_off"
@@ -1380,8 +1384,6 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt bgee eet~ @25 // Tutu, BGEE or BGT only
 REQUIRE_PREDICATE NOT MOD_IS_INSTALLED ~BG1NPC/BG1NPC.TP2~ ~29~ @24 // don't install if same component from bg1 npc installed
 
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
-
 COPY_EXISTING ~worldmap.wmp~ ~override~
   READ_LONG  0x30 "area_num"
   READ_LONG  0x34 "area_off"
@@ -1398,7 +1400,8 @@ COPY_EXISTING ~worldmap.wmp~ ~override~
   END
   BUT_ONLY
 
-COPY_EXISTING ~%BanditCamp_RaemonsTent_BCS%.bcs~ ~override~
+COPY_EXISTING ~%BanditCamp_RaemonsTent_BCS%.bcs~ ~override~ // tutu, bgt. bg
+              ~baldur.bcs~                       ~override~ // eet, bgee
   DECOMPILE_BCS_TO_BAF
     REPLACE_TEXTUALLY ~RevealAreaOnMap("%CloakwoodLodge%")~ ~RevealAreaOnMap("%CloakwoodLodge%") RevealAreaOnMap("%CloakwoodMines%")~
   COMPILE_BAF_TO_BCS
@@ -1818,7 +1821,6 @@ END ELSE BEGIN // bg2-based engines
 
   ACTION_IF GAME_IS ~bgee bgt eet tutu tutu_totsc~ THEN BEGIN
 
-    INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
     COMPILE ~cdtweaks/dlg/multi_bgee.d~ EVALUATE_BUFFER // adds FAI, Nashkel, BG, Beregost options
 
     ACTION_IF GAME_IS ~bgt eet~ THEN BEGIN
@@ -2380,8 +2382,6 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~tutu tutu_totsc bgt bgee eet~ @25 // Tutu, bgee or BGT only
 REQUIRE_PREDICATE NOT MOD_IS_INSTALLED ~thecalling/setup-thecalling.tp2~ ~40~ @16 // already installed by the calling
 
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
-
 OUTER_SET generic_kat_name  = 7523
 OUTER_SET generic_kat_desc  = 35963
 OUTER_SET generic_ioun_name = 8181
@@ -2662,8 +2662,6 @@ ACTION_IF GAME_IS ~iwdee iwd_in_bg2 iwd how totlm~ THEN BEGIN
 END
 
 ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgee bgt~ THEN BEGIN
-
-  INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
   COPY_EXISTING ~%NEBaldursGate_BCS%.bcs~ ~override~
     DECOMPILE_BCS_TO_BAF
@@ -4233,8 +4231,6 @@ REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 REQUIRE_PREDICATE !FILE_EXISTS ~override/X#AloraMove.G3~ @16 // bg1 npc does these separately
 
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
-
 ACTION_IF GAME_IS ~bg1 totsc~ THEN BEGIN
 
   INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
@@ -4298,8 +4294,6 @@ REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 REQUIRE_PREDICATE !FILE_EXISTS ~override/X#EldothMove.G3~ @16 // bg1 npc does these separately
 
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
-
 COPY_EXISTING ~%ELDOTH_BCS%.bcs~ ~override~ // bg1npc compat
   DECOMPILE_AND_PATCH BEGIN
   	REPLACE_TEXTUALLY ~!Global("X#SkieLeftEldoth","GLOBAL",1)~ ~OR(2) !Global("X#SkieLeftEldoth","GLOBAL",1) !Global("EldothMove","GLOBAL",0)~
@@ -4344,8 +4338,6 @@ REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 REQUIRE_PREDICATE !FILE_EXISTS ~override/X#QuayleMove.G3~ @16 // bg1 npc does these separately
 
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
-
 ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
   COPY_EXISTING ~baldur.gam~ ~override~
@@ -4384,8 +4376,6 @@ REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 //REQUIRE_PREDICATE !FILE_EXISTS ~override/X#QuayleMove.G3~ @16 // bg1 npc doesn't move her
 
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
-
 ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
   COPY_EXISTING ~baldur.gam~ ~override~
@@ -4395,8 +4385,8 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
       PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%SHARTE~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%NorthNashkelRoad%~ #8
-        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1067
-        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 3784
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1391
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 2524
       END
     END
     BUT_ONLY_IF_IT_CHANGES
@@ -4423,8 +4413,6 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 REQUIRE_PREDICATE !FILE_EXISTS ~override/X#TiaxMove.G3~ @16 // bg1 npc does these separately
-
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
@@ -4463,8 +4451,6 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 //REQUIRE_PREDICATE !FILE_EXISTS ~override/X#QuayleMove.G3~ @16 // bg1 npc doesn't move her
-
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
 
@@ -4581,8 +4567,6 @@ EXTEND_BOTTOM ~ajantis.bcs~ ~cdtweaks/baf/X#LPRCAJR.BAF~
 BEGIN @127000 DESIGNATED 1270 // ~Revert Chapter Change in Cloakwood Mines to Non-ToTSC BG Behavior~
 GROUP @13
 REQUIRE_PREDICATE GAME_IS ~totsc bgt eet bgee tutu tutu_totsc~ @25
-
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 COPY_EXISTING ~%CloakwoodMines_L4%.are~ override // AR1803, 8603bgt
   READ_ASCII 0x94 areascript (8) NULL
@@ -10283,13 +10267,7 @@ INCLUDE ~cdtweaks/lib/increase_scroll.tpa~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @500000 DESIGNATED 3115
-GROUP @4
-REQUIRE_PREDICATE GAME_IS ~bgee bg1 totsc tutu tutu_totsc eet bgt~ @25
-
-WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
-     INCLUDE "cdtweaks/dw_components/always_lite.tpa"
-     LAF run STR_VAR file="ankheg_shells" END
-END
+DEPRECATED @18 // already covered by gem/jewelry 
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -10454,23 +10432,23 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
     END
   END
   FOR (index2 = 0 ; index2 < cont_num ; ++index2) BEGIN // cycle through containers
-    READ_SHORT  (cont_off + 0x26 + (index2 * 0xc0)) lock_diff // lock difficulty
-    PATCH_IF ((lock_diff > 0) AND (lock_diff < 100)) BEGIN
+    READ_ASCII  (cont_off + 0x78 + (index2 * 0xc0)) key // key 
+    PATCH_IF (("%key%" STRING_COMPARE_CASE "" = 0) OR ("%key%" STRING_COMPARE_CASE "None" = 0)) BEGIN
       WRITE_SHORT  (cont_off + 0x26 + (index2 * 0xc0)) 0 // lock difficulty
     END
     READ_SHORT  (cont_off + 0x2c + (index2 * 0xc0)) trap_diff // trap difficulty
-    PATCH_IF ((trap_diff > 0) AND (trap_diff < 100)) BEGIN
+    PATCH_IF (trap_diff != 100) BEGIN
       WRITE_SHORT (cont_off + 0x30 + (index2 * 0xc0)) 0 // is not a trap
     END
   END
   FOR (index3 = 0 ; index3 < door_num ; ++index3) BEGIN // cycle through doors
     WRITE_LONG (door_off + 0x88 + (index3 * 0xc8)) 0         // detect diff (secret doors)
     READ_SHORT (door_off + 0x6e + (index3 * 0xc8)) trap_diff // detect diff
-    PATCH_IF ((trap_diff > 0) AND (trap_diff < 100)) BEGIN
+    PATCH_IF (trap_diff != 100) BEGIN
       WRITE_SHORT (door_off + 0x70 + (index3 * 0xc8)) 0 // is not a trap
     END
-    READ_LONG  (door_off + 0x8c + (index3 * 0xc8)) lock_diff // lock diff
-    PATCH_IF ((lock_diff > 0) AND (lock_diff < 100)) BEGIN
+    READ_ASCII (door_off + 0x78 + (index3 * 0xc0)) key // key 
+    PATCH_IF (("%key%" STRING_COMPARE_CASE "" = 0) OR ("%key%" STRING_COMPARE_CASE "None" = 0)) BEGIN
       WRITE_LONG  (door_off + 0x8c + (index3 * 0xc8)) 0 // lock diff
     END
   END
@@ -11561,11 +11539,9 @@ COPY_EXISTING ~abclasrq.2da~ ~override~
 
 BEGIN @322000 DESIGNATED 3220
 GROUP @4
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee soa tob~ @25
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt soa tob~ @25
 
 ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgt~ THEN BEGIN // BGT/Tutu/BGEE changes
-
-  INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
   ACTION_IF GAME_IS ~bgt~ THEN BEGIN // BGT
     
@@ -11902,8 +11878,6 @@ END
 BEGIN @323000 DESIGNATED 3230
 GROUP @4
 REQUIRE_PREDICATE GAME_IS ~bgee bg1 totsc tutu tutu_totsc eet bgt~ @25
-
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 ACTION_IF NOT GAME_IS ~bg1 totsc~ THEN BEGIN // change fenten/taerom to only take one shell at a time
   COMPILE ~cdtweaks/dlg/ankheg.d~ EVALUATE_BUFFER // use TakePartyItemNum when we can
@@ -12815,6 +12789,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
 
 BEGIN @502000 DESIGNATED 3330
 GROUP @4
+REQUIRE_PREDICATE GAME_IS ~bg2 tob tutu  tutu_totsc bgt ca bgee bg2ee eet~ @25 // requires op 295, so EEs or bg2 only
 
 WITH_SCOPE BEGIN // isolate DW-coded components from the rest of the mod, in case we have incompatible variables or something
      INCLUDE "cdtweaks/dw_components/always_lite.tpa"
@@ -13487,8 +13462,6 @@ ACTION_IF GAME_IS ~bg1 totsc~ BEGIN
 
 END ELSE BEGIN // tutu, bgt, bgee
 
-  INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
-  
   COPY_EXISTING ~%tutu_var%khalid2.cre~ ~override~
     READ_ASCII 0x0a4 soundset (396) // read soundset from existing cre file
     // detect if walking speed altered
@@ -13631,8 +13604,6 @@ END
 BEGIN @409000 DESIGNATED 4090
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee tutu tutu_totsc eet bgt~ @25
-
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 COPY_EXISTING ~%tutu_var%montar.cre~ ~override~
   READ_ASCII 0x0a4 soundset (396) // read soundset from existing cre file
