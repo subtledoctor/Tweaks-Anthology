@@ -12799,6 +12799,74 @@ END
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
+///// Increase party movement speed outside combat    \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// By 50 percent                                    \\\\\
+/////                                                  \\\\\
+
+BEGIN @333001 DESIGNATED 3340
+GROUP @4
+REQUIRE_PREDICATE (NOT GAME_IS ~pstee~ && VALID_SCRIPT_TRIGGERS ~NextTriggerObject(Player1)~) @25
+SUBCOMPONENT @333000
+
+INCLUDE ~cdtweaks/lib/increased_party_movement_speed.tpa~
+
+LAF A7_INSTALL_AUTOHASTE
+  INT_VAR speed_percent = 150
+  RET success
+END
+
+ACTION_IF (NOT success) BEGIN
+  ABORT @28
+END
+
+/////                                                  \\\\\
+///// By 100 percent                                   \\\\\
+/////                                                  \\\\\
+
+BEGIN @333002 DESIGNATED 3341
+GROUP @4
+REQUIRE_PREDICATE (NOT GAME_IS ~pstee~ && VALID_SCRIPT_TRIGGERS ~NextTriggerObject(Player1)~) @25
+SUBCOMPONENT @333000
+
+INCLUDE ~cdtweaks/lib/increased_party_movement_speed.tpa~
+
+LAF A7_INSTALL_AUTOHASTE
+  INT_VAR speed_percent = 200
+  RET success
+END
+
+ACTION_IF (NOT success) BEGIN
+  ABORT @28
+END
+
+/////                                                  \\\\\
+///// By 150 percent                                   \\\\\
+/////                                                  \\\\\
+
+BEGIN @333003 DESIGNATED 3342
+GROUP @4
+REQUIRE_PREDICATE (NOT GAME_IS ~pstee~ && VALID_SCRIPT_TRIGGERS ~NextTriggerObject(Player1)~) @25
+SUBCOMPONENT @333000
+
+INCLUDE ~cdtweaks/lib/increased_party_movement_speed.tpa~
+
+LAF A7_INSTALL_AUTOHASTE
+  INT_VAR speed_percent = 250
+  RET success
+END
+
+ACTION_IF (NOT success) BEGIN
+  ABORT @28
+END
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
 ///// Adjust Evil joinable NPC reaction rolls          \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

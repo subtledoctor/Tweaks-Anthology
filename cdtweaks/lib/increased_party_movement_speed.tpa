@@ -1,0 +1,295 @@
+// Installs increased movement speed outside of combat by the best method available for the game
+DEFINE_ACTION_FUNCTION A7_INSTALL_AUTOHASTE
+INT_VAR
+  speed_percent = 100
+RET
+  success
+BEGIN
+  OUTER_SET success = 0
+
+  ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~ && FILE_EXISTS ~engine.lua~) BEGIN
+    LAF A7_INSTALL_AUTOHASTE_SPLSTATE
+      INT_VAR speed_percent
+      RET success
+    END
+  END
+
+  ACTION_IF (NOT success) BEGIN
+    LAF A7_INSTALL_AUTOHASTE_SECTYPE
+      INT_VAR speed_percent
+      RET success
+    END
+  END
+END
+
+
+// Installs increased movement speed outside of combat via spellstate detection (compatible with: EE games 2.0+)
+DEFINE_ACTION_FUNCTION A7_INSTALL_AUTOHASTE_SPLSTATE
+INT_VAR
+  speed_percent = 100
+RET
+  success
+BEGIN
+  OUTER_SET success = 0
+
+  ACTION_IF (speed_percent <= 0) BEGIN
+    OUTER_SET speed_percent = 100
+  END
+
+  // Install auto-haste functionality
+  OUTER_SET slot_autohaste = IDS_OF_SYMBOL(~splstate~ ~A7_AUTO_SPEED~)
+  ACTION_IF (slot_autohaste < 0) BEGIN
+    OUTER_PATCH ~~ BEGIN
+      FOR (idx = 100; idx < 256; ++idx) BEGIN
+        LOOKUP_IDS_SYMBOL_OF_INT value ~splstate~ idx
+        PATCH_IF (~%value%~ STR_EQ ~%idx%~) BEGIN
+          SET slot_autohaste = idx
+          SET idx = 256
+        END
+      END
+    END
+    ACTION_IF (slot_autohaste >= 0) BEGIN
+      APPEND ~splstate.ids~ ~%slot_autohaste% A7_AUTO_SPEED~ UNLESS ~A7_AUTO_SPEED~
+      CLEAR_IDS_MAP
+    END
+  END
+
+  ACTION_IF (slot_autohaste >= 0) BEGIN
+    COPY ~cdtweaks/spl/a7_wlk1.spl~ ~override~
+      LPF ADD_SPELL_EFFECT
+      INT_VAR
+        insert_point = 0  // add on top
+        opcode = 328      // Set spell state
+        target = 2        // Preset target
+        parameter2 = slot_autohaste
+        timing = 0
+        duration = 10
+        special = 1       // use spell states from table
+      END
+      LPF ADD_SPELL_EFFECT
+      INT_VAR
+        insert_point = 0  // add on top
+        opcode = 321      // Remove effects by resource
+        target = 2        // Preset target
+        timing = 1
+      STR_VAR
+        resource = ~A7_WLK1~
+      END
+      LPF ALTER_SPELL_EFFECT
+      INT_VAR
+        match_opcode = 176  // Movement rate bonus 2
+        parameter1 = speed_percent
+      END
+
+    COPY ~cdtweaks/spl/a7_wlk2.spl~ ~override~
+      LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 321      // Remove effects by resource
+        target = 2        // Preset target
+        timing = 1
+      STR_VAR
+        resource = ~A7_WLK1~
+      END
+
+    LAF A7_ADD_GLOBAL_SCRIPT
+      INT_VAR extend_top = 1
+      STR_VAR script_file = ~cdtweaks/baf/a7#haste_splstate.baf~
+    END
+
+
+    // Give Player1 ability to control auto-haste via innate ability
+    LAM __A7_INSTALL_ABILITY
+
+    OUTER_SET success = 1
+  END
+END
+
+
+// Installs increased movement speed outside of combat via secondary type removal (compatible with: EE games, classic games + TobEx)
+DEFINE_ACTION_FUNCTION A7_INSTALL_AUTOHASTE_SECTYPE
+INT_VAR
+  speed_percent = 100
+RET
+  success
+BEGIN
+  OUTER_SET success = 0
+
+  ACTION_IF (speed_percent <= 0) BEGIN
+    OUTER_SET speed_percent = 100
+  END
+
+  // Install auto-haste functionality
+  OUTER_SET slot_autohaste = "-1"
+  COPY_EXISTING ~msectype.2da~ ~override~
+    COUNT_2DA_ROWS 1 numRows
+    SET slot_autohaste = numRows - 3  // exclude 2DA header rows
+  BUT_ONLY IF_EXISTS
+
+  ACTION_IF (slot_autohaste >= 0 && slot_autohaste <= 255) BEGIN
+      OUTER_SET strref_speed_off = (GAME_IS ~bgee bg2ee iwdee eet~) ? "-1" : RESOLVE_STR_REF(@333020) // Movement speed bonus removed
+    APPEND ~msectype.2da~ ~A7_AUTOHASTE     %strref_speed_off%~
+
+    OUTER_FOR (idx = 1; idx <= 2; ++idx) BEGIN
+      CREATE ~eff~ ~a7_wlk%idx%~
+        WRITE_LONG 0x10 187 // opcode
+        WRITE_LONG 0x14 1   // target
+        WRITE_LONG 0x1c (2 - idx) // parameter1
+        WRITE_LONG 0x24 9   // timing
+        WRITE_LONG 0x2c 100 // probability1
+        WRITE_ASCII 0xa8 ~A7_AutoHasteActive~ (32)  // variable name
+    END
+
+    COPY ~cdtweaks/spl/a7_wlk1a.spl~ ~override~
+      WRITE_BYTE 0x27 slot_autohaste
+
+    COPY ~cdtweaks/spl/a7_wlk1.spl~ ~override~
+      WRITE_BYTE 0x27 slot_autohaste
+      LPF ADD_SPELL_EFFECT
+      INT_VAR
+        insert_point = 0  // add on top
+        opcode = 177      // Use EFF file
+        target = 2        // Preset target
+        parameter2 = 2    // target=EA/ANYONE
+        timing = 1
+      STR_VAR
+        resource = ~A7_WLK1~
+      END
+      LPF ALTER_SPELL_EFFECT
+      INT_VAR
+        match_opcode = 176  // Movement rate bonus 2
+        parameter1 = speed_percent
+      END
+
+    COPY ~cdtweaks/spl/a7_wlk2.spl~ ~override~
+      LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 177      // Use EFF file
+        target = 2        // Preset target
+        parameter2 = 2    // target=EA/ANYONE
+        timing = 1
+      STR_VAR
+        resource = ~A7_WLK2~
+      END
+      LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 221      // Remove spell type protections
+        target = 2        // Preset target
+        parameter1 = 10   // maximum level
+        parameter2 = slot_autohaste // secondary type
+        timing = 1
+      END
+
+    LAF A7_ADD_GLOBAL_SCRIPT
+      INT_VAR extend_top = 1
+      STR_VAR script_file = ~cdtweaks/baf/a7#haste_sectype.baf~
+    END
+
+
+    // Give Player1 ability to control auto-haste via innate ability
+    LAM __A7_INSTALL_ABILITY
+
+    OUTER_SET success = 1
+  END
+END
+
+
+// Adds a script on top or at the bottom of all available global scripts (i.e. baldur.bcs, etc.)
+DEFINE_ACTION_FUNCTION A7_ADD_GLOBAL_SCRIPT
+INT_VAR
+  extend_top = 1  // 0: EXTEND_BOTTOM, 1: EXTEND_TOP
+STR_VAR
+  script_file = ~~  // filename of the script to add (leave empty to skip)
+  script = ~~       // Script content to add (leave empty to skip)
+BEGIN
+  OUTER_SET baldur = 0
+  OUTER_SET baldur25 = 0
+  COPY_EXISTING ~campaign.2da~ ~override~
+    COUNT_2DA_ROWS 32 numRows
+    FOR (row = 0; row < numRows; ++row) BEGIN
+      READ_2DA_ENTRY row 1 32 resref
+      PATCH_IF (FILE_EXISTS_IN_GAME ~%resref%.bcs~) BEGIN
+        PATCH_MATCH ~%resref%~ WITH
+          ~BALDUR~ BEGIN SET baldur = 1 END
+          ~BALDUR25~ BEGIN SET baldur25 = 1 END
+          DEFAULT
+        END
+        INNER_ACTION BEGIN
+          OUTER_TEXT_SPRINT source_file ~%resref%.bcs~
+          LAM __A7_EXTEND_SCRIPT
+        END
+      END
+    END
+  BUT_ONLY IF_EXISTS
+
+  ACTION_IF (baldur = 0) BEGIN
+    OUTER_TEXT_SPRINT source_file ~baldur.bcs~
+    LAM __A7_EXTEND_SCRIPT
+  END
+
+  ACTION_IF (baldur25 = 0) BEGIN
+    OUTER_TEXT_SPRINT source_file ~baldur25.bcs~
+    LAM __A7_EXTEND_SCRIPT
+  END
+END
+
+
+// Used internally. Variables: extend_top, source_file, script_file, script
+DEFINE_ACTION_MACRO __A7_EXTEND_SCRIPT
+BEGIN
+  LOCAL_SET strlen = STRING_LENGTH ~%script%~
+
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%source_file%~) BEGIN
+    // adding script file
+    ACTION_IF (FILE_EXISTS ~%script_file%~) BEGIN
+      ACTION_IF (extend_top) BEGIN
+        EXTEND_TOP ~%source_file%~ ~%script_file%~ EVAL
+      END ELSE BEGIN
+        EXTEND_BOTTOM ~%source_file%~ ~%script_file%~ EVAL
+      END
+    END
+
+    // adding script content
+    ACTION_IF (strlen > 0) BEGIN
+      COPY_EXISTING ~%source_file%~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          SET ofs = extend_top ? 0 : BUFFER_LENGTH
+          INSERT_BYTES ofs strlen
+          WRITE_ASCIIE ofs ~%script%~ (strlen)
+        END
+      BUT_ONLY IF_EXISTS
+    END
+  END
+END
+
+
+// Used internally. Give Player1 ability to control auto-haste via innate ability
+DEFINE_ACTION_MACRO __A7_INSTALL_ABILITY
+BEGIN
+  COPY ~cdtweaks/spl/a7_hst1.spl~ ~override~
+    SAY NAME1 @333010 // Disable auto-haste
+    SAY UNIDENTIFIED_DESC @333011 // ...
+
+  COPY ~cdtweaks/spl/a7_hst2.spl~ ~override~
+    SAY NAME1 @333012 // Enable auto-haste
+    SAY UNIDENTIFIED_DESC @333013 // ...
+
+  OUTER_FOR (idx = 1; idx <= 2; ++idx) BEGIN
+    CREATE ~eff~ ~a7_hst%idx%~
+      WRITE_LONG 0x10 265 // opcode
+      WRITE_LONG 0x14 1   // target
+      WRITE_LONG 0x1c (idx - 1) // parameter1
+      WRITE_LONG 0x24 9   // timing
+      WRITE_LONG 0x2c 100 // probability1
+      WRITE_ASCII 0x30 ~A7_AutoH~ (8) // variable name (part 1)
+      WRITE_ASCII 0x70 ~asteActi~ (8) // variable name (part 2)
+      WRITE_ASCII 0x78 ~ve~ (8)       // variable name (part 3)
+  END
+
+  COPY ~cdtweaks/bam/a7_hst1b.bam~ ~override~
+       ~cdtweaks/bam/a7_hst2b.bam~ ~override~
+
+  LAF A7_ADD_GLOBAL_SCRIPT
+    INT_VAR extend_top = 1
+    STR_VAR script_file = ~cdtweaks/baf/a7#haste_ability.baf~
+  END
+END
