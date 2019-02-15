@@ -86,6 +86,9 @@ aaitm174 209 plate_full 35 95 80 80 95 95 95 armor of the frost +3
 aaitm178 001 robe 255 255 255 255 255 255 255 robe of vecna
 aashrarm 203 chain 30 40 15 15 40 30 30 darkmail +3
 accshld  102 shield_medium 15 255 255 255 255 255 255 holy shield of tempus
+acq17003 102 shield_medium 15 255 255 255 255 255 255 Mirror Shield +1 (Medium Shield)
+acq18002 201 leather_studded 15 30 10 10 20 20 20 Orc Leather +3 (Studded Leather)
+adleath  201 leather_studded 255 30 10 10 20 20 20 Angelo's Leathers (Angelo's Leathers, allows spellcasting)
 adred    208 plate 40 75 40 40 80 75 75 last regrets +2
 ae002    301 leather_studded 0 30 10 10 20 20 20 armor of myth
 agclck02 001 robe 255 255 255 255 255 255 255 green robe
@@ -301,6 +304,7 @@ chanethe 400 chain 0 0 255 255 0 0 0 ethereal chain mail +5 (regular chain, per 
 changr01 304 chain_elven 0 20 5 5 10 10 10 elven chain mail
 changr02 304 chain_elven 0 20 5 5 10 10 10 zeddek's skin
 changr03 203 chain 30 40 15 15 40 30 30 mithril chain mail
+chaosa   209 plate_full 35 95 80 80 95 95 95 Chaos Armor (Ceremonial Armor)
 chastity 001 robe 255 255 255 255 255 255 255 fall-from-grace's chastity bodice (pst)
 cispgrd  208 plate 40 75 40 40 80 75 75 winter king's plate
 cispgrd2 101 shield_small 5 255 255 255 255 255 255 small shield
@@ -396,6 +400,7 @@ cvoldsh  102 shield_medium 15 255 255 255 255 255 255 Old Shield (Old Shield)
 cvshar20 200 leather 10 0 255 255 0 0 0 Blademaster's Leather (Blademaster's Leather)
 cyleat   201 leather_studded 15 30 10 10 20 20 20
 d0leat08 211 leather_studded 15 30 10 10 0 255 255 shadow armor
+d0platwi 209 plate_full 255 255 255 255 255 255 255 Plate Mail Armor (Plate Mail Armor, unused?, has no restrictions)
 d0t#leat 201 leather_studded 15 30 10 10 20 20 20 studded leather armour +3 (studded leather armour)
 d1chan01 203 chain 30 40 15 15 40 30 30 mail of life
 d1clck02 001 robe 255 255 255 255 255 255 255 robe of the watcher
@@ -702,10 +707,14 @@ kovaarm2 200 leather 10 0 255 255 0 0 0 haeloven +2
 kovaarm5 200 leather 10 0 255 255 0 0 0 haeloven +4
 kovawed1 304 chain_elven 0 20 5 5 10 10 10 bladesinger chain +4
 kreeplat 209 plate_full 35 95 80 80 95 95 95 full metal plate of stone +2
+l#2sde1  201 leather_studded 255 30 10 10 20 20 20 Studded Leather 'Dirty Trick' (Studded Leather Armor, allows casting)
 l#farm   200 leather 255 0 255 255 0 0 0 Dusty Leather (allows spellcasting)
 l#fcha   203 chain 30 40 15 15 40 30 30 Chain of the Solar (Chain of the Solar)
 l#nddre  001 robe 255 255 255 255 255 255 255 Mersace's Orange Dress (Mersace's Orange Dress)
 l#ndrob  001 robe 255 255 255 255 255 255 255 Robe of the Faithful Archmagi (Robe)
+l#nsarm  200 leather 10 0 255 255 0 0 0 Skeleton's Sack +4 (Leather armor)
+l#nsrob  001 robe 255 255 255 255 255 255 255 Robe of the Charismatic Archmagi (Robe)
+l#nssh1  100 shield_buckler 5 255 255 255 255 255 255 Buckler of the Spider Queen +3 (Buckler)
 ld#rob   001 robe 255 255 255 255 255 255 255 robe of quintessence
 leat01   200 leather 10 0 255 255 0 0 0 leather armor
 leat01a  200 leather 10 0 255 255 0 0 0 leather armor (human) (ppg fotd)
@@ -792,6 +801,23 @@ mgvplat1 209 plate_full 35 95 80 80 95 95 95 restless spirit +1
 mgvrobe1 001 robe 255 255 255 255 255 255 255 casual robes
 mgvshld1 102 shield_medium 15 255 255 255 255 255 255 featherweight shield
 mgvshld2 101 shield_small 5 255 255 255 255 255 255 shield of fortitude
+mh#armr1 202 hide 20 60 50 50 30 20 20 Winter Wolf Hide +1 (Hide Armor)
+mh#armr2 206 splint 40 40 15 25 40 30 30 Eversing +2 (Splint Mail)
+mh#armr3 202 hide 20 60 50 50 30 20 20 White Hide of Umpluutu +2 (Hide Armor)
+mh#armr4 304 chain_elven 10 25 10 10 15 15 15 Celestial Chain +2 (Chain Mail - slightly inferior elvel chain)
+mh#armr5 209 plate_full 35 95 80 80 95 95 95 Dwarven Full Plate +2 (Full Plate Mail)
+mh#armr6 208 plate 40 75 40 40 80 75 75 Black Swan Armor +2 (Plate Mail)
+mh#robe1 001 robe 255 255 255 255 255 255 255 Robe of the Elements (Mage Robe)
+mh#robe2 001 robe 255 255 255 255 255 255 255 Robe of the Necromancer (Mage Robe)
+mh#robe3 001 robe 255 255 255 255 255 255 255 Robe of the Pure Heart (Monk's Robes)
+mh#robe4 001 robe 255 255 255 255 255 255 255 Shadow Dancer's Robe (Monk's Robes)
+mh#shld1 102 shield_medium 15 255 255 255 255 255 255 Meteoric Shield +2 (Medium Shield)
+mh#shld2 102 shield_medium 15 255 255 255 255 255 255 Ankheg Shield +1 (Medium Shield)
+mh#shld3 102 shield_medium 15 255 255 255 255 255 255 Shield of the Phoenix +2 (Medium Shield)
+mh#shld4 102 shield_medium 15 255 255 255 255 255 255 Shield of the Three Kings +5 (Medium Shield)
+mh#shld5 102 shield_medium 15 255 255 255 255 255 255 Shield of the Revenant +2 (Medium Shield)
+mh#shld6 104 shield_large 50 255 255 255 255 255 255 Mystery of the Dead +3 (Large Shield)
+mh#shld7 101 shield_small 5 255 255 255 255 255 255 Waukeen's Defender +2 (Small Shield)
 mho_clk1 001 robe 255 255 255 255 255 255 255 red dragonscale robe
 minbalpl 209 plate_full 35 95 80 80 95 95 95 plate of balduran(fused)
 minplatx 209 plate_full 35 95 80 80 95 95 95 the plate of the rock +6
@@ -1000,6 +1026,7 @@ robe1    001 robe 255 255 255 255 255 255 255 robe of grand mastery
 robe2    001 robe 255 255 255 255 255 255 255 robe of holy magic
 robeang  001 robe 255 255 255 255 255 255 255 robes of agony (mage robe)
 robearm  001 robe 255 255 255 255 255 255 255 robe of armory
+robearm2 001 robe 255 255 255 255 255 255 255 Enhanced Robe of Armory (Mage Robe)
 roboflo  001 robe 255 255 255 255 255 255 255 robe of lords
 rodlunar 100 shield_buckler 5 255 255 255 255 255 255 lunar buckler +1
 rr#abih  201 leather_studded 15 30 10 10 20 20 20 abishai hide
@@ -1172,6 +1199,7 @@ shrobe   001 robe 255 255 255 255 255 255 255 shadowed robe (mage robe)
 shshld   104 shield_large 50 255 255 255 255 255 255 shield of the hand (large shield)
 sileat   211 leather_studded 15 30 10 10 0 255 255 aran’s love +6
 skelshld 100 shield_buckler 5 255 255 255 255 255 255 buckler +1
+skiei1   200 leather 10 0 255 255 0 255 255 Stylish slenderizing armour (Stylish slenderizing armour)
 slayer01 101 shield_small 5 255 255 255 255 255 255 jet'laya's small shield +2 (iegmc ntotsc)
 slayer1  101 shield_small 5 255 255 255 255 255 255 jet'laya's small shield +2 (iegmc ntotsc)
 slayer3  203 chain 30 40 15 15 40 30 30 jet'laya's chainmail (chain mail armour)
