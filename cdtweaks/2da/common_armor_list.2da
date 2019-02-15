@@ -97,7 +97,6 @@ ararmor  202 hide 20 60 50 50 30 20 20 ariena's armor (hide armour)
 ardeadx  200 leather 10 0 255 255 0 0 0 armour of the dead +3 (leather armour)
 ardeadx  201 leather_studded 15 30 10 10 20 20 20 armour of the dead +3
 argent   102 shield_medium 15 255 255 255 255 255 255 the argent shield +2 (medium shield)
-armpen   201 leather_studded 15 30 10 10 20 20 20 armor of penance +5 (studded leather)
 armpen   217 leather_studded 15 55 35 35 45 45 45 studded leather armor
 avest    001 robe 255 255 255 255 255 255 255 annah's vest (pst)
 b!jaslet 200 leather 10 0 255 255 0 0 0 leather armor of stealth +3 (includes stealth bonus)
@@ -761,10 +760,8 @@ leatveng 201 leather_studded 15 30 10 10 20 20 20 vengeful shadows (studded leat
 lk#amb   205 scale 25 50 20 20 60 50 50 amuana's blessing
 lk#irobe 001 robe 255 255 255 255 255 255 255 monastic robe
 lk#xarm  200 leather 10 0 255 255 0 0 0 mithril chain +4
-lotharmo 208 plate 40 75 40 40 80 75 75 lothaullan (plate armour)
-lotharmo 209 plate_full 35 95 80 80 95 95 95 lothaullan
+lotharmo 209 plate_full 255 255 255 255 255 255 255 lothaullan (full plate, allows full casting and thieving)
 lyre     010 shield_special 0 255 255 255 255 255 255 lyre of progression
-m#asleat 211 leather_studded 15 30 10 10 0 255 255 apprentice shadow armor (+5% his)
 m#asleat 211 leather_studded 15 30 10 10 0 255 255 apprentice shadow armor (studded leather armour, +5% hide in shadows)
 m#buck2  100 shield_buckler 5 255 255 255 255 255 255 buckler +2
 m#wrobe1 001 robe 255 255 255 255 255 255 255 wyvern leather robe +1
@@ -808,7 +805,6 @@ mmplat   020 special 255 255 255 255 255 255 255 i found them, but did not wish 
 mourner  206 splint 40 40 15 25 40 30 30 mourner's armor - already gets -25%, but this imposes worse
 mplat01  208 plate 40 75 40 40 80 75 75 king's plate mail
 mwararm  202 hide 20 60 50 50 30 20 20 ariena's armor
-mystery  104 shield_large 50 255 255 255 255 255 255
 mystery  104 shield_large 50 255 255 255 255 255 255 mystery of the dead +3 (large shield)
 myth003  209 plate_full 35 95 80 80 95 95 95 drenophild wraithmeal
 myth004  102 shield_medium 15 255 255 255 255 255 255 wraithmeal shield
