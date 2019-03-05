@@ -6,275 +6,329 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@99051 = ~The Root of the Problem
-Club +1, +3 vs. unnatural creatures
-This enchanted club is said to have existed since the time of the fall of Netheril and the birth of the great Anauroch Desert. While the toll on civilization was great, the true victims were nature's creatures, condemned to stand and watch as their homes decayed and died. As habitats receded, those that remained were invaded by displaced hordes of creatures, the more impatient of which marched on unspoiled land taking whatever they wished. This particular weapon is said to have come from a dryad's tree, a final gift to nature's cause from a woodland spirit that could not hold back the invaders of her land. Hers was a bittersweet pain, as her wood might not have suffered so if it had not been so strong and lush. Less respecting scholars have since bestowed the item's ironic name, though the humor is not appreciated among nature's more devout followers.
+@99051 = ~Корень проблемы
+Палица +1, +3 против неестественных существ
+Говорят, что эта зачарованная палица видела падение Нетерила и рождение великой Анорокской пустыни. Многое потеряла тогда цивилизация, но главными жертвами оказались живые существа, которые видели, как гибнет их среда обитания, но ничего не могли сделать. Пригодных для жизни мест оставалось все меньше, и бездомные существа устремлялись туда, а самые нетерпеливые из них бросались на нетронутые земли и забирали все, что могли. Эта палица, как говорят, сделана из дерева дриады – то был прощальный дар защитникам природы от лесного духа, который больше не в силах был оборонять свою землю от вторжения. Боль дриады была горькой и сладкой – не будь ее лес таким сильным и здоровым, ему не пришлось бы так пострадать. Циничные ученые нарекли оружие «Корнем проблемы», но серьезные почитатели природы юмора не оценили.
 
-STATISTICS:
+ПАРАМЕТРЫ:
 
-Always considered to be of +3 enchantment when determining what it can hit.
-THAC0:  +1, +3 vs. unnatural creatures
-Damage:  1D6 + 1, +3 vs. unnatural creatures, +1 acid damage
-Damage type:  Crushing
-Weight: 3
-Speed Factor: 3
-Proficiency Type: Club
-Type:  1-handed
-Requires: 5 Strength
-Not Usable By:
- Mage~
-@99052 = ~Bone Club +2, +3 vs. Undead
-This vicious club was created hundreds of years ago, reportedly by a shaman on a quest for revenge.  His family had fallen to undead, and so personal was his rage that he amputated his own leg, using the femur for the body of the weapon.  Magical runes empower it, though it is likely the sheer force of his hatred would have served on its own. 
+Боевые особенности:
+– Считается +3 оружием
 
-STATISTICS:
+THAC0: +1, +3 против неестественных существ
+Урон: 1d6+1 (дробящий), +3 против неестественных существ, + 1 урон кислотой
+Фактор скорости: 3
+Оружейный навык: палица
+Тип: одноручное
+Требуется:
+ Сила 5
 
-Always considered to be of +3 enchantment when determining what it can hit.
-THAC0: +2, +3 vs. Undead
-Damage:  1D6 + 2, +3 vs. Undead
-Damage type:  crushing
-Weight: 3
-Speed Factor: 4
-Proficiency Type: Club
-Type:  1-handed
-Requires: 5 Strength
-Not Usable By:
- Mage~
-@99053 = ~War Hammer +1, +4 vs. Giant Humanoids:
-The Knee-capper, or "The Capper", as it is affectionately known in dwarven circles, is rumored to have been forged by Clangeddin himself. He gave it to a small clan of homeless dwarves that they might carve a place for themselves amongst the giants and ogres in their area. The hammer has been passed from hero to hero, occasionally finding its way into non-dwarven hands.
+Вес: 3
+ 
+Не могут использовать:
+ Маг~
+@99052 = ~Костяная дубина +2, +3 против нежити
+Эта зловещая палица была изготовлена сотни лет назад – по легенде, шаманом, искавшим отмщения. Нежить уничтожила его семью, и ярость его была такова, что он отрубил собственную ногу и использовал бедро в качестве основы для оружия. Палица усилена магическими рунами, но похоже, что одной лишь силы ненависти шамана было достаточно, чтобы напитать оружие.
 
-STATISTICS:
+ПАРАМЕТРЫ:
 
-Always considered to be of +4 enchantment when determining what it can hit.
-THAC0:  +1 bonus, +4 vs. giants
-Damage:  1D4 + 2, +5 vs. giants
-Damage type:  crushing
-Weight: 8
-Speed Factor: 2
-Proficiency Type: War Hammer
-Type:  1-handed
-Requires: 10 Strength
-Not Usable By:
- Druid
- Mage
- Thief
- Monk
- Beast Master~
-@99054 = ~Bastard sword +1, +3 vs. Shapeshifters:  'Kondar'
-At first glance, this sword appears much like any other.  In the presence of any shapeshifting creature however, the blade becomes warm as its power stirs.  Its namesake was the original owner of the weapon, and his tale, though mostly long forgotten, was wrought with treachery and deceit.  Rumors persist that he paid a fearsome price for this blade, but with it he revealed the true identities of those that sought to betray him.  Their names and crimes however, are long since lost to history.
+Боевые особенности:
+– Считается +3 оружием
 
-STATISTICS:
+THAC0: +2, +3 против нежити
+Урон: 1d6+2 (дробящий), +3 против нежити
+Тип урона: дробящий
+Фактор скорости: 4
+Оружейный навык: палица
+Тип: одноручное
+Требуется:
+ Сила 5
 
-Always considered to be of +3 enchantment when determining what it can hit.
-THAC0:  +1 bonus
-Damage:  2D4 + 1, +3 vs. Shapeshifters
-Damage type:  slashing
-Weight: 8
-Speed Factor: 7
-Proficiency Type: Bastard Sword
-Type:  1-handed
-Requires: 11 Strength
-Not Usable By:
- Druid
- Cleric
- Mage
- Thief
- Beast Master~
-@99055 = ~Sunblade: Daystar
-Whether created specifically for use in the service of Torm or appropriated at some point in the long history of the church, Paladins of the Loyal Fury have made good use of Daystar in their battles against evil undead.  Through magic or blessing it is empowered with the Sunray, a force of pure life energy so potent that it slays both living and unliving.
+Вес: 3
 
-STATISTICS:
-Special Abilities (once per day):
-Sunray
- Damage: 3D6 (save vs. spells or be blinded for 10 rounds)
- Undead: an additional 1d6 points of damage per level of caster (save vs. spells or be destroyed)
- Range: 20 ft
- Area: 20 ft radius
+Не могут использовать:
+ Маг~
+@99053 = ~Боевой молот +1, +4 против гигантских человекоподобных: Крушитель Коленей
+По легенде, Крушитель Коленей, или просто Крушитель, как ласково называют его дворфы, выковал сам бог Клангеддин. Он подарил волшебный молот маленькому бездомному клану дворфов, чтобы они смогли захватить себе жизненное пространство, потеснив огров и великанов. Это оружие с тех пор переходит от одного героя дворфов к другому и иногда попадает в руки представителей других рас.
 
-Always considered to be of +4 enchantment when determining what it can hit.
-THAC0:  +2 bonus, +4 vs. evil creatures
-Damage:  1D8 + 2, +4 vs. evil creatures, does double damage against undead
-Damage type:  slashing
-Weight: 2
-Speed Factor: 3
-Proficiency Type: Long sword
-Type:  1-handed
-Requires: 6 Strength
-Not Usable By:
- Druid
- Cleric
- Mage
- Beast Master~
-@99056 = ~Long Sword: The Equalizer
-Such is the age of this sword that its true origin has been lost to time, but markings hint that it was possibly forged in the service of Helm.  Also called the "Sword of Neutrality", it seems designed to seek and terminate extremes, to shift the universe closer to harmonious equilibrium.  The further the behavior of a target from true balance, the more potent the damage they suffer.
+ПАРАМЕТРЫ:
 
-STATISTICS:
+Боевые особенности:
+– Считается +4 оружием
 
-Always considered to be of +3 enchantment when determining what it can hit.
-THAC0 & Damage:
-  vs True Neutral: +0 to hit, +0 damage
-  vs Chaotic Neutral, Lawful Neutral: +1 to hit, +2 damage
-  vs Neutral Good, Neutral Evil: +2 to hit, +4 damage
-  vs other alignments: +3 to hit, +6 damage
-Damage type:  slashing
-Equipped Abilities: 
-     Immune to Charm and Confusion
-Weight: 3
-Speed Factor: 3
-Proficiency Type: Long sword
-Type:  1-handed
-Requires: 6 Strength
-Not Usable By:
- Druid
- Cleric
- Mage
- Beast Master~
-@99057 = ~The Root of the Problem
-Club +1, +3 vs. unnatural creatures
-This enchanted club is said to have existed since the time of the fall of Netheril and the birth of the great Anauroch Desert. While the toll on civilization was great, the true victims were nature's creatures, condemned to stand and watch as their homes decayed and died. As habitats receded, those that remained were invaded by displaced hordes of creatures, the more impatient of which marched on unspoiled land taking whatever they wished. This particular weapon is said to have come from a dryad's tree, a final gift to nature's cause from a woodland spirit that could not hold back the invaders of her land. Hers was a bittersweet pain, as her wood might not have suffered so if it had not been so strong and lush. Less respecting scholars have since bestowed the item's ironic name, though the humor is not appreciated among nature's more devout followers.
+THAC0: +1, +4 против гигантских человекоподобных
+Урон: 1d4+2 (дробящий), +5 против гигантских человекоподобных
+Фактор скорости: 2
+Оружейный навык: боевой молот
+Тип: одноручное
+Требуется:
+ Сила 10
 
-STATISTICS:
+Вес: 8
 
-Always considered to be of +3 enchantment when determining what it can hit.
-THAC0:  +1, +3 vs. unnatural creatures
-Damage:  1D6 +1, +3 vs. unnatural creatures, +1 acid damage
-Damage type:  crushing and acid
-Weight: 3
-Speed Factor: 3
-Proficiency Type: Club
-Type:  1-handed
-Requires:
--  8 Strength
--  6 Dexterity
-Usable By:
- All~
-@99058  = ~Bone Club +2, +3 vs. Undead
-This vicious club was created hundreds of years ago, reportedly by a shaman on a quest for revenge.  His family had fallen to undead, and so personal was his rage that he amputated his own leg, using the femur for the body of the weapon.  Magical runes empower it, though it is likely the sheer force of his hatred would have served on its own.
+Не могут использовать:
+ Друид
+ Маг
+ Вор
+ Хозяин зверей~
+@99054 = ~Полуторный меч +1, +3 против оборотней: Кондар
+На первый взгляд в этом мече нет ничего особенного. Однако в присутствии существа, которое может изменять свой облик, в мече просыпается сила, и его клинок теплеет. Назван он по имени первого владельца, чья печальная история, полная предательств и обмана, почти позабыта. Говорят, этот клинок очень дорого обошелся Кондару, но с его помощью он разоблачил тех, кто собирался предать его. Но никто уже не помнит, кем были его враги и какое зло они совершили.
 
+ПАРАМЕТРЫ:
 
-STATISTICS:
+Боевые особенности:
+– Считается +3 оружием
 
-Always considered to be of +3 enchantment when determining what it can hit.
-THAC0: +2, +3 vs. Undead
-Damage:  1D6 + 2, +3 vs. Undead
-Damage type:  crushing
-Weight: 3
-Speed Factor: 4
-Proficiency Type: Club
-Type:  1-handed
-Requires:
--  8 Strength
--  6 Dexterity
-Usable By:
- All~
-@99059  = ~War Hammer +1, +4 vs. Giant Humanoids:
-The Knee-capper, or "The Capper", as it is affectionately known in dwarven circles, is rumored to have been forged by Clangeddin himself. He gave it to a small clan of homeless dwarves that they might carve a place for themselves amongst the giants and ogres in their area. The hammer has been passed from hero to hero, occasionally finding its way into non-dwarven hands.
+THAC0: +1
+Урон: 2d4+1 (рубящий), +3 против оборотней
+Фактор скорости: 7
+Оружейный навык: полуторный меч
+Тип: одноручное
+Требуется:
+ Сила 11
 
-STATISTICS:
+Вес: 8
 
-Always considered to be of +4 enchantment when determining what it can hit.
-THAC0:  +1 bonus, +4 vs. giants
-Damage:  1D6 + 2, +5 vs. giants
-Damage type:  crushing
-Weight: 8
-Speed Factor: 2
-Proficiency Type: War Hammer
-Type:  1-handed
-Requires:
--  12 Strength
--  6 Dexterity
-Unusable By:
- Beastmaster~
-@99060  = ~Bastard sword +1, +3 vs. Shapeshifters:  'Kondar'
-At first glance, this sword appears much like any other.  In the presence of any shapeshifting creature however, the blade becomes warm as its power stirs.  Its namesake was the original owner of the weapon, and his tale, though mostly long forgotten, was wrought with treachery and deceit.  Rumors persist that he paid a fearsome price for this blade, but with it he revealed the true identities of those that sought to betray him.  Their names and crimes however, are long since lost to history.
+Не могут использовать:
+ Друид
+ Маг
+ Вор
+ Хозяин зверей~
+@99055 = ~Солнечный клинок: Дневная звезда
+Был ли он изготовлен специально для служения Торму или приобретен в какой-то момент долгой истории церкви, но паладины Ярости верных часто использовали Дневную звезду в битвах со злой нежитью. Благодаря магии или молитвам, она усилена Солнечным лучом – потоком чистой жизненной энергии столь мощным, что уничтожает и живых, и мертвецов.
 
-STATISTICS:
+ПАРАМЕТРЫ:
 
-Always considered to be of +3 enchantment when determining what it can hit.
-THAC0:  +1 bonus
-Damage:  2D4 +1, +3 vs. Shapeshifters
-Damage type:  slashing
-Weight: 8
-Speed Factor: 7
-Proficiency Type: Bastard Sword
-Type:  1-handed
-Requires:
- - 13 Strength
- - 8 Dexterity
-Not Usable By:
- Beastmaster~
-@99061 = ~Sunblade: Daystar
-Whether created specifically for use in the service of Torm or appropriated at some point in the long history of the church, Paladins of the Loyal Fury have made good use of Daystar in their battles against evil undead.  Through magic or blessing it is empowered with the Sunray, a force of pure life energy so potent that it slays both living and unliving.
+Особенности зарядов:
+– Солнечный луч раз в день
+  Урон: 3d6 (при провале спасброска против заклинания ослепление на 10 раундов)
+  Нежить: дополнительно 1d6 единиц урона на уровень заклинателя (уничтожение при провале спасброска против заклинания)
+  Расстояние: 20 футов
+  Область охвата: радиус 20 футов
 
-STATISTICS:
-Special Abilities (once per day):
-Sunray
- Damage: 3D6 (save vs. spells or be blinded for 10 rounds)
- Undead: an additional 1d6 points of damage per level of caster (save vs. spells or be destroyed)
- Range: 20 ft
- Area: 20 ft radius
+Боевые особенности:
+– Считается +4 оружием
 
-Always considered to be of +4 enchantment when determining what it can hit.
-THAC0:  +2 bonus, +4 vs. evil creatures
-Damage:  1D8 +2, +4 vs. evil creatures, does double damage against undead
-Damage type:  slashing
-Weight: 2
-Speed Factor: 3
-Proficiency Type: Long sword
-Type:  1-handed
-Requires:
--  11 Strength
--  8 Dexterity
-Unusable By:
- Beastmaster~
-@99062  = ~Long Sword: The Equalizer
-Such is the age of this sword that its true origin has been lost to time, but markings hint that it was possibly forged in the service of Helm.  Also called the "Sword of Neutrality", it seems designed to seek and terminate extremes, to shift the universe closer to harmonious equilibrium.  The further the behavior of a target from true balance, the more potent the damage they suffer.
+THAC0: +2, +4 против злых существ
+Урон: 1d8+2 (рубящий), +4 против злых существ, двойной урон против нежити
+Фактор скорости: 3
+Оружейный навык: длинный меч
+Тип: одноручное
+Требуется:
+ Сила 6
 
-STATISTICS:
+Вес: 2
 
-Always considered +3 when determining what it can hit.
-THAC0 & Damage:
-  vs True Neutral: +0 to hit, +0 damage
-  vs Chaotic Neutral, Lawful Neutral  +1 to hit, +2 damage
-  vs Neutral Good, Neutral Evil: +2 to hit, +4 damage
-  vs other alignments: +3 to hit, +6 damage
-Damage type:  slashing
-Equipped Abilities:
-     Immune to Charm and Confusion
-Weight: 3
-Speed Factor: 3
-Proficiency Type: Long sword
-Type:  1-handed
-Requires:
--  11 Strength
--  8 Dexterity
-Unusable By:
- Beastmaster~
-@99063 = ~The Root of the Problem
-Club +1, +3 vs. unnatural creatures
-This enchanted club is said to have existed since the time of the fall of Netheril and the birth of the great Anauroch Desert. While the toll on civilization was great, the true victims were nature's creatures, condemned to stand and watch as their homes decayed and died. As habitats receded, those that remained were invaded by displaced hordes of creatures, the more impatient of which marched on unspoiled land taking whatever they wished. This particular weapon is said to have come from a dryad's tree, a final gift to nature's cause from a woodland spirit that could not hold back the invaders of her land. Hers was a bittersweet pain, as her wood might not have suffered so if it had not been so strong and lush. Less respecting scholars have since bestowed the item's ironic name, though the humor is not appreciated among nature's more devout followers.
+Не могут использовать:
+ Друид
+ Маг
+ Вор
+ Хозяин зверей~
+@99056 = ~Уравнитель
+Возраст этого меча настолько велик, что тайна его происхождения потеряна во тьме веков, но отметки подсказывают, что он мог быть создан для служения Хельму. Также называемый «Мечом нейтралитета», он, похоже, предназначен для поиска и уничтожения крайностей, для приближения вселенной к гармоничному балансу. Чем дальше жертва отходит от истинного равновесия, тем больший урон она получит.
 
-STATISTICS:
+ПАРАМЕТРЫ:
 
-Always considered to be of +3 enchantment when determining what it can hit.
-THAC0: +1, +3 vs. unnatural creatures
-Damage: 1D6 +1, +3 vs. unnatural creatures, +1 acid damage
-Damage type: crushing and acid
-Weight: 3
-Speed Factor: 3
-Proficiency Type: Club
-Type: 1-handed
-Requires: 5 Strength~
-@99064 = ~Bone Club +2, +3 vs. Undead
-This vicious club was created hundreds of years ago, reportedly by a shaman on a quest for revenge.  His family had fallen to undead, and so personal was his rage that he amputated his own leg, using the femur for the body of the weapon.  Magical runes empower it, though it is likely the sheer force of his hatred would have served on its own. 
+Свойства экипировки:
+– Иммунитет к очарованию и замешательству
 
-STATISTICS:
+Боевые особенности:
+– Считается +3 оружием
 
-Always considered to be of +3 enchantment when determining what it can hit.
-THAC0: +2, +3 vs. Undead
-Damage:  1D6 + 2, +3 vs. Undead
-Damage type:  crushing
-Weight: 3
-Speed Factor: 4
-Proficiency Type: Club
-Type:  1-handed
-Requires: 5 Strength~
+Урон: 1d8 (рубящий)
+ТНАС0 и урон:
+  против истинно-нейтральных: +0 к атаке, +0 к урону
+  против хаотичных нейтральных, законопослушных нейтральных: +1 к атаке, +2 к урону
+  против нейтральных добрых, нейтральных злых: +2 к атаке, +4 к урону
+  против остальных мировоззрений: +3 к атаке, +6 к урону
+Фактор скорости: 3
+Навык: длинный меч
+Тип: одноручное
+Требования:
+ Сила 6
+
+Вес: 3
+
+Не могут использовать:
+ Друид
+ Жрец
+ Маг
+ Хозяин зверей~
+@99057 = ~Корень проблемы
+Палица +1, +3 против неестественных существ
+Говорят, что эта зачарованная палица видела падение Нетерила и рождение великой Анорокской пустыни. Многое потеряла тогда цивилизация, но главными жертвами оказались живые существа, которые видели, как гибнет их среда обитания, но ничего не могли сделать. Пригодных для жизни мест оставалось все меньше, и бездомные существа устремлялись туда, а самые нетерпеливые из них бросались на нетронутые земли и забирали все, что могли. Эта палица, как говорят, сделана из дерева дриады – то был прощальный дар защитникам природы от лесного духа, который больше не в силах был оборонять свою землю от вторжения. Боль дриады была горькой и сладкой – не будь ее лес таким сильным и здоровым, ему не пришлось бы так пострадать. Циничные ученые нарекли оружие «Корнем проблемы», но серьезные почитатели природы юмора не оценили.
+
+ПАРАМЕТРЫ:
+
+Боевые особенности:
+– Считается +3 оружием
+
+THAC0: +1, +3 против неестественных существ
+Урон: 1d6+1 (дробящий), +3 против неестественных существ, + 1 урон кислотой
+Фактор скорости: 3
+Оружейный навык: палица
+Тип: одноручное
+Требуется:
+ Сила 8
+ Ловкость 6
+
+Вес: 3
+ 
+Могут использовать:
+ Все~
+@99058  = ~Костяная дубина +2, +3 против нежити
+Эта зловещая палица была изготовлена сотни лет назад – по легенде, шаманом, искавшим отмщения. Нежить уничтожила его семью, и ярость его была такова, что он отрубил собственную ногу и использовал бедро в качестве основы для оружия. Палица усилена магическими рунами, но похоже, что одной лишь силы ненависти шамана было достаточно, чтобы напитать оружие.
+
+ПАРАМЕТРЫ:
+
+Боевые особенности:
+– Считается +3 оружием
+
+THAC0: +2, +3 против нежити
+Урон: 1d6+2 (дробящий), +3 против нежити
+Тип урона: дробящий
+Фактор скорости: 4
+Оружейный навык: палица
+Тип: одноручное
+Требуется:
+ Сила 8
+ Ловкость 6
+
+Вес: 3
+
+Могут использовать:
+ Все~
+@99059  = ~Боевой молот +1, +4 против гигантских человекоподобных: Крушитель Коленей
+По легенде, Крушитель Коленей, или просто Крушитель, как ласково называют его дворфы, выковал сам бог Клангеддин. Он подарил волшебный молот маленькому бездомному клану дворфов, чтобы они смогли захватить себе жизненное пространство, потеснив огров и великанов. Это оружие с тех пор переходит от одного героя дворфов к другому и иногда попадает в руки представителей других рас.
+
+ПАРАМЕТРЫ:
+
+Боевые особенности:
+– Считается +4 оружием
+
+THAC0: +1, +4 против гигантских человекоподобных
+Урон: 1d4+2 (дробящий), +5 против гигантских человекоподобных
+Фактор скорости: 2
+Оружейный навык: боевой молот
+Тип: одноручное
+Требуется:
+ Сила 12
+ Ловкость 6
+
+Вес: 8
+
+Не могут использовать:
+ Хозяин зверей~
+@99060  = ~Полуторный меч +1, +3 против оборотней: Кондар
+На первый взгляд в этом мече нет ничего особенного. Однако в присутствии существа, которое может изменять свой облик, в мече просыпается сила, и его клинок теплеет. Назван он по имени первого владельца, чья печальная история, полная предательств и обмана, почти позабыта. Говорят, этот клинок очень дорого обошелся Кондару, но с его помощью он разоблачил тех, кто собирался предать его. Но никто уже не помнит, кем были его враги и какое зло они совершили.
+
+ПАРАМЕТРЫ:
+
+Боевые особенности:
+– Считается +3 оружием
+
+THAC0: +1
+Урон: 2d4+1 (рубящий), +3 против оборотней
+Фактор скорости: 7
+Оружейный навык: полуторный меч
+Тип: одноручное
+Требуется:
+ Сила 13
+ Ловкость 6
+
+Вес: 8
+
+Не могут использовать:
+ Хозяин зверей~
+@99061 = ~Солнечный клинок: Дневная звезда
+Был ли он изготовлен специально для служения Торму или приобретен в какой-то момент долгой истории церкви, но паладины Ярости верных часто использовали Дневную звезду в битвах со злой нежитью. Благодаря магии или молитвам, она усилена Солнечным лучом – потоком чистой жизненной энергии столь мощным, что уничтожает и живых, и мертвецов.
+
+ПАРАМЕТРЫ:
+
+Особенности зарядов:
+– Солнечный луч раз в день
+  Урон: 3d6 (при провале спасброска против заклинания ослепление на 10 раундов)
+  Нежить: дополнительно 1d6 единиц урона на уровень заклинателя (уничтожение при провале спасброска против заклинания)
+  Расстояние: 20 футов
+  Область охвата: радиус 20 футов
+
+Боевые особенности:
+– Считается +4 оружием
+
+THAC0: +2, +4 против злых существ
+Урон: 1d8+2 (рубящий), +4 против злых существ, двойной урон против нежити
+Фактор скорости: 3
+Оружейный навык: длинный меч
+Тип: одноручное
+Требуется:
+ Сила 11
+ Ловкость 8
+
+Вес: 2
+
+Не могут использовать:
+ Хозяин зверей~
+@99062  = ~Уравнитель
+Возраст этого меча настолько велик, что тайна его происхождения потеряна во тьме веков, но отметки подсказывают, что он мог быть создан для служения Хельму. Также называемый «Мечом нейтралитета», он, похоже, предназначен для поиска и уничтожения крайностей, для приближения вселенной к гармоничному балансу. Чем дальше жертва отходит от истинного равновесия, тем больший урон она получит.
+
+ПАРАМЕТРЫ:
+
+Свойства экипировки:
+– Иммунитет к очарованию и замешательству
+
+Боевые особенности:
+– Считается +3 оружием
+
+Урон: 1d8 (рубящий)
+ТНАС0 и урон:
+  против истинно-нейтральных: +0 к атаке, +0 к урону
+  против хаотичных нейтральных, законопослушных нейтральных: +1 к атаке, +2 к урону
+  против нейтральных добрых, нейтральных злых: +2 к атаке, +4 к урону
+  против остальных мировоззрений: +3 к атаке, +6 к урону
+Фактор скорости: 3
+Навык: длинный меч
+Тип: одноручное
+Требования:
+ Сила 11
+ Ловкость 8
+
+Вес: 3
+
+Не могут использовать:
+ Хозяин зверей~
+@99063 = ~Корень проблемы
+Палица +1, +3 против неестественных существ
+Говорят, что эта зачарованная палица видела падение Нетерила и рождение великой Анорокской пустыни. Многое потеряла тогда цивилизация, но главными жертвами оказались живые существа, которые видели, как гибнет их среда обитания, но ничего не могли сделать. Пригодных для жизни мест оставалось все меньше, и бездомные существа устремлялись туда, а самые нетерпеливые из них бросались на нетронутые земли и забирали все, что могли. Эта палица, как говорят, сделана из дерева дриады – то был прощальный дар защитникам природы от лесного духа, который больше не в силах был оборонять свою землю от вторжения. Боль дриады была горькой и сладкой – не будь ее лес таким сильным и здоровым, ему не пришлось бы так пострадать. Циничные ученые нарекли оружие «Корнем проблемы», но серьезные почитатели природы юмора не оценили.
+
+ПАРАМЕТРЫ:
+
+Боевые особенности:
+– Считается +3 оружием
+
+THAC0: +1, +3 против неестественных существ
+Урон: 1d6+1 (дробящий), +3 против неестественных существ, + 1 урон кислотой
+Фактор скорости: 3
+Оружейный навык: палица
+Тип: одноручное
+Требуется:
+ Сила 5
+
+Вес: 3~
+@99064 = ~Костяная дубина +2, +3 против нежити
+Эта зловещая палица была изготовлена сотни лет назад – по легенде, шаманом, искавшим отмщения. Нежить уничтожила его семью, и ярость его была такова, что он отрубил собственную ногу и использовал бедро в качестве основы для оружия. Палица усилена магическими рунами, но похоже, что одной лишь силы ненависти шамана было достаточно, чтобы напитать оружие.
+
+ПАРАМЕТРЫ:
+
+Боевые особенности:
+– Считается +3 оружием
+
+THAC0: +2, +3 против нежити
+Урон: 1d6+2 (дробящий), +3 против нежити
+Тип урона: дробящий
+Фактор скорости: 4
+Оружейный навык: палица
+Тип: одноручное
+Требуется:
+ Сила 5
+
+Вес: 3~
