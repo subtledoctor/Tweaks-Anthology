@@ -4047,7 +4047,7 @@ ACTION_IF GAME_IS ~bg2ee eet~ BEGIN
 
   COPY_EXISTING ~cromwell.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
-      REPLACE_TEXTUALLY ~RestParty()[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~ ~~ // remove rest/advancetime
+      REPLACE_TEXTUALLY ~RestParty\(Ex\)?(\(0,0,FALSE\)?)[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~ ~~ // remove rest/advancetime
     END
     BUT_ONLY
 
@@ -4066,7 +4066,7 @@ ACTION_IF GAME_IS ~bg2ee eet~ THEN BEGIN
 
   COPY_EXISTING ~cromwell.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
-      REPLACE_TEXTUALLY ~RestParty()[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~ ~AdvanceTime(EIGHT_HOURS)~ // remove rest, change advance to 8
+      REPLACE_TEXTUALLY ~RestParty\(Ex\)?(\(0,0,FALSE\)?)[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~ ~AdvanceTime(EIGHT_HOURS)~ // remove rest, change advance to 8
     END
     BUT_ONLY
 
