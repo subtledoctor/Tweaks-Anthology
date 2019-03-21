@@ -1,0 +1,14 @@
+// Adds "Auto-haste" ability to Player1 ability section
+
+IF
+  Global("A7_AutoHasteAbility","GLOBAL",0)
+  !HaveSpellRES("a7_hst1")
+  !HaveSpellRES("a7_hst2")
+  !StateCheck(Player1,CD_STATE_NOTVALID)
+THEN
+  RESPONSE #100
+    SetGlobal("A7_AutoHasteAbility","GLOBAL",1)
+    SetGlobal("A7_AutoHasteActive","GLOBAL",1)
+    ActionOverride(Player1,AddSpecialAbility("a7_hst1"))
+    Continue()
+END
