@@ -68,7 +68,7 @@ ALWAYS
 
 END
 
-VERSION ~v8~
+VERSION ~Internal working version, unsupported~
 
 README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
 
@@ -1368,7 +1368,8 @@ COPY_EXISTING ~worldmap.wmp~ ~override~
   END
   BUT_ONLY
 
-COPY_EXISTING ~%BanditCamp_RaemonsTent_BCS%.bcs~ ~override~
+COPY_EXISTING ~%BanditCamp_RaemonsTent_BCS%.bcs~ ~override~ // tutu, bgt. bg
+              ~baldur.bcs~                       ~override~ // eet, bgee
   DECOMPILE_BCS_TO_BAF
     REPLACE_TEXTUALLY ~RevealAreaOnMap("%CloakwoodLodge%")~ ~RevealAreaOnMap("%CloakwoodLodge%") RevealAreaOnMap("%CloakwoodNest%")~
   COMPILE_BAF_TO_BCS
