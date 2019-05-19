@@ -35,7 +35,9 @@
     @23 = ~This component is only for Tutu or Baldur's Gate: Enhanced Edition.~
     @24 = ~This component is incompatible with another mod already installed.~
     @25 = ~This component is not available for your game.~
-
+	@26 = ~Using values from the cdtweaks.txt config file for this component...~
+    @27 = ~Modmerge is required before mods can be installed on this game. Check the readme for more information and a link to download Modmerge.~
+    
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -339,7 +341,11 @@
  @19400 = ~For all shields~
 
  @19500 = ~For non-magical shields~
-    
+ 
+ @20000 = ~Remove Blur Effect from Items, e.g. Cloack of Displacement~
+ 
+ @21000 = ~Separate Resist Fire/Cold Icon into Separate Icons (Angel)~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -758,8 +764,10 @@ THAC0:  +2 бонус
 @113000 = ~Reputation Resets in BG2 (BGT Only)~
 
 @114000 = ~Gems and Potions Require Identification~
-@114001 = ~Драгоценные камни - это минералы, которые после огранки и полировки приобретают коллекционнуй ценность и могут быть использованы при изготовлении украшений.~
-
+@114001 = ~Драгоценные камни - это минералы, которые после огранки и полировки приобретают коллекционную ценность и могут быть использованы при изготовлении украшений.~
+@114002 = ~Gems and potions~
+@114100 = ~Just gems~
+@114200 = ~Just potions~
 @115000 = ~Shapeshifter Rebalancing~
 @115001 = ~Призыв животных
 Уровень: 6
@@ -911,7 +919,14 @@ THAC0:  +2 бонус
 @122043 = ~Я знаю, как добавить две головы к Цепу Веков. Можно добавить ядовитую... а можно - электрическую. Но головы искать надо, у меня нету.~
 @122044 = ~У тебя тут три головы... я могу добавить электрическую! Будет четыре, представляешь? За 5,000 золотых сделаю. Хочешь?~
 @122045 = ~Ууу! Четыре головы - я могу добавить последнюю! Яду в ней - эх, ядреная! 5,000 золотом - и не вопрос. Хошь, или как?~
-    
+@122046 = ~Это же гномская праща. У меня есть пара трюков, которые могут сделать ее более точной.~
+@122047 = ~Если наткнешься на кольцо энергии, я смогу ее улучшить.~
+@122048 = ~Дай мне свое кольцо энергии и 5,000 золотых и начнем.~
+@122500 = ~Adjust Cromwell's Forging Time~
+@122501 = ~Instant forging (original BG2 default)~
+@122600 = ~Eight hours~
+@122700 = ~Full 24 hours (BG2EE default, includes sleep)~
+
 @123000 = ~Allow Cespenar to Use Cromwell Recipes~
 @123001 = ~Ооо, сияющие красные штучки? Я могу сделать из них отличную чешуйчатую броню, которая будет очень защищать от огня.~
 @123002 = ~А это что еще за сверкашки? Ууу, иллитиум!~
@@ -970,7 +985,12 @@ THAC0:  +2 бонус
 @125015 = ~Если ты собираешься ухаживать за мной каждый <DAYNIGHT>, может, нам и стоит поработать вместе.~
 @125016 = ~Нет, эти развалины меня не интересуют.~
 @125017 = ~Эй, а вы не из этих мест! У-уй! Ботинки не чищены, на подтяжках нет застежек. Вы определенно не торговцы. Они всегда выглядят намного презентабельнее. О, в Галликин прибыли сумасбродные авантюристы! Уж не пришли ли вы разграбить развалины Огненного вина?~
-
+@125100 = ~Move NPCs to Convenient Locations: Move Alora to Gullykin~
+@125200 = ~Move NPCs to Convenient Locations: Move Eldoth to the Coast Way~
+@125300 = ~Move NPCs to Convenient Locations: Move Quayle to the Nashkel Carnival~
+@125400 = ~Move NPCs to Convenient Locations: Move Shar-Teel to North Nashkel Road~
+@125500 = ~Move NPCs to Convenient Locations: Move Tiax to Beregost~
+@125600 = ~Move NPCs to Convenient Locations: Move Viconia to South Beregost Road~
 @126000 = ~Bardic Reputation Adjustment~
 @126001  = ~Lake Poet Sam~
 @126002  = ~Sam~
@@ -990,6 +1010,15 @@ THAC0:  +2 бонус
 @131000 = ~Restore (most) BG2 spells and make scrolls available - WARNING: they will look very out of place~
 
 @132000 = ~BG2-style journal [work in progress]~
+@133000 = ~NPCs Cannot Use Doors~
+@134000 = ~Make the Planar Sphere Stronghold Available to All Classes~
+@134100 = ~Make the de'Arnise Keep Stronghold Available to All Classes~
+@134200 = ~Make the Temple Strongholds Available to All Classes~
+@134300 = ~Make the Thieves Guild Stronghold Available to All Classes~
+@134400 = ~Make the Playhouse Stronghold Available to All Classes~
+@134500 = ~Make the Noble Order of the Radiant Heart Stronghold Available to All Classes~
+@134600 = ~Make the Druid Grove Stronghold Available to All Classes~
+@134700 = ~Make the Imnesvale Cabin Stronghold Available to All Classes~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1012,12 +1041,15 @@ THAC0:  +2 бонус
 @203500 = ~Two-Handed Axes~
 
 @204000 = ~Universal Clubs~
-
+@204001 = ~^[ %TAB%]*\(Могут использовать\|Не могут использовать\).*~
+@204002 = ~Не могут использовать:~
+@204003 = ~[%LNL%%MNL%%WNL%].*[ %TAB%]*маг.*~
+/* deprecated component
 @205000 = ~Description Updates for Universal
   Clubs Component~
 @205001 = ~Requires Universal Clubs to be installed~
 @205002 = ~Ashes of Embers is installed, which already adjusts club descriptions.~
-
+*/
 @206000 = ~Weapon Styles for All~
 
 @207000 = ~Druids Use Cleric Level and Spell Progression~
@@ -1084,6 +1116,7 @@ Thieving Abilities in Heavy Armor' Component~
 @215002 = ~[ %TAB%]*.?.?.?[ %TAB%]*Armou?r Class[^:]*:.*$~ // lone . at front to catch EE emdash
 
 @215100 = ~No Restrictions~
+@215200 = ~Allow Armor Plus One Protection Item (Angel)~
 
 @216000 = ~Rebalanced Weapon Proficiencies~
 @216001 = ~КОРОТКИЙ МЕЧ/НИНДЗЯ-ТО:  Короткие мечи и ниндзя-то - легкое, но эффективное оружие, распространенное среди воров и полуросликов.
@@ -1314,7 +1347,9 @@ Thieving Abilities in Heavy Armor' Component~
 
 @235100 = ~Allow non-humans acces to all multiclass combinations~
 
-@235200 = ~Install both of the above options~
+@235200 = ~Install options one and two (everyone can multiclass anything)~
+@235300 = ~Allow non-humans access to a multiclasses only if they can access the single-classes~
+@235800 = ~Install options one and three (everyone can multiclass anything they can single-class)~
 
 @236000 = ~Remove Racial Restrictions for Single Classes~
 
@@ -1334,6 +1369,8 @@ Thieving Abilities in Heavy Armor' Component~
 @242000 = ~Loosen Equipment Restrictions for Cleric Multi-Classes~
 
 @243000 = ~Loosen Equipment Restrictions for Druid Multi-Classes~
+@243001 = ~Change Equipment Restrictions for Druid Multi-Classes~
+@243100 = ~Tighten Equipment Restrictions for Druid Multi-Classes (Angel)~
 
 @244000 = ~Everyone Gets Bonus APR from Specialization~
 // translators - the next three strings are used to replace game text, so they need to be copied from the game itself
@@ -1344,6 +1381,11 @@ Thieving Abilities in Heavy Armor' Component~
 @244003 = ~(только для воинов)~
 
 @245000 = ~Enforce PnP Proficiency Rules on Dual-Classed Characters~
+@250000 = ~Exceptional Strength Weight Limit Changes~
+@251000 = ~Level-Lock Spell Scrolls (Angel)~
+@252000 = ~Allow Mages to Use Bucklers and Thieves to Use Small Shields (Angel)~
+@253000 = ~Lightning Bolts Don't Bounce (Angel)~
+@254000 = ~Speed Up de'Arnise Keep Stronghold Quests~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1363,6 +1405,7 @@ Thieving Abilities in Heavy Armor' Component~
 @300200 = ~Average Rolls~
 
 @300300 = ~Low Variance Rolls~
+@300800 = ~Allow HP Rolls Through Level 20 (Angel)~
 
 @301000 = ~Maximum HP for NPCs (the bigg)~
 @301001 = ~For All Creatures in Game~
@@ -1437,6 +1480,11 @@ Thieving Abilities in Heavy Armor' Component~
 @316000 = ~Keep Drizzt's Loot, Disable Malchor Harpell~
 
 @317000 = ~No Drow Avatars On Party In Underdark~
+@317500 = ~Disable Romances~
+@317600 = ~Accelerate/Decelerate Romances~
+@317601 = ~Please enter the percentage speed you would like to apply to the time between love talks,
+e.g. 50 would halve the current time between talks, whereas 300% would triple the length.
+Enter a percentage between 20 and 500:~
 
 @317900 = ~No Racial Requirements for Romance~
 
@@ -1448,29 +1496,29 @@ Thieving Abilities in Heavy Armor' Component~
 @318200 = ~No Gender/Racial Requirements for Romance, Allow Multiple Romances, Nothing Kills Romances~
 
 @318300 = ~Romance Cheats~
-@318301 = ~Remove racial requirements for romances? (Select a or b)
-  a) Remove
-  b) No changes~
+@318301 = ~Remove racial requirements for romances? (Select 1 or 2)
+  1) Remove
+  2) No changes~
 @318302 = ~  * Remove racial requirements for romances~
-@318303 = ~Remove gender requirements for romances? (Select a or b)
-  a) Remove
-  b) No changes~
+@318303 = ~Remove gender requirements for romances? (Select 1 or 2)
+  1) Remove
+  2) No changes~
 @318304 = ~  * Remove gender requirements for romances~
-@318305 = ~Allow multiple romances? (Select a or b)
-  a) Allow multiple
-  b) No changes~
+@318305 = ~Allow multiple romances? (Select 1 or 2)
+  1) Allow multiple
+  2) No changes~
 @318306 = ~  * Allow multiple romances~
-@318307 = ~Nothing kills romances? (Select a or b)
-  a) Nothing kills romances
-  b) No changes~
+@318307 = ~Nothing kills romances? (Select 1 or 2)
+  1) Nothing kills romances
+  2) No changes~
 @318308 = ~  * Nothing kills romances~
 @318309 = ~You have selected to install the following options:~
-@318310 = ~Are these choices correct?
-  a) Yes, proceed with install
-  b) No, let me re-select them~
-@318311 = ~Start romances for new games in ToB?
-  a) Start for new ToB games
-  b) No changes~
+@318310 = ~Are these choices correct? (Select 1 or 2)
+  1) Yes, proceed with install
+  2) No, let me re-select them~
+@318311 = ~Start romances for new games in ToB? (Select 1 or 2)
+  1) Start for new ToB games
+  2) No changes~
 @318312 = ~  * Start romances for new games in ToB~
 @318313 = ~Вызови мою возлюбленную, Аэри.~
 @318314 = ~Вызови мою возлюбленную, Джахейру.~
@@ -1526,7 +1574,7 @@ Thieving Abilities in Heavy Armor' Component~
 @324000 = ~Friendly Random Drops~
 @324001 = ~Randomize on reload~
 
-@324100 = ~Token system~
+@324100 = ~Choose Your Drop~
 @324101 = ~Мастер жетонов~
 @324102 = ~Жетон~
 @324103 = ~Странный, необработанный жетон без каких-либо опознавательных знаков.~
@@ -1601,6 +1649,17 @@ Thieving Abilities in Heavy Armor' Component~
 @326700 = ~100% chance to recover after a successful hit, vs. enemies only~
 
 @327000 = ~Recoverable throwing weapons~
+@328000 = ~Give Every Class/Kit Four Weapon Slots~
+@329000 = ~Personalize automatic save names~
+@329001 = ~Use scheme: 000000000-Protagonist-Save-Name~
+@329100 = ~Use scheme: 000000000-Protagonist Save-Name~
+@329200 = ~Use scheme: 000000000-(Protagonist)-Save-Name~
+@329300 = ~Use scheme: 000000000-(Protagonist) Save-Name~
+@329400 = ~Use scheme: 000000000-[Protagonist]-Save-Name~
+@329500 = ~Use scheme: 000000000-[Protagonist] Save-Name~
+@330000 = ~Death Cam~
+@331000 = ~Start New Games with Party AI Turned Off~
+@332000 = ~No Depreciation in Stores~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1641,3 +1700,27 @@ Thieving Abilities in Heavy Armor' Component~
 @412000 = ~Give Coran A Legal Dexterity Score of 19~
 
 @413000 = ~Make Xan a Generalist Mage (Mike1072)~
+@414000 = ~Don't Auto-Assign Advanced AI Scripting to Party~
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Ex-SCS components                                \\\\\
+///// Automatically copied over from SCS TRA files     \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+@500000 = ~Stackable ankheg shells, winterwolf pelts and wyvern heads~
+@501000 = ~Allow NPC pairs to separate~
+@502000 = ~Make party members less likely to die irreversibly~
+@503000 = ~Move Boo into Minsc's pack~
+@504000 = ~Allow Yeslick to use axes~
+@505000 = ~Ensure Shar-Teel doesn't die in the original challenge~
+@506000 = ~Remove animation from the Cloak of Mirroring (leave it for other spells and effects that use the same graphic)~
+@507001 = ~Make the starting dungeon slightly harder~
+@507002 = ~Make the bard stronghold available to all classes~
+@507003 = ~Make the cleric stronghold available to all classes~
+@507004 = ~Make the druid stronghold available to all classes~
+@507005 = ~Make the fighter stronghold available to all classes~
+@507006 = ~Make the paladin stronghold available to all classes~
+@507007 = ~Make the ranger stronghold available to all classes~
+@507008 = ~Make the thief stronghold available to all classes~
