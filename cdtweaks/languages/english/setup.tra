@@ -36,6 +36,7 @@
     @25 = ~This component is not available for your game.~
     @26 = ~Using values from the cdtweaks.txt config file for this component...~
     @27 = ~Modmerge is required before mods can be installed on this game. Check the readme for more information and a link to download Modmerge.~
+    @28 = ~There are not enough free spell state or secondary type slots available to install this component.~
     
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -1399,6 +1400,20 @@ Enter a percentage between 20 and 500:~
 @330000 = ~Death Cam~
 @331000 = ~Start New Games with Party AI Turned Off~
 @332000 = ~No Depreciation in Stores~
+@333000 = ~Increase party movement speed outside combat~
+@333001 = ~By 50 percent~
+@333002 = ~By 100 percent~
+@333003 = ~By 150 percent~
+@333010 = ~Disable Auto-haste~
+@333011 = ~Disable Auto-haste
+
+This ability controls whether party members can move at increased speed outside of combat. Click on the ability to turn it OFF.~
+
+@333012 = ~Enable Auto-haste~
+@333013 = ~Enable Auto-haste
+
+This ability controls whether party members can move at increased speed outside of combat. Click on the ability to turn it ON.~
+@333020 = ~Movement speed bonus removed~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
