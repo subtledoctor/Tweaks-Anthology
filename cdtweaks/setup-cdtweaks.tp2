@@ -833,6 +833,13 @@ END ELSE BEGIN // soa tob bg2ee eet bgt ca
 
   INCLUDE ~cdtweaks/lib/unique_icons_bg2.tpa~ // loads arrays
 
+  COPY_EXISTING ~plat19.itm~ ~override~ // make (wish) full plate +2 look like normal full plate +2, not full plate +1 (plate of the dark)
+    WRITE_ASCII 0x58 ~cplat09~ #8
+    LPF ALTER_EFFECT INT_VAR match_opcode = 7 match_parameter2 = 0 parameter1 = 27 END
+    LPF ALTER_EFFECT INT_VAR match_opcode = 7 match_parameter2 = 4 parameter1 = 25 END
+    LPF ALTER_EFFECT INT_VAR match_opcode = 7 match_parameter2 = 5 parameter1 = 27 END
+    BUT_ONLY IF_EXISTS
+
 END
 
 ACTION_PHP_EACH cd_unique_icons AS item => icon BEGIN
