@@ -3888,7 +3888,7 @@ REQUIRE_PREDICATE NOT GAME_IS ~bg1 totsc iwd how totlm iwd2 pst pstee~ @25
 ACTION_IF GAME_IS ~bgee bg2ee eet iwdee~ THEN BEGIN // in ee, can adjust the animation speed directly
    
   COPY_EXISTING_REGEXP GLOB ~^[56][012345][01][0-9]\.ini$~ ~override~ 
-    REPLACE_TEXTUALLY ~^[ %TAB%]*move_scale[ %TAB%]*=[ %TAB%]*9[ %TAB%]*$~ ~move_scale=7~
+    REPLACE_TEXTUALLY ~^move_scale=9~ ~move_scale=7~
     BUT_ONLY
 
 END ELSE BEGIN
