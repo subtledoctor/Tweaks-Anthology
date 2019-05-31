@@ -6069,6 +6069,7 @@ COPY + ~override/cdpnp.2da~ ~cdtweaks/2da/cdpnp.2da~
             WRITE_SHORT  (fx_off + 0x20) new_fx       // fx index
             WRITE_SHORT  (fx_off + 0x22) 1            // num charges
             WRITE_BYTE   (fx_off + 0x24) 1            // vanishes when drained
+            WRITE_LONG   (fx_off + 0x26) BIT11        // recharge after resting
             WRITE_SHORT  (fx_off + 0x2a) 1            // projectile: none
           BUT_ONLY
 
