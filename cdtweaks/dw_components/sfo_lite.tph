@@ -618,7 +618,8 @@ DEFINE_PATCH_FUNCTION CRE_is_PC
         STR_VAR filename=""
         RET value
 BEGIN
-        READ_ASCII DEATHVAR dv
+        READ_ASCII DEATHVAR dv  
+        TO_LOWER dv
         PATCH_IF VARIABLE_IS_SET $script_name_pdialog( ~%dv%~) BEGIN
            SET value=1
         END ELSE BEGIN
