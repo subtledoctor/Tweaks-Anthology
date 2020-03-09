@@ -1438,6 +1438,9 @@ This ability controls whether party members can move at increased speed outside 
 @411000 = ~Give Kagain A Legal Constitution Score of 19~
 @412000 = ~Give Coran A Legal Dexterity Score of 19~
 @413000 = ~Make Xan a Generalist Mage (Mike1072)~
+@413100 = ~Make Dynaheir a Generalist Mage (Angel)~
+@413200 = ~Make Xzar a Generalist Mage (Angel)~ 
+@413300 = ~Make Edwin a Generalist Mage (Angel)~
 @414000 = ~Don't Auto-Assign Advanced AI Scripting to Party~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

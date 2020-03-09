@@ -14021,7 +14021,7 @@ COPY_EXISTING_REGEXP "^_?xan[0-9]*.cre$" "override"
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN ~Make Dynaheir a Generalist Mage (Angel)~ DESIGNATED 4131
+BEGIN @413100 DESIGNATED 4131
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
 
@@ -14040,7 +14040,7 @@ COPY_EXISTING_REGEXP "^_?dynahe[0-9]*.cre$" "override"
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN ~Make Xzar a Generalist Mage (Angel)~ DESIGNATED 4132
+BEGIN @413200 DESIGNATED 4132
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
 
@@ -14059,7 +14059,7 @@ COPY_EXISTING_REGEXP "^_?xzar[0-9]*.cre$" "override"
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN ~Make Edwin a Generalist Mage (Angel)~ DESIGNATED 4133
+BEGIN @413300 DESIGNATED 4133
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bg2 tob bgt eet bgee bg2ee~ @25 // All BG games
 
