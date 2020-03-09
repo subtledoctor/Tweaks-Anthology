@@ -7037,8 +7037,24 @@ ACTION_IF FILE_EXISTS_IN_GAME ~mxsplsrc.2da~ THEN BEGIN
             SET_2DA_ENTRY row col 10 (spells - 2)
           END
         END
-      END
-  
+      END  
+  END
+
+  ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
+	ACTION_FOR_EACH sorc_table IN ~mxsplsrc~ ~mxspldd~ BEGIN
+	  COPY_EXISTING ~%sorc_table%.2da~ ~override~
+		COUNT_2DA_COLS cols
+		READ_2DA_ENTRIES_NOW rows cols
+		FOR (row = 0; row < rows; ++row) BEGIN
+		  FOR (col = 1; col < 6; ++col) BEGIN
+			READ_2DA_ENTRY_FORMER rows row col slots
+			PATCH_IF (slots > 0) BEGIN
+			  SET_2DA_ENTRY row col cols (slots + 2)
+			END
+		  END
+		END
+	  IF_EXISTS BUT_ONLY
+	END
   END
 
 END ELSE BEGIN
@@ -7069,6 +7085,32 @@ REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 COPY ~cdtweaks/2da/un_mxsplwiz.2da~ ~override/mxsplwiz.2da~
+
+ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
+  COPY_EXISTING ~mxsplwiz.2da~ ~override~
+	COUNT_2DA_COLS cols
+	READ_2DA_ENTRIES_NOW rows cols
+	FOR (row = 0; row < rows; ++row) BEGIN
+	  READ_2DA_ENTRY_FORMER rows row 1 slots
+	  PATCH_IF !(FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
+		PATCH_IF (slots > 0) BEGIN
+		  SET_2DA_ENTRY row 1 cols (slots + 2)
+		END
+	  END
+	  PATCH_IF (FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
+		PATCH_IF (slots > 0) BEGIN
+		  SET_2DA_ENTRY row 1 cols (slots + 1)
+		END
+	  END
+	  FOR (col = 2; col < 8; ++col) BEGIN
+		READ_2DA_ENTRY_FORMER rows row col slots
+		PATCH_IF (slots > 0) BEGIN
+		  SET_2DA_ENTRY row col cols (slots + 2)
+		END
+	  END
+	END
+  IF_EXISTS BUT_ONLY
+END
 
 ACTION_IF GAME_IS ~tob bgt bg2ee eet~ THEN BEGIN
 
@@ -7151,6 +7193,32 @@ REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 COPY ~cdtweaks/2da/mxsplwiz.2da~ ~override~
 
+ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
+  COPY_EXISTING ~mxsplwiz.2da~ ~override~
+	COUNT_2DA_COLS cols
+	READ_2DA_ENTRIES_NOW rows cols
+	FOR (row = 0; row < rows; ++row) BEGIN
+	  READ_2DA_ENTRY_FORMER rows row 1 slots
+	  PATCH_IF !(FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
+		PATCH_IF (slots > 0) BEGIN
+		  SET_2DA_ENTRY row 1 cols (slots + 2)
+		END
+	  END
+	  PATCH_IF (FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
+		PATCH_IF (slots > 0) BEGIN
+		  SET_2DA_ENTRY row 1 cols (slots + 1)
+		END
+	  END
+	  FOR (col = 2; col < 8; ++col) BEGIN
+		READ_2DA_ENTRY_FORMER rows row col slots
+		PATCH_IF (slots > 0) BEGIN
+		  SET_2DA_ENTRY row col cols (slots + 2)
+		END
+	  END
+	END
+  IF_EXISTS BUT_ONLY
+END
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
@@ -7174,6 +7242,21 @@ REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 COPY ~cdtweaks/2da/un_mxsplbrd.2da~ ~override/mxsplbrd.2da~
 
+ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
+  COPY_EXISTING ~mxsplbrd.2da~ ~override~
+	COUNT_2DA_COLS cols
+	READ_2DA_ENTRIES_NOW rows cols
+	FOR (row = 0; row < rows; ++row) BEGIN
+	  FOR (col = 1; col < 7; ++col) BEGIN
+		READ_2DA_ENTRY_FORMER rows row col slots
+		PATCH_IF (slots > 0) BEGIN
+		  SET_2DA_ENTRY row col cols (slots + 2)
+		END
+	  END
+	END
+  IF_EXISTS BUT_ONLY
+END
+
 /////                                                            \\\\\
 ///// pnp                                                        \\\\\
 /////                                                            \\\\\
@@ -7185,6 +7268,21 @@ REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~mxsplbrd.2da~ @25
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 COPY ~cdtweaks/2da/mxsplbrd.2da~ ~override~
+
+ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
+  COPY_EXISTING ~mxsplbrd.2da~ ~override~
+	COUNT_2DA_COLS cols
+	READ_2DA_ENTRIES_NOW rows cols
+	FOR (row = 0; row < rows; ++row) BEGIN
+	  FOR (col = 1; col < 7; ++col) BEGIN
+		READ_2DA_ENTRY_FORMER rows row col slots
+		PATCH_IF (slots > 0) BEGIN
+		  SET_2DA_ENTRY row col cols (slots + 2)
+		END
+	  END
+	END
+  IF_EXISTS BUT_ONLY
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
