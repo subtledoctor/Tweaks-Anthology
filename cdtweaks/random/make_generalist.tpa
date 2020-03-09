@@ -1,0 +1,30 @@
+DEFINE_PATCH_MACRO mh_make_generalist
+BEGIN
+  PATCH_IF (SOURCE_SIZE > 0x2d3)
+  BEGIN
+    WRITE_SHORT 0x246 0x4000 // change mage type to generalist mage
+    
+    // fix spell memorisation info
+    READ_BYTE 0x0234 mage_level
+
+    GET_OFFSET_ARRAY spell_mem_array CRE_V10_SPELL_MEM_INFO
+    PHP_EACH spell_mem_array AS spell_mem_no => spell_mem_offset
+    BEGIN
+      READ_SHORT (spell_mem_offset + 0x0000) spell_level
+      READ_SHORT (spell_mem_offset + 0x0006) spell_type
+
+      PATCH_IF (spell_type == 1)
+      BEGIN
+        INNER_PATCH_FILE "mxsplwiz.2da"
+	BEGIN
+	  READ_2DA_ENTRY (mage_level) (spell_level + 1) 9 max_spells
+	END
+
+        WRITE_SHORT (spell_mem_offset + 0x02) max_spells
+        WRITE_SHORT (spell_mem_offset + 0x04) max_spells
+      END
+    END
+  END
+END
+
+
