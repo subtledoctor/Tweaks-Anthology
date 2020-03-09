@@ -4416,7 +4416,25 @@ ACTION_IF NOT GAME_IS ~bgt~ THEN BEGIN // all other platforms use GAM file
       END
     END
     BUT_ONLY_IF_IT_CHANGES
+    
+  ACTION_IF GAME_IS ~bgee eet~ BEGIN // her joining combat script is in the area script
 
+    COPY_EXISTING ~shartel2.bcs~ ~override~ // shar-teel's combat script for the initial fight
+      DECOMPILE_AND_PATCH BEGIN
+        REPLACE_TEXTUALLY ~"%MutaminsGarden%"~ ~"%NorthNashkelRoad%"~ // change area variable to new area
+      END
+      BUT_ONLY
+
+    COPY_EXISTING ~%MutaminsGarden_BCS%.bcs~     ~override~ // ar3500, mutamin's garden
+      DECOMPILE_AND_PATCH BEGIN
+        REPLACE_TEXTUALLY ~\(IF[ %TAB%%LNL%%MNL%%WNL%]+\)\(Global("SharteelFight","GLOBAL",[12])\)~ ~\1 False() \2~ // disable existing scripting
+      END
+      BUT_ONLY
+      
+    EXTEND_BOTTOM ~%NorthNashkelRoad_BCS%.bcs~ ~cdtweaks/baf/bgee_spawn_sharteel.baf~ EVALUATE_BUFFER
+
+  END
+  
 END ELSE BEGIN // bgt
 
   // disable spawns
