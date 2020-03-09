@@ -9,27 +9,27 @@
 @0 = ~Aggiustamenti ai PNG~
 @1 = ~Questa fase potrebbe richiedere qualche minuto...~
 @2 = ~Richiede che "Aggiungi Borse Conservanti a BG".~
-@3 = ~Richiede: "Consenti il lancio di incantesimi arcani in armatura".~
+// @3 = ~Richiede: "Consenti il lancio di incantesimi arcani in armatura".~
 @4 = ~Aggiustamenti/Trucchi di convenienza~
 @5 = ~Richiede: "Oggetti esotici".~
-@6 = ~Richiede: "Consenti l'utilizzo di Nascondersi nelle ombre e delle abilita' da ladro in armatura pesante secondo le regole di AD&D".~
+// @6 = ~Richiede: "Consenti l'utilizzo di Nascondersi nelle ombre e delle abilita' da ladro in armatura pesante secondo le regole di AD&D".~
 @7 = ~Questa componente non e' disponibile nella tua lingua.~
-@8 = ~Questa componente e' solo per BGT.~
+// @8 = ~Questa componente e' solo per BGT.~
 @9 = ~Modifiche alle regole~
-@10 = ~Questa componente non e' disponibile per Tutu.~
+// @10 = ~Questa componente non e' disponibile per Tutu.~
 @11 = ~Aggiustamenti estetici~
-@12 = ~Richiede: Throne of Bhaal.~
+// @12 = ~Richiede: Throne of Bhaal.~
 @13 = ~Modifiche al contenuto~
-@14 = ~Questa componente e' solo per Tutu o BGT.~
-@15 = ~Questa componente e' solo per Tutu.~
+// @14 = ~Questa componente e' solo per Tutu o BGT.~
+// @15 = ~Questa componente e' solo per Tutu.~
 @16 = ~La funzione di questa componente e' gia' inclusa
 o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @17 = ~Richiede: "Tratta le armi +x/+y coerentemente".~
 @18 = ~Questa componente e' superata.~
-@19 = ~Regole personalizzate di Cam~
-@20 = ~Visualizzare il Readme?
-a) Si'
-b) No~
+// @19 = ~Regole personalizzate di Cam~
+// @20 = ~Visualizzare il Readme?
+// a) Si'
+// b) No~
 @21 = ~Richiede: Modifica il limite dei punti esperienza: rimuovi il limite dei punti esperienza.~
 @22 = ~Questo componente non e' disponibile per Baldur's Gate: Enhanced Edition.~
 @23 = ~Questo componente e' solo per Tutu o Baldur's Gate: Enhanced Edition.~
@@ -1764,3 +1764,47 @@ Inserisci una percentuale tra 20 e 500:~
 @413000 = ~Fai di Xan un Mago generico (Mike1072)~
 
 @414000 = ~Non assegnare automaticamente AI avanzate al gruppo~
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Ex componenti di SCS                             \\\\\
+///// Automaticamente copiati dai files tra di SCS     \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+@500000 = ~Gusci di ankheg, pelli di lupo bianco e teste di Viverna impilabili~
+@501000 = ~Permette alle coppie di NPC di separarsi~
+@502000 = ~Rende meno probabile che i membri del gruppo muoiano irreversibilmente~
+@503000 = ~Sposta Boo nel bagaglio di Minsc~
+@504000 = ~Permettere a Yeslick di usare le asce~
+@505000 = ~Assicura che Shar-Teel non muoia nella sfida iniziale~
+@506000 = ~Rimuove l'animazione dal Mantello Speculare (lasciata per altri incantesimi ed effetti che utilizzano la stessa grafica)~
+@507001 = ~Rende il dungeon iniziale leggermente più difficile~
+@507002 = ~Permette a tutte le classi di accedere alla roccaforte del bardo~
+@507003 = ~Permette a tutte le classi di accedere alla roccaforte del chierico~
+@507004 = ~Permette a tutte le classi di accedere alla roccaforte del druido~
+@507005 = ~Permette a tutte le classi di accedere alla roccaforte del guerriero~
+@507006 = ~Permette a tutte le classi di accedere alla roccaforte del paladino~
+@507007 = ~Permette a tutte le classi di accedere alla roccaforte del ranger~
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Ex componenti di SCS                             \\\\\
+///// Automaticamente copiati dai files tra di SCS     \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+@500000 = ~Gusci di ankheg, pelli di lupo bianco e teste di Viverna impilabili~
+@501000 = ~Permette alle coppie di NPC di separarsi~
+@502000 = ~Rende meno probabile che i membri del gruppo muoiano irreversibilmente~
+@503000 = ~Sposta Boo nel bagaglio di Minsc~
+@504000 = ~Permettere a Yeslick di usare le asce~
+@505000 = ~Assicura che Shar-Teel non muoia nella sfida iniziale~
+@506000 = ~Rimuove l'animazione dal Mantello Speculare (lasciata per altri incantesimi ed effetti che utilizzano la stessa grafica)~
+@507001 = ~Permette a tutte le classi di accedere alla roccaforte del bardo~
+@507002 = ~Permette a tutte le classi di accedere alla roccaforte del chierico~
+@507003 = ~Permette a tutte le classi di accedere alla roccaforte del druido~
+@507004 = ~Permette a tutte le classi di accedere alla roccaforte del guerriero~
+@507005 = ~Permette a tutte le classi di accedere alla roccaforte del paladino~
+@507007 = ~Permette a tutte le classi di accedere alla roccaforte del ranger~
+@507008 = ~Permette a tutte le classi di accedere alla roccaforte del ladro~
