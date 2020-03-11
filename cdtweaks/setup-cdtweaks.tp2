@@ -914,7 +914,6 @@ REQUIRE_PREDICATE GAME_IS ~soa tob bgee bg2ee eet bgt tutu tutu_totsc how totlm 
 
 OUTER_SET names = 0 // don't set names
 INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
-INCLUDE ~cdtweaks/lib/unique_containers_default.tpa~ // external array of items => icons in case this expands to different platforms
 INCLUDE ~cdtweaks/lib/unique_containers.tpa~ // does the actual work
 
 /////                                                  \\\\\
@@ -935,7 +934,6 @@ REQUIRE_PREDICATE (("%LANGUAGE%" STRING_COMPARE_CASE "english" = 0) OR
 
 OUTER_SET names = 1 // set names
 INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
-INCLUDE ~cdtweaks/lib/unique_containers_default.tpa~ // external array of items => icons in case this expands to different platforms
 INCLUDE ~cdtweaks/lib/unique_containers.tpa~ // does the actual work
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -11698,6 +11696,7 @@ ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgt~ THEN BEGIN // BGT/Tutu/BGEE ch
   END ELSE BEGIN // BG/Tutu changes
 
     COPY_EXISTING ~worldmap.wmp~ ~override~
+                  ~no_totsc.wmp~ ~override~
       READ_LONG 0x0c mos_off
       READ_LONG (mos_off + 0x20) area_num
       READ_LONG (mos_off + 0x24) area_off
@@ -11765,7 +11764,7 @@ ACTION_IF GAME_IS ~bg1 totsc tutu tutu_totsc bgt~ THEN BEGIN // BGT/Tutu/BGEE ch
           END
         END
       END
-      BUT_ONLY
+      BUT_ONLY IF_EXISTS
     
     COPY_EXISTING ~%Beregost%.are~ ~override~
       LPF fj_are_structure
