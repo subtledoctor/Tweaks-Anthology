@@ -8598,24 +8598,67 @@ BEGIN @242000 DESIGNATED 2420
 GROUP @9
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
 
+// basically, only mess with kit flags if they still have their original usability and have not been hijacked by kit mods as free flags
+OUTER_SET lathander = 0
+OUTER_SET helm = 0
+OUTER_SET talos = 0
+ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ BEGIN
+  COPY_EXISTING ~kitlist.2da~ ~override~
+    COUNT_2DA_ROWS ~9~ "rows"
+    FOR ( index = 1 ; index < rows ; index = index + 1 ) BEGIN
+      READ_2DA_ENTRY "%index%" 1 9 "kitname"
+      READ_2DA_ENTRY "%index%" 7 9 "usability"
+      //PATCH_PRINT ~on index %index%, kitname is %kitname% and usability is %usability%~
+      PATCH_IF (("%kitname%" STRING_COMPARE_CASE "lathander" = 0) AND ("%usability%" STRING_COMPARE_CASE "0x04000000" = 0)) BEGIN 
+        SET lathander = 1
+      END  
+      PATCH_IF (("%kitname%" STRING_COMPARE_CASE "helm" = 0) AND ("%usability%" STRING_COMPARE_CASE "0x02000000" = 0)) BEGIN
+        SET helm = 1
+      END  
+      PATCH_IF (("%kitname%" STRING_COMPARE_CASE "talos" = 0) AND ("%usability%" STRING_COMPARE_CASE "0x01000000" = 0)) BEGIN
+        SET talos = 1
+      END  
+    END
+    BUT_ONLY
+
+END
+
 //Alignment changes
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   READ_BYTE 0x1f "use2"
   READ_BYTE 0x20 "use3"
+  SET patched = 0
   PATCH_IF (("%use2%" BAND 0b00001000) = 0b00000000) BEGIN // if usable by single-class fighters...
     SET "use2" = ("%use2%" BAND 0b00111111) // make usable by fc, fmc
+    SET patched = 1
   END
   PATCH_IF (("%use3%" BAND 0b00000100) = 0b00000000) BEGIN // if usable by single-class mages...
     SET "use2" = ("%use2%" BAND 0b01111110) // make usable by mc, fmc
+    SET patched = 1
   END
   PATCH_IF (("%use3%" BAND 0b01000000) = 0b00000000) BEGIN // if usable by single-class thieves...
     SET "use2" = ("%use2%" BAND 0b11111101) // make usable by ct
+    SET patched = 1
   END
   PATCH_IF (("%use3%" BAND 0b00100000) = 0b00000000) BEGIN // if usable by single-class rangers...
     SET "use2" = ("%use2%" BAND 0b11111011) // make usable by cr
+    SET patched = 1
   END
   WRITE_BYTE 0x1f "%use2%"
   WRITE_BYTE 0x20 "%use3%"
+  PATCH_IF (patched AND (lathander OR helm OR talos)) BEGIN
+    READ_BYTE 0x29 use4
+    PATCH_IF lathander BEGIN
+      SET use4 = (use4 BAND `BIT2)
+    END  
+    PATCH_IF helm BEGIN
+      SET use4 = (use4 BAND `BIT1)
+    END  
+    PATCH_IF talos BEGIN
+      SET use4 = (use4 BAND `BIT0)
+    END  
+    WRITE_BYTE 0x29 use4
+  END  
   BUT_ONLY_IF_IT_CHANGES
 
 COPY_EXISTING ~clasweap.2da~ ~override~
