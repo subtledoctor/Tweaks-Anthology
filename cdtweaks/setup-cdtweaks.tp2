@@ -8,7 +8,7 @@ ALWAYS
 
   ACTION_IF NOT VARIABLE_IS_SET bg2_chapter THEN BEGIN // check to make this happen only once per install
     
-	ACTION_IF GAME_IS ~eet~ BEGIN
+    ACTION_IF GAME_IS ~eet~ BEGIN
       OUTER_SET bg2_chapter = 12
     END ELSE BEGIN
       OUTER_SET bg2_chapter = 0
@@ -22,10 +22,10 @@ ALWAYS
     ACTION_IF FILE_EXISTS ~cdtweaks/cdtweaks.txt~ THEN BEGIN
       
       INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
-	  
-	  ACTION_IF !VARIABLE_IS_SET romance_speed_use_config_values THEN BEGIN OUTER_SET romance_speed_use_config_values = 0 END
-	  ACTION_IF !VARIABLE_IS_SET minimum_stats_use_config_values THEN BEGIN OUTER_SET minimum_stats_use_config_values = 0 END
-	  ACTION_IF !VARIABLE_IS_SET romance_use_config_values       THEN BEGIN OUTER_SET romance_use_config_values = 0 END
+    
+      ACTION_IF !VARIABLE_IS_SET romance_speed_use_config_values THEN BEGIN OUTER_SET romance_speed_use_config_values = 0 END
+      ACTION_IF !VARIABLE_IS_SET minimum_stats_use_config_values THEN BEGIN OUTER_SET minimum_stats_use_config_values = 0 END
+      ACTION_IF !VARIABLE_IS_SET romance_use_config_values       THEN BEGIN OUTER_SET romance_use_config_values = 0 END
 
     END ELSE BEGIN
     
@@ -53,16 +53,16 @@ ALWAYS
     ACTION_DEFINE_ARRAY cdreload BEGIN setup END
     ACTION_DEFINE_ARRAY cdnoconvert BEGIN ee END // List of tra files that contain ONLY strings for the WeiDU installer and NOT game content
     LAF HANDLE_CHARSETS INT_VAR infer_charsets = 1 STR_VAR tra_path = ~cdtweaks/languages~ noconvert_array = cdnoconvert reload_array = cdreload END
-		
-		// fix tokens if an EE game using schinese
-		ACTION_IF (GAME_IS ~bgee bg2ee eet~) AND (~%LANGUAGE%~ STR_EQ ~schinese~) BEGIN
-			COPY ~%MOD_FOLDER%/languages/schinese/dw_components.tra~ ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
-				REPLACE_TEXTUALLY ~<\([A-Z_]+\)>_~ ~<\1>~
-			LOAD_TRA ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
-			
-			// and always load ANSI strings for WeiDU installer
-			LOAD_TRA ~%MOD_FOLDER%/languages/schinese_prompts/setup-%WEIDU_OS%.tra~
-		END
+    
+    // fix tokens if an EE game using schinese
+    ACTION_IF (GAME_IS ~bgee bg2ee eet~) AND (~%LANGUAGE%~ STR_EQ ~schinese~) BEGIN
+      COPY ~%MOD_FOLDER%/languages/schinese/dw_components.tra~ ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
+        REPLACE_TEXTUALLY ~<\([A-Z_]+\)>_~ ~<\1>~
+      LOAD_TRA ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
+      
+      // and always load ANSI strings for WeiDU installer
+      LOAD_TRA ~%MOD_FOLDER%/languages/schinese_prompts/setup-%WEIDU_OS%.tra~
+    END
 
   END
 
@@ -135,7 +135,7 @@ LANGUAGE
   ~cdtweaks/languages/schinese/description_updates.tra~
   ~cdtweaks/languages/schinese/setup.tra~
   ~cdtweaks/languages/schinese_prompts/prompts-%WEIDU_OS%.tra~
-	~cdtweaks/languages/schinese_prompts/setup-%WEIDU_OS%.tra~
+  ~cdtweaks/languages/schinese_prompts/setup-%WEIDU_OS%.tra~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -2325,10 +2325,10 @@ COPY ~cdtweaks/cre/Z!BAG01.CRE~ ~override/Z!BAG01.cre~
      ~cdtweaks/cre/Z!BAG01.CRE~ ~override/Z!BAG03.CRE~
      ~cdtweaks/cre/Z!BAG01.CRE~ ~override/Z!BAG04.CRE~
      ~cdtweaks/cre/Z!BAG01.CRE~ ~override/Z!BAG11.CRE~
-	WRITE_ASCIIE SCRIPT_OVERRIDE ~%DEST_RES%~
+  WRITE_ASCIIE SCRIPT_OVERRIDE ~%DEST_RES%~
 
 COPY ~cdtweaks/cre/Z!BAG01.CRE~ ~override/Z!BAG0X.CRE~
-	WRITE_ASCII DEATHVAR ~Z!BAG0X~
+  WRITE_ASCII DEATHVAR ~Z!BAG0X~
 
 // Create the scripts used by the CREs
 COMPILE ~cdtweaks/baf/Z!BAG01.BAF~
@@ -4322,7 +4322,7 @@ REQUIRE_PREDICATE !FILE_EXISTS ~override/X#EldothMove.G3~ @16 // bg1 npc does th
 
 COPY_EXISTING ~%ELDOTH_BCS%.bcs~ ~override~ // bg1npc compat
   DECOMPILE_AND_PATCH BEGIN
-  	REPLACE_TEXTUALLY ~!Global("X#SkieLeftEldoth","GLOBAL",1)~ ~OR(2) !Global("X#SkieLeftEldoth","GLOBAL",1) !Global("EldothMove","GLOBAL",0)~
+    REPLACE_TEXTUALLY ~!Global("X#SkieLeftEldoth","GLOBAL",1)~ ~OR(2) !Global("X#SkieLeftEldoth","GLOBAL",1) !Global("EldothMove","GLOBAL",0)~
   END
   BUT_ONLY_IF_IT_CHANGES
 
@@ -4530,7 +4530,7 @@ COPY_EXISTING ~%tutu_var%%tutu_scriptbg%viconi%eet_var%.dlg~ ~override~ // vicon
     REPLACE_TEXTUALLY ~CreateCreature("FLAM2",\[605\.901\]~ ~CreateCreature("FLAM2",[1620.420]~  // move the FF spawn to reflect her new coords
     REPLACE_TEXTUALLY ~MoveToPoint(\[507\.806\])~ ~MoveToPoint([1520.320])~ 
   END
-  BUT_ONLY	
+  BUT_ONLY  
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -4948,10 +4948,10 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
   READ_SHORT 0x5c trig_off
   FOR (index = 0 ; index < trig_num ; ++index) BEGIN
     READ_SHORT (trig_off + 0x20 + (index * 0xc4)) type
-	PATCH_IF type = 2 BEGIN // travel triggers only
+    PATCH_IF type = 2 BEGIN // travel triggers only
       WRITE_LONG (trig_off + 0x60 + (index * 0xc4)) (THIS | BIT9) // adds 'cannot be passed by NPC' flag
-	END
-  END	
+    END
+  END 
   BUT_ONLY
   
 // 1340 series is reserved for the individual stronghold components, but moved to be near the other stronghold components  
@@ -7059,20 +7059,20 @@ ACTION_IF FILE_EXISTS_IN_GAME ~mxsplsrc.2da~ THEN BEGIN
   END
 
   ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
-	ACTION_FOR_EACH sorc_table IN ~mxsplsrc~ ~mxspldd~ BEGIN
-	  COPY_EXISTING ~%sorc_table%.2da~ ~override~
-		COUNT_2DA_COLS cols
-		READ_2DA_ENTRIES_NOW rows cols
-		FOR (row = 0; row < rows; ++row) BEGIN
-		  FOR (col = 1; col < 6; ++col) BEGIN
-			READ_2DA_ENTRY_FORMER rows row col slots
-			PATCH_IF (slots > 0) BEGIN
-			  SET_2DA_ENTRY row col cols (slots + 2)
-			END
-		  END
-		END
-	  IF_EXISTS BUT_ONLY
-	END
+    ACTION_FOR_EACH sorc_table IN ~mxsplsrc~ ~mxspldd~ BEGIN
+      COPY_EXISTING ~%sorc_table%.2da~ ~override~
+        COUNT_2DA_COLS cols
+        READ_2DA_ENTRIES_NOW rows cols
+        FOR (row = 0; row < rows; ++row) BEGIN
+          FOR (col = 1; col < 6; ++col) BEGIN
+            READ_2DA_ENTRY_FORMER rows row col slots
+            PATCH_IF (slots > 0) BEGIN
+              SET_2DA_ENTRY row col cols (slots + 2)
+            END
+          END
+        END
+        IF_EXISTS BUT_ONLY
+    END
   END
 
 END ELSE BEGIN
@@ -7106,28 +7106,28 @@ COPY ~cdtweaks/2da/un_mxsplwiz.2da~ ~override/mxsplwiz.2da~
 
 ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
   COPY_EXISTING ~mxsplwiz.2da~ ~override~
-	COUNT_2DA_COLS cols
-	READ_2DA_ENTRIES_NOW rows cols
-	FOR (row = 0; row < rows; ++row) BEGIN
-	  READ_2DA_ENTRY_FORMER rows row 1 slots
-	  PATCH_IF !(FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
-		PATCH_IF (slots > 0) BEGIN
-		  SET_2DA_ENTRY row 1 cols (slots + 2)
-		END
-	  END
-	  PATCH_IF (FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
-		PATCH_IF (slots > 0) BEGIN
-		  SET_2DA_ENTRY row 1 cols (slots + 1)
-		END
-	  END
-	  FOR (col = 2; col < 8; ++col) BEGIN
-		READ_2DA_ENTRY_FORMER rows row col slots
-		PATCH_IF (slots > 0) BEGIN
-		  SET_2DA_ENTRY row col cols (slots + 2)
-		END
-	  END
-	END
-  IF_EXISTS BUT_ONLY
+    COUNT_2DA_COLS cols
+    READ_2DA_ENTRIES_NOW rows cols
+    FOR (row = 0; row < rows; ++row) BEGIN
+      READ_2DA_ENTRY_FORMER rows row 1 slots
+      PATCH_IF !(FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
+        PATCH_IF (slots > 0) BEGIN
+          SET_2DA_ENTRY row 1 cols (slots + 2)
+        END
+      END
+        PATCH_IF (FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
+        PATCH_IF (slots > 0) BEGIN
+          SET_2DA_ENTRY row 1 cols (slots + 1)
+        END
+      END
+      FOR (col = 2; col < 8; ++col) BEGIN
+        READ_2DA_ENTRY_FORMER rows row col slots
+        PATCH_IF (slots > 0) BEGIN
+          SET_2DA_ENTRY row col cols (slots + 2)
+        END
+      END
+    END
+    IF_EXISTS BUT_ONLY
 END
 
 ACTION_IF GAME_IS ~tob bgt bg2ee eet~ THEN BEGIN
@@ -7213,28 +7213,28 @@ COPY ~cdtweaks/2da/mxsplwiz.2da~ ~override~
 
 ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
   COPY_EXISTING ~mxsplwiz.2da~ ~override~
-	COUNT_2DA_COLS cols
-	READ_2DA_ENTRIES_NOW rows cols
-	FOR (row = 0; row < rows; ++row) BEGIN
-	  READ_2DA_ENTRY_FORMER rows row 1 slots
-	  PATCH_IF !(FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
-		PATCH_IF (slots > 0) BEGIN
-		  SET_2DA_ENTRY row 1 cols (slots + 2)
-		END
-	  END
-	  PATCH_IF (FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
-		PATCH_IF (slots > 0) BEGIN
-		  SET_2DA_ENTRY row 1 cols (slots + 1)
-		END
-	  END
-	  FOR (col = 2; col < 8; ++col) BEGIN
-		READ_2DA_ENTRY_FORMER rows row col slots
-		PATCH_IF (slots > 0) BEGIN
-		  SET_2DA_ENTRY row col cols (slots + 2)
-		END
-	  END
-	END
-  IF_EXISTS BUT_ONLY
+    COUNT_2DA_COLS cols
+    READ_2DA_ENTRIES_NOW rows cols
+    FOR (row = 0; row < rows; ++row) BEGIN
+      READ_2DA_ENTRY_FORMER rows row 1 slots
+      PATCH_IF !(FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
+        PATCH_IF (slots > 0) BEGIN
+          SET_2DA_ENTRY row 1 cols (slots + 2)
+        END
+      END
+      PATCH_IF (FILE_EXISTS_IN_GAME ~qdtnb_l1cantrips.qd~) BEGIN
+        PATCH_IF (slots > 0) BEGIN
+          SET_2DA_ENTRY row 1 cols (slots + 1)
+        END
+      END
+      FOR (col = 2; col < 8; ++col) BEGIN
+        READ_2DA_ENTRY_FORMER rows row col slots
+        PATCH_IF (slots > 0) BEGIN
+          SET_2DA_ENTRY row col cols (slots + 2)
+        END
+      END
+    END
+    IF_EXISTS BUT_ONLY
 END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -7262,17 +7262,17 @@ COPY ~cdtweaks/2da/un_mxsplbrd.2da~ ~override/mxsplbrd.2da~
 
 ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
   COPY_EXISTING ~mxsplbrd.2da~ ~override~
-	COUNT_2DA_COLS cols
-	READ_2DA_ENTRIES_NOW rows cols
-	FOR (row = 0; row < rows; ++row) BEGIN
-	  FOR (col = 1; col < 7; ++col) BEGIN
-		READ_2DA_ENTRY_FORMER rows row col slots
-		PATCH_IF (slots > 0) BEGIN
-		  SET_2DA_ENTRY row col cols (slots + 2)
-		END
-	  END
-	END
-  IF_EXISTS BUT_ONLY
+    COUNT_2DA_COLS cols
+    READ_2DA_ENTRIES_NOW rows cols
+    FOR (row = 0; row < rows; ++row) BEGIN
+      FOR (col = 1; col < 7; ++col) BEGIN
+        READ_2DA_ENTRY_FORMER rows row col slots
+        PATCH_IF (slots > 0) BEGIN
+          SET_2DA_ENTRY row col cols (slots + 2)
+        END
+      END
+    END
+    IF_EXISTS BUT_ONLY
 END
 
 /////                                                            \\\\\
@@ -7289,17 +7289,17 @@ COPY ~cdtweaks/2da/mxsplbrd.2da~ ~override~
 
 ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~160~) BEGIN
   COPY_EXISTING ~mxsplbrd.2da~ ~override~
-	COUNT_2DA_COLS cols
-	READ_2DA_ENTRIES_NOW rows cols
-	FOR (row = 0; row < rows; ++row) BEGIN
-	  FOR (col = 1; col < 7; ++col) BEGIN
-		READ_2DA_ENTRY_FORMER rows row col slots
-		PATCH_IF (slots > 0) BEGIN
-		  SET_2DA_ENTRY row col cols (slots + 2)
-		END
-	  END
-	END
-  IF_EXISTS BUT_ONLY
+    COUNT_2DA_COLS cols
+    READ_2DA_ENTRIES_NOW rows cols
+    FOR (row = 0; row < rows; ++row) BEGIN
+      FOR (col = 1; col < 7; ++col) BEGIN
+        READ_2DA_ENTRY_FORMER rows row col slots
+        PATCH_IF (slots > 0) BEGIN
+          SET_2DA_ENTRY row col cols (slots + 2)
+        END
+      END
+    END
+    IF_EXISTS BUT_ONLY
 END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -8111,34 +8111,34 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
     FOR (row = 0 ; row < rows ; ++row) BEGIN
       READ_2DA_ENTRY row 0 8 entry
       READ_2DA_ENTRY row col 8 value
-	  PATCH_IF value = 1 BEGIN
+      PATCH_IF value = 1 BEGIN
         PATCH_MATCH ~%entry%~ WITH
-	      ~^FIGHTER$~ BEGIN SET fighter = 1 END
-	      ~^MAGE$~    BEGIN SET mage = 1 END
-	      ~^CLERIC$~  BEGIN SET cleric = 1 END
-	      ~^THIEF$~   BEGIN SET thief = 1 END
-	      ~^DRUID$~   BEGIN SET druid = 1 END
-	      ~^RANGER$~  BEGIN SET ranger = 1 END
-	      DEFAULT
-		END  
-	  END
-    END	
+          ~^FIGHTER$~ BEGIN SET fighter = 1 END
+          ~^MAGE$~    BEGIN SET mage = 1 END
+          ~^CLERIC$~  BEGIN SET cleric = 1 END
+          ~^THIEF$~   BEGIN SET thief = 1 END
+          ~^DRUID$~   BEGIN SET druid = 1 END
+          ~^RANGER$~  BEGIN SET ranger = 1 END
+          DEFAULT
+        END  
+      END
+    END 
     FOR (row = 0 ; row < rows ; ++row) BEGIN
       READ_2DA_ENTRY row 0 8 entry
       PATCH_MATCH ~%entry%~ WITH
-	    ~^FIGHTER_MAGE$~        BEGIN PATCH_IF fighter AND mage            BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_CLERIC$~      BEGIN PATCH_IF fighter AND cleric          BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_THIEF$~       BEGIN PATCH_IF fighter AND thief           BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_MAGE_THIEF$~  BEGIN PATCH_IF fighter AND mage AND thief  BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^MAGE_THIEF$~          BEGIN PATCH_IF mage AND thief              BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^CLERIC_MAGE$~         BEGIN PATCH_IF cleric AND mage             BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^CLERIC_THIEF$~        BEGIN PATCH_IF cleric AND thief            BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_DRUID$~       BEGIN PATCH_IF fighter AND druid           BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_MAGE_CLERIC$~ BEGIN PATCH_IF fighter AND mage AND cleric BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^CLERIC_RANGER$~       BEGIN PATCH_IF cleric AND ranger           BEGIN SET_2DA_ENTRY row col 8 1 END END
-		DEFAULT
+        ~^FIGHTER_MAGE$~        BEGIN PATCH_IF fighter AND mage            BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_CLERIC$~      BEGIN PATCH_IF fighter AND cleric          BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_THIEF$~       BEGIN PATCH_IF fighter AND thief           BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_MAGE_THIEF$~  BEGIN PATCH_IF fighter AND mage AND thief  BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^MAGE_THIEF$~          BEGIN PATCH_IF mage AND thief              BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^CLERIC_MAGE$~         BEGIN PATCH_IF cleric AND mage             BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^CLERIC_THIEF$~        BEGIN PATCH_IF cleric AND thief            BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_DRUID$~       BEGIN PATCH_IF fighter AND druid           BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_MAGE_CLERIC$~ BEGIN PATCH_IF fighter AND mage AND cleric BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^CLERIC_RANGER$~       BEGIN PATCH_IF cleric AND ranger           BEGIN SET_2DA_ENTRY row col 8 1 END END
+        DEFAULT
       END
-	END  
+    END  
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
@@ -8195,34 +8195,34 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
     FOR (row = 0 ; row < rows ; ++row) BEGIN
       READ_2DA_ENTRY row 0 8 entry
       READ_2DA_ENTRY row col 8 value
-	  PATCH_IF value = 1 BEGIN
+      PATCH_IF value = 1 BEGIN
         PATCH_MATCH ~%entry%~ WITH
-	      ~^FIGHTER$~ BEGIN SET fighter = 1 END
-	      ~^MAGE$~    BEGIN SET mage = 1 END
-	      ~^CLERIC$~  BEGIN SET cleric = 1 END
-	      ~^THIEF$~   BEGIN SET thief = 1 END
-	      ~^DRUID$~   BEGIN SET druid = 1 END
-	      ~^RANGER$~  BEGIN SET ranger = 1 END
-	      DEFAULT
-		END  
-	  END
-    END	
+        ~^FIGHTER$~ BEGIN SET fighter = 1 END
+        ~^MAGE$~    BEGIN SET mage = 1 END
+        ~^CLERIC$~  BEGIN SET cleric = 1 END
+        ~^THIEF$~   BEGIN SET thief = 1 END
+        ~^DRUID$~   BEGIN SET druid = 1 END
+        ~^RANGER$~  BEGIN SET ranger = 1 END
+        DEFAULT
+        END  
+      END
+    END 
     FOR (row = 0 ; row < rows ; ++row) BEGIN
       READ_2DA_ENTRY row 0 8 entry
       PATCH_MATCH ~%entry%~ WITH
-	    ~^FIGHTER_MAGE$~        BEGIN PATCH_IF fighter AND mage            BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_CLERIC$~      BEGIN PATCH_IF fighter AND cleric          BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_THIEF$~       BEGIN PATCH_IF fighter AND thief           BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_MAGE_THIEF$~  BEGIN PATCH_IF fighter AND mage AND thief  BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^MAGE_THIEF$~          BEGIN PATCH_IF mage AND thief              BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^CLERIC_MAGE$~         BEGIN PATCH_IF cleric AND mage             BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^CLERIC_THIEF$~        BEGIN PATCH_IF cleric AND thief            BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_DRUID$~       BEGIN PATCH_IF fighter AND druid           BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^FIGHTER_MAGE_CLERIC$~ BEGIN PATCH_IF fighter AND mage AND cleric BEGIN SET_2DA_ENTRY row col 8 1 END END
-	    ~^CLERIC_RANGER$~       BEGIN PATCH_IF cleric AND ranger           BEGIN SET_2DA_ENTRY row col 8 1 END END
-		DEFAULT
+        ~^FIGHTER_MAGE$~        BEGIN PATCH_IF fighter AND mage            BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_CLERIC$~      BEGIN PATCH_IF fighter AND cleric          BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_THIEF$~       BEGIN PATCH_IF fighter AND thief           BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_MAGE_THIEF$~  BEGIN PATCH_IF fighter AND mage AND thief  BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^MAGE_THIEF$~          BEGIN PATCH_IF mage AND thief              BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^CLERIC_MAGE$~         BEGIN PATCH_IF cleric AND mage             BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^CLERIC_THIEF$~        BEGIN PATCH_IF cleric AND thief            BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_DRUID$~       BEGIN PATCH_IF fighter AND druid           BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^FIGHTER_MAGE_CLERIC$~ BEGIN PATCH_IF fighter AND mage AND cleric BEGIN SET_2DA_ENTRY row col 8 1 END END
+        ~^CLERIC_RANGER$~       BEGIN PATCH_IF cleric AND ranger           BEGIN SET_2DA_ENTRY row col 8 1 END END
+      DEFAULT
       END
-	END  
+    END  
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
@@ -9394,11 +9394,11 @@ COPY_EXISTING ~cut32b.bcs~   ~override~
     REPLACE_EVALUATE ~SetGlobalTimer("KPPlotTime","GLOBAL",\([^)]+\))~ BEGIN
       PATCH_IF IS_AN_INT MATCH1 BEGIN
         SET time = MATCH1
-	  END ELSE BEGIN
+      END ELSE BEGIN
         SET time = IDS_OF_SYMBOL (~GTIMES~ ~%MATCH1%~) // should convert stuff like EIGHT_HOURS to numeric value
       END
       SET time = ((time * 67) / 100) 
-    END ~SetGlobalTimer("KPPlotTime","GLOBAL",%time%)~	
+    END ~SetGlobalTimer("KPPlotTime","GLOBAL",%time%)~  
   END
   BUT_ONLY
 
@@ -10716,7 +10716,7 @@ ACTION_FOR_EACH script IN baldur baldur25 BEGIN
   
     EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/romance_disable.baf~
 
-  END	
+  END 
 
 END    
 
@@ -10737,11 +10737,11 @@ ACTION_IF (romance_speed_use_config_values = 1) THEN BEGIN // if set in the conf
 
   ACTION_IF ((!IS_AN_INT romance_speed_factor) OR (romance_speed_factor < 20) OR (romance_speed_factor > 500)) THEN BEGIN // but is not a valid integer between 20-500
     
-	OUTER_SET prompt = 1 // prompt anyway
-	
+    OUTER_SET prompt = 1 // prompt anyway
+  
   END ELSE BEGIN // if it is an integer between 20-500
     
-	OUTER_SET prompt = 0 // then skip prompt and use the value
+    OUTER_SET prompt = 0 // then skip prompt and use the value
   
   END
 
@@ -10784,18 +10784,18 @@ ACTION_PHP_EACH cd_romances_timers AS script => variable BEGIN
   ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ THEN BEGIN
   
     COPY_EXISTING ~%script%.bcs~ ~override~
-	  DECOMPILE_AND_PATCH BEGIN
-	    REPLACE_EVALUATE ~RealSetGlobalTimer("%variable%","GLOBAL",\([^)]+\))~ BEGIN
+      DECOMPILE_AND_PATCH BEGIN
+        REPLACE_EVALUATE ~RealSetGlobalTimer("%variable%","GLOBAL",\([^)]+\))~ BEGIN
           PATCH_IF IS_AN_INT MATCH1 BEGIN
-		    SET time = MATCH1
-		  END ELSE BEGIN
+            SET time = MATCH1
+          END ELSE BEGIN
             SET time = IDS_OF_SYMBOL (~GTIMES~ ~%MATCH1%~) // should convert stuff like EIGHT_HOURS to numeric value
           END
           SET time = ((time * romance_speed_factor) / 100) 
-        END ~RealSetGlobalTimer("%variable%","GLOBAL",%time%)~	
-	  END
-	  BUT_ONLY
-	  
+        END ~RealSetGlobalTimer("%variable%","GLOBAL",%time%)~  
+      END
+      BUT_ONLY
+    
   END
 
 END  
@@ -12887,7 +12887,7 @@ ACTION_FOR_EACH script IN baldur baldur25 bdbaldur BEGIN
   
     EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/deathcam.baf~
 
-  END	
+  END 
 
 END 
 
@@ -13978,6 +13978,12 @@ REQUIRE_PREDICATE GAME_IS ~bgt soa tob bg2ee eet~ @25 // bg2 only
 COPY_EXISTING_REGEXP GLOB ~^korgan[0-9]*.*\.cre$~ ~override~
   WRITE_BYTE 0x27b 35 // neutral evil
   BUT_ONLY
+  
+ACTION_IF FILE_EXISTS_IN_GAME ~korga25p.dlg~ BEGIN
+  
+  COMPILE ~cdtweaks/dlg/ne_korgan.d~
+
+END  
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

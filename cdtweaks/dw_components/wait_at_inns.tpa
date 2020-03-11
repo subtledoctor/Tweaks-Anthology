@@ -47,7 +47,7 @@ ELDOTH   0           1             4         5                    4             
                SPRINT  ~%var%~ ~%val%~
             END
 			PATCH_IF use_cpm BEGIN
-              SPRINT script_ID ~%npc%_POST~ // use, say, jaheira_post from the CPMs istead of jaheira_postgame from the pdilaog scan
+              SPRINT script_ID ~%npc%_POST~ // use, say, jaheira_post from the CPMs instead of jaheira_postgame from the pdialog scan
 			END ELSE BEGIN
               SPRINT script_ID ~%npc%_POSTJOIN~
 			END  
