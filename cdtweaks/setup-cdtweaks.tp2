@@ -913,7 +913,8 @@ GROUP @11
 REQUIRE_PREDICATE GAME_IS ~soa tob bgee bg2ee eet bgt tutu tutu_totsc how totlm iwdee iwd_in_bg2~ @25
 
 OUTER_SET names = 0 // don't set names
-INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
+INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes 
+INCLUDE ~cdtweaks/lib/unique_containers_default.tpa~ // external array of items => icons in case this expands to different platforms
 INCLUDE ~cdtweaks/lib/unique_containers.tpa~ // does the actual work
 
 /////                                                  \\\\\
@@ -934,6 +935,7 @@ REQUIRE_PREDICATE (("%LANGUAGE%" STRING_COMPARE_CASE "english" = 0) OR
 
 OUTER_SET names = 1 // set names
 INCLUDE ~cdtweaks/lib/unique_containers_fixes.tpa~ // misc store fixes
+INCLUDE ~cdtweaks/lib/unique_containers_default.tpa~ // external array of items => icons in case this expands to different platforms
 INCLUDE ~cdtweaks/lib/unique_containers.tpa~ // does the actual work
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
