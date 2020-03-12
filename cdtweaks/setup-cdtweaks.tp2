@@ -6695,16 +6695,51 @@ ACTION_IF GAME_IS ~bg1 totsc iwd how totlm~ THEN BEGIN
 
 END ELSE BEGIN
 
+  ACTION_CLEAR_ARRAY cd_mc_gm
+  ACTION_CLEAR_ARRAY cd_mc_kitnames // multiclass kits
+  OUTER_FOR (index = 12 ; index < 21 ; ++index) BEGIN
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_mc_gm BEGIN ~%index%~ => ~%index%~ END // bogstandard multis
+  END  
+
+  ACTION_IF GAME_IS ~bgee bg2ee iwdee eet~ BEGIN // only bother checking for MC kits on EE games
+
+    COPY_EXISTING ~kitlist.2da~ ~override~
+      COUNT_2DA_ROWS 9 rows
+      FOR (row = 0 ; row < rows ; ++row) BEGIN
+        READ_2DA_ENTRY row 8 9 class
+        PATCH_IF (IS_AN_INT class) AND ((class = 7) OR (class = 8) OR (class = 9) OR (class = 10) OR (class = 16) OR (class = 17)) BEGIN
+          READ_2DA_ENTRY row 1 9 kitname
+          DEFINE_ASSOCIATIVE_ARRAY cd_mc_kitnames BEGIN ~%kitname%~ => ~%kitname%~ END
+        END
+      END
+      BUT_ONLY   
+
+  END      
+        
   COPY_EXISTING ~weapprof.2da~  ~override~
-    FOR (column = 12; column < 21; column = column + 1) BEGIN
+    PATCH_IF GAME_IS ~bgee bg2ee iwdee eet~ BEGIN // only bother checking for MC kits on EE games
+      COUNT_2DA_COLS col_count
+      PATCH_PHP_EACH cd_mc_kitnames AS match_name => foo BEGIN
+        FOR (column = 50; column < (col_count - 1); ++column) BEGIN
+          READ_2DA_ENTRY 0 column 50 name
+          PATCH_IF ("%name%" STRING_COMPARE_CASE "%match_name%" = 0) BEGIN
+            SET column += 1 // row with names has an empty entry for the first column
+            DEFINE_ASSOCIATIVE_ARRAY cd_mc_gm BEGIN ~%column%~ => ~%column%~ END
+            SET column = col_count // kill loop
+          END
+        END
+      END
+    END
+    PATCH_PHP_EACH cd_mc_gm AS column => foo BEGIN
       FOR (row = 11; row < 31; row = row + 1) BEGIN
         READ_2DA_ENTRY row column 1 stars
         PATCH_IF (stars > 1) BEGIN
-          SET_2DA_ENTRY_LATER ~multigrand~ row column ~5~
+          SET_2DA_ENTRY_LATER ~multigrand~ row column ~1~
         END
       END
     END
     SET_2DA_ENTRIES_NOW ~multigrand~ 1
+    PRETTY_PRINT_2DA
     BUT_ONLY
 
 END
