@@ -12232,6 +12232,7 @@ ACTION_IF ((GAME_IS ~iwdee~) OR (MOD_IS_INSTALLED ~ub_iwd/setup-ub_iwd.tp2~ ~150
   // add unused random drop to one of yxonmei's champions (halberd or 2h axe); see also ar4005.are patch; replaces generic yuan-ti halberd
   COPY_EXISTING ~cdyucham.cre~ ~override~
     ADD_CRE_ITEM ~u2hAx3a~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP TWOHANDED // give undroppable axe, push token to inventory
+    IF_EXISTS
   
   // replace generic composite long bow with long bow +3: repeater or long bow +3: defender
   COPY_EXISTING ~kelly.cre~ ~override~
