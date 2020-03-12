@@ -13757,6 +13757,7 @@ ACTION_IF GAME_IS ~bg1 totsc~ BEGIN
 END ELSE BEGIN // tutu, bgt, bgee
 
   COPY_EXISTING ~%tutu_var%khalid2.cre~ ~override~
+    READ_ASCII 0x034 portrait (16) // read portrait from existing cre file
     READ_ASCII 0x0a4 soundset (396) // read soundset from existing cre file
     // detect if walking speed altered
     READ_BYTE  0x033 fx_type
@@ -13771,88 +13772,94 @@ END ELSE BEGIN // tutu, bgt, bgee
     END
     BUT_ONLY
   
-  COPY ~cdtweaks/cre/p#khali1.cre~ ~override/%tutu_var%khalid.cre~
-       ~cdtweaks/cre/p#khali2.cre~ ~override/%tutu_var%khalid2.cre~
-       ~cdtweaks/cre/p#khali3.cre~ ~override/%tutu_var%khalid4.cre~
-       ~cdtweaks/cre/p#khali4.cre~ ~override/%tutu_var%khalid6.cre~
-    SAY NAME1 #3138
-    SAY NAME2 #3138
+  COPY ~cdtweaks/cre/khalid.cre~  ~override/%tutu_var%khalid.cre~
+       ~cdtweaks/cre/khalid2.cre~ ~override/%tutu_var%khalid2.cre~
+       ~cdtweaks/cre/khalid4.cre~ ~override/%tutu_var%khalid4.cre~
+       ~cdtweaks/cre/khalid6.cre~ ~override/%tutu_var%khalid6.cre~
+    WRITE_EVALUATED_ASCII 0x34 "%portrait%" #16
     WRITE_EVALUATED_ASCII 0xa4 "%soundset%" #396
     SAY BIO @408001
-    WRITE_ASCII  0x280 ~khalid~  // death variable
     WRITE_ASCIIE 0x248 ~%tutu_var%khalid~  // override script
     WRITE_ASCIIE 0x250 ~%tutu_var%shout~   // class script
     WRITE_ASCIIE 0x260 ~%tutu_scriptw%tasight~// general script
     WRITE_ASCIIE 0x268 ~%tutu_var%dplayer~ // default script
     WRITE_ASCIIE 0x2cc ~%tutu_var%khalid~  // dialogue file
     ADD_CRE_ITEM ~%tutu_var%BOW03~  #0  #0 #0 ~IDENTIFIED~ ~WEAPON2~ EQUIP TWOHANDED
-    ADD_CRE_ITEM ~%tutu_var%AROW01~ #40 #0 #0 ~IDENTIFIED~ ~QUIVER2~
+    ADD_CRE_ITEM ~%tutu_var%AROW01~ #40 #0 #0 ~IDENTIFIED~ ~QUIVER1~
     ADD_CRE_ITEM ~%tutu_var%HELM01~ #0  #0 #0 ~IDENTIFIED~ ~HELMET~
-    ADD_CRE_ITEM ~%tutu_var%SW1H01~ #0  #0 #0 ~IDENTIFIED~ ~INV5~
+    ADD_CRE_ITEM ~%tutu_var%SW1H01~ #0  #0 #0 ~IDENTIFIED~ ~WEAPON1~
     ADD_CRE_ITEM ~%tutu_var%POTN08~ #0  #0 #0 ~IDENTIFIED~ ~QITEM1~
-    PATCH_IF ("%DEST_RES%" STRING_COMPARE_REGEXP ~_?khalid[246]~ = 0) BEGIN
+    READ_LONG 0x18 xp
+    PATCH_IF (xp > 5000) BEGIN // all but khalid
       ADD_CRE_ITEM ~%tutu_var%BRAC03~ #0 #0 #0 ~IDENTIFIED~ ~GLOVES~
-    END
-    PATCH_IF ("%DEST_RES%" STRING_COMPARE_REGEXP ~_?khalid[46]~ = 0) BEGIN
-      ADD_CRE_ITEM ~%tutu_var%CLCK14~ #0 #0 #0 ~IDENTIFIED~ ~ARMOR~
-    END
-    PATCH_IF ("%DEST_RES%" STRING_COMPARE_REGEXP ~_?khalid6~ = 0) BEGIN
-      ADD_CRE_ITEM ~%tutu_var%RING06~ #0 #0 #0 ~IDENTIFIED~ ~LRING~
+      PATCH_IF (xp > 10000) BEGIN // now exclude khalid2
+        ADD_CRE_ITEM ~%tutu_var%CLCK14~ #0 #0 #0 ~IDENTIFIED~ ~ARMOR~
+        PATCH_IF (xp > 20000) BEGIN // now exclude khalid4
+          ADD_CRE_ITEM ~%tutu_var%RING06~ #0 #0 #0 ~IDENTIFIED~ ~LRING~
+        END
+      END        
     END
     PATCH_IF fx_type = 4 BEGIN
       LPF ADD_CRE_EFFECT INT_VAR opcode = 176 target = 1 parameter1 = 0xfffffffd timing = 9 END
     END
   
   COMPILE ~cdtweaks/dlg/p#khalid.d~ EVALUATE_BUFFER
+
+  ACTION_IF GAME_IS ~bgee eet~ BEGIN
   
-  EXTEND_BOTTOM ~%FriendlyArmInn_L1_BCS%.bcs~ ~cdtweaks/baf/p#fw2301.baf~ EVALUATE_BUFFER
+    COPY_EXISTING ~%KHALID_BCS%.bcs~ ~override~
+      DECOMPILE_AND_PATCH BEGIN
+        REPLACE_TEXTUALLY ~\(ChangeStat(Myself,XP,32000,SET)\)~ ~\1 AddSpecialAbility("SPWI211") AddSpecialAbility("SPWI212")~
+        REPLACE_TEXTUALLY ~\(ChangeStat(Myself,XP,16000,SET)\)~ ~\1 AddSpecialAbility("SPWI212")~
+      END 
+      BUT_ONLY
+      
+    ACTION_IF FILE_EXISTS_IN_GAME ~khalid7.cre~ BEGIN // sod khalid
+  
+      COPY ~cdtweaks/cre/khalid7.cre~ ~override~
+        SAY BIO @408001
+        PATCH_IF fx_type = 4 BEGIN
+          LPF ADD_CRE_EFFECT INT_VAR opcode = 176 target = 1 parameter1 = 0xfffffffd timing = 9 END
+        END
+    
+    END
+    
+  END  
 
   EXTEND_TOP    ~%KHALID_BCS%.bcs~ ~cdtweaks/baf/p#khalid.baf~
   
-  // if bg-style proficiencies are installed, adjust proficiencies to match new system
-  ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2161~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~)) THEN BEGIN
+  // if bg-style or iwd-style proficiencies are installed, adjust proficiencies to match new system
+  ACTION_IF (((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2161~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~)) OR // bg-style profs
+             ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2163~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2164~))) THEN BEGIN // iwd-style profs
+    
+    ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2161~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~)) THEN BEGIN // bg-style profs
+    
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_khalid_profs BEGIN
+        104 => 100 // longbow > bow
+         89 => 103 // bastard sword > large swords
+//      106 => 106 // dart > missile
+      END 
+
+    END ELSE BEGIN // iwd-style profs  
+    
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_khalid_profs BEGIN
+        104 =>  95 // longbow > bow
+         89 =>  99 // bastard sword > great swords
+        106 => 104 // dart > missile
+      END 
+      
+    END 
 
     COPY_EXISTING ~%tutu_var%khalid.cre~  ~override~
                   ~%tutu_var%khalid2.cre~ ~override~
                   ~%tutu_var%khalid4.cre~ ~override~
                   ~%tutu_var%khalid6.cre~ ~override~
-      PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
-        LPF DELETE_EFFECT INT_VAR match_opcode = 233 END
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 2 parameter2 = 103 timing = 9 END // 2* bastard sword > large swords
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 2 parameter2 = 100 timing = 9 END // 2* longbow > bow
+                  ~khalid7.cre~           ~override~
+      PATCH_PHP_EACH cd_khalid_profs AS old => new BEGIN
+        LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = old parameter2 = new silent = 1 END
       END
-      BUT_ONLY
-
-    COPY_EXISTING ~%tutu_var%khalid2.cre~ ~override~
-                  ~%tutu_var%khalid4.cre~ ~override~
-                  ~%tutu_var%khalid6.cre~ ~override~
-      PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 106 timing = 9 END // 1* dart > missile
-      END
-      BUT_ONLY
-  END
-  
-  // if iwd-style proficiencies are installed, adjust proficiencies to match new system
-  ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2163~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2164~)) THEN BEGIN
-
-    COPY_EXISTING ~%tutu_var%khalid.cre~  ~override~
-                  ~%tutu_var%khalid2.cre~ ~override~
-                  ~%tutu_var%khalid4.cre~ ~override~
-                  ~%tutu_var%khalid6.cre~ ~override~
-      PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
-        LPF DELETE_EFFECT INT_VAR match_opcode = 233 END
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 2 parameter2 = 99 timing = 9 END // 2* bastard sword > great swords
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 2 parameter2 = 95 timing = 9 END // 2* longbow > bow
-      END
-      BUT_ONLY
-
-    COPY_EXISTING ~%tutu_var%khalid2.cre~ ~override~
-                  ~%tutu_var%khalid4.cre~ ~override~
-                  ~%tutu_var%khalid6.cre~ ~override~
-      PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 104 timing = 9 END // 1* dart > missile
-      END
-      BUT_ONLY
+      BUT_ONLY IF_EXISTS
+      
   END
 
 END // end bg1 vs. bg2 check
