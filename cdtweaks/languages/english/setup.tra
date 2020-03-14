@@ -316,7 +316,9 @@
  @19400 = ~For all shields~
  @19500 = ~For non-magical shields~
  
- @20000 = ~Remove Blur Effect from Items, e.g. Cloack of Displacement~
+ @20000 = ~Remove Blur Effect from Items, e.g. Cloak of Displacement~
+ @20001 = ~Remove Annoying Visual Effects from Equipped Items~
+ @20100 = ~Remove Blur and Reflection Effects from Items (Daeros Trollkiller)~
  
  @21000 = ~Separate Resist Fire/Cold Icon into Separate Icons (Angel)~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
