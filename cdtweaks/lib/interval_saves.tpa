@@ -1,0 +1,245 @@
+// Create savegame entries
+DEFINE_ACTION_FUNCTION a7_append_savename
+INT_VAR
+  custom_slot = 0 // whether to use a custom save name (1) or re-use autosave (0)
+  count = 1       // number of subsaves to cycle through
+RET
+  slot            // initial save slot index
+BEGIN
+  OUTER_SET slot = 0
+  ACTION_IF (custom_slot || count > 1) BEGIN
+    COPY_EXISTING ~savename.2da~ ~override~
+      COUNT_2DA_COLS num_cols
+      PATCH_IF (num_cols >= 4) BEGIN
+        READ_2DA_ENTRIES_NOW table 1
+
+        // determine initial slot index
+        PATCH_IF (custom_slot || count > 1) BEGIN
+          SET slot = table - 3
+        END
+
+        // getting base savename
+        PATCH_IF (custom_slot) BEGIN
+          INNER_PATCH_SAVE prefix ~000000000~ BEGIN
+            WRITE_ASCIIE (BUFFER_LENGTH - STRING_LENGTH ~%slot%~) ~%slot%~
+          END
+          SPRINT base_name @335100  // Interval-Save
+          TEXT_SPRINT base_name ~%prefix%-%base_name%~
+        END ELSE BEGIN
+          // getting name of auto-save
+          READ_2DA_ENTRY_FORMER table 3 1 strref
+          GET_STRREF strref base_name
+        END
+      END
+    BUT_ONLY IF_EXISTS
+
+    // adding new save entries
+    ACTION_IF (slot > 0) BEGIN
+      OUTER_FOR (i = 1; i <= count; ++i) BEGIN
+        OUTER_SET idx = slot + i - 1
+        ACTION_IF (i > 1) BEGIN
+          OUTER_TEXT_SPRINT savename ~%base_name%-%i%~
+        END ELSE BEGIN
+          OUTER_TEXT_SPRINT savename ~%base_name%~
+        END
+        OUTER_SET strref = RESOLVE_STR_REF(~%savename%~)
+        OUTER_TEXT_SPRINT line ~%idx% %strref% %idx% 1~
+        APPEND ~savename.2da~ ~%line%~ IF_EXISTS
+      END
+      COPY_EXISTING ~savename.2da~ ~override~
+        PRETTY_PRINT_2DA
+      BUT_ONLY IF_EXISTS
+    END
+  END
+END
+
+
+// Expand global game scripts to save game in fixed intervals
+DEFINE_ACTION_FUNCTION a7_append_script
+INT_VAR
+  enabled  = 1    // whether interval save creation is enabled
+  combat   = 0    // whether interval saves can be created during combat
+  interval = 1800 // interval in seconds
+  slot     = 0    // initial save slot to use
+  count    = 1    // number of save slots to cycle through
+  feedback = 1    // whether to display a feedback message in the combat log
+  use_ini  = 1
+BEGIN
+  OUTER_SET IS_EE20 = (VALID_SCRIPT_TRIGGERS ~INI("IntervalSaveEnabled",0)~ && FILE_EXISTS_IN_GAME ~savename.2da~) ? 1 : 0
+
+  // getting list of world scripts
+  ACTION_FOR_EACH resref IN ~BALDUR~ ~BALDUR25~ ~BDBALDUR~ BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.BCS~) BEGIN
+      OUTER_SET $scripts(~%resref%~) = 1
+    END
+  END
+  COPY_EXISTING ~campaign.2da~ ~override~
+    READ_2DA_ENTRIES_NOW table 1
+    FOR (row = 3; row < table; ++row) BEGIN
+      READ_2DA_ENTRY_FORMER table row 1 resref
+      PATCH_IF (FILE_EXISTS_IN_GAME ~%resref%.BCS~) BEGIN
+        TO_UPPER ~resref~
+        SET $scripts(~%resref%~) = 1
+      END
+    END
+  BUT_ONLY IF_EXISTS
+
+  OUTER_TEXT_SPRINT baf ~~
+  ACTION_IF (IS_EE20 && use_ini) BEGIN
+    OUTER_TEXT_SPRINT IsIntervalSaveEnabled ~!INI("IntervalSaveEnabled",0)~
+    OUTER_TEXT_SPRINT IsIntervalSaveCombat ~!INI("IntervalSaveCombat",0)~
+    ACTION_IF (FILE_EXISTS ~%USER_DIRECTORY%/Baldur.lua~) BEGIN
+      APPEND_OUTER + ~%USER_DIRECTORY%/Baldur.lua~ ~SetPrivateProfileString('Script','IntervalSaveEnabled','%enabled%')~ UNLESS ~IntervalSaveEnabled~
+      APPEND_OUTER + ~%USER_DIRECTORY%/Baldur.lua~ ~SetPrivateProfileString('Script','IntervalSaveCombat','%combat%')~ UNLESS ~IntervalSaveCombat~
+    END ELSE BEGIN
+<<<<<<<< .../inlined/a7-intervalsave-baldur.lua
+SetPrivateProfileString('Script','IntervalSaveEnabled','1')
+SetPrivateProfileString('Script','IntervalSaveCombat','0')
+>>>>>>>>
+      COPY + ~.../inlined/a7-intervalsave-baldur.lua~ ~%USER_DIRECTORY%/Baldur.lua~
+    END
+  END ELSE BEGIN
+    OUTER_TEXT_SPRINT IsIntervalSaveEnabled ~!Global("A7-IntervalSaveEnabled","GLOBAL",0)~
+    OUTER_TEXT_SPRINT IsIntervalSaveCombat ~!Global("A7-IntervalSaveCombat","GLOBAL",0)~
+    OUTER_TEXT_SPRINT baf ~
+IF
+  Global("A7-IntervalSaveInit","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("A7-IntervalSaveInit","GLOBAL",1)
+    SetGlobal("A7-IntervalSaveEnabled","GLOBAL",%enabled%)
+    SetGlobal("A7-IntervalSaveCombat","GLOBAL",%combat%)
+    Continue()
+END
+~
+  END
+
+  // generating script
+  OUTER_TEXT_SPRINT baf ~%baf%
+IF
+  %IsIntervalSaveEnabled%
+  Global("A7-IntervalSave","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("A7-IntervalSave","GLOBAL",0)
+    RealSetGlobalTimer("A7-IntervalSaveTimer","GLOBAL",%interval%)
+    Continue()
+END
+~
+
+  OUTER_FOR (i = 0; i < count; ++i) BEGIN
+    // Save slot handling
+    OUTER_SET slot_number = IS_EE20 ? slot + i : 0
+    ACTION_IF (count = 1) BEGIN
+      OUTER_TEXT_SPRINT checkslot ~~
+    END ELSE ACTION_IF (i = 0) BEGIN
+      OUTER_TEXT_SPRINT checkslot ~GlobalLT("A7-IntervalSaveSlot","GLOBAL",1)~
+    END ELSE ACTION_IF (i = count - 1) BEGIN
+      OUTER_SET i_prev = i - 1
+      OUTER_TEXT_SPRINT checkslot ~GlobalGT("A7-IntervalSaveSlot","GLOBAL",%i_prev%)~
+    END ELSE BEGIN
+      OUTER_TEXT_SPRINT checkslot ~Global("A7-IntervalSaveSlot","GLOBAL",%i%)~
+    END
+    ACTION_IF (count = 1) BEGIN
+      OUTER_TEXT_SPRINT setslot ~~
+    END ELSE ACTION_IF (i < count - 1) BEGIN
+      OUTER_SET i_next = i + 1
+      OUTER_TEXT_SPRINT setslot ~SetGlobal("A7-IntervalSaveSlot","GLOBAL",%i_next%)~
+    END ELSE BEGIN
+      OUTER_TEXT_SPRINT setslot ~SetGlobal("A7-IntervalSaveSlot","GLOBAL",0)~
+    END
+
+    // Feedback message
+    ACTION_IF (feedback) BEGIN
+      ACTION_IF (NOT GAME_IS ~pstee~ &&
+                 FILE_EXISTS_IN_GAME ~util.lua~ &&
+                 FILE_CONTAINS_EVALUATED(~util.lua~ ~function[ %TAB%]+highlightString~)) BEGIN
+        OUTER_TEXT_SPRINT colorBegin ~^0xFF007F00~  // dark green
+        OUTER_TEXT_SPRINT colorEnd ~^-~
+      END ELSE BEGIN
+        OUTER_TEXT_SPRINT colorBegin ~~
+        OUTER_TEXT_SPRINT colorEnd ~~
+      END
+      ACTION_IF (count = 1) BEGIN
+        OUTER_SPRINT msg @335101 // Interval save created
+        OUTER_SET strref = RESOLVE_STR_REF(~%colorBegin%%msg%%colorEnd%~)
+      END ELSE BEGIN
+        OUTER_SET slot_index = i + 1
+        OUTER_SPRINT msg @335102 // Interval save (slot %slot_index%) created
+        OUTER_SET strref = RESOLVE_STR_REF(~%colorBegin%%msg%%colorEnd%~)
+      END
+      OUTER_TEXT_SPRINT feedback_msg ~DisplayStringNoName(Myself,%strref%)~
+    END ELSE BEGIN
+      OUTER_TEXT_SPRINT feedback_msg ~~
+    END
+
+    OUTER_TEXT_SPRINT baf ~%baf%
+IF
+  %IsIntervalSaveEnabled%
+  Global("A7-IntervalSave","GLOBAL",0)
+  %checkslot%
+  !RealGlobalTimerNotExpired("A7-IntervalSaveTimer","GLOBAL")
+  OR(2)
+    %IsIntervalSaveCombat%
+    CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("A7-IntervalSave","GLOBAL",1)
+    %setslot%
+    SaveGame(%slot_number%)
+    %feedback_msg%
+    Continue()
+END
+~
+  END
+
+  // appending scripts
+  ACTION_PHP_EACH scripts AS resref => _ BEGIN
+    ACTION_IF (NOT IS_EE20) BEGIN
+      // using hardcoded save slots for EE 1.x games
+      OUTER_SET slot_number = (~%resref%~ STR_EQ ~BALDUR25~) ? 3 : 0
+      OUTER_PATCH_SAVE baf ~%baf%~ BEGIN
+        REPLACE_TEXTUALLY ~SaveGame([0-9]+)~ ~SaveGame(%slot_number%)~
+      END
+    END
+    COPY_EXISTING ~%resref%.BCS~ ~override~
+      DECOMPILE_AND_PATCH BEGIN
+        SET len = STRING_LENGTH ~%baf%~
+        INSERT_BYTES 0 len
+        WRITE_ASCIIE 0 ~%baf%~ (len)
+      END
+    BUT_ONLY IF_EXISTS
+  END
+END
+
+
+// Install interval saves according to the given parameters
+DEFINE_ACTION_FUNCTION a7_auto_save
+INT_VAR
+  enabled     = 1     // whether interval save creation is enabled
+  combat      = 0     // whether interval saves can be created during combat
+  interval    = 1800  // time between creating autosave (in seconds)
+  custom_slot = 1     // whether to use a custom save slot
+  count       = 1     // number of saves to cycle through
+  feedback    = 1     // whether to display a feedback message in the combat log
+  use_ini     = 1     // whether to use Baldur.lua configuration options if available
+BEGIN
+  // consistency checks
+  OUTER_SET enabled = enabled ? 1 : 0
+  OUTER_SET combat = combat ? 1 : 0
+  ACTION_IF (NOT FILE_EXISTS_IN_GAME ~savename.2da~) BEGIN
+    OUTER_SET custom_slot = 0
+    ACTION_IF (count > 1) BEGIN OUTER_SET count = 1 END
+  END
+  OUTER_SET count = count < 1 ? 1 : count
+  OUTER_SET count = count > 16 ? 16 : count
+
+  LAF a7_append_savename
+    INT_VAR custom_slot count
+    RET slot
+  END
+
+  LAF a7_append_script
+    INT_VAR enabled combat interval slot count feedback use_ini
+  END
+END
