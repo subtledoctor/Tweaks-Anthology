@@ -1422,6 +1422,28 @@ This ability controls whether party members can move at increased speed outside 
 
 This ability controls whether party members can move at increased speed outside of combat. Click on the ability to turn it ON.~
 @333020 = ~Movement speed bonus removed~
+@335000 = ~Create interval saves~
+@335001 = ~Every 15 minutes (one save only)~
+@335002 = ~Every 30 minutes (one save only)~
+@335003 = ~Every 60 minutes (one save only)~
+@335004 = ~Every 120 minutes (one save only)~
+@335005 = ~Every 15 minutes (cycle through four saves)~
+@335006 = ~Every 30 minutes (cycle through four saves)~
+@335007 = ~Every 60 minutes (cycle through four saves)~
+@335008 = ~Every 120 minutes (cycle through four saves)~
+@335009 = ~Customize (via cdtweaks.txt)~
+@335100 = ~Interval-Save~
+@335101 = ~Interval save created~
+@335102 = ~Interval save (slot %slot_index%) created~
+@335103 = ~Interval save options:
+Enable interval save:   a7_interval_enable
+Interval between saves: a7_interval_delay seconds
+Save during combat:     a7_interval_combat
+Number of save slots:   a7_interval_slots
+Use custom save name:   a7_interval_custom
+Show feedback message:  a7_interval_feedback
+Use Baldur.lua options: a7_interval_ini
+~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
