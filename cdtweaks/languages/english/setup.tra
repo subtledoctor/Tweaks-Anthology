@@ -671,6 +671,10 @@ Chance to permanently drain life or attributes from wielder when used
 @111124 = ~Whistling Gallows Inn~
 @111125 = ~Purvis's Shack~
 @112000 = ~Stores Sell Higher Stacks of Items~
+@112500 = ~Infinite Nonmagical Ammo for Bows, Crossbows, and Slings~
+@112501 = ~Nonmagical Arrows~
+@112502 = ~Nonmagical Bolts~
+@112503 = ~Nonmagical Bullets~
 @113000 = ~Reputation Resets in BG2 (BGT Only)~
 @114000 = ~Gems and Potions Require Identification~
 @114001 = ~A gem is a mineral that when cut or faceted and polished is collectible or can be used in jewellery.~
