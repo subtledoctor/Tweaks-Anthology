@@ -1,0 +1,39 @@
+IF
+	Global("SHARTEELFIGHT","GLOBAL",1)
+THEN
+	RESPONSE #100
+		ActionOverride("sharteel",ChangeAIScript("SHARTEL2",OVERRIDE))
+		SetGlobal("SHARTEELFIGHT","GLOBAL",2)
+END
+
+IF
+	Global("SHARTEELFIGHT","GLOBAL",2)
+	Global("Sharhit","GLOBAL",0)
+	HPPercentLT("sharteel",50)  // Shar-Teel
+THEN
+	RESPONSE #100
+		SetGlobal("SHARTEELFIGHT","GLOBAL",3)
+		SetGlobal("BeatSharteel","GLOBAL",2)
+		ClearActions("sharteel")  // Shar-Teel
+		ClearActions(StrongestOfMale)
+		ActionOverride("sharteel",ChangeEnemyAlly("sharteel",NEUTRAL))  // Shar-Teel
+		ActionOverride("sharteel",ChangeAIScript("SHARTEEL",OVERRIDE))
+		ActionOverride("sharteel",Dialogue([PC]))
+END
+
+IF
+	Global("SharteelFight","GLOBAL",2)
+	Global("Sharhit","GLOBAL",0)
+	OR(2)
+		HPPercentLT(StrongestOfMale,50)
+		Global("SharteelKilledPlayer","%NorthNashkelRoad%",1)
+THEN
+	RESPONSE #100
+		SetGlobal("SHARTEELFIGHT","GLOBAL",3)
+		SetGlobal("BeatSharteel","GLOBAL",1)
+		ClearActions("sharteel")  // Shar-Teel
+		ClearActions(StrongestOfMale)
+		ActionOverride("sharteel",ChangeEnemyAlly("sharteel",NEUTRAL))  // Shar-Teel
+		ActionOverride("sharteel",ChangeAIScript("SHARTEEL",OVERRIDE))
+		ActionOverride("sharteel",Dialogue([PC]))
+END

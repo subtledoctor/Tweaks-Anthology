@@ -242,6 +242,8 @@ END ELSE BEGIN
     340 => ~e_bhold2~ // Drow Bag of Holding
     341 => ~e_bhold3~ // Emerald Bag of Holding
     342 => ~cmbag04~ // Dark Bag of Holding
+    346 => ~d1bag~ // Silver-Blue Bag of Holding
+    347 => ~d1bg1bag~ // Silver-Blue Bag of Holding
     
     // ammo belts
     400 => ~t-bamm01~ // White-Gold Ammo Belt
